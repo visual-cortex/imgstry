@@ -1,4 +1,5 @@
-import PixelUtil = require('./helpers/pixel-util');
+import Rgb = require('./pixel/color/rgb');
+import Hsv = require('./pixel/color/hsv');
 
 /**
  * (Exposes image processing methods for html canvas)
@@ -51,15 +52,15 @@ class Imgstry {
     let image = this.getData();
     let pixelData = image.data;
 
-    for (let i = 0; i < pixelData.length; i++) {
-      let newPixel: RgbPixel = delegate({
+    for (let i = 0; i < pixelData.length; i += 4) {
+      let newPixel: Rgb = delegate(new Rgb({
         r: pixelData[i],
         g: pixelData[i + 1],
         b: pixelData[i + 2],
-      });
+      }));
 
       if (newPixel) {
-        newPixel = PixelUtil.clamp(newPixel);
+        newPixel = newPixel.clamp();
 
         pixelData[i] = newPixel.r;
         pixelData[i + 1] = newPixel.g;
