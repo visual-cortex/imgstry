@@ -1,6 +1,5 @@
 source/**/*.js
 source/**/*.js.map
-.vscode/
 
 # Logs
 logs
