@@ -1,0 +1,48 @@
+{
+  "name": "imgstry",
+  "version": "1.0.0",
+  "description": "An image editing module written in JavaScript.",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/visual-cortex/imgstry.git"
+  },
+  "keywords": [
+    "image",
+    "editing",
+    "image-editing",
+    "canvas",
+    "filters",
+    "instagram",
+    "effects"
+  ],
+  "author": "V",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/visual-cortex/imgstry/issues"
+  },
+  "homepage": "https://github.com/visual-cortex/imgstry#readme",
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-istanbul": "^0.10.4",
+    "gulp-mocha": "^2.2.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^5.0.0",
+    "gulp-typescript": "^2.13.4",
+    "gulp-uglify": "^1.5.3",
+    "run-sequence": "^1.2.1",
+    "tslint": "^3.10.2",
+    "typescript": "^1.8.10",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "browser-sync": "^2.12.8"
+  }
+}
