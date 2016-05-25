@@ -1,6 +1,8 @@
 /**
  * Imgstry
  */
+import PixelUtil = require('./helpers/pixel-util');
+
 class Imgstry {
   private static selectorRegex: RegExp = new RegExp('/#-?[_a-zA-Z]+[_a-zA-Z0-9-]*(?=[^}]*\{)/');
   private canvas: HTMLCanvasElement;
@@ -55,3 +57,5 @@ class Imgstry {
     }
   }
 }
+
+export = Imgstry;
