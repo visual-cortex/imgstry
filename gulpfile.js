@@ -21,7 +21,7 @@ gulp.task("lint", function() {
 
 var tsProject = tsc.createProject("tsconfig.json");
 
-gulp.task("build-app", function() {
+gulp.task("build", function() {
     return gulp.src([
             "source/**/**.ts"
         ])
@@ -52,7 +52,7 @@ gulp.task("bundle", function() {
 });
 
 gulp.task("watch", function () {
-    gulp.watch([ "source/**/**.ts", "test/**/*.ts"], ["build-app"]);
+    gulp.watch([ "source/**/**.ts", "test/**/*.ts"], ["build"]);
 });
 
-gulp.task("default", ["build-app", "bundle"]);
+gulp.task("default", ["build", "bundle"]);
