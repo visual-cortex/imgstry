@@ -5,9 +5,15 @@
         "**/.git": true,
         "**/.svn": true,
         "**/.DS_Store": true,
+        "typings": true,
+        "src": true,
+        "dist": true,
+        "coverage": true,
         "source/**/*.js": true,
+        "test/**/*.js": true,
         "node_modules": true,
         ".gitattributes": true,
         "README.md": true
-    }
+    },
+    "files.trimTrailingWhitespace": true
 }

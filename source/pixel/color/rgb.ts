@@ -1,3 +1,5 @@
+/// <reference path="./interfaces/color.d.ts" />
+
 import Hsv = require('./hsv');
 
 class Rgb implements Color {
@@ -14,20 +16,22 @@ class Rgb implements Color {
 
   public toHsv(): Hsv {
     let clamp = this.clamp();
+    clamp.r /= 255;
+    clamp.g /= 255;
+    clamp.b /= 255;
 
     let max = Math.max(clamp.r, clamp.g, clamp.b), min = Math.min(clamp.r, clamp.g, clamp.b);
-    let d = max - min;
-    let result = new Hsv({ h: 0, s: max === 0 ? 0 : d / max, v: max });
+    let delta = max - min;
+    let result = new Hsv({ h: 0, s: (max === 0 ? 0 : delta / max), v: max });
 
     if (max === min) {
         result.h = 0; // achromatic
     } else {
-        switch(max) {
-            case clamp.r: result.h = (clamp.g - clamp.b) / d + (clamp.g < clamp.b ? 6 : 0); break;
-            case clamp.g: result.h = (clamp.b - clamp.r) / d + 2; break;
-            case clamp.b: result.h = (clamp.r - clamp.g) / d + 4; break;
+        switch (max) {
+            case clamp.r: result.h = 60 * ((clamp.g - clamp.b) / delta + (clamp.g < clamp.b ? 6 : 0)); break;
+            case clamp.g: result.h = 60 * ((clamp.b - clamp.r) / delta + 2); break;
+            case clamp.b: result.h = 60 * ((clamp.r - clamp.g) / delta + 4); break;
         }
-        result.h /= 6;
     }
 
     return result;
