@@ -1,6 +1,6 @@
 source/**/*.js
 source/**/*.js.map
-
+example/resources/uploads
 # Logs
 logs
 *.log
