@@ -6,10 +6,11 @@ var gulp        = require("gulp"),
     tsc         = require("gulp-typescript"),
     sourcemaps  = require("gulp-sourcemaps"),
     uglify      = require("gulp-uglify"),
+    foreach     = require("gulp-foreach"),
     runSequence = require("run-sequence"),
     mocha       = require("gulp-mocha"),
     istanbul    = require("gulp-istanbul");
-    
+
 gulp.task("lint", function() {
     return gulp.src([
         "source/**/**.ts",
@@ -53,6 +54,33 @@ gulp.task("bundle", function() {
 
 gulp.task("watch", function () {
     gulp.watch([ "source/**/**.ts", "test/**/*.ts"], ["build"]);
+});
+
+var tsTestProject = tsc.createProject("tsconfig.json");
+
+gulp.task("build-test", function() {
+    return gulp.src([
+            "test/**/*.ts"
+        ])
+        .pipe(tsc(tsTestProject))
+        .js.pipe(gulp.dest("test/"));
+});
+
+gulp.task("istanbul:hook", function() {
+    return gulp.src(['source/**/*.js'])
+        // Covering files
+        .pipe(istanbul())
+        // Force `require` to return covered files
+        .pipe(istanbul.hookRequire());
+});
+
+gulp.task("test", ["build-test","istanbul:hook"], function() {
+    return gulp.src('test/**/*.test.js')
+        .pipe(foreach(function (stream, file) {
+          return stream
+            .pipe(mocha({ui: 'bdd'}))
+            .pipe(istanbul.writeReports());
+        }));
 });
 
 gulp.task("default", ["build", "bundle"]);

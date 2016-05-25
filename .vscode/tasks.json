@@ -18,6 +18,28 @@
                 "$tsc",
                 "$jshint"
             ]
+        },
+        {
+            "taskName": "watch",
+            "args": [],
+            "isBuildCommand": false,
+            "isWatching": true,
+            "problemMatcher": [
+                "$lessCompile",
+                "$tsc",
+                "$jshint"
+            ]
+        },
+        {
+            "taskName": "test",
+            "args": [],
+            "isBuildCommand": false,
+            "isWatching": false,
+            "problemMatcher": [
+                "$lessCompile",
+                "$tsc",
+                "$jshint"
+            ]
         }
     ]
 }

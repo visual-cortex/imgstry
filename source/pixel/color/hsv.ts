@@ -1,3 +1,5 @@
+/// <reference path="./interfaces/color.d.ts" />
+
 import Rgb = require('./rgb');
 
 class Hsv implements Color {
@@ -14,18 +16,40 @@ class Hsv implements Color {
 
   public toRgb(): Rgb {
     let clamp = this.clamp();
+    let c = clamp.v * clamp.s;
+    let x = c * (1 - Math.abs( ((clamp.h / 60) % 2) - 1 ));
+    let m = clamp.v - c;
 
-    let i = Math.floor(clamp.h),
-        f = clamp.h - i,
-        p = clamp.v * (1 - clamp.s),
-        q = clamp.v * (1 - f * clamp.s),
-        t = clamp.v * (1 - (1 - f) * clamp.s),
-        mod = i % 6,
-        r = [clamp.v, q, p, p, t, clamp.v][mod],
-        g = [t, clamp.v, clamp.v, q, p, p][mod],
-        b = [p, p, t, clamp.v, clamp.v, q][mod];
+    let result = new Rgb({r: m, g: m, b: m});
 
-    let result = new Rgb({ r: r * 255, g: g * 255, b: b * 255});
+    if (clamp.h >= 0 && clamp.h < 60) {
+      result.r += c;
+      result.g += x;
+    } else
+    if (clamp.h >= 60 && clamp.h < 120) {
+      result.r += x;
+      result.g += c;
+    } else
+    if (clamp.h >= 120 && clamp.h < 180) {
+      result.g += c;
+      result.b += x;
+    } else
+    if (clamp.h >= 180 && clamp.h < 240) {
+      result.g += x;
+      result.b += c;
+    } else
+    if (clamp.h >= 240 && clamp.h < 300) {
+      result.r += x;
+      result.b += c;
+    } else
+    if (clamp.h >= 300 && clamp.h < 360) {
+      result.r += c;
+      result.b += x;
+    }
+
+    result.r = Math.round(result.r * 255);
+    result.g = Math.round(result.g * 255);
+    result.b = Math.round(result.b * 255);
 
     return result;
   }
@@ -37,8 +61,8 @@ class Hsv implements Color {
   public clamp(): Hsv {
     return new Hsv({
       h: this.h > 360 ? 360 : this.h < 0 ? 0 : this.h,
-      s: this.s > 100 ? 100 : this.s < 0 ? 0 : this.s,
-      v: this.v > 100 ? 100 : this.v < 0 ? 0 : this.v,
+      s: this.s > 1 ? 1 : this.s < 0 ? 0 : this.s,
+      v: this.v > 1 ? 1 : this.v < 0 ? 0 : this.v,
     });
   }
 }
