@@ -1,15 +1,22 @@
-/**
- * Imgstry
- */
 import PixelUtil = require('./helpers/pixel-util');
 
+/**
+ * (Exposes image processing methods for html canvas)
+ * 
+ * @class Imgstry
+ */
 class Imgstry {
   private static selectorRegex: RegExp = new RegExp('/#-?[_a-zA-Z]+[_a-zA-Z0-9-]*(?=[^}]*\{)/');
-  private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
   private width: number;
   private height: number;
-  private static getCanvas = (selector: string): HTMLCanvasElement => {
+
+  /**
+   * (Retrieves the canvas elemented for a specified 'id'.)
+   * 
+   * @static
+   */
+  public static getCanvas = (selector: string): HTMLCanvasElement => {
     if (!Imgstry.selectorRegex.test(selector)) {
       throw `'${selector}' is not a valid id.`;
     }
@@ -23,8 +30,12 @@ class Imgstry {
     return <HTMLCanvasElement>canvas;
   };
 
-  constructor(parentSelector: string) {
-    this.canvas = Imgstry.getCanvas(parentSelector);
+  /**
+   * Creates an instance of Imgstry.
+   * 
+   * @param {HTMLCanvasElement} canvas (specifies the canvas base for imgstry)
+   */
+  constructor(private canvas: HTMLCanvasElement) {
     this.context = this.canvas.getContext('2d');
   }
 
@@ -36,12 +47,12 @@ class Imgstry {
     this.context.putImageData(image, 0, 0);
   }
 
-  private compute(delegate: Function) {
+  private compute = (delegate: Function) => {
     let image = this.getData();
     let pixelData = image.data;
 
     for (let i = 0; i < pixelData.length; i++) {
-      let newPixel: Pixel = delegate({
+      let newPixel: RgbPixel = delegate({
         r: pixelData[i],
         g: pixelData[i + 1],
         b: pixelData[i + 2],
@@ -55,6 +66,8 @@ class Imgstry {
         pixelData[i + 2] = newPixel.b;
       }
     }
+
+    this.setData(image);
   }
 }
 
