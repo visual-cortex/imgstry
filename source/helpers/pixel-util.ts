@@ -14,3 +14,5 @@ class PixelUtil {
     return value > 255 ? 255 : value < 0 ? 0 : 255;
   }
 }
+
+export = PixelUtil;
