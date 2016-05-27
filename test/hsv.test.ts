@@ -29,4 +29,72 @@ describe('Hsv color', () => {
       });
     }
   }
+
+  it('Should convert correctly to HSV', () => {
+    for (let key in colors) {
+      if (colors[key]) {
+        let hsv = new Hsv(colors[key].hsv);
+        let color = hsv.toHsv();
+        expect(color.h).eql(hsv.h);
+        expect(color.s).eql(hsv.s);
+        expect(color.v).eql(hsv.v);
+      }
+    }
+  });
+
+  it('Should clamp correctly', () => {
+    // interior limits
+    let color = new Hsv({
+      h: 0,
+      s: 0,
+      v: 0,
+    }).clamp();
+
+    expect(color.h).eql(0);
+    expect(color.s).eql(0);
+    expect(color.v).eql(0);
+
+    color = new Hsv({
+      h: 360,
+      s: 1,
+      v: 1,
+    }).clamp();
+
+    expect(color.h).eql(360);
+    expect(color.s).eql(1);
+    expect(color.v).eql(1);
+
+    // exterior limits
+    color = new Hsv({
+      h: -1,
+      s: -1,
+      v: -1,
+    }).clamp();
+
+    expect(color.h).eql(0);
+    expect(color.s).eql(0);
+    expect(color.v).eql(0);
+
+    color = new Hsv({
+      h: 361,
+      s: 1.1,
+      v: 1.1,
+    }).clamp();
+
+    expect(color.h).eql(360);
+    expect(color.s).eql(1);
+    expect(color.v).eql(1);
+
+    // correct value
+    for (let key in colors) {
+      if (colors[key]) {
+        let hsv = colors[key].hsv;
+        color = new Hsv(hsv).clamp();
+
+        expect(color.h).eql(hsv.h);
+        expect(color.s).eql(hsv.s);
+        expect(color.v).eql(hsv.v);
+      }
+    }
+  });
 });

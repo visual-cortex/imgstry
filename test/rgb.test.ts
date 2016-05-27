@@ -15,7 +15,7 @@ describe('Rgb color', () => {
 
   let colors: any = colorMap;
   for (let key in colors) {
-    if (colors[key]){
+    if (colors[key]) {
       it(`Should convert ${key} correctly to HSV`, () => {
           let rgb = colors[key].rgb;
           let hsv = colors[key].hsv;
@@ -32,60 +32,70 @@ describe('Rgb color', () => {
   }
 
   it('Should convert correctly to RGB', () => {
-    let emerald = new Rgb({
-      r: 46,
-      g: 204,
-      b: 113,
-    });
-
-    let clone = emerald.toRgb();
-
-    expect(clone.r).eql(emerald.r);
-    expect(clone.g).eql(emerald.g);
-    expect(clone.b).eql(emerald.b);
-
-    let pomegranate = new Rgb({
-      r: 192,
-      g: 57,
-      b: 43,
-    });
-
-    clone = pomegranate.toRgb();
-
-    expect(clone.r).eql(pomegranate.r);
-    expect(clone.g).eql(pomegranate.g);
-    expect(clone.b).eql(pomegranate.b);
+    for (let key in colors) {
+      if (colors[key]) {
+        let rgb = new Rgb(colors[key].rgb);
+        let color = rgb.toRgb();
+        expect(color.r).eql(rgb.r);
+        expect(color.g).eql(rgb.g);
+        expect(color.b).eql(rgb.b);
+      }
+    }
   });
 
   it('Should clamp correctly', () => {
+    // interior limits
     let color = new Rgb({
       r: 0,
-      g: -100,
-      b: 300,
+      g: 0,
+      b: 0,
     }).clamp();
 
     expect(color.r).eql(0);
     expect(color.g).eql(0);
-    expect(color.b).eql(255);
+    expect(color.b).eql(0);
 
     color = new Rgb({
-      r: 200,
-      g: 100,
-      b: 221,
+      r: 255,
+      g: 255,
+      b: 255,
     }).clamp();
 
-    expect(color.r).eql(200);
-    expect(color.g).eql(100);
-    expect(color.b).eql(221);
+    expect(color.r).eql(255);
+    expect(color.g).eql(255);
+    expect(color.b).eql(255);
 
+    // exterior limits
     color = new Rgb({
       r: -1,
-      g: 100,
-      b: 256,
+      g: -1,
+      b: -1,
     }).clamp();
 
     expect(color.r).eql(0);
-    expect(color.g).eql(100);
+    expect(color.g).eql(0);
+    expect(color.b).eql(0);
+
+    color = new Rgb({
+      r: 256,
+      g: 256,
+      b: 256,
+    }).clamp();
+
+    expect(color.r).eql(255);
+    expect(color.g).eql(255);
     expect(color.b).eql(255);
+
+    // correct value
+    for (let key in colors) {
+      if (colors[key]) {
+        let rgb = colors[key].rgb;
+        color = new Rgb(rgb).clamp();
+
+        expect(color.r).eql(rgb.r);
+        expect(color.g).eql(rgb.g);
+        expect(color.b).eql(rgb.b);
+      }
+    }
   });
 });
