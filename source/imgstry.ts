@@ -1,9 +1,12 @@
 import Rgb = require('./pixel/color/rgb');
 import Hsv = require('./pixel/color/hsv');
+import Cmyk = require('./pixel/color/cmyk');
+import Hex = require('./pixel/color/hex');
+import Pixel = require('./pixel/pixel');
 
 /**
  * (Exposes image processing methods for html canvas)
- * 
+ *
  * @class Imgstry
  */
 class Imgstry {
@@ -14,7 +17,7 @@ class Imgstry {
 
   /**
    * (Retrieves the canvas elemented for a specified 'id'.)
-   * 
+   *
    * @static
    */
   public static getCanvas = (selector: string): HTMLCanvasElement => {
@@ -33,7 +36,7 @@ class Imgstry {
 
   /**
    * Creates an instance of Imgstry.
-   * 
+   *
    * @param {HTMLCanvasElement} canvas (specifies the canvas base for imgstry)
    */
   constructor(private canvas: HTMLCanvasElement) {

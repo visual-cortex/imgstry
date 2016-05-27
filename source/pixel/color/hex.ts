@@ -7,7 +7,7 @@ class Hex implements Color {
   public value: string;
 
   constructor(color?: string) {
-    this.value = color;
+    this.value = color || '#000000';
   }
 
   public toRgb(): Rgb {
@@ -27,7 +27,7 @@ class Hex implements Color {
   }
 
   public toCmyk(): Cmyk {
-    return new Cmyk(this);
+    return this.toRgb().toCmyk();
   }
 
   public toHex(): Hex {
@@ -35,7 +35,22 @@ class Hex implements Color {
   }
 
   public clamp(): Hex {
-    return this.toRgb().clamp().toHex();
+    let clampedValue = '#000000'.split('');
+
+    for (let i = 1; i < this.value.length; i++) {
+      clampedValue[i] = this.value[i];
+      let charCode = this.value.charCodeAt(i);
+
+      if (charCode < '0'.charCodeAt(0) || (charCode > '9'.charCodeAt(0) && charCode < 'A'.charCodeAt(0)) ) {
+        clampedValue[i] = '0';
+      }
+
+      if (charCode > 'F'.charCodeAt(0)) {
+        clampedValue[i] = 'F';
+      }
+    }
+
+    return new Hex(clampedValue.join(''));
   }
 }
 

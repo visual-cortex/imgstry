@@ -3,9 +3,10 @@
 
 import { expect } from 'chai';
 import Rgb =  require('../source/pixel/color/rgb');
+import Hex =  require('../source/pixel/color/hex');
 import colorMap = require('./colors');
 
-describe('Rgb color', () => {
+describe('RGB color', () => {
   it('Should have all channels 0 initially', () => {
     let color = new Rgb();
     expect(color.r).eql(0);
@@ -28,20 +29,39 @@ describe('Rgb color', () => {
           expect(result.s).approximately(hsv.s, 1);
           expect(result.v).approximately(hsv.v, 1);
       });
-    }
-  }
 
-  it('Should convert correctly to RGB', () => {
-    for (let key in colors) {
-      if (colors[key]) {
+      it(`Should convert ${key} correctly to HEX`, () => {
+        let rgb = colors[key].rgb;
+        let hex = new Hex(colors[key].hex);
+        let color = new Rgb(rgb);
+
+        let result = color.toHex();
+
+        expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.value.substring(1), 16), 80000);
+      });
+
+      it(`Should convert ${key} correctly to CMYK`, () => {
+        let rgb = colors[key].rgb;
+        let cmyk = colors[key].cmyk;
+        let color = new Rgb(rgb);
+
+        let result = color.toCmyk();
+
+        expect(result.c).equals(cmyk.c);
+        expect(result.m).equals(cmyk.m);
+        expect(result.y).equals(cmyk.y);
+        expect(result.k).equals(cmyk.k);
+      });
+
+      it(`Should convert ${key} correctly to RGB`, () => {
         let rgb = new Rgb(colors[key].rgb);
         let color = rgb.toRgb();
         expect(color.r).eql(rgb.r);
         expect(color.g).eql(rgb.g);
         expect(color.b).eql(rgb.b);
-      }
+      });
     }
-  });
+  }
 
   it('Should clamp correctly', () => {
     // interior limits
