@@ -1,6 +1,8 @@
 /// <reference path="./interfaces/color.d.ts" />
 
 import Rgb = require('./rgb');
+import Cmyk = require('./cmyk');
+import Hex = require('./hex');
 
 class Hsv implements Color {
   public h: number;
@@ -56,6 +58,14 @@ class Hsv implements Color {
 
   public toHsv(): Hsv {
     return new Hsv(this);
+  }
+
+  public toCmyk(): Cmyk {
+    return this.toRgb().toCmyk();
+  }
+
+  public toHex(): Hex {
+    return this.toRgb().toHex();
   }
 
   public clamp(): Hsv {
