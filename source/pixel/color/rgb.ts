@@ -24,15 +24,15 @@ class Rgb implements Color {
 
     let max = Math.max(clamp.r, clamp.g, clamp.b), min = Math.min(clamp.r, clamp.g, clamp.b);
     let delta = max - min;
-    let result = new Hsv({ h: 0, s: (max === 0 ? 0 : delta / max), v: max });
+    let result = new Hsv({ h: 0, s: max === 0 ? 0 : parseFloat(((delta / max).toPrecision(2))), v: parseFloat(max.toPrecision(2)) });
 
     if (max === min) {
-        result.h = 0; // achromatic
+        result.h = 0;
     } else {
         switch (max) {
-            case clamp.r: result.h = 60 * ((clamp.g - clamp.b) / delta + (clamp.g < clamp.b ? 6 : 0)); break;
-            case clamp.g: result.h = 60 * ((clamp.b - clamp.r) / delta + 2); break;
-            case clamp.b: result.h = 60 * ((clamp.r - clamp.g) / delta + 4); break;
+            case clamp.r: result.h = parseFloat((60 * ((clamp.g - clamp.b) / delta + (clamp.g < clamp.b ? 6 : 0))).toPrecision(2)); break;
+            case clamp.g: result.h = parseFloat((60 * ((clamp.b - clamp.r) / delta + 2)).toPrecision(2)); break;
+            case clamp.b: result.h = parseFloat((60 * ((clamp.r - clamp.g) / delta + 4)).toPrecision(2)); break;
         }
     }
 
