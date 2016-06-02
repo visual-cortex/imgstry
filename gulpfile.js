@@ -22,7 +22,7 @@ gulp.task("lint", function() {
 
 var tsProject = tsc.createProject("tsconfig.json");
 
-gulp.task("build", function() {
+gulp.task("build:ts", function() {
     return gulp.src([
             "source/**/**.ts"
         ])
@@ -30,7 +30,7 @@ gulp.task("build", function() {
         .js.pipe(gulp.dest("source/"));
 });
 
-gulp.task("bundle", function() {
+gulp.task("build", ["build:ts"], function() {
 
     var libraryName = "imgstry";
     var mainTsFilePath = "source/imgstry.js";
@@ -38,7 +38,7 @@ gulp.task("bundle", function() {
     var outputFileName = libraryName + ".min.js";
 
     var bundler = browserify({
-        debug: true,
+        debug: false,
         standalone : libraryName
     });
 
@@ -47,7 +47,7 @@ gulp.task("bundle", function() {
         .pipe(source(outputFileName))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(outputFolder));
 });
