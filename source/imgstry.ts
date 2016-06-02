@@ -10,7 +10,7 @@ import Pixel = require('./pixel/pixel');
  * @class Imgstry
  */
 class Imgstry {
-  private static selectorRegex: RegExp = new RegExp('/#-?[_a-zA-Z]+[_a-zA-Z0-9-]*(?=[^}]*\{)/');
+  private static selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
   private context: CanvasRenderingContext2D;
   private width: number;
   private height: number;
@@ -21,13 +21,21 @@ class Imgstry {
    * @static
    */
   public static getCanvas = (selector: string): HTMLCanvasElement => {
+    if (!selector) {
+      throw 'A canvas selector must be provided.';
+    }
+
     if (!Imgstry.selectorRegex.test(selector)) {
       throw `'${selector}' is not a valid id.`;
     }
 
+    if(selector[0] === '#'){
+      selector = selector.substring(1);
+    }
+
     let canvas = document.getElementById(selector);
 
-    if (typeof(canvas) !== typeof(HTMLCanvasElement)) {
+    if (!(canvas instanceof HTMLCanvasElement)) {
       throw `'${selector}' does not identify a canvas element.`;
     }
 
@@ -40,7 +48,24 @@ class Imgstry {
    * @param {HTMLCanvasElement} canvas (specifies the canvas base for imgstry)
    */
   constructor(private canvas: HTMLCanvasElement) {
+    if (!canvas) {
+      throw 'A canvas element must be targeted.';
+    }
+
     this.context = this.canvas.getContext('2d');
+    this.width = this.canvas.width;
+    this.height = this.canvas.height;
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  public invert(): void {
+    this.compute((pixel: Rgb) => {
+      pixel.r ^= 255;
+      pixel.g ^= 255;
+      pixel.b ^= 255;
+
+      return pixel;
+    });
   }
 
   private getData(): ImageData {
