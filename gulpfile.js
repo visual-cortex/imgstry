@@ -75,7 +75,7 @@ gulp.task("istanbul:hook", function() {
 });
 
 gulp.task("test", ["build-test","istanbul:hook"], function() {
-    return gulp.src('test/cmyk.test.js')
+    return gulp.src('test/*.test.js')
         .pipe(foreach(function (stream, file) {
           return stream
             .pipe(mocha({ui: 'bdd'}))
