@@ -10,7 +10,7 @@ class Pixel<Color> {
     this.y = y || 0;
   }
 
-  public getColorSpace() {
+  public get colorSpace() {
     return typeof(this.color).toString().toLowerCase();
   }
 }
