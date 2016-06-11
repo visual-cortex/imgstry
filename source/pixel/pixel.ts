@@ -1,6 +1,5 @@
 /// <reference path="./color/interfaces/color.d.ts" />
-
-class Pixel<Color> {
+export class Pixel<Color> {
   public x: number;
   public y: number;
   public color: Color;
@@ -14,5 +13,3 @@ class Pixel<Color> {
     return typeof(this.color).toString().toLowerCase();
   }
 }
-
-export = Pixel;

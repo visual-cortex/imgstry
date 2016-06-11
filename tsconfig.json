@@ -6,7 +6,9 @@
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "watch": true
+        "watch": true,
+        "isolatedModules": false,
+        "allowJs": true
     },
     "exclude": [
         "example",

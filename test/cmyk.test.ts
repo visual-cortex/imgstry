@@ -2,8 +2,8 @@
 /// <reference path="../typings/mocha/mocha.d.ts" />
 
 import { expect } from 'chai';
-import Cmyk =  require('../source/pixel/color/cmyk');
-import colorMap = require('./colors');
+import { Cmyk } from '../source/pixel/color/cmyk';
+import { colorMap } from './colors';
 
 describe('CMYK color', () => {
   it('Should have all channels 0 initially', () => {
