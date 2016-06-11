@@ -1,9 +1,8 @@
-import Rgb = require('./pixel/color/rgb');
-import Hsv = require('./pixel/color/hsv');
-import Cmyk = require('./pixel/color/cmyk');
-import Hex = require('./pixel/color/hex');
-import Pixel = require('./pixel/pixel');
-
+import { Rgb } from './pixel/color/rgb';
+import { Hsv } from './pixel/color/hsv';
+import { Cmyk } from './pixel/color/cmyk';
+import { Hex } from './pixel/color/hex';
+import { Pixel } from './pixel/pixel';
 /**
  * (Exposes image processing methods for html canvas)
  *
@@ -137,10 +136,7 @@ class Imgstry {
     value *= 0.5;
     return this.compute((pixel: Rgb) => {
       let hsv = pixel.toHsv();
-      hsv.h *= 100;
       hsv.h += Math.abs(value);
-      hsv.h %= 100;
-      hsv.h /= 100;
       pixel = hsv.toRgb();
       return pixel;
     });

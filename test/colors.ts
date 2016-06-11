@@ -1,4 +1,4 @@
-export =
+export var colorMap =
 {
   black:  {
     rgb: {
