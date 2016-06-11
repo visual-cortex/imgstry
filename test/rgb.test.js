@@ -1,22 +1,22 @@
 "use strict";
 var chai_1 = require('chai');
-var Rgb = require('../source/pixel/color/rgb');
-var Hex = require('../source/pixel/color/hex');
-var colorMap = require('./colors');
+var rgb_1 = require('../source/pixel/color/rgb');
+var hex_1 = require('../source/pixel/color/hex');
+var colors_1 = require('./colors');
 describe('RGB color', function () {
     it('Should have all channels 0 initially', function () {
-        var color = new Rgb();
+        var color = new rgb_1.Rgb();
         chai_1.expect(color.r).eql(0);
         chai_1.expect(color.g).eql(0);
         chai_1.expect(color.b).eql(0);
     });
-    var colors = colorMap;
+    var colors = colors_1.colorMap;
     var _loop_1 = function(key) {
         if (colors[key]) {
             it("Should convert " + key + " correctly to HSV", function () {
                 var rgb = colors[key].rgb;
                 var hsv = colors[key].hsv;
-                var color = new Rgb(rgb);
+                var color = new rgb_1.Rgb(rgb);
                 var result = color.toHsv();
                 chai_1.expect(result.h).approximately(hsv.h, 1);
                 chai_1.expect(result.s).approximately(hsv.s, 1);
@@ -24,15 +24,15 @@ describe('RGB color', function () {
             });
             it("Should convert " + key + " correctly to HEX", function () {
                 var rgb = colors[key].rgb;
-                var hex = new Hex(colors[key].hex);
-                var color = new Rgb(rgb);
+                var hex = new hex_1.Hex(colors[key].hex);
+                var color = new rgb_1.Rgb(rgb);
                 var result = color.toHex();
                 chai_1.expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.value.substring(1), 16), 80000);
             });
             it("Should convert " + key + " correctly to CMYK", function () {
                 var rgb = colors[key].rgb;
                 var cmyk = colors[key].cmyk;
-                var color = new Rgb(rgb);
+                var color = new rgb_1.Rgb(rgb);
                 var result = color.toCmyk();
                 chai_1.expect(result.c).equals(cmyk.c);
                 chai_1.expect(result.m).equals(cmyk.m);
@@ -40,7 +40,7 @@ describe('RGB color', function () {
                 chai_1.expect(result.k).equals(cmyk.k);
             });
             it("Should convert " + key + " correctly to RGB", function () {
-                var rgb = new Rgb(colors[key].rgb);
+                var rgb = new rgb_1.Rgb(colors[key].rgb);
                 var color = rgb.toRgb();
                 chai_1.expect(color.r).eql(rgb.r);
                 chai_1.expect(color.g).eql(rgb.g);
@@ -52,7 +52,7 @@ describe('RGB color', function () {
         _loop_1(key);
     }
     it('Should clamp correctly', function () {
-        var color = new Rgb({
+        var color = new rgb_1.Rgb({
             r: 0,
             g: 0,
             b: 0,
@@ -60,7 +60,7 @@ describe('RGB color', function () {
         chai_1.expect(color.r).eql(0);
         chai_1.expect(color.g).eql(0);
         chai_1.expect(color.b).eql(0);
-        color = new Rgb({
+        color = new rgb_1.Rgb({
             r: 255,
             g: 255,
             b: 255,
@@ -68,7 +68,7 @@ describe('RGB color', function () {
         chai_1.expect(color.r).eql(255);
         chai_1.expect(color.g).eql(255);
         chai_1.expect(color.b).eql(255);
-        color = new Rgb({
+        color = new rgb_1.Rgb({
             r: -1,
             g: -1,
             b: -1,
@@ -76,7 +76,7 @@ describe('RGB color', function () {
         chai_1.expect(color.r).eql(0);
         chai_1.expect(color.g).eql(0);
         chai_1.expect(color.b).eql(0);
-        color = new Rgb({
+        color = new rgb_1.Rgb({
             r: 256,
             g: 256,
             b: 256,
@@ -87,7 +87,7 @@ describe('RGB color', function () {
         for (var key in colors) {
             if (colors[key]) {
                 var rgb = colors[key].rgb;
-                color = new Rgb(rgb).clamp();
+                color = new rgb_1.Rgb(rgb).clamp();
                 chai_1.expect(color.r).eql(rgb.r);
                 chai_1.expect(color.g).eql(rgb.g);
                 chai_1.expect(color.b).eql(rgb.b);

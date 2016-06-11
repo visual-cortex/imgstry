@@ -1,10 +1,9 @@
 /// <reference path="../typings/chai/chai.d.ts" />
 /// <reference path="../typings/mocha/mocha.d.ts" />
-
 import { expect } from 'chai';
-import Rgb =  require('../source/pixel/color/rgb');
-import Hex =  require('../source/pixel/color/hex');
-import colorMap = require('./colors');
+import { Rgb } from '../source/pixel/color/rgb';
+import { Hex } from '../source/pixel/color/hex';
+import { colorMap } from './colors';
 
 describe('RGB color', () => {
   it('Should have all channels 0 initially', () => {

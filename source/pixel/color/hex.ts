@@ -1,9 +1,9 @@
 /// <reference path="./interfaces/color.d.ts" />
-import Rgb = require('./rgb');
-import Hsv = require('./hsv');
-import Cmyk = require('./cmyk');
+import { Rgb } from './rgb';
+import { Hsv } from './hsv';
+import { Cmyk } from './cmyk';
 
-class Hex implements Color {
+export class Hex implements Color {
   public value: string;
 
   constructor(color?: string) {
@@ -53,5 +53,3 @@ class Hex implements Color {
     return new Hex(clampedValue.join(''));
   }
 }
-
-export = Hex;
