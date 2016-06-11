@@ -75,4 +75,44 @@ describe('imgstry', () => {
     }
     (channelSum / pixelData.length * 4).should.equalOneOf([127, 128]);
   });
+
+  it('should should tint pomegranate', () => {
+    let processor = new imgstry(board);
+    processor.brightness(50);
+    processor.tint('#c0392b');
+    let imageData = processor.getData();
+    let pixelData = imageData.data;
+
+    let channelSum = 0;
+    for (let i = 0; i < pixelData.length; i += 4) {
+      let rgb = {
+        r: pixelData[i],
+        g: pixelData[i + 1],
+        b: pixelData[i + 2],
+      };
+
+      channelSum += (rgb.r + rgb.b + rgb.g) / 3;
+    }
+    (channelSum / pixelData.length * 4).should.equal(176);
+  });
+
+  it('should should tint green sea', () => {
+    let processor = new imgstry(board);
+    processor.brightness(50);
+    processor.tint('#16a085');
+    let imageData = processor.getData();
+    let pixelData = imageData.data;
+
+    let channelSum = 0;
+    for (let i = 0; i < pixelData.length; i += 4) {
+      let rgb = {
+        r: pixelData[i],
+        g: pixelData[i + 1],
+        b: pixelData[i + 2],
+      };
+
+      channelSum += (rgb.r + rgb.b + rgb.g) / 3;
+    }
+    (channelSum / pixelData.length * 4).should.approximately(180, 1);
+  });
 });

@@ -218,6 +218,17 @@ class Imgstry {
     });
   }
 
+  public tint(color: string): Imgstry {
+    let tint = new Hex(color).toRgb();
+    return this.compute((pixel: Rgb) => {
+      pixel.r = pixel.r + (255 - pixel.r) * (tint.r / 255);
+      pixel.g = pixel.g + (255 - pixel.g) * (tint.g / 255);
+      pixel.b = pixel.b + (255 - pixel.b) * (tint.b / 255);
+
+      return pixel;
+    });
+  }
+
   public reset(): Imgstry {
     this.setData(this.originalImage);
     return this;
