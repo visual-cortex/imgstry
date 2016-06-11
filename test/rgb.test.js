@@ -1,8 +1,8 @@
 "use strict";
 var chai_1 = require('chai');
-var rgb_1 = require('../source/pixel/color/rgb');
-var hex_1 = require('../source/pixel/color/hex');
 var colors_1 = require('./colors');
+var rgb_1 = require('../../source/pixel/color/rgb');
+var hex_1 = require('../../source/pixel/color/hex');
 describe('RGB color', function () {
     it('Should have all channels 0 initially', function () {
         var color = new rgb_1.Rgb();
