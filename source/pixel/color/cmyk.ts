@@ -21,7 +21,7 @@ export class Cmyk implements Color {
     return new Rgb({
       r: Math.round(255 * (1 - this.c) * (1 - this.k)),
       g: Math.round(255 * (1 - this.m) * (1 - this.k)),
-      b: Math.round(255 * (1 - this.y) * (1 - this.k))
+      b: Math.round(255 * (1 - this.y) * (1 - this.k)),
     });
   }
 

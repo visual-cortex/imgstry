@@ -1,8 +1,8 @@
-/// <reference path="../typings/chai/chai.d.ts" />
-/// <reference path="../typings/mocha/mocha.d.ts" />
+/// <reference path="../../typings/chai/chai.d.ts" />
+/// <reference path="../../typings/mocha/mocha.d.ts" />
 import { expect } from 'chai';
-import { Hex } from '../source/pixel/color/hex';
 import { colorMap } from './colors';
+import { Hex } from '../../source/pixel/color/hex';
 
 describe('HEX color', () => {
   it('Should have black initially', () => {
