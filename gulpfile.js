@@ -75,10 +75,10 @@ gulp.task('build:test-integration', function () {
 
 gulp.task('build:test-client', function () {
     return gulp.src([
-        'test/client/**/*.test.ts'
+        'test/client/imgstry.test.ts'
     ])
         .pipe(tsc(tsTestProject))
-        .js.pipe(gulp.dest('test/'));
+        .js.pipe(gulp.dest('test/client'));
 });
 
 gulp.task('test:istanbul-hook', function () {
@@ -94,7 +94,7 @@ gulp.task('test:phantomjs', function () {
         .src('test/runner.html')
         .pipe(mochaPhantomJS({
             reporter: 'spec',
-            dump: 'phantomjs-reports/phantomjs-test.log'
+            dump: 'phantomjs-test.log'
         }));
 });
 
