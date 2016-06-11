@@ -8,7 +8,8 @@
         "preserveConstEnums": true,
         "watch": true,
         "isolatedModules": false,
-        "allowJs": true
+        "allowJs": true,
+        "declaration": true
     },
     "exclude": [
         "example",

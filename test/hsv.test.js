@@ -1,8 +1,8 @@
 "use strict";
 var chai_1 = require('chai');
-var hsv_1 = require('../source/pixel/color/hsv');
-var hex_1 = require('../source/pixel/color/hex');
 var colors_1 = require('./colors');
+var hsv_1 = require('../../source/pixel/color/hsv');
+var hex_1 = require('../../source/pixel/color/hex');
 describe('HSV color', function () {
     it('Should have all channels 0 initially', function () {
         var color = new hsv_1.Hsv();
