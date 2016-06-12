@@ -11,7 +11,8 @@ var gulp = require('gulp'),
     mocha = require('gulp-mocha'),
     istanbul = require('gulp-istanbul'),
     mochaPhantomJS = require('gulp-mocha-phantomjs'),
-    merge = require('merge2');
+    merge = require('merge2'),
+    del = require('del');
 
 gulp.task('lint:ts', function () {
     return gulp.src([
@@ -90,12 +91,20 @@ gulp.task('test:istanbul-hook', function () {
 });
 
 gulp.task('test:phantomjs', function () {
+    var phantomResultDir = 'reports/client';
+    var testDumpPath = 'test-results-' + (new Date()).getTime() + '.json';
+
     return gulp
         .src('test/runner.html')
         .pipe(mochaPhantomJS({
-            reporter: 'spec',
-            dump: 'phantomjs-test.log'
-        }));
+            reporter: 'json',
+            dump: testDumpPath
+        })).on('finish', () => {
+            gulp.src(testDumpPath)
+                .pipe(gulp.dest(phantomResultDir)).on('finish', () => {
+                    del(testDumpPath);
+                });
+        });
 });
 
 gulp.task('test:pack', function (callback) {
@@ -106,9 +115,16 @@ gulp.task('test', ['test:pack'], function () {
     return gulp.src('test/integration/*.test.js')
         .pipe(mocha({
             ui: 'bdd',
-            reporter: 'mochawesome'
+            reporter: 'mochawesome',
+            reporterOptions: {
+                reportDir: 'reports/integration/',
+                reportTitle: 'Imgstry integration test results',
+                inlineAssets: true
+            }
         }))
-        .pipe(istanbul.writeReports());
+        .pipe(istanbul.writeReports({
+            dir: 'reports/integration/coverage'
+        }));
 });
 
 gulp.task('default', ['build', 'bundle']);
