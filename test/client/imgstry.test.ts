@@ -1,12 +1,32 @@
 /// <reference path="../../typings/globals/should/index.d.ts" />
 /// <reference path="../../typings/mocha/mocha.d.ts" />
 declare var imgstry: any;
+declare var callPhantom: any;
+
+let takeScreenshot = (title: string, status: string) => {
+  if (this['callPhantom'] && callPhantom) {
+    let date = new Date();
+    let testName = title.split(' ').map((keyWord: string, index: number) => {
+      let lowerCase = keyWord.toLowerCase();
+      return index === 0 ? lowerCase : `${lowerCase.charAt(0).toUpperCase()}${lowerCase.substring(1)}`;
+    }).join('');
+    let fileName = `reports/client/screenshots/${status}/${testName}_${date.getTime()}`;
+    callPhantom({
+      'screenshot': fileName,
+    });
+  }
+};
 
 describe('imgstry', () => {
   let anchor = '#board';
   let board: HTMLCanvasElement;
+
   beforeEach(() => {
     board = imgstry.getCanvas(anchor);
+  });
+
+  afterEach(function () {
+    takeScreenshot(this.currentTest.title, this.currentTest.state);
   });
 
   it('should get canvas', () => {
