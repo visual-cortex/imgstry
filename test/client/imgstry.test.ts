@@ -135,4 +135,49 @@ describe('imgstry', () => {
     }
     (channelSum / pixelData.length * 4).should.approximately(180, 1);
   });
+
+  it('should turn bw', () => {
+    let processor = new imgstry(board);
+    processor.brightness(50);
+    processor.tint('#16a085');
+    processor.blackAndWhite();
+    let imageData = processor.getData();
+    let pixelData = imageData.data;
+
+    let channelSum = true;
+    for (let i = 0; i < pixelData.length; i += 4) {
+      let rgb = {
+        r: pixelData[i],
+        g: pixelData[i + 1],
+        b: pixelData[i + 2],
+      };
+
+      channelSum = rgb.r === rgb.b && rgb.b === rgb.g;
+      if (channelSum) {
+        break;
+      }
+    }
+    channelSum.should.be.equal(true);
+  });
+
+  it('should contrast color', () => {
+    let processor = new imgstry(board);
+    processor.brightness(50);
+    processor.tint('#16a085');
+    processor.contrast(20);
+    let imageData = processor.getData();
+    let pixelData = imageData.data;
+
+    let channelSum = 0;
+    for (let i = 0; i < pixelData.length; i += 4) {
+      let rgb = {
+        r: pixelData[i],
+        g: pixelData[i + 1],
+        b: pixelData[i + 2],
+      };
+
+      channelSum += (rgb.r + rgb.b + rgb.g) / 3;
+    }
+    (channelSum / pixelData.length * 4).should.approximately(202, 1);
+  });
 });
