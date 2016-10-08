@@ -1,7 +1,10 @@
-/// <reference path="./interfaces/color.d.ts" />
-import { Rgb } from './rgb';
-import { Hsv } from './hsv';
-import { Hex } from './hex';
+
+import {
+  Color,
+  Rgb,
+  Hex,
+  Hsv,
+ } from '../../color';
 
 export class Cmyk implements Color {
   public c: number;

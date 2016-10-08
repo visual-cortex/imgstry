@@ -15,5 +15,7 @@
         ".gitattributes": true,
         "README.md": true
     },
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "files.insertFinalNewline": true
 }
