@@ -7,6 +7,8 @@ example/resources/uploads
 logs
 *.log
 npm-debug.log*
+typings
+tsd
 
 # Runtime data
 pids

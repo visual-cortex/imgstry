@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "chai": "registry:npm/chai#3.5.0+20160415060238",
-    "sinon": "registry:npm/sinon#1.16.0+20160427193336"
-  },
-  "globalDependencies": {
-    "should": "registry:dt/should#8.1.1+20160608082854"
-  }
-}

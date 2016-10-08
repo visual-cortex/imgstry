@@ -1,5 +1,3 @@
-/// <reference path="../../typings/globals/should/index.d.ts" />
-/// <reference path="../../typings/mocha/mocha.d.ts" />
 declare var imgstry: any;
 declare var callPhantom: any;
 
@@ -93,7 +91,7 @@ describe('imgstry', () => {
 
       channelSum += (rgb.r + rgb.b + rgb.g) / 3;
     }
-    (channelSum / pixelData.length * 4).should.equalOneOf([127, 128]);
+    (channelSum / pixelData.length * 4).should.oneOf([127, 128]);
   });
 
   it('should should tint pomegranate', () => {
