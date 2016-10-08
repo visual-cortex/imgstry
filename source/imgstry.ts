@@ -190,7 +190,7 @@ class Imgstry {
     });
   }
 
-  public vibrance(value: number) {
+  public vibrance(value: number): Imgstry {
     value *= -1;
 
     return this.compute((pixel: Rgb) => {
@@ -234,6 +234,10 @@ class Imgstry {
   public reset(): Imgstry {
     this.setData(this.originalImage);
     return this;
+  }
+
+  public toDataUrl(type = 'image/png'): string {
+    return this.canvas.toDataURL(type);
   }
 
   private getData = (): ImageData => {
