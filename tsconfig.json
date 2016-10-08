@@ -1,19 +1,25 @@
 {
     "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
+        "declaration": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"noImplicitAny": true,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"target": "es5",
         "sourceMap": true,
-        "noImplicitAny": true,
-        "removeComments": true,
+        "removeComments": false,
         "preserveConstEnums": true,
-        "watch": true,
         "isolatedModules": false,
-        "allowJs": true,
-        "declaration": true
-    },
-    "exclude": [
-        "example",
-        "src",
-        "node_modules"
-    ]
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "types": [
+            "assertion-error",
+            "chai",
+            "mocha",
+            "should",
+            "sinon"
+        ]
+    }
 }

@@ -1,4 +1,4 @@
-interface Color {
+export interface Color {
   toHsv(): Color;
   toRgb(): Color;
   toCmyk(): Color;

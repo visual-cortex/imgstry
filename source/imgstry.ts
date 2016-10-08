@@ -1,8 +1,10 @@
-import { Rgb } from './pixel/color/rgb';
-import { Hsv } from './pixel/color/hsv';
-import { Cmyk } from './pixel/color/cmyk';
-import { Hex } from './pixel/color/hex';
-import { Pixel } from './pixel/pixel';
+import {
+  Rgb,
+  Hsv,
+  Cmyk,
+  Hex,
+  Pixel,
+} from './pixel';
 /**
  * (Exposes image processing methods for html canvas)
  *
@@ -234,11 +236,11 @@ class Imgstry {
     return this;
   }
 
-  private getData(): ImageData {
+  private getData = (): ImageData => {
     return this.context.getImageData(0, 0, this.width, this.height);
   }
 
-  private setData(image: ImageData) {
+  private setData = (image: ImageData) => {
     this.context.putImageData(image, 0, 0);
   }
 

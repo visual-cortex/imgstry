@@ -19,8 +19,10 @@ gulp.task('lint:ts', function () {
         'source/**/**.ts',
         'test/**/**.test.ts'
     ])
-        .pipe(tslint({}))
-        .pipe(tslint.report('verbose'));
+        .pipe(tslint({
+            formatter: "verbose"
+        }))
+        .pipe(tslint.report())
 });
 
 var tsProject = tsc.createProject('tsconfig.json');
@@ -29,7 +31,7 @@ gulp.task('build:ts', ['lint:ts'], function () {
     var result = gulp.src([
         'source/**/**.ts'
     ])
-        .pipe(tsc(tsProject));
+        .pipe(tsProject());
     return merge([
         result.js.pipe(gulp.dest('source/')),
         result.js.pipe(gulp.dest('dist/js')),
@@ -55,7 +57,7 @@ gulp.task('build', ['build:ts'], function () {
         .pipe(source(outputFileName))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(outputFolder));
 });
@@ -68,17 +70,18 @@ var tsTestProject = tsc.createProject('tsconfig.json');
 
 gulp.task('build:test-integration', function () {
     return gulp.src([
-        'test/integration/**/*.test.ts'
+        'test/integration/**/*.test.ts',
+        'test/integration/**/constants/*.ts'
     ])
-        .pipe(tsc(tsTestProject))
-        .js.pipe(gulp.dest('test/'));
+        .pipe(tsTestProject())
+        .js.pipe(gulp.dest('test/integration'));
 });
 
 gulp.task('build:test-client', function () {
     return gulp.src([
-        'test/client/imgstry.test.ts'
+        'test/client/*.test.ts'
     ])
-        .pipe(tsc(tsTestProject))
+        .pipe(tsTestProject())
         .js.pipe(gulp.dest('test/client'));
 });
 
@@ -112,7 +115,7 @@ gulp.task('test:pack', function (callback) {
 })
 
 gulp.task('test', ['test:pack'], function () {
-    return gulp.src('test/integration/*.test.js')
+    return gulp.src('test/integration/*.js')
         .pipe(mocha({
             ui: 'bdd',
             reporter: 'mochawesome',

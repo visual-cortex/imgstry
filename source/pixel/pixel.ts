@@ -1,4 +1,3 @@
-/// <reference path="./color/interfaces/color.d.ts" />
 export class Pixel<Color> {
   public x: number;
   public y: number;

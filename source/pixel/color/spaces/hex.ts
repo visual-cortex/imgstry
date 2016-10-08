@@ -1,7 +1,9 @@
-/// <reference path="./interfaces/color.d.ts" />
-import { Rgb } from './rgb';
-import { Hsv } from './hsv';
-import { Cmyk } from './cmyk';
+import {
+  Color,
+  Rgb,
+  Cmyk,
+  Hsv,
+ } from '../../color';
 
 export class Hex implements Color {
   public value: string;

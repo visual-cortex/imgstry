@@ -1,5 +1,4 @@
-export var colorMap =
-{
+export const colorMap: any = {
   black:  {
     rgb: {
       r: 0,
