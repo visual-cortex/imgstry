@@ -9,10 +9,10 @@ imgstry.prototype.invertWorker = function () {
 }
 
 // black and white method
-imgstry.prototype.blackAndWhiteWorker = function (ratio) {
+imgstry.prototype.bwWorker = function (ratio) {
     this.imgstryWorker.postMessage({
         'imageData': this.originalImage,
-        'filter': 'blackAndWhite',
+        'filter': 'bw',
         'value': ''
     });
 }

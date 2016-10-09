@@ -1,66 +1,66 @@
 import {
+  Color,
   Rgb,
-  Hsv,
   Cmyk,
+  Hsv,
   Hex,
   Pixel,
-} from './pixel';
-/**
- * (Exposes image processing methods for html canvas)
- *
- * @class Imgstry
+} from '../pixel';
+
+/** TO-DO:
+ *    - integral blur (+ other blur methods)
+ *    - convolution
  */
-class Imgstry {
-  private static selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
-  private context: CanvasRenderingContext2D;
-  private width: number;
-  private height: number;
-  private originalImage: ImageData;
+export abstract class ImgstryProcessor {
+  /**
+   * Width of the image
+   *
+   * @type {number}
+   * @memberOf ImgstryProcessor
+   */
+  public width: number;
+  /**
+   * Height of the image
+   *
+   * @type {number}
+   * @memberOf ImgstryProcessor
+   */
+  public height: number;
+  /**
+   * Original copy of the processed image
+   *
+   * @type {ImageData}
+   * @memberOf ImgstryProcessor
+   */
+  protected originalImage: ImageData;
 
   /**
-   * (Retrieves the canvas elemented for a specified 'id'.)
+   * Reset image to the original state
    *
-   * @static
+   * @abstract
+   * @returns {ImgstryProcessor}
+   *
+   * @memberOf ImgstryProcessor
    */
-  public static getCanvas = (selector: string): HTMLCanvasElement => {
-    if (!selector) {
-      throw 'A canvas selector must be provided.';
-    }
-
-    if (!Imgstry.selectorRegex.test(selector)) {
-      throw `'${selector}' is not a valid id.`;
-    }
-
-    if (selector[0] === '#') {
-      selector = selector.substring(1);
-    }
-
-    let canvas = document.getElementById(selector);
-
-    if (!(canvas instanceof HTMLCanvasElement)) {
-      throw `'${selector}' does not identify a canvas element.`;
-    }
-
-    return <HTMLCanvasElement>canvas;
-  };
-
+  public abstract reset(): ImgstryProcessor;
   /**
-   * Creates an instance of Imgstry.
+   * Get image data
    *
-   * @param {HTMLCanvasElement} canvas (specifies the canvas base for imgstry)
+   * @abstract
+   * @type {ImageData}
+   * @memberOf ImgstryProcessor
    */
-  constructor(private canvas: HTMLCanvasElement) {
-    if (!canvas) {
-      throw 'A canvas element must be targeted.';
-    }
+  public abstract get data(): ImageData;
+  /**
+   * Set image data
+   *
+   * @abstract
+   *
+   * @memberOf ImgstryProcessor
+   */
+  public abstract set data(imgData: ImageData);
 
-    this.context = this.canvas.getContext('2d');
-    this.width = this.canvas.width;
-    this.height = this.canvas.height;
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-
-  public blackAndWhite(ratio: Array<number>): Imgstry {
+  public bw(ratio?: Array<number>): ImgstryProcessor {
     if (!(!!ratio && Array.isArray(ratio) && ratio.reduce((a: any, b: any) => { return a + b; }, 0) <= 1)) {
       ratio = [0.3, 0.59, 0.11];
     }
@@ -76,7 +76,7 @@ class Imgstry {
     });
   }
 
-  public contrast(value: number): Imgstry {
+  public contrast(value: number): ImgstryProcessor {
     if (value < 0) {
       value /= 10;
     }
@@ -102,7 +102,7 @@ class Imgstry {
     });
   }
 
-  public brightness(value: number): Imgstry {
+  public brightness(value: number): ImgstryProcessor {
     value = Math.floor(255 * (value / 100));
 
     return this.compute((pixel: Rgb) => {
@@ -114,7 +114,7 @@ class Imgstry {
     });
   }
 
-  public saturation(value: number): Imgstry {
+  public saturation(value: number): ImgstryProcessor {
     value *= -0.01;
 
     let lookup: Array<number> = [];
@@ -134,7 +134,7 @@ class Imgstry {
     });
   }
 
-  public hue(value: number): Imgstry {
+  public hue(value: number): ImgstryProcessor {
     value *= 0.5;
     return this.compute((pixel: Rgb) => {
       let hsv = pixel.toHsv();
@@ -144,7 +144,7 @@ class Imgstry {
     });
   }
 
-  public sepia(value: number): Imgstry {
+  public sepia(value: number): ImgstryProcessor {
     if (!value) {
       value = 100;
     }
@@ -158,7 +158,7 @@ class Imgstry {
     });
   }
 
-  public gamma(value: number): Imgstry {
+  public gamma(value: number): ImgstryProcessor {
     if (value >= 0) {
       value = 1 - (value / 100);
     } else {
@@ -179,7 +179,7 @@ class Imgstry {
     });
   }
 
-  public noise(value: number): Imgstry {
+  public noise(value: number): ImgstryProcessor {
     return this.compute((pixel: Rgb) => {
       let randomValue = Math.random() * value * 2.55;
       randomValue = (Math.random() > 0.5 ? -randomValue : randomValue);
@@ -190,7 +190,7 @@ class Imgstry {
     });
   }
 
-  public vibrance(value: number): Imgstry {
+  public vibrance(value: number): ImgstryProcessor {
     value *= -1;
 
     return this.compute((pixel: Rgb) => {
@@ -210,7 +210,7 @@ class Imgstry {
     });
   }
 
-  public invert(): Imgstry {
+  public invert(): ImgstryProcessor {
     return this.compute((pixel: Rgb) => {
       pixel.r ^= 255;
       pixel.g ^= 255;
@@ -220,7 +220,7 @@ class Imgstry {
     });
   }
 
-  public tint(color: string): Imgstry {
+  public tint(color: string): ImgstryProcessor {
     let tint = new Hex(color).toRgb();
     return this.compute((pixel: Rgb) => {
       pixel.r = pixel.r + (255 - pixel.r) * (tint.r / 255);
@@ -231,31 +231,21 @@ class Imgstry {
     });
   }
 
-  public reset(): Imgstry {
-    this.setData(this.originalImage);
-    return this;
+  public batch(options: FilterOption[], reset?: boolean) {
+    if (reset) {
+      this.reset();
+    }
+
+    // order filter options in correct application order
+    options = options.sort((a: FilterOption, b: FilterOption) => a.priority - b.priority);
+
+    for (let option of options) {
+      (<any>this)[option.filter](option.value);
+    }
   }
 
-  public toDataUrl(type = 'image/png'): string {
-    return this.canvas.toDataURL(type);
-  }
-
-  private getData = (): ImageData => {
-    return this.context.getImageData(0, 0, this.width, this.height);
-  }
-
-  private setData = (image: ImageData) => {
-    this.context.putImageData(image, 0, 0);
-  }
-
-  /** TO-DO:
-   *    - integral blur (+ other blur methods)
-   *    - convolution
-   *    - web workers
-   */
-
-  private compute = (delegate: Function): Imgstry => {
-    let image = this.getData();
+  private compute = (delegate: Function): ImgstryProcessor => {
+    let image = this.data;
     let pixelData = image.data;
 
     for (let i = 0; i < pixelData.length; i += 4) {
@@ -274,9 +264,7 @@ class Imgstry {
       }
     }
 
-    this.setData(image);
+    this.data = image;
     return this;
   }
-}
-
-export = Imgstry;
+};

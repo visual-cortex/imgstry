@@ -2,7 +2,7 @@
   "name": "imgstry",
   "version": "1.0.0",
   "description": "A JavaScript image editing module.",
-  "main": "index.js",
+  "main": "dist/js/index.js",
   "directories": {
     "example": "example"
   },
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/assertion-error": "1.0.30",
     "@types/chai": "3.4.34",
+    "@types/es6-shim": "^0.31.32",
     "@types/mocha": "2.2.32",
     "@types/should": "8.1.30",
     "@types/sinon": "1.16.31",

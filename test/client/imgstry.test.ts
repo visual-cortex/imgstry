@@ -1,5 +1,5 @@
-declare var imgstry: any;
-declare var callPhantom: any;
+declare let imgstry: any;
+declare let callPhantom: any;
 
 let takeScreenshot = (title: string, status: string) => {
   if (this['callPhantom'] && callPhantom) {
@@ -39,7 +39,7 @@ describe('imgstry', () => {
 
   it('should be black', () => {
     let processor = new imgstry(board);
-    let imageData = processor.getData();
+    let imageData = processor.data;
     let pixelData = imageData.data;
 
     let channelSum = 0;
@@ -59,7 +59,7 @@ describe('imgstry', () => {
   it('should invert to white', () => {
     let processor = new imgstry(board);
     processor.invert();
-    let imageData = processor.getData();
+    let imageData = processor.data;
     let pixelData = imageData.data;
 
     let channelSum = 0;
@@ -78,7 +78,7 @@ describe('imgstry', () => {
   it('should be neutral gray', () => {
     let processor = new imgstry(board);
     processor.brightness(50);
-    let imageData = processor.getData();
+    let imageData = processor.data;
     let pixelData = imageData.data;
 
     let channelSum = 0;
@@ -98,7 +98,7 @@ describe('imgstry', () => {
     let processor = new imgstry(board);
     processor.brightness(50);
     processor.tint('#c0392b');
-    let imageData = processor.getData();
+    let imageData = processor.data;
     let pixelData = imageData.data;
 
     let channelSum = 0;
@@ -118,7 +118,7 @@ describe('imgstry', () => {
     let processor = new imgstry(board);
     processor.brightness(50);
     processor.tint('#16a085');
-    let imageData = processor.getData();
+    let imageData = processor.data;
     let pixelData = imageData.data;
 
     let channelSum = 0;
@@ -138,8 +138,8 @@ describe('imgstry', () => {
     let processor = new imgstry(board);
     processor.brightness(50);
     processor.tint('#16a085');
-    processor.blackAndWhite();
-    let imageData = processor.getData();
+    processor.bw();
+    let imageData = processor.data;
     let pixelData = imageData.data;
 
     let channelSum = true;
@@ -163,7 +163,7 @@ describe('imgstry', () => {
     processor.brightness(50);
     processor.tint('#16a085');
     processor.contrast(20);
-    let imageData = processor.getData();
+    let imageData = processor.data;
     let pixelData = imageData.data;
 
     let channelSum = 0;

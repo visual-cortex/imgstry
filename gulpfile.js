@@ -25,9 +25,8 @@ gulp.task('lint:ts', function () {
         .pipe(tslint.report())
 });
 
-var tsProject = tsc.createProject('tsconfig.json');
-
 gulp.task('build:ts', ['lint:ts'], function () {
+    var tsProject = tsc.createProject('tsconfig.json');
     var result = gulp.src([
         'source/**/**.ts'
     ])
@@ -42,7 +41,7 @@ gulp.task('build:ts', ['lint:ts'], function () {
 gulp.task('build', ['build:ts'], function () {
 
     var libraryName = 'imgstry';
-    var mainTsFilePath = 'imgstry.js';
+    var mainTsFilePath = 'index.js';
     var outputFolder = 'dist/';
     var outputFileName = libraryName + '.min.js';
 
@@ -66,22 +65,24 @@ gulp.task('watch', function () {
     gulp.watch(['source/**/**.ts', 'test/**/*.ts'], ['build']);
 });
 
-var tsTestProject = tsc.createProject('tsconfig.json');
-
 gulp.task('build:test-integration', function () {
+    var tsProject = tsc.createProject('tsconfig.json');
+
     return gulp.src([
         'test/integration/**/*.test.ts',
         'test/integration/**/constants/*.ts'
     ])
-        .pipe(tsTestProject())
+        .pipe(tsProject())
         .js.pipe(gulp.dest('test/integration'));
 });
 
 gulp.task('build:test-client', function () {
+    var tsProject = tsc.createProject('tsconfig.json');
+
     return gulp.src([
         'test/client/*.test.ts'
     ])
-        .pipe(tsTestProject())
+        .pipe(tsProject())
         .js.pipe(gulp.dest('test/client'));
 });
 
@@ -107,11 +108,13 @@ gulp.task('test:phantomjs', function () {
                 .pipe(gulp.dest(phantomResultDir)).on('finish', () => {
                     del(testDumpPath);
                 });
+        }).on('error', () => {
+            del(testDumpPath);
         });
 });
 
 gulp.task('test:pack', function (callback) {
-    runSequence('build:test-integration', 'build:test-client', ['test:phantomjs', 'test:istanbul-hook'], callback);
+    runSequence(['build', 'build:test-integration', 'build:test-client'], ['test:phantomjs', 'test:istanbul-hook'], callback);
 })
 
 gulp.task('test', ['test:pack'], function () {
