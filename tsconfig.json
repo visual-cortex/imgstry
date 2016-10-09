@@ -19,7 +19,8 @@
             "chai",
             "mocha",
             "should",
-            "sinon"
+            "sinon",
+            "es6-shim"
         ]
     }
 }
