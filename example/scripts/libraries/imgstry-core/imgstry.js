@@ -193,7 +193,7 @@ imgstry.prototype.invert = function () {
 }
 
 // black and white method
-imgstry.prototype.blackAndWhite = function (ratio) {
+imgstry.prototype.bw = function (ratio) {
     // if the method is called without a given ratio
     // set the default black and white ratio
     if (!ratio)
