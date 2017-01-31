@@ -133,4 +133,4 @@ gulp.task('test', ['test:pack'], function () {
         }));
 });
 
-gulp.task('default', ['build', 'bundle']);
+gulp.task('default', ['build']);
