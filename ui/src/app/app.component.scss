@@ -1,0 +1,14 @@
+@import '../core/colors';
+
+div {
+    &.canvas {
+        height: 100%;
+        display: inline-block;
+    }
+
+    &.panel {
+        @include background-opacity($panel-overlay, .2);
+        height: 100%;
+        display: inline-block;
+    }
+}
