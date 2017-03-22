@@ -3,7 +3,7 @@
  *
  * @interface FilterOption
  */
-declare interface FilterOption {
+export interface FilterOption {
   /**
    * Applied filter method
    *
@@ -35,7 +35,7 @@ declare interface FilterOption {
  * @export
  * @interface ImgstryProcessorData
  */
-declare interface ImgstryProcessorData {
+export interface ImgstryProcessorData {
   /**
    * Image data object
    *

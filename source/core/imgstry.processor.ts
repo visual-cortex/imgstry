@@ -7,6 +7,10 @@ import {
   Pixel,
 } from '../pixel';
 
+import {
+  FilterOption,
+} from './types';
+
 /** TO-DO:
  *    - integral blur (+ other blur methods)
  *    - convolution
