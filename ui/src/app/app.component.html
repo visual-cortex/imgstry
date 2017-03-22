@@ -1,4 +1,9 @@
 <div class="row">
-    <div class="column-8 canvas"></div>
-    <div class="column-2 panel"></div>
+    <div class="column-8 canvas">
+        <app-imgstry-editor [brightness-value]="bValue">
+        </app-imgstry-editor>
+    </div>
+    <div class="column-2 panel">
+        <md-slider [(ngModel)]="bValue" min="0" max="100" step="1" value="0"></md-slider>
+    </div>
 </div>
