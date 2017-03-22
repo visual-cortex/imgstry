@@ -55,6 +55,7 @@ export class Imgstry extends ImgstryProcessor {
     this.width = this.canvas.width;
     this.height = this.canvas.height;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.originalImage = new ImageData(this.data.data, this.canvas.width, this.canvas.height);
   }
 
   public toDataUrl(type = 'image/png'): string {
