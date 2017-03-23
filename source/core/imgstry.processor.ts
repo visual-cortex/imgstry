@@ -36,7 +36,7 @@ export abstract class ImgstryProcessor {
    * @type {ImageData}
    * @memberOf ImgstryProcessor
    */
-  protected originalImage: ImageData;
+  protected original: ImageData;
 
   /**
    * Reset image to the original state
@@ -69,7 +69,7 @@ export abstract class ImgstryProcessor {
       ratio = [0.3, 0.59, 0.11];
     }
 
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       let bwValue = ratio[0] * pixel.r + ratio[1] * pixel.g + ratio[2] * pixel.b;
 
       pixel.r = bwValue;
@@ -87,21 +87,21 @@ export abstract class ImgstryProcessor {
 
     value = Math.pow((value + 100) / 100, 2);
 
-    let lookup: Array<number> = [];
+    let lookup: Array<number> = this._lookup((i) => {
+      i /= 255;
+      i -= 0.5;
+      i *= value;
+      i += 0.5;
+      i *= 255;
 
-    for (let i = 0; i < 256; i++) {
-      lookup[i] = i;
-      lookup[i] /= 255;
-      lookup[i] -= 0.5;
-      lookup[i] *= value;
-      lookup[i] += 0.5;
-      lookup[i] *= 255;
-    }
+      return i;
+    });
 
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       pixel.r = lookup[pixel.r];
       pixel.g = lookup[pixel.g];
       pixel.b = lookup[pixel.b];
+
       return pixel;
     });
   }
@@ -109,7 +109,7 @@ export abstract class ImgstryProcessor {
   public brightness(value: number): ImgstryProcessor {
     value = Math.floor(255 * (value / 100));
 
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       pixel.r += value;
       pixel.g += value;
       pixel.b += value;
@@ -121,13 +121,11 @@ export abstract class ImgstryProcessor {
   public saturation(value: number): ImgstryProcessor {
     value *= -0.01;
 
-    let lookup: Array<number> = [];
+    let lookup: Array<number> = this._lookup((i) => {
+      return i * value;
+    });
 
-    for (let i = 0; i < 256; i++) {
-      lookup[i] = i * value;
-    }
-
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       let max = Math.max(pixel.r, pixel.g, pixel.b);
 
       pixel.r += lookup[max - pixel.r];
@@ -140,11 +138,13 @@ export abstract class ImgstryProcessor {
 
   public hue(value: number): ImgstryProcessor {
     value *= 0.5;
-    return this.compute((pixel: Rgb) => {
+
+    return this._compute((pixel: Rgb) => {
       let hsv = pixel.toHsv();
+
       hsv.h += Math.abs(value);
-      pixel = hsv.toRgb();
-      return pixel;
+
+      return hsv.toRgb();
     });
   }
 
@@ -154,10 +154,11 @@ export abstract class ImgstryProcessor {
     }
     value /= 100;
 
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       pixel.r = (pixel.r * (1 - (0.607 * value))) + (pixel.g * (0.769 * value)) + (pixel.b * (0.189 * value));
       pixel.g = (pixel.r * (0.349 * value)) + (pixel.g * (1 - (0.314 * value))) + (pixel.b * (0.168 * value));
       pixel.b = (pixel.r * (0.272 * value)) + (pixel.g * (0.534 * value)) + (pixel.b * (1 - (0.869 * value)));
+
       return pixel;
     });
   }
@@ -169,27 +170,28 @@ export abstract class ImgstryProcessor {
       value /= -10;
     }
 
-    let lookup: Array<number> = [];
+    let lookup: Array<number> = this._lookup((i) => {
+      return Math.pow(i / 255, value) * 255;
+    });
 
-    for (let i = 0; i < 256; i++) {
-      lookup[i] = Math.pow(i / 255, value) * 255;
-    }
-
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       pixel.r = lookup[pixel.r];
       pixel.g = lookup[pixel.g];
       pixel.b = lookup[pixel.b];
+
       return pixel;
     });
   }
 
   public noise(value: number): ImgstryProcessor {
-    return this.compute((pixel: Rgb) => {
-      let randomValue = Math.random() * value * 2.55;
-      randomValue = (Math.random() > 0.5 ? -randomValue : randomValue);
-      pixel.r += randomValue;
-      pixel.b += randomValue;
-      pixel.g += randomValue;
+    return this._compute((pixel: Rgb) => {
+      let random = Math.random() * value * 2.55;
+      random = (Math.random() > 0.5 ? -random : random);
+
+      pixel.r += random;
+      pixel.b += random;
+      pixel.g += random;
+
       return pixel;
     });
   }
@@ -197,7 +199,7 @@ export abstract class ImgstryProcessor {
   public vibrance(value: number): ImgstryProcessor {
     value *= -1;
 
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       let amount: number;
       let average: number;
       let max: number;
@@ -215,7 +217,7 @@ export abstract class ImgstryProcessor {
   }
 
   public invert(): ImgstryProcessor {
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       pixel.r ^= 255;
       pixel.g ^= 255;
       pixel.b ^= 255;
@@ -226,7 +228,7 @@ export abstract class ImgstryProcessor {
 
   public tint(color: string): ImgstryProcessor {
     let tint = new Hex(color).toRgb();
-    return this.compute((pixel: Rgb) => {
+    return this._compute((pixel: Rgb) => {
       pixel.r = pixel.r + (255 - pixel.r) * (tint.r / 255);
       pixel.g = pixel.g + (255 - pixel.g) * (tint.g / 255);
       pixel.b = pixel.b + (255 - pixel.b) * (tint.b / 255);
@@ -248,23 +250,31 @@ export abstract class ImgstryProcessor {
     }
   }
 
-  private compute = (delegate: Function): ImgstryProcessor => {
-    let image = this.data;
-    let pixelData = image.data;
+  private _lookup(delegate: (i: number) => number): number[] {
+    let arr = [];
+    for (let i = 0; i < 256; i++) {
+      arr[i] = delegate(i);
+    }
+    return arr;
+  }
 
-    for (let i = 0; i < pixelData.length; i += 4) {
-      let newPixel: Rgb = delegate(new Rgb({
-        r: pixelData[i],
-        g: pixelData[i + 1],
-        b: pixelData[i + 2],
+  private _compute = (delegate: Function): ImgstryProcessor => {
+    let image = this.data;
+    let pixelArray = image.data;
+
+    for (let i = 0; i < pixelArray.length; i += 4) {
+      let pixel: Rgb = delegate(new Rgb({
+        r: pixelArray[i],
+        g: pixelArray[i + 1],
+        b: pixelArray[i + 2],
       }));
 
-      if (newPixel) {
-        newPixel = newPixel.clamp();
+      if (pixel) {
+        pixel = pixel.clamp();
 
-        pixelData[i] = newPixel.r;
-        pixelData[i + 1] = newPixel.g;
-        pixelData[i + 2] = newPixel.b;
+        pixelArray[i] = pixel.r;
+        pixelArray[i + 1] = pixel.g;
+        pixelArray[i + 2] = pixel.b;
       }
     }
 
