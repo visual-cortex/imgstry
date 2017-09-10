@@ -178,4 +178,14 @@ describe('imgstry', () => {
     }
     (channelSum / pixelData.length * 4).should.approximately(202, 1);
   });
+
+  it('should have sum of channel color distribution equal to 1', () => {
+    let processor = new imgstry(board);
+    processor.brightness(15).noise(25).tint('#16a085');
+    const result = processor.histogram;
+    result.all.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
+    result.channels.red.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
+    result.channels.green.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
+    result.channels.blue.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
+  });
 });

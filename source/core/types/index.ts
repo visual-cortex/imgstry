@@ -72,3 +72,18 @@ export interface ImgstryProcessorData {
    */
   identifier?: string;
 }
+
+/**
+ * Histogram data arrays
+ *
+ * @export
+ * @interface HistogramData
+ */
+export interface HistogramData {
+  all: number[];
+  channels: {
+    red: number[],
+    green: number[],
+    blue: number[]
+  };
+}
