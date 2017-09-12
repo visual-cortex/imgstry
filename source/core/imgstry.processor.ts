@@ -311,4 +311,4 @@ export abstract class ImgstryProcessor {
     if (isComputation) { this.data = image; }
     return this;
   }
-};
+}

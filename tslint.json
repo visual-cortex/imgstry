@@ -7,13 +7,19 @@
     "forin": true,
     "indent": [true, "spaces"],
     "label-position": true,
-    "label-undefined": true,
     "max-line-length": [true, 140],
     "member-access": true,
     "member-ordering": [true,
-      "public-before-private",
-      "static-before-instance",
-      "variables-before-functions"
+      {
+        "order": [
+          "public-static-field",
+          "public-instance-field",
+          "private-instance-field",
+          "public-static-method",
+          "public-instance-method",
+          "private-instance-method"
+        ]
+      }
     ],
     "no-arg": true,
     "no-bitwise": false,
@@ -26,7 +32,6 @@
     ],
     "no-construct": true,
     "no-debugger": true,
-    "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-empty": true,
     "no-eval": true,
@@ -37,8 +42,6 @@
     "no-trailing-whitespace": true,
     "no-unused-expression": false,
     "no-unused-variable": false,
-    "no-unreachable": true,
-    "no-use-before-declare": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
     "one-line": [true,
