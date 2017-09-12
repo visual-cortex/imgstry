@@ -1,6 +1,7 @@
 import {
   ImgstryProcessor,
 } from '../core';
+
 /**
  * (Exposes image processing methods for html canvas)
  *
@@ -40,7 +41,7 @@ export class Imgstry extends ImgstryProcessor {
     }
 
     return <HTMLCanvasElement>canvas;
-  };
+  }
 
   /**
    * Creates an instance of Imgstry.

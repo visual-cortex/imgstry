@@ -84,6 +84,6 @@ export interface HistogramData {
   channels: {
     red: number[],
     green: number[],
-    blue: number[]
+    blue: number[],
   };
 }
