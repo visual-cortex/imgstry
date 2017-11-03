@@ -53,8 +53,8 @@
     "mochawesome": "2.3.0",
     "run-sequence": "2.1.0",
     "should": "13.0.1",
-    "tslint": "5.7.0",
-    "typescript": "2.5.2",
+    "tslint": "5.8.0",
+    "typescript": "2.4.2",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.1.0"
   }
