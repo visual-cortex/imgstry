@@ -1,8 +1,8 @@
 import {
   Cmyk,
-  Color,
   Hex,
   Hsv,
+  IColor,
   Pixel,
   Rgb,
 } from '../pixel';
