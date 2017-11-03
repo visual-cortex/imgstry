@@ -1,11 +1,9 @@
-import {
-  Color,
-  Rgb,
-  Cmyk,
-  Hsv,
- } from '../../color';
+import { Cmyk } from './cmyk';
+import { Hsv } from './hsv';
+import { IColor } from '../icolor';
+import { Rgb } from './rgb';
 
-export class Hex implements Color {
+export class Hex implements IColor {
   public value: string;
 
   constructor(color?: string) {
