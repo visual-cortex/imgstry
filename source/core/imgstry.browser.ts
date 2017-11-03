@@ -1,6 +1,6 @@
 import {
   ImgstryProcessor,
-} from '../core';
+} from './imgstry.processor';
 
 /**
  * (Exposes image processing methods for html canvas)
@@ -8,10 +8,6 @@ import {
  * @class Imgstry
  */
 export class Imgstry extends ImgstryProcessor {
-  private static selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
-  private context: CanvasRenderingContext2D;
-  private canvas: HTMLCanvasElement;
-
   /**
    * (Retrieves the canvas elemented for a specified 'id'.)
    *
@@ -42,6 +38,11 @@ export class Imgstry extends ImgstryProcessor {
 
     return <HTMLCanvasElement>canvas;
   }
+
+  private static selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
+
+  private context: CanvasRenderingContext2D;
+  private canvas: HTMLCanvasElement;
 
   /**
    * Creates an instance of Imgstry.

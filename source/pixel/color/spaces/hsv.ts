@@ -1,11 +1,9 @@
-import {
-  Color,
-  Rgb,
-  Cmyk,
-  Hex,
- } from '../../color';
+import { Cmyk } from './cmyk';
+import { Hex } from './hex';
+import { IColor } from '../icolor';
+import { Rgb } from './rgb';
 
-export class Hsv implements Color {
+export class Hsv implements IColor {
   public h: number;
   public s: number;
   public v: number;
