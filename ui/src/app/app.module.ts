@@ -1,12 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
 import 'hammerjs';
 
 import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { ImgstryEditorComponent } from './imgstry-editor/imgstry-editor.component';
+import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
+import { MatSliderModule } from '@angular/material/slider'
+import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -17,9 +18,14 @@ import { ImgstryEditorComponent } from './imgstry-editor/imgstry-editor.componen
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule
+    MatSliderModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MATERIAL_COMPATIBILITY_MODE,
+      useValue: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
