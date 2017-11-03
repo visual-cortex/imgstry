@@ -1,2 +1,2 @@
 export * from './spaces';
-export * from './color';
+export * from './icolor';
