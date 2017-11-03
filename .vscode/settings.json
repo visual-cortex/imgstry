@@ -13,7 +13,8 @@
         "test/**/*.js": true,
         "node_modules": true,
         ".gitattributes": true,
-        "README.md": true
+        "README.md": true,
+        "**/ui": true
     },
     "files.trimTrailingWhitespace": true,
     "typescript.tsdk": "./node_modules/typescript/lib",
