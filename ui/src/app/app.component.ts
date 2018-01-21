@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ImgstryValues } from 'app/imgstry-editor/imgstry-editor.component';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public bValue: number;
-
-  onSlide(value: Number) {
-    console.info(value);
-  }
+  public value: ImgstryValues = {
+    brightness: 0,
+    contrast: 0
+  };
 }
