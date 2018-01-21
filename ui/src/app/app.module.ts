@@ -5,8 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { ImgstryEditorComponent } from './imgstry-editor/imgstry-editor.component';
-import { MATERIAL_COMPATIBILITY_MODE } from '@angular/material';
-import { MatSliderModule } from '@angular/material/slider'
+import { MatSliderModule } from '@angular/material/slider';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -20,12 +19,7 @@ import { NgModule } from '@angular/core';
     HttpModule,
     MatSliderModule
   ],
-  providers: [
-    {
-      provide: MATERIAL_COMPATIBILITY_MODE,
-      useValue: true
-    },
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
