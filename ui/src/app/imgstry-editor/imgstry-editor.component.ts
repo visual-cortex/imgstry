@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   Input,
+  NgZone,
   OnChanges,
   OnInit,
   Renderer,
@@ -14,6 +15,9 @@ import {
 
 import { FilterOption } from '../../../../source/core/types/index';
 import { Imgstry } from '../../../../source/core/imgstry.browser';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 export interface ImgstryValues {
   brightness?: number;
@@ -25,9 +29,13 @@ export interface ImgstryValues {
   styleUrls: ['./imgstry-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ImgstryEditorComponent implements OnInit, OnChanges, AfterViewInit {
+export class ImgstryEditorComponent implements OnInit, OnChanges {
   @ViewChild('canvas')
   canvas: ElementRef;
+  @Input()
+  set src(url: string) {
+    this.loadImage(url);
+  }
   @Input()
   brightness: number;
   @Input()
@@ -37,7 +45,8 @@ export class ImgstryEditorComponent implements OnInit, OnChanges, AfterViewInit 
 
   constructor(
     private renderer: Renderer,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private zone: NgZone
   ) { }
 
   ngOnInit() { }
@@ -63,11 +72,23 @@ export class ImgstryEditorComponent implements OnInit, OnChanges, AfterViewInit 
     this.processor.batch(options, true);
   }
 
-  ngAfterViewInit() {
-    this.renderer.setElementProperty(this.canvas.nativeElement, 'width', 300);
-    this.renderer.setElementProperty(this.canvas.nativeElement, 'height', 300);
-    this.processor = new Imgstry(this.canvas.nativeElement);
-    this.processor.brightness(50);
-    this.processor.reset();
+  private loadImage(url: string): Observable<boolean> {
+    const observer: Subject<boolean> = new Subject();
+
+    this.zone.runOutsideAngular(() => {
+      const image = new Image();
+      image.crossOrigin = 'Anonymous';
+      image.onload = () => {
+        this.renderer.setElementProperty(this.canvas.nativeElement, 'width', image.width);
+        this.renderer.setElementProperty(this.canvas.nativeElement, 'height', image.height);
+        this.processor = new Imgstry(this.canvas.nativeElement);
+        this.processor.drawImage(image);
+        observer.next(!!this.processor);
+        observer.complete();
+      };
+      image.src = url;
+    });
+
+    return observer.asObservable();
   }
 }
