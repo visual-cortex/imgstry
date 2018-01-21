@@ -13,7 +13,6 @@ import {
 
 /** TO-DO:
  *    - integral blur (+ other blur methods)
- *    - convolution
  */
 export abstract class ImgstryProcessor {
   /**
@@ -47,6 +46,14 @@ export abstract class ImgstryProcessor {
    * @memberOf ImgstryProcessor
    */
   public abstract reset(): ImgstryProcessor;
+  /**
+   * Clone image data
+   *
+   * @abstract
+   *
+   * @memberOf ImgstryProcessor
+   */
+  public abstract clone(original: ImageData): ImageData;
   /**
    * Get image data
    *
@@ -265,6 +272,42 @@ export abstract class ImgstryProcessor {
     });
   }
 
+  public convolve(kernel: number[], value = 1): ImgstryProcessor {
+    const divisor = kernel.reduce((a, b) => {
+      return a + b;
+    }) || 1;
+
+    const pixelData = this.data;
+    const resultData = this.clone(pixelData);
+    const offset = this.width * 4;
+
+    for (let i = 0; i < resultData.data.length; i++) {
+      // skip alpha values
+      if ((i + 1) % 4 === 0) {
+        resultData.data[i] = pixelData.data[i];
+        continue;
+      }
+
+      const region = [
+        pixelData.data[i - offset - 4], pixelData.data[i - offset], pixelData.data[i - offset + 4],
+        pixelData.data[i - 4], pixelData.data[i], pixelData.data[i + 4],
+        pixelData.data[i + offset - 4], pixelData.data[i + offset], pixelData.data[i + offset + 4],
+      ];
+
+      let convolutionResult = 0;
+      for (let j = 0; j < 9; j++) {
+        convolutionResult += (region[j] || region[5]) * kernel[j] * value;
+      }
+
+      convolutionResult /= divisor;
+
+      resultData.data[i] = convolutionResult;
+    }
+
+    this.data = resultData;
+    return this;
+  }
+
   public batch(options: FilterOption[], reset?: boolean) {
     if (reset) {
       this.reset();
@@ -279,7 +322,7 @@ export abstract class ImgstryProcessor {
   }
 
   private _lookup(delegate: (i: number) => number): number[] {
-    let arr = [];
+    const arr: any[] = [];
     for (let i = 0; i < 256; i++) {
       arr[i] = delegate(i);
     }
