@@ -69,6 +69,10 @@ export class Imgstry extends ImgstryProcessor {
     return <ImgstryProcessor>this;
   }
 
+  public clone(data: ImageData): ImageData {
+    return this.context.createImageData(data);
+  }
+
   public get data(): ImageData {
     return this.context.getImageData(0, 0, this.width, this.height);
   }

@@ -188,4 +188,52 @@ describe('imgstry', () => {
     result.channels.green.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
     result.channels.blue.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
   });
+
+  it('should apply edge detection kernel succesfully', (done) => {
+
+    const image = new Image();
+    image.onload = () => {
+      try {
+        const processor = new imgstry(board);
+        processor.context.drawImage(image, 0, 0);
+
+        let pixelData = processor.data.data;
+        let initialAlpha = 0;
+        for (let i = 0; i < pixelData.length; i += 4) {
+          initialAlpha += pixelData[i + 3];
+        }
+
+        const edgeDetectionKernel = [
+          -1, -1, -1,
+          -1, 8, -1,
+          -1, -1, -1,
+        ];
+        processor.convolve(edgeDetectionKernel);
+
+        pixelData = processor.data.data;
+        let channelSum = 0;
+        let alpha = 0;
+
+        for (let i = 0; i < pixelData.length; i += 4) {
+          let rgb = {
+            r: pixelData[i],
+            g: pixelData[i + 1],
+            b: pixelData[i + 2],
+            a: pixelData[i + 3],
+          };
+
+          alpha += rgb.a;
+          channelSum += (rgb.r + rgb.b + rgb.g) / 3;
+        }
+        // after edge detection expect 90% of pixels to be black
+        (channelSum / pixelData.length * 4).should.approximately(0, 10);
+        alpha.should.equal(initialAlpha, 'the alpha channel was mutated by the convolution');
+      } catch (e) {
+        return done(e);
+      }
+
+      done();
+    };
+    image.src = 'rnm.jpg';
+  });
 });
