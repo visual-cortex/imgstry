@@ -80,4 +80,9 @@ export class Imgstry extends ImgstryProcessor {
   public set data(image: ImageData) {
     this.context.putImageData(image, 0, 0);
   }
+
+  public drawImage(image: HTMLImageElement) {
+    this.context.drawImage(image, 0, 0);
+    this.original = this.data;
+  }
 }
