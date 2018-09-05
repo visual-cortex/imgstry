@@ -1,7 +1,7 @@
-import { expect } from 'chai';
+import { Hex } from '../../dist/js/pixel';
+import { Rgb } from '../../dist/js/pixel';
 import { colorMap } from './constants/colors';
-import { Rgb } from '../../source/pixel';
-import { Hex } from '../../source/pixel';
+import { expect } from 'chai';
 
 describe('RGB color', () => {
   it('Should have all channels 0 initially', () => {
