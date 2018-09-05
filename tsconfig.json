@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
         "declaration": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"noImplicitAny": true,
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"target": "es5",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es5",
         "sourceMap": true,
         "removeComments": false,
         "preserveConstEnums": true,
@@ -15,12 +15,8 @@
             "./node_modules/@types"
         ],
         "types": [
-            "assertion-error",
             "chai",
-            "mocha",
-            "should",
-            "sinon",
-            "es6-shim"
+            "mocha"
         ]
     }
 }
