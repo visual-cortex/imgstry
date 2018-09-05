@@ -1,6 +1,6 @@
-import { expect } from 'chai';
+import { Hex } from '../../dist/js/pixel';
 import { colorMap } from './constants/colors';
-import { Hex } from '../../source/pixel';
+import { expect } from 'chai';
 
 describe('HEX color', () => {
   it('Should have black initially', () => {

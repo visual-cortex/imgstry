@@ -1,7 +1,7 @@
-import { expect } from 'chai';
+import { Hex }  from '../../dist/js/pixel';
+import { Hsv } from '../../dist/js/pixel';
 import { colorMap } from './constants/colors';
-import { Hsv } from '../../source/pixel';
-import { Hex }  from '../../source/pixel';
+import { expect } from 'chai';
 
 describe('HSV color', () => {
   it('Should have all channels 0 initially', () => {

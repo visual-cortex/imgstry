@@ -1,20 +1,17 @@
-var gulp = require('gulp'),
-    browserify = require('browserify'),
-    source = require('vinyl-source-stream'),
-    buffer = require('vinyl-buffer'),
-    tslint = require('gulp-tslint'),
-    tsc = require('gulp-typescript'),
-    sourcemaps = require('gulp-sourcemaps'),
-    uglify = require('gulp-uglify'),
-    foreach = require('gulp-foreach'),
-    runSequence = require('run-sequence'),
-    mocha = require('gulp-mocha'),
-    istanbul = require('gulp-istanbul'),
-    mochaPhantomJS = require('gulp-mocha-phantomjs'),
-    merge = require('merge2'),
-    del = require('del');
+const gulp = require('gulp');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const tslint = require('gulp-tslint');
+const tsc = require('gulp-typescript');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const mocha = require('gulp-mocha');
+const mochaPhantomJS = require('gulp-mocha-phantomjs');
+const merge = require('merge2');
+const del = require('del');
 
-gulp.task('lint:ts', function () {
+gulp.task('lint:ts', () => {
     return gulp.src([
         'source/**/**.ts',
         'test/**/**.test.ts'
@@ -25,30 +22,28 @@ gulp.task('lint:ts', function () {
         .pipe(tslint.report())
 });
 
-gulp.task('build:ts', ['lint:ts'], function () {
-    var tsProject = tsc.createProject('tsconfig.json');
-    var result = gulp.src([
+gulp.task('build:ts', () => {
+    const tsProject = tsc.createProject('tsconfig.json');
+    const result = gulp.src([
         'source/**/**.ts'
     ])
         .pipe(tsProject());
     return merge([
-        result.js.pipe(gulp.dest('source/')),
         result.js.pipe(gulp.dest('dist/js')),
-        result.dts.pipe(gulp.dest('dist/typings'))
+        result.dts.pipe(gulp.dest('dist/js'))
     ]);
 });
 
-gulp.task('build', ['build:ts'], function () {
+gulp.task('build:bundle', () => {
+    const libraryName = 'imgstry';
+    const mainTsFilePath = 'index.js';
+    const outputFolder = 'dist/';
+    const outputFileName = libraryName + '.min.js';
 
-    var libraryName = 'imgstry';
-    var mainTsFilePath = 'index.js';
-    var outputFolder = 'dist/';
-    var outputFileName = libraryName + '.min.js';
-
-    var bundler = browserify({
+    const bundler = browserify({
         debug: true,
         standalone: libraryName,
-        basedir: './source'
+        basedir: './dist/js'
     });
 
     return bundler.add(mainTsFilePath)
@@ -61,12 +56,18 @@ gulp.task('build', ['build:ts'], function () {
         .pipe(gulp.dest(outputFolder));
 });
 
-gulp.task('watch', function () {
-    gulp.watch(['source/**/**.ts', 'test/**/*.ts'], ['build']);
+gulp.task('build', gulp.series(
+    'lint:ts',
+    'build:ts',
+    'build:bundle'
+));
+
+gulp.task('watch', () => {
+    gulp.watch(['source/**/**.ts', 'test/**/*.ts'], gulp.series('build'));
 });
 
-gulp.task('build:test-integration', function () {
-    var tsProject = tsc.createProject('tsconfig.json');
+gulp.task('build:test-integration', () => {
+    const tsProject = tsc.createProject('tsconfig.json');
 
     return gulp.src([
         'test/integration/**/*.test.ts',
@@ -76,8 +77,8 @@ gulp.task('build:test-integration', function () {
         .js.pipe(gulp.dest('test/integration'));
 });
 
-gulp.task('build:test-client', function () {
-    var tsProject = tsc.createProject('tsconfig.json');
+gulp.task('build:test-client', () => {
+    const tsProject = tsc.createProject('tsconfig.json');
 
     return gulp.src([
         'test/client/*.test.ts'
@@ -86,38 +87,26 @@ gulp.task('build:test-client', function () {
         .js.pipe(gulp.dest('test/client'));
 });
 
-gulp.task('test:istanbul-hook', function () {
-    return gulp.src(['source/**/*.js'])
-        // Covering files
-        .pipe(istanbul())
-        // Force `require` to return covered files
-        .pipe(istanbul.hookRequire());
-});
-
-gulp.task('test:phantomjs', function () {
-    var phantomResultDir = 'reports/client';
-    var testDumpPath = 'test-results-' + (new Date()).getTime() + '.json';
+gulp.task('test:phantomjs', () => {
+    const phantomResultDir = 'reports/client';
+    const reportPath = 'test-results-' + (new Date()).getTime() + '.json';
 
     return gulp
         .src('test/runner.html')
         .pipe(mochaPhantomJS({
-            reporter: 'json',
-            dump: testDumpPath
+            reporter: 'nyan',
+            dump: reportPath
         })).on('finish', () => {
-            gulp.src(testDumpPath)
+            gulp.src(reportPath)
                 .pipe(gulp.dest(phantomResultDir)).on('finish', () => {
-                    del(testDumpPath);
+                    del(reportPath);
                 });
         }).on('error', () => {
-            del(testDumpPath);
+            del(reportPath);
         });
 });
 
-gulp.task('test:pack', function (callback) {
-    runSequence(['build', 'build:test-integration', 'build:test-client'], ['test:phantomjs', 'test:istanbul-hook'], callback);
-})
-
-gulp.task('test', ['test:pack'], function () {
+gulp.task('test:unit', () => {
     return gulp.src('test/integration/*.js')
         .pipe(mocha({
             ui: 'bdd',
@@ -127,10 +116,15 @@ gulp.task('test', ['test:pack'], function () {
                 reportTitle: 'Imgstry integration test results',
                 inlineAssets: true
             }
-        }))
-        .pipe(istanbul.writeReports({
-            dir: 'reports/integration/coverage'
         }));
 });
 
-gulp.task('default', ['build']);
+gulp.task('test', gulp.series(
+    'build',
+    'build:test-integration',
+    'build:test-client',
+    'test:phantomjs',
+    'test:unit'
+));
+
+gulp.task('default', gulp.series('build'));
