@@ -1,6 +1,6 @@
-import { expect } from 'chai';
+import { Cmyk } from '../../dist/js/pixel';
 import { colorMap } from './constants/colors';
-import { Cmyk } from '../../source/pixel';
+import { expect } from 'chai';
 
 describe('CMYK color', () => {
   it('Should have all channels 0 initially', () => {
