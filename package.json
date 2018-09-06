@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "gulp build",
+    "clean": "gulp build:clean test:clean",
     "test": "gulp test",
     "watch": "gulp watch"
   },

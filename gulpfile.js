@@ -11,13 +11,47 @@ const mochaPhantomJS = require('gulp-mocha-phantomjs');
 const merge = require('merge2');
 const del = require('del');
 
+const libraryName = 'imgstry';
+
+const path = {
+    dist: {
+        base: 'dist/',
+        js: `dist/js`,
+        entrypoint: 'index.js'
+    },
+    source: {
+        base: 'source/',
+        ts: 'source/**/**.ts'
+    },
+    test: {
+        base: 'test/',
+        ts: 'test/**/**.test.ts',
+        unit: {
+            base: 'test/unit/',
+            ts: 'test/unit/**/*.ts',
+            js: 'test/unit/**/*.js'
+        },
+        e2e: {
+            base: 'test/end-to-end',
+            entrypoint: 'test/runner.html',
+            ts: 'test/end-to-end/**/*.ts',
+            js: 'test/end-to-end/**/*.js'
+        },
+        reports: {
+            base: 'reports/',
+            e2e: 'reports/end-to-end/',
+            unit: 'reports/unit/'
+        }
+    }
+};
+
 gulp.task('lint:ts', () => {
     return gulp.src([
-        'source/**/**.ts',
-        'test/**/**.test.ts'
+        path.source.ts,
+        path.test.ts
     ])
         .pipe(tslint({
-            formatter: "verbose"
+            formatter: 'verbose'
         }))
         .pipe(tslint.report())
 });
@@ -25,94 +59,108 @@ gulp.task('lint:ts', () => {
 gulp.task('build:ts', () => {
     const tsProject = tsc.createProject('tsconfig.json');
     const result = gulp.src([
-        'source/**/**.ts'
+        path.source.ts
     ])
         .pipe(tsProject());
     return merge([
-        result.js.pipe(gulp.dest('dist/js')),
-        result.dts.pipe(gulp.dest('dist/js'))
+        result.js.pipe(gulp.dest(path.dist.js)),
+        result.dts.pipe(gulp.dest(path.dist.js))
     ]);
 });
 
 gulp.task('build:bundle', () => {
-    const libraryName = 'imgstry';
-    const mainTsFilePath = 'index.js';
-    const outputFolder = 'dist/';
     const outputFileName = libraryName + '.min.js';
 
     const bundler = browserify({
         debug: true,
         standalone: libraryName,
-        basedir: './dist/js'
+        basedir: path.dist.js
     });
 
-    return bundler.add(mainTsFilePath)
+    return bundler.add(path.dist.entrypoint)
         .bundle()
         .pipe(source(outputFileName))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(outputFolder));
+        .pipe(gulp.dest(path.dist.base));
+});
+
+gulp.task('build:clean', () => {
+    return del(path.dist.base);
 });
 
 gulp.task('build', gulp.series(
+    'build:clean',
     'lint:ts',
     'build:ts',
     'build:bundle'
 ));
 
 gulp.task('watch', () => {
-    gulp.watch(['source/**/**.ts', 'test/**/*.ts'], gulp.series('build'));
+    gulp.watch([path.source.ts, path.test.ts], gulp.series('build'));
 });
 
-gulp.task('build:test-integration', () => {
+gulp.task('test:clean', () => {
+    return del([
+        path.test.reports.base,
+        path.test.e2e.js,
+        path.test.unit.js
+    ])
+});
+
+gulp.task('test:unit:build', () => {
     const tsProject = tsc.createProject('tsconfig.json');
 
-    return gulp.src([
-        'test/integration/**/*.test.ts',
-        'test/integration/**/constants/*.ts'
-    ])
+    return gulp.src(path.test.unit.ts)
         .pipe(tsProject())
-        .js.pipe(gulp.dest('test/integration'));
+        .js.pipe(gulp.dest(path.test.unit.base));
 });
 
-gulp.task('build:test-client', () => {
+gulp.task('test:e2e:build', () => {
     const tsProject = tsc.createProject('tsconfig.json');
 
-    return gulp.src([
-        'test/client/*.test.ts'
-    ])
+    return gulp.src(path.test.e2e.ts)
         .pipe(tsProject())
-        .js.pipe(gulp.dest('test/client'));
+        .js.pipe(gulp.dest(path.test.e2e.base));
 });
 
-gulp.task('test:phantomjs', () => {
-    const phantomResultDir = 'reports/client';
-    const reportPath = 'test-results-' + (new Date()).getTime() + '.json';
+gulp.task('test:e2e', () => {
+    const today = new Date();
+    const formatDate = (date) => {
+        const monthLookup = [
+            'January', 'February', 'March',
+            'April', 'May', 'June', 'July',
+            'August', 'September', 'October',
+            'November', 'December'
+        ];
+        return `${date.getDate()}-${monthLookup[date.getMonth()]}-${date.getFullYear()}`;
+    }
+    const report = `test-results-${formatDate(today)}-.json`;
 
     return gulp
-        .src('test/runner.html')
+        .src(path.test.e2e.entrypoint)
         .pipe(mochaPhantomJS({
             reporter: 'nyan',
-            dump: reportPath
+            dump: report
         })).on('finish', () => {
-            gulp.src(reportPath)
-                .pipe(gulp.dest(phantomResultDir)).on('finish', () => {
-                    del(reportPath);
+            gulp.src(report)
+                .pipe(gulp.dest(path.test.reports.e2e)).on('finish', () => {
+                    del(report);
                 });
         }).on('error', () => {
-            del(reportPath);
+            del(report);
         });
 });
 
 gulp.task('test:unit', () => {
-    return gulp.src('test/integration/*.js')
+    return gulp.src(path.test.unit.js)
         .pipe(mocha({
             ui: 'bdd',
             reporter: 'mochawesome',
             reporterOptions: {
-                reportDir: 'reports/integration/',
+                reportDir: path.test.reports.unit,
                 reportTitle: 'Imgstry integration test results',
                 inlineAssets: true
             }
@@ -121,9 +169,10 @@ gulp.task('test:unit', () => {
 
 gulp.task('test', gulp.series(
     'build',
-    'build:test-integration',
-    'build:test-client',
-    'test:phantomjs',
+    'test:clean',
+    'test:unit:build',
+    'test:e2e:build',
+    'test:e2e',
     'test:unit'
 ));
 
