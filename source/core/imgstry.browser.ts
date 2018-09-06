@@ -59,8 +59,8 @@ export class Imgstry extends ImgstryProcessor {
 
   private static selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
 
-  private context: CanvasRenderingContext2D;
-  private canvas: HTMLCanvasElement;
+  public readonly context: CanvasRenderingContext2D;
+  public readonly canvas: HTMLCanvasElement;
 
   /**
    * Creates an instance of Imgstry.
