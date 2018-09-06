@@ -16,6 +16,15 @@ import {
  */
 export abstract class ImgstryProcessor {
   /**
+   * The processing caching dictionary.
+   *
+   * @private
+   * @static
+   * @type {Record<string, number[]>}
+   * @memberof ImgstryProcessor
+   */
+  private static LookupCache: Record<string, number[]> = {};
+  /**
    * Width of the image
    *
    * @type {number}
@@ -122,15 +131,17 @@ export abstract class ImgstryProcessor {
 
     value = Math.pow((value + 100) / 100, 2);
 
-    let lookup: Array<number> = this._lookup((i) => {
-      i /= 255;
-      i -= 0.5;
-      i *= value;
-      i += 0.5;
-      i *= 255;
+    const lookup = ImgstryProcessor.LookupCache['contrast'] =
+      ImgstryProcessor.LookupCache['contrast'] ||
+      this._lookup((i) => {
+        i /= 255;
+        i -= 0.5;
+        i *= value;
+        i += 0.5;
+        i *= 255;
 
-      return i;
-    });
+        return i;
+      });
 
     return this._traverse((pixel: Rgb) => {
       pixel.r = lookup[pixel.r];
@@ -156,9 +167,11 @@ export abstract class ImgstryProcessor {
   public saturation(value: number): ImgstryProcessor {
     value *= -0.01;
 
-    let lookup: Array<number> = this._lookup((i) => {
-      return i * value;
-    });
+    const lookup = ImgstryProcessor.LookupCache['saturation'] =
+      ImgstryProcessor.LookupCache['saturation'] ||
+      this._lookup((i) => {
+        return i * value;
+      });
 
     return this._traverse((pixel: Rgb) => {
       let max = Math.max(pixel.r, pixel.g, pixel.b);
@@ -205,9 +218,11 @@ export abstract class ImgstryProcessor {
       value /= -10;
     }
 
-    let lookup: Array<number> = this._lookup((i) => {
-      return Math.pow(i / 255, value) * 255;
-    });
+    const lookup = ImgstryProcessor.LookupCache['gamma'] =
+      ImgstryProcessor.LookupCache['gamma'] ||
+      this._lookup((i) => {
+        return Math.pow(i / 255, value) * 255;
+      });
 
     return this._traverse((pixel: Rgb) => {
       pixel.r = lookup[pixel.r];
