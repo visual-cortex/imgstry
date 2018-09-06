@@ -1,6 +1,16 @@
-import {
-  ImgstryProcessor,
-} from './imgstry.processor';
+import * as Kernel from '../kernel';
+import * as Pixel from '../pixel';
+
+import { BindUtility } from '../decorators/bind-utility.decorator';
+import { ImgstryProcessor } from './imgstry.processor';
+
+export type IPixel = {
+  [K in keyof typeof Pixel]: typeof Pixel[K];
+};
+
+export type IKernel = {
+  [K in keyof typeof Kernel]: typeof Kernel[K];
+};
 
 /**
  * (Exposes image processing methods for html canvas)
@@ -8,6 +18,14 @@ import {
  * @class Imgstry
  */
 export class Imgstry extends ImgstryProcessor {
+  /**
+   * Exposes all utilities required for a fruitful life alongside imstry.
+   *
+   * @static
+   * @type {IKernel & IPixel}
+   */
+  @BindUtility(Kernel, Pixel)
+  public static Utility: IKernel & IPixel;
   /**
    * (Retrieves the canvas elemented for a specified 'id'.)
    *

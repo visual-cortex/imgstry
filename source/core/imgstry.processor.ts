@@ -6,6 +6,7 @@ import {
   Hex,
   Rgb,
 } from '../pixel';
+import { Kernel } from '../kernel';
 
 /** TO-DO:
  *    - integral blur (+ other blur methods)
@@ -283,39 +284,38 @@ export abstract class ImgstryProcessor {
     });
   }
 
-  public convolve(kernel: number[], value = 1): ImgstryProcessor {
-    const divisor = kernel.reduce((a, b) => {
-      return a + b;
-    }) || 1;
+  public convolve(kernel: Kernel | number[][], factor = 1): ImgstryProcessor {
+    kernel = kernel instanceof Array ?
+      new Kernel(kernel) as Kernel :
+      kernel;
 
-    const pixelData = this.data;
-    const resultData = this.clone(pixelData);
-    const offset = this.width * 4;
+    const data = this.data.data;
+    const result = this.clone(this.data);
 
-    for (let i = 0; i < resultData.data.length; i++) {
-      // skip alpha values
-      if ((i + 1) % 4 === 0) {
-        resultData.data[i] = pixelData.data[i];
-        continue;
+    const half = Math.floor(kernel.height / 2);
+
+    for (let y = 0; y < this.height - 1; y++) {
+      for (let x = 0; x < this.width - 1; x++) {
+        const offset = (y * this.width + x) * 4;
+        let pixel = new Rgb();
+
+        kernel.forEach((value, idx) => {
+          const index =
+            ((y + (idx.y - half)) * this.width +
+              (x + (idx.x - half))) * 4;
+          pixel.r += data[index + 0] * value;
+          pixel.g += data[index + 1] * value;
+          pixel.b += data[index + 2] * value;
+          result.data[index + 3] = data[index + 3];
+        });
+
+        result.data[offset + 0] = factor * pixel.r;
+        result.data[offset + 1] = factor * pixel.g;
+        result.data[offset + 2] = factor * pixel.b;
       }
-
-      const region = [
-        pixelData.data[i - offset - 4], pixelData.data[i - offset], pixelData.data[i - offset + 4],
-        pixelData.data[i - 4], pixelData.data[i], pixelData.data[i + 4],
-        pixelData.data[i + offset - 4], pixelData.data[i + offset], pixelData.data[i + offset + 4],
-      ];
-
-      let convolutionResult = 0;
-      for (let j = 0; j < 9; j++) {
-        convolutionResult += (region[j] || region[5]) * kernel[j] * value;
-      }
-
-      convolutionResult /= divisor;
-
-      resultData.data[i] = convolutionResult;
     }
 
-    this.data = resultData;
+    this.data = result;
     return this;
   }
 
