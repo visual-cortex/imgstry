@@ -10,6 +10,7 @@ const mocha = require('gulp-mocha');
 const mochaPhantomJS = require('gulp-mocha-phantomjs');
 const merge = require('merge2');
 const del = require('del');
+const browserSync = require('browser-sync').create();
 
 const libraryName = 'imgstry';
 
@@ -84,7 +85,8 @@ gulp.task('build:bundle', () => {
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(path.dist.base));
+        .pipe(gulp.dest(path.dist.base))
+        .pipe(browserSync.stream());
 });
 
 gulp.task('build:clean', () => {
@@ -98,9 +100,20 @@ gulp.task('build', gulp.series(
     'build:bundle'
 ));
 
-gulp.task('watch', () => {
-    gulp.watch([path.source.ts, path.test.ts], gulp.series('build'));
-});
+gulp.task('watch', gulp.series('build', () => {
+    browserSync.init({
+        server: {
+            baseDir: './',
+            index: './test/runner.html'
+        },
+        serveStatic: [{
+            route: '/rnm.jpg',
+            dir: 'test/rnm.jpg'
+        }]
+    });
+    gulp.watch([path.source.ts], gulp.series('build:ts', 'build:bundle'));
+    gulp.watch([path.test.e2e.ts], gulp.series('test:e2e:build'));
+}));
 
 gulp.task('test:clean', () => {
     return del([
@@ -123,7 +136,9 @@ gulp.task('test:e2e:build', () => {
 
     return gulp.src(path.test.e2e.ts)
         .pipe(tsProject())
-        .js.pipe(gulp.dest(path.test.e2e.base));
+        .js
+        .pipe(gulp.dest(path.test.e2e.base))
+        .pipe(browserSync.stream())
 });
 
 gulp.task('test:e2e', () => {
@@ -167,11 +182,15 @@ gulp.task('test:unit', () => {
         }));
 });
 
-gulp.task('test', gulp.series(
-    'build',
+gulp.task('test:build', gulp.series(
     'test:clean',
     'test:unit:build',
     'test:e2e:build',
+))
+
+gulp.task('test', gulp.series(
+    'build',
+    'test:build',
     'test:e2e',
     'test:unit'
 ));
