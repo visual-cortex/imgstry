@@ -1,15 +1,14 @@
-declare let imgstry: any;
-declare let callPhantom: any;
+import Imgstry = require('../../dist/js/index');
+
+declare let imgstry: typeof Imgstry;
+declare let callPhantom: (options: { screenshot: string }) => void;
 
 let takeScreenshot = (test: Mocha.Test) => {
-  if (
-    this['callPhantom'] &&
-    callPhantom
-  ) {
+  if (typeof this.callPhantom === 'function') {
     let testName = test.title.split(' ').join('-');
     let fileName = `reports/end-to-end/screenshots/${test.state}/${testName}-${test.speed}-${test.duration}ms`;
     callPhantom({
-      'screenshot': fileName,
+      screenshot: fileName,
     });
   }
 };
