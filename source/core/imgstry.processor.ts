@@ -1,15 +1,11 @@
 import {
-  Cmyk,
-  Hex,
-  Hsv,
-  IColor,
-  Pixel,
-  Rgb,
-} from '../pixel';
-import {
   FilterOption,
   HistogramData,
 } from './types';
+import {
+  Hex,
+  Rgb,
+} from '../pixel';
 
 /** TO-DO:
  *    - integral blur (+ other blur methods)
