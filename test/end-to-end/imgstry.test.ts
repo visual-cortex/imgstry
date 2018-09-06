@@ -1,14 +1,13 @@
 declare let imgstry: any;
 declare let callPhantom: any;
 
-let takeScreenshot = (title: string, status: string) => {
-  if (this['callPhantom'] && callPhantom) {
-    let date = new Date();
-    let testName = title.split(' ').map((keyWord: string, index: number) => {
-      let lowerCase = keyWord.toLowerCase();
-      return index === 0 ? lowerCase : `${lowerCase.charAt(0).toUpperCase()}${lowerCase.substring(1)}`;
-    }).join('');
-    let fileName = `reports/client/screenshots/${status}/${testName}_${date.getTime()}`;
+let takeScreenshot = (test: Mocha.Test) => {
+  if (
+    this['callPhantom'] &&
+    callPhantom
+  ) {
+    let testName = test.title.split(' ').join('-');
+    let fileName = `reports/end-to-end/screenshots/${test.state}/${testName}-${test.speed}-${test.duration}ms`;
     callPhantom({
       'screenshot': fileName,
     });
@@ -24,7 +23,7 @@ describe('imgstry', () => {
   });
 
   afterEach(function () {
-    takeScreenshot(this.currentTest.title, this.currentTest.state);
+    takeScreenshot(this.currentTest);
   });
 
   it('should get canvas', () => {
