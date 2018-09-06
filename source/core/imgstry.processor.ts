@@ -6,11 +6,27 @@ import {
   Hex,
   Rgb,
 } from '../pixel';
+
 import { Kernel } from '../kernel';
 
 /** TO-DO:
  *    - integral blur (+ other blur methods)
  */
+
+/**
+ * Defines the traverse information passed to the delegate.
+ *
+ * @interface TraversalPixelInfo
+ */
+interface TraversalPixelInfo {
+  position: {
+    x: number;
+    y: number;
+    offset: number;
+  };
+  total: number;
+}
+
 export abstract class ImgstryProcessor {
   /**
    * The processing caching dictionary.
@@ -87,13 +103,13 @@ export abstract class ImgstryProcessor {
       },
     };
     let total = 1;
-    this._traverse((pixel, pixelCount) => {
+    this._traverse((pixel, info) => {
       const mean = Math.floor((pixel.r + pixel.g + pixel.b) / 3);
       histogramResult.all[mean] = (histogramResult.all[mean] || 0) + 1;
       histogramResult.channels.red[pixel.r] = (histogramResult.channels.red[pixel.r] || 0) + 1;
       histogramResult.channels.green[pixel.g] = (histogramResult.channels.green[pixel.g] || 0) + 1;
       histogramResult.channels.blue[pixel.b] = (histogramResult.channels.blue[pixel.b] || 0) + 1;
-      total = pixelCount;
+      total = info.total;
     });
     // compute percentage for distributions
     for (let i = 0; i < 255; i++) {
@@ -340,18 +356,27 @@ export abstract class ImgstryProcessor {
     return arr;
   }
 
-  private _traverse = (delegate: (pixel: Rgb, total?: number) => Rgb | void): ImgstryProcessor => {
+  private _traverse = (delegate: (pixel: Rgb, information?: TraversalPixelInfo) => Rgb | void): ImgstryProcessor => {
     let isComputation = true;
     let image = this.data;
     const pixelArray = image.data;
-    const pixelCount = pixelArray.length / 4;
+    const total = pixelArray.length / 4;
 
     for (let i = 0; i < pixelArray.length; i += 4) {
       let pixel: Rgb | void = delegate(new Rgb({
         r: pixelArray[i],
         g: pixelArray[i + 1],
         b: pixelArray[i + 2],
-      }), pixelCount);
+      }), {
+          position: {
+            x: Math.floor(i / 4) % this.width,
+            y: Math.floor(Math.floor(i / 4) / this.width),
+            offset: i,
+          },
+          total,
+        });
+
+      if (!isComputation) { continue; }
 
       if (pixel) {
         pixel = pixel.clamp();
@@ -363,6 +388,7 @@ export abstract class ImgstryProcessor {
     }
 
     if (isComputation) { this.data = image; }
+
     return this;
   }
 }
