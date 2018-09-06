@@ -189,7 +189,6 @@ describe('imgstry', () => {
   });
 
   it('should apply edge detection kernel succesfully', (done) => {
-
     const image = new Image();
     image.onload = () => {
       try {
@@ -202,12 +201,7 @@ describe('imgstry', () => {
           initialAlpha += pixelData[i + 3];
         }
 
-        const edgeDetectionKernel = [
-          -1, -1, -1,
-          -1, 8, -1,
-          -1, -1, -1,
-        ];
-        processor.convolve(edgeDetectionKernel);
+        processor.convolve(imgstry.Utility.EdgeDetection);
 
         pixelData = processor.data.data;
         let channelSum = 0;
@@ -224,9 +218,53 @@ describe('imgstry', () => {
           alpha += rgb.a;
           channelSum += (rgb.r + rgb.b + rgb.g) / 3;
         }
-        // after edge detection expect 90% of pixels to be black
-        (channelSum / pixelData.length * 4).should.approximately(0, 10);
+        (channelSum / pixelData.length).should
+          .approximately(
+            0, 1.51,
+            'edge detection should generate 98.5% darkness',
+          );
         alpha.should.equal(initialAlpha, 'the alpha channel was mutated by the convolution');
+      } catch (e) {
+        return done(e);
+      }
+
+      done();
+    };
+    image.src = 'rnm.jpg';
+  });
+
+  it('should apply the gaussion blur kernel succesfully', (done) => {
+    const image = new Image();
+    image.onload = () => {
+      try {
+        const processor = new imgstry(board);
+        processor.context.drawImage(image, 0, 0);
+
+        let pixelData = processor.data.data;
+
+        processor.convolve(imgstry.Utility.GaussianBlur(5, 50));
+
+        let channelSum = 0;
+
+        processor.convolve(imgstry.Utility.EdgeDetection);
+
+        pixelData = processor.data.data;
+        for (let i = 0; i < pixelData.length; i += 4) {
+          let rgb = {
+            r: pixelData[i],
+            g: pixelData[i + 1],
+            b: pixelData[i + 2],
+            a: pixelData[i + 3],
+          };
+
+          channelSum += (rgb.r + rgb.b + rgb.g) / 3;
+        }
+        (channelSum / pixelData.length).should
+          .approximately(
+            0,
+            .51,
+            'edge detection after blur should generate at least 99.5% darkness',
+          );
       } catch (e) {
         return done(e);
       }
