@@ -158,7 +158,10 @@ gulp.task('test:e2e', () => {
         .src(path.test.e2e.entrypoint)
         .pipe(mochaPhantomJS({
             reporter: 'nyan',
-            dump: report
+            dump: report,
+            phantomjs: {
+                useColors: true
+            }
         })).on('finish', () => {
             gulp.src(report)
                 .pipe(gulp.dest(path.test.reports.e2e)).on('finish', () => {
