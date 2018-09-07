@@ -87,6 +87,26 @@ describe('imgstry', () => {
     (channelSum / pixelData.length * 4).should.oneOf([127, 128]);
   });
 
+  it('should apply sepia to #c0392b', () => {
+    processor.brightness(50)
+      .tint('#c0392b')
+      .sepia(100);
+    let pixelData = processor.imageData.data;
+
+    let channelSum = 0;
+    let rgb = { r: 0, g: 0, b: 0 };
+
+    for (let i = 0; i < pixelData.length; i += 4) {
+      rgb.r += pixelData[i];
+      rgb.g += pixelData[i + 1];
+      rgb.b += pixelData[i + 2];
+    }
+
+    (rgb.r / pixelData.length * 4).should.equal(236);
+    (rgb.g / pixelData.length * 4).should.equal(214);
+    (rgb.b / pixelData.length * 4).should.equal(198);
+  });
+
   it('should should tint pomegranate', () => {
     processor.brightness(50);
     processor.tint('#c0392b');
@@ -126,7 +146,7 @@ describe('imgstry', () => {
   it('should turn bw', () => {
     processor.brightness(50);
     processor.tint('#16a085');
-    processor.bw();
+    processor.blackAndWhite();
     let pixelData = processor.imageData.data;
 
     let channelSum = true;
