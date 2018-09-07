@@ -75,7 +75,7 @@ export class Imgstry extends ImgstryProcessor {
     this.width = this.canvas.width;
     this.height = this.canvas.height;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    this.original = this.data;
+    this.original = this.imageData;
   }
 
   public toDataUrl(type = 'image/png'): string {
@@ -83,7 +83,7 @@ export class Imgstry extends ImgstryProcessor {
   }
 
   public reset(): ImgstryProcessor {
-    this.data = this.original;
+    this.imageData = this.original;
     return <ImgstryProcessor>this;
   }
 
@@ -91,16 +91,16 @@ export class Imgstry extends ImgstryProcessor {
     return this.context.createImageData(data);
   }
 
-  public get data(): ImageData {
+  public get imageData(): ImageData {
     return this.context.getImageData(0, 0, this.width, this.height);
   }
 
-  public set data(image: ImageData) {
+  public set imageData(image: ImageData) {
     this.context.putImageData(image, 0, 0);
   }
 
   public drawImage(image: HTMLImageElement) {
     this.context.drawImage(image, 0, 0);
-    this.original = this.data;
+    this.original = this.imageData;
   }
 }
