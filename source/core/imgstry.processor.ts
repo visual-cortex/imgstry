@@ -83,7 +83,7 @@ export abstract class ImgstryProcessor {
    * @type {ImageData}
    * @memberOf ImgstryProcessor
    */
-  public abstract get data(): ImageData;
+  public abstract get imageData(): ImageData;
   /**
    * Set image data
    *
@@ -91,7 +91,7 @@ export abstract class ImgstryProcessor {
    *
    * @memberOf ImgstryProcessor
    */
-  public abstract set data(imgData: ImageData);
+  public abstract set imageData(imgData: ImageData);
 
   public get histogram(): HistogramData {
     const histogramResult: HistogramData = {
@@ -305,8 +305,8 @@ export abstract class ImgstryProcessor {
       new Kernel(kernel) as Kernel :
       kernel;
 
-    const data = this.data.data;
-    const result = this.clone(this.data);
+    const data = this.imageData.data;
+    const result = this.clone(this.imageData);
 
     const half = Math.floor(kernel.height / 2);
 
@@ -331,7 +331,7 @@ export abstract class ImgstryProcessor {
       }
     }
 
-    this.data = result;
+    this.imageData = result;
     return this;
   }
 
@@ -358,7 +358,7 @@ export abstract class ImgstryProcessor {
 
   private _traverse = (delegate: (pixel: Rgb, information?: TraversalPixelInfo) => Rgb | void): ImgstryProcessor => {
     let isComputation = true;
-    let image = this.data;
+    let image = this.imageData;
     const pixelArray = image.data;
     const total = pixelArray.length / 4;
 
@@ -387,7 +387,7 @@ export abstract class ImgstryProcessor {
       } else { isComputation = false; }
     }
 
-    if (isComputation) { this.data = image; }
+    if (isComputation) { this.imageData = image; }
 
     return this;
   }

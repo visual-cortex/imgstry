@@ -37,8 +37,7 @@ describe('imgstry', () => {
   });
 
   it('should be black', () => {
-    let imageData = processor.data;
-    let pixelData = imageData.data;
+    let pixelData = processor.imageData.data;
 
     let channelSum = 0;
     for (let i = 0; i < pixelData.length; i += 4) {
@@ -56,8 +55,7 @@ describe('imgstry', () => {
 
   it('should invert to white', () => {
     processor.invert();
-    let imageData = processor.data;
-    let pixelData = imageData.data;
+    let pixelData = processor.imageData.data;
 
     let channelSum = 0;
     for (let i = 0; i < pixelData.length; i += 4) {
@@ -74,8 +72,7 @@ describe('imgstry', () => {
 
   it('should be neutral gray', () => {
     processor.brightness(50);
-    let imageData = processor.data;
-    let pixelData = imageData.data;
+    let pixelData = processor.imageData.data;
 
     let channelSum = 0;
     for (let i = 0; i < pixelData.length; i += 4) {
@@ -93,8 +90,7 @@ describe('imgstry', () => {
   it('should should tint pomegranate', () => {
     processor.brightness(50);
     processor.tint('#c0392b');
-    let imageData = processor.data;
-    let pixelData = imageData.data;
+    let pixelData = processor.imageData.data;
 
     let channelSum = 0;
     for (let i = 0; i < pixelData.length; i += 4) {
@@ -112,8 +108,7 @@ describe('imgstry', () => {
   it('should should tint green sea', () => {
     processor.brightness(50);
     processor.tint('#16a085');
-    let imageData = processor.data;
-    let pixelData = imageData.data;
+    let pixelData = processor.imageData.data;
 
     let channelSum = 0;
     for (let i = 0; i < pixelData.length; i += 4) {
@@ -132,8 +127,7 @@ describe('imgstry', () => {
     processor.brightness(50);
     processor.tint('#16a085');
     processor.bw();
-    let imageData = processor.data;
-    let pixelData = imageData.data;
+    let pixelData = processor.imageData.data;
 
     let channelSum = true;
     for (let i = 0; i < pixelData.length; i += 4) {
@@ -155,8 +149,7 @@ describe('imgstry', () => {
     processor.brightness(50);
     processor.tint('#16a085');
     processor.contrast(20);
-    let imageData = processor.data;
-    let pixelData = imageData.data;
+    let pixelData = processor.imageData.data;
 
     let channelSum = 0;
     for (let i = 0; i < pixelData.length; i += 4) {
@@ -186,7 +179,7 @@ describe('imgstry', () => {
       try {
         processor.context.drawImage(image, 0, 0);
 
-        let pixelData = processor.data.data;
+        let pixelData = processor.imageData.data;
         let initialAlpha = 0;
         for (let i = 0; i < pixelData.length; i += 4) {
           initialAlpha += pixelData[i + 3];
@@ -194,7 +187,7 @@ describe('imgstry', () => {
 
         processor.convolve(imgstry.Utility.EdgeDetection);
 
-        pixelData = processor.data.data;
+        pixelData = processor.imageData.data;
         let channelSum = 0;
         let alpha = 0;
 
@@ -230,7 +223,7 @@ describe('imgstry', () => {
       try {
         processor.context.drawImage(image, 0, 0);
 
-        let pixelData = processor.data.data;
+        let pixelData = processor.imageData.data;
 
         processor.convolve(imgstry.Utility.GaussianBlur(5, 50));
 
@@ -238,7 +231,7 @@ describe('imgstry', () => {
 
         processor.convolve(imgstry.Utility.EdgeDetection);
 
-        pixelData = processor.data.data;
+        pixelData = processor.imageData.data;
         for (let i = 0; i < pixelData.length; i += 4) {
           let rgb = {
             r: pixelData[i],
