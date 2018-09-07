@@ -16,9 +16,11 @@ let takeScreenshot = (test: Mocha.Test) => {
 describe('imgstry', () => {
   let anchor = '#board';
   let board: HTMLCanvasElement;
+  let processor: Imgstry;
 
   beforeEach(() => {
     board = imgstry.getCanvas(anchor);
+    processor = new imgstry(board);
   });
 
   afterEach(function () {
@@ -30,13 +32,11 @@ describe('imgstry', () => {
   });
 
   it('should construct correctly', () => {
-    let processor = new imgstry(board);
     processor.width.should.equal(500);
     processor.height.should.equal(500);
   });
 
   it('should be black', () => {
-    let processor = new imgstry(board);
     let imageData = processor.data;
     let pixelData = imageData.data;
 
@@ -55,7 +55,6 @@ describe('imgstry', () => {
   });
 
   it('should invert to white', () => {
-    let processor = new imgstry(board);
     processor.invert();
     let imageData = processor.data;
     let pixelData = imageData.data;
@@ -74,7 +73,6 @@ describe('imgstry', () => {
   });
 
   it('should be neutral gray', () => {
-    let processor = new imgstry(board);
     processor.brightness(50);
     let imageData = processor.data;
     let pixelData = imageData.data;
@@ -93,7 +91,6 @@ describe('imgstry', () => {
   });
 
   it('should should tint pomegranate', () => {
-    let processor = new imgstry(board);
     processor.brightness(50);
     processor.tint('#c0392b');
     let imageData = processor.data;
@@ -113,7 +110,6 @@ describe('imgstry', () => {
   });
 
   it('should should tint green sea', () => {
-    let processor = new imgstry(board);
     processor.brightness(50);
     processor.tint('#16a085');
     let imageData = processor.data;
@@ -133,7 +129,6 @@ describe('imgstry', () => {
   });
 
   it('should turn bw', () => {
-    let processor = new imgstry(board);
     processor.brightness(50);
     processor.tint('#16a085');
     processor.bw();
@@ -157,7 +152,6 @@ describe('imgstry', () => {
   });
 
   it('should contrast color', () => {
-    let processor = new imgstry(board);
     processor.brightness(50);
     processor.tint('#16a085');
     processor.contrast(20);
@@ -178,7 +172,6 @@ describe('imgstry', () => {
   });
 
   it('should have sum of channel color distribution equal to 1', () => {
-    let processor = new imgstry(board);
     processor.brightness(15).noise(25).tint('#16a085');
     const result = processor.histogram;
     result.all.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
@@ -191,7 +184,6 @@ describe('imgstry', () => {
     const image = new Image();
     image.onload = () => {
       try {
-        const processor = new imgstry(board);
         processor.context.drawImage(image, 0, 0);
 
         let pixelData = processor.data.data;
@@ -236,7 +228,6 @@ describe('imgstry', () => {
     const image = new Image();
     image.onload = () => {
       try {
-        const processor = new imgstry(board);
         processor.context.drawImage(image, 0, 0);
 
         let pixelData = processor.data.data;
