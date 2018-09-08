@@ -12,13 +12,18 @@ const merge = require('merge2');
 const del = require('del');
 const browserSync = require('browser-sync').create();
 
-const libraryName = 'imgstry';
-
 const path = {
     dist: {
         base: 'dist/',
-        js: `dist/js`,
+        js: `dist/js/`,
         entrypoint: 'index.js'
+    },
+    library: {
+        browser: {
+            name: 'imgstry',
+            fileName: 'imgstry.browser',
+            base: 'browser'
+        }
     },
     source: {
         base: 'source/',
@@ -70,12 +75,12 @@ gulp.task('build:ts', () => {
 });
 
 gulp.task('build:bundle', () => {
-    const outputFileName = libraryName + '.min.js';
+    const outputFileName = path.library.browser.fileName + '.min.js';
 
     const bundler = browserify({
         debug: true,
-        standalone: libraryName,
-        basedir: path.dist.js
+        standalone: path.library.browser.name,
+        basedir: `${path.dist.js}${path.library.browser.base}`
     });
 
     return bundler.add(path.dist.entrypoint)
