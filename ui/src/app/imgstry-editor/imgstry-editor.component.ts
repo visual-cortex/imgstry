@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 
 import { FilterOption } from '../../../../source/core/types/index';
-import { Imgstry } from '../../../../source/core/imgstry.browser';
+import { Imgstry } from '../../../../source/browser/imgstry.browser';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';

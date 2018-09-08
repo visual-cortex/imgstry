@@ -1,4 +1,4 @@
-import Imgstry = require('../../dist/js/index');
+import Imgstry = require('../../dist/js/browser/index');
 
 declare let imgstry: typeof Imgstry;
 declare let callPhantom: (options: { screenshot: string }) => void;

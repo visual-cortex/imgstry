@@ -2,13 +2,10 @@ import {
   FilterOption,
   HistogramData,
 } from './types';
-import {
-  Hex,
-  Rgb,
-} from '../pixel';
 
 import { Kernel } from '../kernel';
 import { Operation } from './imgstry.operation';
+import { Rgb } from '../pixel';
 
 /** TO-DO:
  *    - integral blur (+ other blur methods)

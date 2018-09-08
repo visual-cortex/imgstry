@@ -1,5 +1,5 @@
 import {
   Imgstry,
-} from './core';
+} from './imgstry.browser';
 
 export = Imgstry;
