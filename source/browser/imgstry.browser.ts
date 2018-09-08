@@ -2,7 +2,7 @@ import * as Kernel from '../kernel';
 import * as Pixel from '../pixel';
 
 import { BindUtility } from '../decorators/bind-utility.decorator';
-import { ImgstryProcessor } from './imgstry.processor';
+import { ImgstryProcessor } from '../core/imgstry.processor';
 
 export type IPixel = {
   [K in keyof typeof Pixel]: typeof Pixel[K];
