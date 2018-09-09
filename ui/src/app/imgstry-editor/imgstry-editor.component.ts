@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -13,11 +12,10 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { FilterOption } from '../../../../source/core/types/index';
 import { Imgstry } from '../../../../source/browser/imgstry.browser';
 import { Observable } from 'rxjs/Observable';
+import { OperationOption } from '../../../../source/core/types';
 import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
 
 export interface ImgstryValues {
   brightness?: number;
@@ -54,17 +52,17 @@ export class ImgstryEditorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (!this.processor) { return; }
 
-    const options: FilterOption[] = [];
+    const options: OperationOption[] = [];
     if (changes['brightness']) {
       options.push({
-        filter: 'brightness',
+        name: 'brightness',
         value: this.brightness,
         priority: 1
       });
     }
     if (changes['contrast']) {
       options.push({
-        filter: 'contrast',
+        name: 'contrast',
         value: this.contrast,
         priority: 1
       });

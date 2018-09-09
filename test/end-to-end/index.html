@@ -22,7 +22,10 @@
     <script src="../../dist/imgstry.browser.min.js"></script>
     <script src="../../node_modules/should/should.js"></script>
     <script src="../../node_modules/mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
+    <script>mocha.setup({
+        ui: 'bdd',
+        timeout: 16000,
+    })</script>
     <script src="../../test/end-to-end/imgstry.test.js"></script>
     <script>
         mocha.run();
