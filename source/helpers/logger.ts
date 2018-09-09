@@ -1,3 +1,11 @@
+
+/**
+ * Internal logger that enables debug traces.
+ *
+ * @export
+ * @class Logger
+ * @ignore
+ */
 export class Logger {
   constructor(private _isDebug: boolean) { }
 
