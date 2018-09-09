@@ -1,4 +1,4 @@
-import Imgstry = require('../../dist/js/browser/index');
+import Imgstry = require('../../dist/js/browser');
 
 declare let imgstry: typeof Imgstry;
 declare let callPhantom: (options: { screenshot: string }) => void;
@@ -20,7 +20,11 @@ describe('imgstry', () => {
 
   beforeEach(() => {
     board = imgstry.getCanvas(anchor);
-    processor = new imgstry(board);
+    processor = new imgstry(board, {
+      thread: {
+        isDevelopment: true,
+      },
+    });
   });
 
   afterEach(function () {
@@ -204,9 +208,9 @@ describe('imgstry', () => {
       processor.brightness(15).noise(25).tint('#16a085');
       const result = processor.histogram;
       result.all.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
-      result.channels.red.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
-      result.channels.green.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
-      result.channels.blue.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
+      result.channel.red.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
+      result.channel.green.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
+      result.channel.blue.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
     });
   });
 
@@ -251,7 +255,7 @@ describe('imgstry', () => {
 
           done();
         };
-        image.src = 'rnm.jpg';
+        image.src = 'resources/rnm.jpg';
       });
     });
 
@@ -289,7 +293,7 @@ describe('imgstry', () => {
 
           done();
         };
-        image.src = 'rnm.jpg';
+        image.src = 'resources/rnm.jpg';
       });
     });
   });

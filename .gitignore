@@ -2,6 +2,8 @@ source/**/*.js
 source/**/*.js.map
 test/**/*.js
 test/**/*.js.map
+!test/**/resources/**/*
+!test/**/helpers/**/*
 example/resources/uploads
 # Logs
 logs
