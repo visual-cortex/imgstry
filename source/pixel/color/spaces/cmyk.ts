@@ -3,6 +3,13 @@ import { Hsv } from './hsv';
 import { IColor } from '../icolor';
 import { Rgb } from './rgb';
 
+/**
+ * CMYK colorspace.
+ *
+ * @export
+ * @class Cmyk
+ * @implements {IColor}
+ */
 export class Cmyk implements IColor {
   public c: number;
   public m: number;
