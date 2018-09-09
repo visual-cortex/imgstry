@@ -1,3 +1,12 @@
+import { Operation } from '../imgstry.operation';
+
+/**
+ * Holds a collection of operation method names
+ *
+ * @type OperationMethod
+ */
+export type OperationMethod = keyof typeof Operation | 'convolve';
+
 /**
  * Imgstry filter option defintion
  *
@@ -10,7 +19,7 @@ export interface FilterOption {
    * @type {string}
    * @memberOf FilterOption
    */
-  filter: string;
+  filter: OperationMethod;
   /**
    * Applied filter value
    *
@@ -30,60 +39,62 @@ export interface FilterOption {
 }
 
 /**
- * Imgstry processor message defintion
- *
- * @export
- * @interface ImgstryProcessorData
- */
-export interface ImgstryProcessorData {
-  /**
-   * Image data object
-   *
-   * @type {ImageData}
-   * @memberOf ImgstryProcessorData
-   */
-  image: ImageData;
-  /**
-   * List of filter that need to be applied
-   *
-   * @type {FilterOption[]}
-   * @memberOf ImgstryProcessorData
-   */
-  options: FilterOption[];
-  /**
-   * Width of the processed image
-   *
-   * @type {number}
-   * @memberOf ImgstryProcessorData
-   */
-  width: number;
-  /**
-   * Height of the processed image
-   *
-   * @type {number}
-   * @memberOf ImgstryProcessorData
-   */
-  height: number;
-  /**
-   * Process id
-   *
-   * @type {string}
-   * @memberOf ImgstryProcessorData
-   */
-  identifier?: string;
-}
-
-/**
- * Histogram data arrays
+ * Histogram data arrays.
  *
  * @export
  * @interface HistogramData
  */
 export interface HistogramData {
+  /**
+   * Global channel distribution
+   *
+   * @type {number[]}
+   * @memberof HistogramData
+   */
   all: number[];
-  channels: {
+  /**
+   * Color distribution per channel.
+   *
+   * @type {{
+   *     red: number[],
+   *     green: number[],
+   *     blue: number[],
+   *   }}
+   * @memberof HistogramData
+   */
+  channel: {
     red: number[],
     green: number[],
     blue: number[],
   };
+}
+
+/**
+ * Defines the traverse information passed to the delegate.
+ *
+ * @interface TraversalPixelInfo
+ */
+export interface TraversalPixelInfo {
+  /**
+   * Holds the pixel position information.
+   *
+   * @type {{
+   *     x: number;
+   *     y: number;
+   *     offset: number;
+   *   }}
+   * @memberof TraversalPixelInfo
+   */
+  position: {
+    x: number;
+    y: number;
+    offset: number;
+  };
+  /**
+   * Total number of pixels in the image.
+   *
+   * @type {number}
+   * @memberof TraversalPixelInfo
+   */
+  total: number;
 }
