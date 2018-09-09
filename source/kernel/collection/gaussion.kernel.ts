@@ -18,5 +18,5 @@ export const GaussianBlur = (radius = 3, sigma = 1) => {
 
   kernel = kernel.map((row) => row.map(value => value / sum));
 
-  return new Kernel(kernel);
+  return kernel;
 };

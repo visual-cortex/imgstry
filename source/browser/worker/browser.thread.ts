@@ -12,9 +12,13 @@ declare const importScripts: (...scripts: string[]) => void;
 declare const imgstry: typeof ImgstryWorker;
 
 const executor = () => {
-  importScripts('#-url-');
-
   const worker = self as any as Worker;
+
+  try {
+    importScripts('#-url-');
+  } catch (e) {
+    console.error(e.message);
+  }
 
   worker.onmessage = (message) => {
     const data: IWorkerData = message.data;
@@ -44,7 +48,10 @@ export interface IWorkerResult {
 export interface ThreadBrowserOptions {
   isEnabled?: boolean;
   isDevelopment?: boolean;
-  scriptDirectory?: string;
+  host?: {
+    url: string,
+    scriptDirectory: string,
+  };
 }
 
 const generateSlaveBlob = (scriptLocation: string) => {
@@ -65,10 +72,15 @@ export class ImgstryBrowserThread implements ImgstryThread {
   constructor(
     private _options: ThreadBrowserOptions,
   ) {
-    const scriptLocation = `${document.location.protocol}//${document.location.host}/${this._options.scriptDirectory}`;
-    const blob = generateSlaveBlob(`${scriptLocation}/imgstry.worker.min.js`);
+    const scriptLocation = `${this._options.host.url}${this._options.host.scriptDirectory}imgstry.worker.min.js`;
+    const blob = generateSlaveBlob(scriptLocation);
     this._logger = new Logger(_options.isDevelopment);
     this._worker = new Worker(URL.createObjectURL(blob));
+
+    this._logger.info(
+      'Worker import: ',
+      scriptLocation,
+    );
 
     this._promise = new Promise((resolve, reject) => {
       this._worker.onmessage = (message: MessageEvent) => {
