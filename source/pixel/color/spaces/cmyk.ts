@@ -1,6 +1,10 @@
+import {
+  ColorSpace,
+  IColor,
+} from '../icolor';
+
 import { Hex } from './hex';
 import { Hsv } from './hsv';
-import { IColor } from '../icolor';
 import { Rgb } from './rgb';
 
 /**
@@ -15,6 +19,10 @@ export class Cmyk implements IColor {
   public m: number;
   public y: number;
   public k: number;
+
+  public get kind() {
+    return ColorSpace.Cmyk;
+  }
 
   constructor(color?: any) {
     color = color || {};

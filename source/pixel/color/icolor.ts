@@ -1,3 +1,11 @@
+export enum ColorSpace {
+  Empty = 'Empty',
+  Rgb = 'Rgb',
+  Cmyk = 'Cmyk',
+  Hex = 'Hex',
+  Hsv = 'Hsv',
+}
+
 /**
  * Color interface, describes a colorspace.
  *
@@ -5,6 +13,14 @@
  * @interface IColor
  */
 export interface IColor {
+  /**
+   * Returns the colorspace value associated to this color.
+   *
+   * @type {ColorSpace}
+   * @memberof IColor
+   */
+  kind: ColorSpace;
+
   /**
    * Converts the color to HSV.
    *
