@@ -1,32 +1,39 @@
+import { Kernel } from '../../kernel';
 import { Operation } from '../imgstry.operation';
+import { Rgb } from '../../pixel';
 
 /**
- * Holds a collection of operation method names
+ * Holds a collection of operation method names.
  *
  * @type OperationMethod
  */
 export type OperationMethod = keyof typeof Operation | 'convolve';
 
 /**
+ * Defines possible operation values.
+ */
+export type OperationValue = number | string | [number, number, number] | Kernel | number[][];
+
+/**
  * Imgstry filter option defintion
  *
  * @interface FilterOption
  */
-export interface FilterOption {
+export interface OperationOption {
   /**
    * Applied filter method
    *
    * @type {string}
    * @memberOf FilterOption
    */
-  filter: OperationMethod;
+  name: OperationMethod;
   /**
    * Applied filter value
    *
    * @type {(number | string)}
    * @memberOf FilterOption
    */
-  value: number | string | Array<any>;
+  value: OperationValue;
 
 
   /**
