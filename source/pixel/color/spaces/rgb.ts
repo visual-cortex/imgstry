@@ -1,12 +1,27 @@
+import {
+  ColorSpace,
+  IColor,
+} from '../icolor';
+
 import { Cmyk } from './cmyk';
 import { Hex } from './hex';
 import { Hsv } from './hsv';
-import { IColor } from '../icolor';
 
+/**
+ * Rgb colorspace.
+ *
+ * @export
+ * @class Rgb
+ * @implements {IColor}
+ */
 export class Rgb implements IColor {
   public r: number;
   public g: number;
   public b: number;
+
+  public get kind() {
+    return ColorSpace.Rgb;
+  }
 
   constructor(color?: any) {
     color = color || {};
@@ -26,13 +41,13 @@ export class Rgb implements IColor {
     let result = new Hsv({ h: 0, s: max === 0 ? 0 : parseFloat(((delta / max).toPrecision(2))), v: parseFloat(max.toPrecision(2)) });
 
     if (max === min) {
-        result.h = 0;
+      result.h = 0;
     } else {
-        switch (max) {
-            case clamp.r: result.h = parseFloat((60 * ((clamp.g - clamp.b) / delta + (clamp.g < clamp.b ? 6 : 0))).toPrecision(2)); break;
-            case clamp.g: result.h = parseFloat((60 * ((clamp.b - clamp.r) / delta + 2)).toPrecision(2)); break;
-            case clamp.b: result.h = parseFloat((60 * ((clamp.r - clamp.g) / delta + 4)).toPrecision(2)); break;
-        }
+      switch (max) {
+        case clamp.r: result.h = parseFloat((60 * ((clamp.g - clamp.b) / delta + (clamp.g < clamp.b ? 6 : 0))).toPrecision(2)); break;
+        case clamp.g: result.h = parseFloat((60 * ((clamp.b - clamp.r) / delta + 2)).toPrecision(2)); break;
+        case clamp.b: result.h = parseFloat((60 * ((clamp.r - clamp.g) / delta + 4)).toPrecision(2)); break;
+      }
     }
 
     return result;
