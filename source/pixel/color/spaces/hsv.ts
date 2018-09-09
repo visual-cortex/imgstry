@@ -1,6 +1,10 @@
+import {
+  ColorSpace,
+  IColor,
+} from '../icolor';
+
 import { Cmyk } from './cmyk';
 import { Hex } from './hex';
-import { IColor } from '../icolor';
 import { Rgb } from './rgb';
 
 /**
@@ -14,6 +18,10 @@ export class Hsv implements IColor {
   public h: number;
   public s: number;
   public v: number;
+
+  public get kind() {
+    return ColorSpace.Hsv;
+  }
 
   constructor(color?: any) {
     color = color || {};
