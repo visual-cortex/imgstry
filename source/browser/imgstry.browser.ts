@@ -85,7 +85,7 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
       throw 'A canvas selector must be provided.';
     }
 
-    if (!Imgstry.selectorRegex.test(selector)) {
+    if (!Imgstry._selectorRegex.test(selector)) {
       throw `'${selector}' is not a valid id.`;
     }
 
@@ -102,12 +102,15 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
     return <HTMLCanvasElement>canvas;
   }
 
-  private static selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
+  private static _selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
 
   public readonly context: CanvasRenderingContext2D;
   public readonly canvas: HTMLCanvasElement;
+  public width: number;
+  public height: number;
 
   private _operations: OperationOption[] = [];
+
   /**
    * Creates an instance of Imgstry.
    *
@@ -124,6 +127,17 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
     this.width = this.canvas.width;
     this.height = this.canvas.height;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.original = this.imageData;
+  }
+
+  /**
+   * Draws an image on the canvas.
+   *
+   * @param {HTMLImageElement} image
+   * @memberof Imgstry
+   */
+  public drawImage(image: HTMLImageElement) {
+    this.context.drawImage(image, 0, 0);
     this.original = this.imageData;
   }
 
@@ -146,11 +160,6 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
 
   public set imageData(image: ImageData) {
     this.context.putImageData(image, 0, 0);
-  }
-
-  public drawImage(image: HTMLImageElement) {
-    this.context.drawImage(image, 0, 0);
-    this.original = this.imageData;
   }
 
   public blackAndWhite(ratio?: [number, number, number]): Imgstry {

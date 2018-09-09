@@ -9,27 +9,23 @@ import { Kernel } from '../kernel';
 import { Operation } from './imgstry.operation';
 import { Rgb } from '../pixel';
 
-/** TO-DO:
- *    - integral blur (+ other blur methods)
- */
-
 export abstract class ImgstryProcessor {
   /**
-   * Width of the image
+   * Width of the image.
    *
    * @type {number}
    * @memberOf ImgstryProcessor
    */
-  public width: number;
+  public abstract width: number;
   /**
-   * Height of the image
+   * Height of the image.
    *
    * @type {number}
    * @memberOf ImgstryProcessor
    */
-  public height: number;
+  public abstract height: number;
   /**
-   * Original copy of the processed image
+   * Original copy of the processed image.
    *
    * @type {ImageData}
    * @memberOf ImgstryProcessor
@@ -37,7 +33,16 @@ export abstract class ImgstryProcessor {
   protected original: ImageData;
 
   /**
-   * Reset image to the original state
+   * Encodes the canvas data to a data URI.
+   *
+   * @param {string}
+   * @returns {string}
+   * @memberof Imgstry
+   */
+  public abstract toDataUrl(type: string): string;
+
+  /**
+   * Resets the image to the original state.
    *
    * @abstract
    * @returns {ImgstryProcessor}
@@ -54,7 +59,7 @@ export abstract class ImgstryProcessor {
    */
   public abstract clone(original: ImageData): ImageData;
   /**
-   * Get image data
+   * Gets the image data.
    *
    * @abstract
    * @type {ImageData}
@@ -62,7 +67,7 @@ export abstract class ImgstryProcessor {
    */
   public abstract get imageData(): ImageData;
   /**
-   * Set image data
+   * Sets the image data.
    *
    * @abstract
    *
@@ -70,6 +75,13 @@ export abstract class ImgstryProcessor {
    */
   public abstract set imageData(imgData: ImageData);
 
+  /**
+   * Returns the channel histogram of the image.
+   *
+   * @readonly
+   * @type {HistogramData}
+   * @memberof ImgstryProcessor
+   */
   public get histogram(): HistogramData {
     const histogramResult: HistogramData = {
       all: [],
@@ -98,6 +110,14 @@ export abstract class ImgstryProcessor {
     return histogramResult;
   }
 
+  /**
+   * Applies a series of filters to the image.
+   *
+   * @param {OperationOption[]} options
+   * @param {boolean} [reset]
+   * @returns {ImgstryProcessor}
+   * @memberof ImgstryProcessor
+   */
   public batch(options: OperationOption[], reset?: boolean): ImgstryProcessor {
     if (reset) {
       this.reset();
