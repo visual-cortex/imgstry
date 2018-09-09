@@ -1,9 +1,17 @@
 import * as Kernel from '../kernel';
 import * as Pixel from '../pixel';
 
+import {
+  ImgstryBrowserThread,
+  ThreadBrowserOptions,
+} from './worker/browser.thread';
+import {
+  ImgstryEditor,
+  ImgstryProcessor,
+  OperationOption,
+} from '../core';
+
 import { BindUtility } from '../decorators/bind-utility.decorator';
-import { ImgstryProcessor } from '../core';
-import { ThreadBrowserOptions } from './worker/browser.thread';
 
 export type IPixel = {
   [K in keyof typeof Pixel]: typeof Pixel[K];
@@ -21,13 +29,17 @@ const DEFAULT_OPTIONS: ImgstryBrowserOptions = {
   thread: {
     isEnabled: !!Worker,
     isDevelopment: false,
-    scriptDirectory: 'dist/',
+    host: {
+      url: `${document.location.protocol}//${document.location.host}/`,
+      scriptDirectory: 'dist/',
+    },
   },
 };
 
-const assignDefault = (source: ImgstryBrowserOptions): ImgstryBrowserOptions => {
+const assignDefault = (source: Partial<ImgstryBrowserOptions>): ImgstryBrowserOptions => {
   source = source || {} as ImgstryBrowserOptions;
-  source.thread = source.thread || {};
+  source.thread = source.thread || {} as ThreadBrowserOptions;
+  source.thread.host = source.thread.host || {} as any;
 
   return {
     thread: {
@@ -35,8 +47,12 @@ const assignDefault = (source: ImgstryBrowserOptions): ImgstryBrowserOptions => 
         DEFAULT_OPTIONS.thread.isEnabled,
       isDevelopment: source.thread.isDevelopment ||
         DEFAULT_OPTIONS.thread.isDevelopment,
-      scriptDirectory: source.thread.scriptDirectory ||
-        DEFAULT_OPTIONS.thread.scriptDirectory,
+      host: {
+        url: source.thread.host.url ||
+          DEFAULT_OPTIONS.thread.host.url,
+        scriptDirectory: source.thread.host.scriptDirectory ||
+          DEFAULT_OPTIONS.thread.host.scriptDirectory,
+      },
     },
   };
 };
@@ -46,7 +62,7 @@ const assignDefault = (source: ImgstryBrowserOptions): ImgstryBrowserOptions => 
  *
  * @class Imgstry
  */
-export class Imgstry extends ImgstryProcessor {
+export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> {
   /**
    * Exposes all utilities required for a fruitful life alongside imstry.
    *
@@ -91,6 +107,7 @@ export class Imgstry extends ImgstryProcessor {
   public readonly context: CanvasRenderingContext2D;
   public readonly canvas: HTMLCanvasElement;
 
+  private _operations: OperationOption[] = [];
   /**
    * Creates an instance of Imgstry.
    *
@@ -98,10 +115,10 @@ export class Imgstry extends ImgstryProcessor {
    */
   constructor(
     elementIdOrCanvas: string | HTMLCanvasElement,
-    private _options?: ImgstryBrowserOptions,
+    private _options?: Partial<ImgstryBrowserOptions>,
   ) {
     super();
-    this._options = assignDefault(_options);
+    this._options = assignDefault(_options) as ImgstryBrowserOptions;
     this.canvas = Imgstry.getCanvas(elementIdOrCanvas);
     this.context = this.canvas.getContext('2d');
     this.width = this.canvas.width;
@@ -134,5 +151,133 @@ export class Imgstry extends ImgstryProcessor {
   public drawImage(image: HTMLImageElement) {
     this.context.drawImage(image, 0, 0);
     this.original = this.imageData;
+  }
+
+  public blackAndWhite(ratio?: [number, number, number]): Imgstry {
+    this._operations.push({
+      name: 'blackAndWhite',
+      value: ratio,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public contrast(value: number): Imgstry {
+    this._operations.push({
+      name: 'contrast',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public brightness(value: number): Imgstry {
+    this._operations.push({
+      name: 'brightness',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public saturation(value: number): Imgstry {
+    this._operations.push({
+      name: 'saturation',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public hue(value: number): Imgstry {
+    this._operations.push({
+      name: 'hue',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public sepia(value: number): Imgstry {
+    this._operations.push({
+      name: 'sepia',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public gamma(value: number): Imgstry {
+    this._operations.push({
+      name: 'gamma',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public noise(value: number): Imgstry {
+    this._operations.push({
+      name: 'noise',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public vibrance(value: number): Imgstry {
+    this._operations.push({
+      name: 'vibrance',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public invert(): Imgstry {
+    this._operations.push({
+      name: 'invert',
+      value: null,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public tint(color: string): Imgstry {
+    this._operations.push({
+      name: 'tint',
+      value: color,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public convolve(kernel: Kernel.Kernel | number[][]): Imgstry {
+    this._operations.push({
+      name: 'convolve',
+      value: kernel,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
+  public clear() {
+    this._operations = [];
+    return this;
+  }
+
+  public renderSync(): Imgstry {
+    this.batch(this._operations);
+    return this.clear();
+  }
+
+  public async render(): Promise<Imgstry> {
+    const result = await new ImgstryBrowserThread(this._options.thread)
+      .run({
+        imageData: this.imageData,
+        operations: this._operations,
+      });
+    this.imageData = result.imageData;
+    return this.clear();
   }
 }

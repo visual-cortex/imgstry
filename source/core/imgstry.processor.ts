@@ -1,5 +1,6 @@
 import {
   HistogramData,
+  OperationMethod,
   OperationOption,
   TraversalPixelInfo,
 } from './types';
@@ -97,54 +98,39 @@ export abstract class ImgstryProcessor {
     return histogramResult;
   }
 
-  public blackAndWhite(ratio?: [number, number, number]): ImgstryProcessor {
-    return this._traverse(Operation.blackAndWhite(ratio));
+  public batch(options: OperationOption[], reset?: boolean): ImgstryProcessor {
+    if (reset) {
+      this.reset();
+    }
+
+    // order filter options in correct application order
+    options = options.sort((a: OperationOption, b: OperationOption) => a.priority - b.priority);
+
+    const convolutions = options.filter(o => o.name === 'convolve');
+    const operations = options.filter(o => o.name !== 'convolve')
+      .map(operation => ({
+        value: operation.value,
+        method: (Operation as Record<OperationMethod, any>)[operation.name],
+      }));
+
+    if (operations.length) {
+      this._traverse((pixel) => {
+        return operations.reduce(
+          (rgb: Rgb, operation) => operation.method(operation.value)(rgb),
+          pixel,
+        );
+      });
+    }
+
+    convolutions.forEach(convolution =>
+      this._convolve(convolution.value as Kernel | number[][]),
+    );
+
+    return this;
   }
 
-  public contrast(value: number): ImgstryProcessor {
-    return this._traverse(Operation.contrast(value));
-  }
-
-  public brightness(value: number): ImgstryProcessor {
-    return this._traverse(Operation.brightness(value));
-  }
-
-  public saturation(value: number): ImgstryProcessor {
-    return this._traverse(Operation.saturation(value));
-  }
-
-  public hue(value: number): ImgstryProcessor {
-    return this._traverse(Operation.hue(value));
-  }
-
-  public sepia(value: number): ImgstryProcessor {
-    return this._traverse(Operation.sepia(value));
-  }
-
-  public gamma(value: number): ImgstryProcessor {
-    return this._traverse(Operation.gamma(value));
-  }
-
-  public noise(value: number): ImgstryProcessor {
-    return this._traverse(Operation.noise(value));
-  }
-
-  public vibrance(value: number): ImgstryProcessor {
-    return this._traverse(Operation.vibrance(value));
-  }
-
-  public invert(): ImgstryProcessor {
-    return this._traverse(Operation.invert());
-  }
-
-  public tint(color: string): ImgstryProcessor {
-    return this._traverse((Operation.tint(color)));
-  }
-
-  public convolve(kernel: Kernel | number[][], factor = 1): ImgstryProcessor {
-    kernel = kernel instanceof Array ?
-      new Kernel(kernel) as Kernel :
-      kernel;
+  private _convolve(kernel: Kernel | number[][], factor = 1): ImgstryProcessor {
+    kernel = new Kernel((kernel as any)._kernel || kernel);
 
     const data = this.imageData.data;
     const result = this.clone(this.imageData);
@@ -188,21 +174,6 @@ export abstract class ImgstryProcessor {
     }
 
     this.imageData = result;
-    return this;
-  }
-
-  public batch(options: OperationOption[], reset?: boolean): ImgstryProcessor {
-    if (reset) {
-      this.reset();
-    }
-
-    // order filter options in correct application order
-    options = options.sort((a: OperationOption, b: OperationOption) => a.priority - b.priority);
-
-    for (let option of options) {
-      (<any>this)[option.name](option.value);
-    }
-
     return this;
   }
 
