@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es5",
+        "sourceMap": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "isolatedModules": false,
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "types": [
+            "chai",
+            "mocha"
+        ],
+        "lib": [
+            "es2016",
+            "dom"
+        ]
+    }
+}
