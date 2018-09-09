@@ -1,5 +1,12 @@
 import { Kernel } from '../kernel';
 
+/**
+ * Defines the imgstry editor schema.
+ *
+ * @export
+ * @interface ImgstryEditor
+ * @template T
+ */
 export interface ImgstryEditor<T> {
   /**
    * Turn the image black and white with the provided ratio.
