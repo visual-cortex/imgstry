@@ -2,7 +2,8 @@ import * as Kernel from '../kernel';
 import * as Pixel from '../pixel';
 
 import { BindUtility } from '../decorators/bind-utility.decorator';
-import { ImgstryProcessor } from '../core/imgstry.processor';
+import { ImgstryProcessor } from '../core';
+import { ThreadBrowserOptions } from './worker/browser.thread';
 
 export type IPixel = {
   [K in keyof typeof Pixel]: typeof Pixel[K];
@@ -10,6 +11,34 @@ export type IPixel = {
 
 export type IKernel = {
   [K in keyof typeof Kernel]: typeof Kernel[K];
+};
+
+export interface ImgstryBrowserOptions {
+  thread: ThreadBrowserOptions;
+}
+
+const DEFAULT_OPTIONS: ImgstryBrowserOptions = {
+  thread: {
+    isEnabled: !!Worker,
+    isDevelopment: false,
+    scriptDirectory: 'dist/',
+  },
+};
+
+const assignDefault = (source: ImgstryBrowserOptions): ImgstryBrowserOptions => {
+  source = source || {} as ImgstryBrowserOptions;
+  source.thread = source.thread || {};
+
+  return {
+    thread: {
+      isEnabled: source.thread.isEnabled ||
+        DEFAULT_OPTIONS.thread.isEnabled,
+      isDevelopment: source.thread.isDevelopment ||
+        DEFAULT_OPTIONS.thread.isDevelopment,
+      scriptDirectory: source.thread.scriptDirectory ||
+        DEFAULT_OPTIONS.thread.scriptDirectory,
+    },
+  };
 };
 
 /**
@@ -67,9 +96,12 @@ export class Imgstry extends ImgstryProcessor {
    *
    * @param {HTMLCanvasElement} canvas (specifies the canvas base for imgstry)
    */
-  constructor(elementIdOrCanvas: string | HTMLCanvasElement) {
+  constructor(
+    elementIdOrCanvas: string | HTMLCanvasElement,
+    private _options?: ImgstryBrowserOptions,
+  ) {
     super();
-
+    this._options = assignDefault(_options);
     this.canvas = Imgstry.getCanvas(elementIdOrCanvas);
     this.context = this.canvas.getContext('2d');
     this.width = this.canvas.width;

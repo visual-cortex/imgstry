@@ -1,6 +1,6 @@
 import {
-  FilterOption,
   HistogramData,
+  OperationOption,
   TraversalPixelInfo,
 } from './types';
 
@@ -191,16 +191,16 @@ export abstract class ImgstryProcessor {
     return this;
   }
 
-  public batch(options: FilterOption[], reset?: boolean): ImgstryProcessor {
+  public batch(options: OperationOption[], reset?: boolean): ImgstryProcessor {
     if (reset) {
       this.reset();
     }
 
     // order filter options in correct application order
-    options = options.sort((a: FilterOption, b: FilterOption) => a.priority - b.priority);
+    options = options.sort((a: OperationOption, b: OperationOption) => a.priority - b.priority);
 
     for (let option of options) {
-      (<any>this)[option.filter](option.value);
+      (<any>this)[option.name](option.value);
     }
 
     return this;

@@ -1,10 +1,7 @@
-import { OperationMethod } from './types/index';
+import { OperationOption } from './types/index';
 
 export interface IThreadData extends IThreadResult {
-  operation: {
-    name: OperationMethod,
-    value: any,
-  };
+  operations: OperationOption[];
 }
 
 export interface IThreadResult {
@@ -14,6 +11,6 @@ export interface IThreadResult {
 export interface ImgstryThread {
   run({
     imageData,
-    operation,
+    operations,
   }: IThreadData): Promise<IThreadResult>;
 }
