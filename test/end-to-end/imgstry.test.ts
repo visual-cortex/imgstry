@@ -298,7 +298,7 @@ renderers.forEach((method: RenderMethod) => {
 
               await render(
                 processor
-                  .convolve(imgstry.Utility.EdgeDetection),
+                  .convolve(imgstry.Utility.EdgeDetection()),
                 method,
               );
 
@@ -341,7 +341,7 @@ renderers.forEach((method: RenderMethod) => {
               await render(
                 processor
                   .convolve(imgstry.Utility.GaussianBlur(9, 100))
-                  .convolve(imgstry.Utility.EdgeDetection),
+                  .convolve(imgstry.Utility.EdgeDetection()),
                 method,
               );
 

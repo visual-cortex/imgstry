@@ -1,6 +1,5 @@
 import { Kernel } from '../../kernel';
 import { Operation } from '../imgstry.operation';
-import { Rgb } from '../../pixel';
 
 /**
  * Holds a collection of operation method names.
