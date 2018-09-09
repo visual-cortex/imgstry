@@ -2,19 +2,20 @@
 {
     "editor.tabSize": 2,
     "files.exclude": {
+        ".gitattributes": true,
+        "**/.DS_Store": true,
         "**/.git": true,
         "**/.svn": true,
-        "**/.DS_Store": true,
-        "typings": true,
-        "src": true,
-        "dist": true,
+        "**/ui": true,
         "coverage": true,
-        "source/**/*.js": true,
-        "test/**/*.js": true,
+        "dist": true,
         "node_modules": true,
-        ".gitattributes": true,
         "README.md": true,
-        "**/ui": true
+        "source/**/*.js": true,
+        "src": true,
+        "test/end-to-end/*.js": true,
+        "test/unit/**/*.js": true,
+        "typings": true
     },
     "files.trimTrailingWhitespace": true,
     "typescript.tsdk": "./node_modules/typescript/lib",
