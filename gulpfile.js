@@ -116,8 +116,8 @@ gulp.task('build', gulp.series(
     'build:worker:bundle'
 ));
 
-gulp.task('watch', gulp.series('build', () => {
-    browserSync.init({
+gulp.task('browser:sync', (done) => {
+    return browserSync.init({
         server: {
             baseDir: './',
             index: path.test.e2e.entrypoint
@@ -126,10 +126,11 @@ gulp.task('watch', gulp.series('build', () => {
             route: 'resources/rnm.jpg',
             dir: 'test/end-to-end/resources/rnm.jpg'
         }]
-    });
-    gulp.watch([path.source.ts], gulp.series('build:ts', 'build:browser:bundle', 'build:worker:bundle'));
-    gulp.watch([path.test.e2e.ts], gulp.series('test:e2e:build'));
-}));
+    }, (_, browser) => {
+        console.log(browser.getOption('urls'));
+        done();
+    })
+});
 
 gulp.task('test:clean', () => {
     return del([
@@ -210,8 +211,13 @@ gulp.task('test:build', gulp.series(
 gulp.task('test', gulp.series(
     'build',
     'test:build',
+    'test:unit',
     'test:e2e',
-    'test:unit'
 ));
+
+gulp.task('watch', gulp.series('build', 'test:build', 'browser:sync', () => {
+    gulp.watch([path.source.ts], gulp.series('build:ts', 'build:browser:bundle', 'build:worker:bundle'));
+    gulp.watch([path.test.e2e.ts], gulp.series('test:e2e:build'));
+}));
 
 gulp.task('default', gulp.series('build'));
