@@ -1,4 +1,7 @@
-import { Hex, Rgb } from '../pixel';
+import {
+  Hex,
+  Rgb,
+} from '../pixel';
 
 export namespace Operation {
   const Default = {
@@ -76,6 +79,8 @@ export namespace Operation {
     });
 
     return (pixel: Rgb) => {
+      pixel = pixel.clamp();
+
       pixel.r = lookup[pixel.r];
       pixel.g = lookup[pixel.g];
       pixel.b = lookup[pixel.b];
@@ -173,6 +178,8 @@ export namespace Operation {
     });
 
     return (pixel: Rgb) => {
+      pixel = pixel.clamp();
+
       pixel.r = lookup[pixel.r];
       pixel.g = lookup[pixel.g];
       pixel.b = lookup[pixel.b];
@@ -202,6 +209,7 @@ export namespace Operation {
 
     return (pixel: Rgb) => {
       let max = Math.max(pixel.r, pixel.g, pixel.b);
+      pixel = pixel.clamp();
 
       pixel.r += lookup[max - pixel.r];
       pixel.g += lookup[max - pixel.g];

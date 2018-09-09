@@ -17,6 +17,10 @@
         "types": [
             "chai",
             "mocha"
+        ],
+        "lib": [
+            "es2016",
+            "dom"
         ]
     }
 }
