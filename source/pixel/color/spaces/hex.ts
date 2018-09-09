@@ -1,6 +1,10 @@
+import {
+  ColorSpace,
+  IColor,
+} from '../icolor';
+
 import { Cmyk } from './cmyk';
 import { Hsv } from './hsv';
-import { IColor } from '../icolor';
 import { Rgb } from './rgb';
 
 /**
@@ -12,6 +16,10 @@ import { Rgb } from './rgb';
  */
 export class Hex implements IColor {
   public value: string;
+
+  public get kind() {
+    return ColorSpace.Hex;
+  }
 
   constructor(color?: string) {
     this.value = color || '#000000';
