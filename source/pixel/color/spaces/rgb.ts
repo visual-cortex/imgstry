@@ -3,6 +3,13 @@ import { Hex } from './hex';
 import { Hsv } from './hsv';
 import { IColor } from '../icolor';
 
+/**
+ * Rgb colorspace.
+ *
+ * @export
+ * @class Rgb
+ * @implements {IColor}
+ */
 export class Rgb implements IColor {
   public r: number;
   public g: number;
