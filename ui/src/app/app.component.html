@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="column-8 canvas">
+        <app-imgstry-editor [brightness]="value.brightness"
+                            [contrast]="value.contrast"
+                            src="https://i.imgur.com/Ht8sj8f.jpg">
+        </app-imgstry-editor>
+    </div>
+    <div class="column-2 panel">
+        <mat-slider [(ngModel)]="value.brightness"
+                    [thumbLabel]="true"
+                    min="-100"
+                    max="100"
+                    step="1"
+                    value="0">
+        </mat-slider>
+        <mat-slider [(ngModel)]="value.contrast"
+                    [thumbLabel]="true"
+                    min="-100"
+                    max="100"
+                    step="1"
+                    value="0">
+        </mat-slider>
+    </div>
+</div>

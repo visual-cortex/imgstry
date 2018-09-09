@@ -1,0 +1,58 @@
+{
+  "name": "imgstry",
+  "version": "1.0.0",
+  "description": "A JavaScript image editing module.",
+  "main": "dist/js/index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "clean": "gulp build:clean test:clean",
+    "test": "gulp test",
+    "watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/visual-cortex/imgstry.git"
+  },
+  "keywords": [
+    "image",
+    "editing",
+    "image-editing",
+    "canvas",
+    "filters",
+    "instagram",
+    "effects"
+  ],
+  "author": "V",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/visual-cortex/imgstry/issues"
+  },
+  "homepage": "https://github.com/visual-cortex/imgstry#readme",
+  "devDependencies": {
+    "@types/chai": "4.1.4",
+    "@types/mocha": "5.2.5",
+    "browser-sync": "2.24.7",
+    "browserify": "16.2.2",
+    "chai": "4.1.2",
+    "del": "3.0.0",
+    "gulp": "4.0.0",
+    "gulp-istanbul": "1.1.3",
+    "gulp-mocha": "6.0.0",
+    "gulp-mocha-phantomjs": "0.12.2",
+    "gulp-sourcemaps": "2.6.4",
+    "gulp-tslint": "8.1.3",
+    "gulp-typescript": "5.0.0-alpha.3",
+    "gulp-uglify": "3.0.1",
+    "merge2": "1.2.2",
+    "mocha": "5.2.0",
+    "mochawesome": "3.0.3",
+    "should": "13.2.3",
+    "tslint": "5.11.0",
+    "typescript": "3.0.3",
+    "vinyl-buffer": "1.0.1",
+    "vinyl-source-stream": "2.0.0"
+  }
+}
