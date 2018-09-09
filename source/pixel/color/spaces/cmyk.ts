@@ -1,13 +1,28 @@
+import {
+  ColorSpace,
+  IColor,
+} from '../icolor';
+
 import { Hex } from './hex';
 import { Hsv } from './hsv';
-import { IColor } from '../icolor';
 import { Rgb } from './rgb';
 
+/**
+ * CMYK colorspace.
+ *
+ * @export
+ * @class Cmyk
+ * @implements {IColor}
+ */
 export class Cmyk implements IColor {
   public c: number;
   public m: number;
   public y: number;
   public k: number;
+
+  public get kind() {
+    return ColorSpace.Cmyk;
+  }
 
   constructor(color?: any) {
     color = color || {};

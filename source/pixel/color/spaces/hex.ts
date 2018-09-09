@@ -1,10 +1,25 @@
+import {
+  ColorSpace,
+  IColor,
+} from '../icolor';
+
 import { Cmyk } from './cmyk';
 import { Hsv } from './hsv';
-import { IColor } from '../icolor';
 import { Rgb } from './rgb';
 
+/**
+ * HEX colorspace.
+ *
+ * @export
+ * @class Hex
+ * @implements {IColor}
+ */
 export class Hex implements IColor {
   public value: string;
+
+  public get kind() {
+    return ColorSpace.Hex;
+  }
 
   constructor(color?: string) {
     this.value = color || '#000000';
@@ -12,8 +27,8 @@ export class Hex implements IColor {
 
   public toRgb(): Rgb {
     let hex: string = this.value.charAt(0) === '#' ?
-                      this.value.substring(1, 7) :
-                      this.value;
+      this.value.substring(1, 7) :
+      this.value;
 
     return new Rgb({
       r: parseInt(hex.substring(0, 2), 16),
@@ -41,7 +56,7 @@ export class Hex implements IColor {
       clampedValue[i] = this.value[i];
       let charCode = this.value.charCodeAt(i);
 
-      if (charCode < '0'.charCodeAt(0) || (charCode > '9'.charCodeAt(0) && charCode < 'A'.charCodeAt(0)) ) {
+      if (charCode < '0'.charCodeAt(0) || (charCode > '9'.charCodeAt(0) && charCode < 'A'.charCodeAt(0))) {
         clampedValue[i] = '0';
       }
 
