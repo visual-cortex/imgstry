@@ -3,10 +3,13 @@ import {
   IThreadResult,
   ImgstryThread,
 } from '../../core/imgstry.thread';
+import {
+  IWorkerData,
+  IWorkerResult,
+} from './types';
 
 import { ImgstryWorker } from './imgstry.worker';
 import { Logger } from '../../helpers/logger';
-import { OperationOption } from '../../core/types';
 
 declare const importScripts: (...scripts: string[]) => void;
 declare const imgstry: typeof ImgstryWorker;
@@ -35,16 +38,12 @@ const executor = () => {
   };
 };
 
-export interface IWorkerData extends IWorkerResult {
-  operations: OperationOption[];
-}
-
-export interface IWorkerResult {
-  buffer: ArrayBuffer;
-  width: number;
-  height: number;
-}
-
+/**
+ * Browser thread option contract.
+ *
+ * @export
+ * @interface ThreadBrowserOptions
+ */
 export interface ThreadBrowserOptions {
   isEnabled?: boolean;
   isDevelopment?: boolean;
@@ -64,6 +63,14 @@ const generateSlaveBlob = (scriptLocation: string) => {
     });
 };
 
+/**
+ * Thread communication layer for the browser.
+ *
+ * @export
+ * @class ImgstryBrowserThread
+ * @implements {ImgstryThread}
+ * @ignore
+ */
 export class ImgstryBrowserThread implements ImgstryThread {
   private _worker: Worker;
   private _promise: Promise<IThreadResult>;

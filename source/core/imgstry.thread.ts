@@ -21,6 +21,12 @@ export interface IThreadResult {
   imageData: ImageData;
 }
 
+/**
+ * Defines the imgstry thread schema.
+ *
+ * @export
+ * @interface ImgstryThread
+ */
 export interface ImgstryThread {
   /**
    * Starts a worker thread and initiates the request operations.
