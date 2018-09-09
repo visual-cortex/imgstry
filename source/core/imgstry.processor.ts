@@ -1,6 +1,7 @@
 import {
   FilterOption,
   HistogramData,
+  TraversalPixelInfo,
 } from './types';
 
 import { Kernel } from '../kernel';
@@ -10,20 +11,6 @@ import { Rgb } from '../pixel';
 /** TO-DO:
  *    - integral blur (+ other blur methods)
  */
-
-/**
- * Defines the traverse information passed to the delegate.
- *
- * @interface TraversalPixelInfo
- */
-interface TraversalPixelInfo {
-  position: {
-    x: number;
-    y: number;
-    offset: number;
-  };
-  total: number;
-}
 
 export abstract class ImgstryProcessor {
   /**
@@ -85,7 +72,7 @@ export abstract class ImgstryProcessor {
   public get histogram(): HistogramData {
     const histogramResult: HistogramData = {
       all: [],
-      channels: {
+      channel: {
         red: [],
         green: [],
         blue: [],
@@ -95,17 +82,17 @@ export abstract class ImgstryProcessor {
     this._traverse((pixel, info) => {
       const mean = Math.floor((pixel.r + pixel.g + pixel.b) / 3);
       histogramResult.all[mean] = (histogramResult.all[mean] || 0) + 1;
-      histogramResult.channels.red[pixel.r] = (histogramResult.channels.red[pixel.r] || 0) + 1;
-      histogramResult.channels.green[pixel.g] = (histogramResult.channels.green[pixel.g] || 0) + 1;
-      histogramResult.channels.blue[pixel.b] = (histogramResult.channels.blue[pixel.b] || 0) + 1;
+      histogramResult.channel.red[pixel.r] = (histogramResult.channel.red[pixel.r] || 0) + 1;
+      histogramResult.channel.green[pixel.g] = (histogramResult.channel.green[pixel.g] || 0) + 1;
+      histogramResult.channel.blue[pixel.b] = (histogramResult.channel.blue[pixel.b] || 0) + 1;
       total = info.total;
     });
     // compute percentage for distributions
     for (let i = 0; i < 255; i++) {
       histogramResult.all[i] = (histogramResult.all[i] || 0) / total;
-      histogramResult.channels.red[i] = (histogramResult.channels.red[i] || 0) / total;
-      histogramResult.channels.green[i] = (histogramResult.channels.green[i] || 0) / total;
-      histogramResult.channels.blue[i] = (histogramResult.channels.blue[i] || 0) / total;
+      histogramResult.channel.red[i] = (histogramResult.channel.red[i] || 0) / total;
+      histogramResult.channel.green[i] = (histogramResult.channel.green[i] || 0) / total;
+      histogramResult.channel.blue[i] = (histogramResult.channel.blue[i] || 0) / total;
     }
     return histogramResult;
   }
@@ -204,7 +191,7 @@ export abstract class ImgstryProcessor {
     return this;
   }
 
-  public batch(options: FilterOption[], reset?: boolean) {
+  public batch(options: FilterOption[], reset?: boolean): ImgstryProcessor {
     if (reset) {
       this.reset();
     }
@@ -215,6 +202,8 @@ export abstract class ImgstryProcessor {
     for (let option of options) {
       (<any>this)[option.filter](option.value);
     }
+
+    return this;
   }
 
   private _traverse = (delegate: (pixel: Rgb, information?: TraversalPixelInfo) => Rgb | void): ImgstryProcessor => {
