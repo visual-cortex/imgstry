@@ -9,6 +9,15 @@ import { Kernel } from '../kernel';
 import { Operation } from './imgstry.operation';
 import { Rgb } from '../pixel';
 
+/**
+ * Core logic for the imgstry editor.
+ * Defines all the processing logic.
+ *
+ * @export
+ * @abstract
+ * @class ImgstryProcessor
+ * @ignore
+ */
 export abstract class ImgstryProcessor {
   /**
    * Width of the image.

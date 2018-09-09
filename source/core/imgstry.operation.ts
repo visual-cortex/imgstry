@@ -3,7 +3,13 @@ import {
   Rgb,
 } from '../pixel';
 
-export namespace Operation {
+export
+/**
+ * A collection of atomic operations used by the processor.
+ *
+ * @ignore
+ */
+namespace Operation {
   const Default = {
     blackAndWhite: {
       ratio: [.3, .59, .11] as [number, number, number],
