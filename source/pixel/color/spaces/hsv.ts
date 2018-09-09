@@ -3,6 +3,13 @@ import { Hex } from './hex';
 import { IColor } from '../icolor';
 import { Rgb } from './rgb';
 
+/**
+ * HSV colorspace.
+ *
+ * @export
+ * @class Hsv
+ * @implements {IColor}
+ */
 export class Hsv implements IColor {
   public h: number;
   public s: number;
@@ -18,35 +25,35 @@ export class Hsv implements IColor {
   public toRgb(): Rgb {
     let clamp = this.clamp();
     let c = clamp.v * clamp.s;
-    let x = c * (1 - Math.abs( ((clamp.h / 60) % 2) - 1 ));
+    let x = c * (1 - Math.abs(((clamp.h / 60) % 2) - 1));
     let m = clamp.v - c;
 
-    let result = new Rgb({r: m, g: m, b: m});
+    let result = new Rgb({ r: m, g: m, b: m });
 
     if (clamp.h >= 0 && clamp.h < 60) {
       result.r += c;
       result.g += x;
     } else
-    if (clamp.h >= 60 && clamp.h < 120) {
-      result.r += x;
-      result.g += c;
-    } else
-    if (clamp.h >= 120 && clamp.h < 180) {
-      result.g += c;
-      result.b += x;
-    } else
-    if (clamp.h >= 180 && clamp.h < 240) {
-      result.g += x;
-      result.b += c;
-    } else
-    if (clamp.h >= 240 && clamp.h < 300) {
-      result.r += x;
-      result.b += c;
-    } else
-    if (clamp.h >= 300 && clamp.h < 360) {
-      result.r += c;
-      result.b += x;
-    }
+      if (clamp.h >= 60 && clamp.h < 120) {
+        result.r += x;
+        result.g += c;
+      } else
+        if (clamp.h >= 120 && clamp.h < 180) {
+          result.g += c;
+          result.b += x;
+        } else
+          if (clamp.h >= 180 && clamp.h < 240) {
+            result.g += x;
+            result.b += c;
+          } else
+            if (clamp.h >= 240 && clamp.h < 300) {
+              result.r += x;
+              result.b += c;
+            } else
+              if (clamp.h >= 300 && clamp.h < 360) {
+                result.r += c;
+                result.b += x;
+              }
 
     result.r = Math.round(result.r * 255);
     result.g = Math.round(result.g * 255);
