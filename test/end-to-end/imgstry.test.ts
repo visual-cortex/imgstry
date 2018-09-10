@@ -5,7 +5,7 @@ declare let callPhantom: (options: { screenshot: string }) => void;
 
 const isPhantom = typeof this.callPhantom === 'function';
 const isServer = document.location.protocol &&
-  document.location.protocol.indexOf('http') > 0;
+  document.location.protocol.indexOf('http') !== -1;
 
 let takeScreenshot = (test: Mocha.Test) => {
   if (isPhantom) {

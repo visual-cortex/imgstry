@@ -132,11 +132,6 @@ gulp.task('browser:sync', (done) => {
     })
 });
 
-gulp.task('watch', gulp.series('build', 'browser:sync', () => {
-    gulp.watch([path.source.ts], gulp.series('build:ts', 'build:browser:bundle', 'build:worker:bundle'));
-    gulp.watch([path.test.e2e.ts], gulp.series('test:e2e:build'));
-}));
-
 gulp.task('test:clean', () => {
     return del([
         path.test.reports.base,
@@ -219,5 +214,10 @@ gulp.task('test', gulp.series(
     'test:unit',
     'test:e2e',
 ));
+
+gulp.task('watch', gulp.series('build', 'test:build', 'browser:sync', () => {
+    gulp.watch([path.source.ts], gulp.series('build:ts', 'build:browser:bundle', 'build:worker:bundle'));
+    gulp.watch([path.test.e2e.ts], gulp.series('test:e2e:build'));
+}));
 
 gulp.task('default', gulp.series('build'));
