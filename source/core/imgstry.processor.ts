@@ -92,30 +92,25 @@ export abstract class ImgstryProcessor {
    * @memberof ImgstryProcessor
    */
   public get histogram(): HistogramData {
+    const filler = Array(256).fill(0);
+
     const histogramResult: HistogramData = {
-      all: [],
+      all: [...filler],
       channel: {
-        red: [],
-        green: [],
-        blue: [],
+        red: [...filler],
+        green: [...filler],
+        blue: [...filler],
       },
     };
-    let total = 1;
+
     this._traverse((pixel, info) => {
       const mean = Math.floor((pixel.r + pixel.g + pixel.b) / 3);
-      histogramResult.all[mean] = (histogramResult.all[mean] || 0) + 1;
-      histogramResult.channel.red[pixel.r] = (histogramResult.channel.red[pixel.r] || 0) + 1;
-      histogramResult.channel.green[pixel.g] = (histogramResult.channel.green[pixel.g] || 0) + 1;
-      histogramResult.channel.blue[pixel.b] = (histogramResult.channel.blue[pixel.b] || 0) + 1;
-      total = info.total;
+      histogramResult.all[mean] += 1 / info.total;
+      histogramResult.channel.red[pixel.r] += 1 / info.total;
+      histogramResult.channel.green[pixel.g] += 1 / info.total;
+      histogramResult.channel.blue[pixel.b] += 1 / info.total;
     });
-    // compute percentage for distributions
-    for (let i = 0; i < 255; i++) {
-      histogramResult.all[i] = (histogramResult.all[i] || 0) / total;
-      histogramResult.channel.red[i] = (histogramResult.channel.red[i] || 0) / total;
-      histogramResult.channel.green[i] = (histogramResult.channel.green[i] || 0) / total;
-      histogramResult.channel.blue[i] = (histogramResult.channel.blue[i] || 0) / total;
-    }
+
     return histogramResult;
   }
 
