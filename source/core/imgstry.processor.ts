@@ -92,21 +92,23 @@ export abstract class ImgstryProcessor {
    * @memberof ImgstryProcessor
    */
   public get histogram(): HistogramData {
+    const filler = Array(257).join(' ').split('').map(_ => 0);
+
     const histogramResult: HistogramData = {
-      all: [],
+      all: [...filler],
       channel: {
-        red: [],
-        green: [],
-        blue: [],
+        red: [...filler],
+        green: [...filler],
+        blue: [...filler],
       },
     };
 
     this._traverse((pixel, info) => {
       const mean = Math.floor((pixel.r + pixel.g + pixel.b) / 3);
-      histogramResult.all[mean] = (histogramResult.all[mean] || 0) + 1 / info.total;
-      histogramResult.channel.red[pixel.r] = (histogramResult.channel.red[pixel.r] || 0) + 1 / info.total;
-      histogramResult.channel.green[pixel.g] = (histogramResult.channel.green[pixel.g] || 0) + 1 / info.total;
-      histogramResult.channel.blue[pixel.b] = (histogramResult.channel.blue[pixel.b] || 0) + 1 / info.total;
+      histogramResult.all[mean] += 1 / info.total;
+      histogramResult.channel.red[pixel.r] += 1 / info.total;
+      histogramResult.channel.green[pixel.g] += 1 / info.total;
+      histogramResult.channel.blue[pixel.b] += 1 / info.total;
     });
 
     return histogramResult;
