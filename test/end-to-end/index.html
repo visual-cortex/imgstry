@@ -9,6 +9,21 @@
           content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
           href="../../node_modules/mocha/mocha.css" />
+    <style>
+        body {
+            background-color: #17141E;
+        }
+        * {
+            color: #6A6A6A;
+        }
+
+        #mocha .test a.replay {
+            color: #6A6A6A;
+            background: #383838;
+            font-size: 25px;
+            opacity: .6;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,9 +38,9 @@
     <script src="../../node_modules/should/should.js"></script>
     <script src="../../node_modules/mocha/mocha.js"></script>
     <script>mocha.setup({
-        ui: 'bdd',
-        timeout: 16000,
-    })</script>
+            ui: 'bdd',
+            timeout: 16000,
+        })</script>
     <script src="../../test/end-to-end/imgstry.test.js"></script>
     <script>
         mocha.run();
