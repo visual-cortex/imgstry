@@ -40,10 +40,10 @@ describe('HEX color', () => {
 
         let result = color.toCmyk();
 
-        expect(result.c).equals(cmyk.c);
-        expect(result.m).equals(cmyk.m);
-        expect(result.y).equals(cmyk.y);
-        expect(result.k).equals(cmyk.k);
+        expect(result.c).approximately(cmyk.c, 1);
+        expect(result.m).approximately(cmyk.m, 1);
+        expect(result.y).approximately(cmyk.y, 1);
+        expect(result.k).approximately(cmyk.k, .01);
       });
 
       it(`Should convert ${key} correctly to HSV`, () => {
@@ -51,9 +51,9 @@ describe('HEX color', () => {
         let hsv = colors[key].hsv;
         let color = hex.toHsv();
 
-        expect(color.h).eql(hsv.h);
-        expect(color.s).eql(hsv.s);
-        expect(color.v).eql(hsv.v);
+        expect(color.h).approximately(hsv.h, 1);
+        expect(color.s).approximately(hsv.s, .1);
+        expect(color.v).approximately(hsv.v, .01);
       });
     }
   }
