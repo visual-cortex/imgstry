@@ -261,6 +261,15 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
     return this;
   }
 
+  public fill(color: string): Imgstry {
+    this._operations.push({
+      name: 'fill',
+      value: color,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   public convolve(kernel: Kernel.Kernel | number[][]): Imgstry {
     this._operations.push({
       name: 'convolve',
