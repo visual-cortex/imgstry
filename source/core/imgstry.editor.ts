@@ -96,6 +96,14 @@ export interface ImgstryEditor<T> {
    */
   tint(color: string): T;
   /**
+   * Fill the canvas with a color.
+   *
+   * @param {string} color
+   * @returns {T}
+   * @memberof ImgstryEditor
+   */
+  fill(color: string): T;
+  /**
    * Apply a kernel to the image.
    *
    * @param {(Kernel.Kernel | number[][])} kernel
