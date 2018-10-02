@@ -150,6 +150,14 @@ namespace Operation {
     };
   };
 
+  export const fill = (color: string) => {
+    let rgb = new Hex(color).toRgb();
+
+    return () => {
+      return rgb;
+    };
+  };
+
   export const blackAndWhite = ([rRatio, gRatio, bRatio]: [number, number, number] = Default.blackAndWhite.ratio) => {
     if (rRatio + gRatio + bRatio !== 1) {
       [rRatio, gRatio, bRatio] = Default.blackAndWhite.ratio;
