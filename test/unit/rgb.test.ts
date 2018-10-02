@@ -44,10 +44,10 @@ describe('RGB color', () => {
 
         let result = color.toCmyk();
 
-        expect(result.c).equals(cmyk.c);
-        expect(result.m).equals(cmyk.m);
-        expect(result.y).equals(cmyk.y);
-        expect(result.k).equals(cmyk.k);
+        expect(result.c).approximately(cmyk.c, 1);
+        expect(result.m).approximately(cmyk.m, 1);
+        expect(result.y).approximately(cmyk.y, 1);
+        expect(result.k).approximately(cmyk.k, .01);
       });
 
       it(`Should convert ${key} correctly to RGB`, () => {
