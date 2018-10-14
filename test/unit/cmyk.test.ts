@@ -12,57 +12,55 @@ describe('CMYK color', () => {
     expect(color.k).eql(0);
   });
 
-  let colors: any = colorMap;
-  for (let key in colors) {
-    if (colors[key]) {
-      it(`Should convert ${key} correctly to RGB`, () => {
-        let rgb = colors[key].rgb;
-        let cmyk = colors[key].cmyk;
-        let color = new Cmyk(cmyk);
 
-        let result = color.toRgb();
+  Object.keys(colorMap).forEach(key => {
+    const colorDefinition = colorMap[key] as any;
 
-        // FIXME: Reimplement color-space conversion to prevent information loss
-        expect(result.r).approximately(rgb.r, 4);
-        expect(result.g).approximately(rgb.g, 4);
-        expect(result.b).approximately(rgb.b, 4);
-      });
+    it(`Should convert ${key} correctly to RGB`, () => {
+      let rgb = colorDefinition.rgb;
+      let cmyk = colorDefinition.cmyk;
+      let color = new Cmyk(cmyk);
 
-      it(`Should convert ${key} correctly to HEX`, () => {
-        let hex = colors[key].hex;
-        let cmyk = colors[key].cmyk;
-        let color = new Cmyk(cmyk);
+      let result = color.toRgb();
 
-        let result = color.toHex();
+      expect(result.r).approximately(rgb.r, 5);
+      expect(result.g).approximately(rgb.g, 5);
+      expect(result.b).approximately(rgb.b, 5);
+    });
 
-        expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.substring(1), 16), 140000);
-      });
+    it(`Should convert ${key} correctly to HEX`, () => {
+      let hex = colorDefinition.hex;
+      let cmyk = colorDefinition.cmyk;
+      let color = new Cmyk(cmyk);
 
-      it(`Should convert ${key} correctly to CMYK`, () => {
-        let cmyk = colors[key].cmyk;
-        let color = new Cmyk(cmyk);
+      let result = color.toHex();
 
-        let result = color.toCmyk();
+      expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.substring(1), 16), 140000);
+    });
 
-        expect(result.c).equals(cmyk.c);
-        expect(result.m).equals(cmyk.m);
-        expect(result.y).equals(cmyk.y);
-        expect(result.k).equals(cmyk.k);
-      });
+    it(`Should convert ${key} correctly to CMYK`, () => {
+      let cmyk = colorDefinition.cmyk;
+      let color = new Cmyk(cmyk);
 
-      it(`Should convert ${key} correctly to HSV`, () => {
-        let hsv = colors[key].hsv;
-        let cmyk = colors[key].cmyk;
-        let color = new Cmyk(cmyk);
-        let result = color.toHsv();
+      let result = color.toCmyk();
 
-        // FIXME: Reimplement color-space conversion to prevent information loss
-        expect(result.h).approximately(hsv.h, 7);
-        expect(result.s).approximately(hsv.s, .1);
-        expect(result.v).approximately(hsv.v, .1);
-      });
-    }
-  }
+      expect(result.c).equals(cmyk.c);
+      expect(result.m).equals(cmyk.m);
+      expect(result.y).equals(cmyk.y);
+      expect(result.k).equals(cmyk.k);
+    });
+
+    it(`Should convert ${key} correctly to HSV`, () => {
+      let hsv = colorDefinition.hsv;
+      let cmyk = colorDefinition.cmyk;
+      let color = new Cmyk(cmyk);
+      let result = color.toHsv();
+
+      expect(result.h).approximately(hsv.h, 7);
+      expect(result.s).approximately(hsv.s, .1);
+      expect(result.v).approximately(hsv.v, .1);
+    });
+  });
 
   it('Should clamp correctly', () => {
     let color = new Cmyk({

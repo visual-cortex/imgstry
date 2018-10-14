@@ -9,54 +9,53 @@ describe('HEX color', () => {
     expect(color.value).eql('#000000');
   });
 
-  let colors: any = colorMap;
-  for (let key in colors) {
-    if (colors[key]) {
-      it(`Should convert ${key} correctly to RGB`, () => {
-        let rgb = colors[key].rgb;
-        let hex = colors[key].hex;
-        let color = new Hex(hex);
+  Object.keys(colorMap).forEach(key => {
+    const colorDefinition = colorMap[key] as any;
 
-        let result = color.toRgb();
+    it(`Should convert ${key} correctly to RGB`, () => {
+      let rgb = colorDefinition.rgb;
+      let hex = colorDefinition.hex;
+      let color = new Hex(hex);
 
-        expect(result.r).approximately(rgb.r, 1);
-        expect(result.g).approximately(rgb.g, 1);
-        expect(result.b).approximately(rgb.b, 1);
-      });
+      let result = color.toRgb();
 
-      it(`Should convert ${key} correctly to HEX`, () => {
-        let hex = colors[key].hex;
-        let color = new Hex(hex);
+      expect(result.r).approximately(rgb.r, 1);
+      expect(result.g).approximately(rgb.g, 1);
+      expect(result.b).approximately(rgb.b, 1);
+    });
 
-        let result = color.toHex();
+    it(`Should convert ${key} correctly to HEX`, () => {
+      let hex = colorDefinition.hex;
+      let color = new Hex(hex);
 
-        expect(result.value).eql(hex);
-      });
+      let result = color.toHex();
 
-      it(`Should convert ${key} correctly to CMYK`, () => {
-        let hex = colors[key].hex;
-        let cmyk = colors[key].cmyk;
-        let color = new Hex(hex);
+      expect(result.value).eql(hex);
+    });
 
-        let result = color.toCmyk();
+    it(`Should convert ${key} correctly to CMYK`, () => {
+      let hex = colorDefinition.hex;
+      let cmyk = colorDefinition.cmyk;
+      let color = new Hex(hex);
 
-        expect(result.c).approximately(cmyk.c, 1);
-        expect(result.m).approximately(cmyk.m, 1);
-        expect(result.y).approximately(cmyk.y, 1);
-        expect(result.k).approximately(cmyk.k, .01);
-      });
+      let result = color.toCmyk();
 
-      it(`Should convert ${key} correctly to HSV`, () => {
-        let hex = new Hex(colors[key].hex);
-        let hsv = colors[key].hsv;
-        let color = hex.toHsv();
+      expect(result.c).approximately(cmyk.c, 1);
+      expect(result.m).approximately(cmyk.m, 1);
+      expect(result.y).approximately(cmyk.y, 1);
+      expect(result.k).approximately(cmyk.k, .01);
+    });
 
-        expect(color.h).approximately(hsv.h, 1);
-        expect(color.s).approximately(hsv.s, .1);
-        expect(color.v).approximately(hsv.v, .01);
-      });
-    }
-  }
+    it(`Should convert ${key} correctly to HSV`, () => {
+      let hex = new Hex(colorDefinition.hex);
+      let hsv = colorDefinition.hsv;
+      let color = hex.toHsv();
+
+      expect(color.h).approximately(hsv.h, .1);
+      expect(color.s).approximately(hsv.s, .1);
+      expect(color.v).approximately(hsv.v, .01);
+    });
+  });
 
   it('Should clamp correctly', () => {
     let color = new Hex('#012345');
