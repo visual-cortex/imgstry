@@ -7,6 +7,20 @@ import { Hex } from './hex';
 import { Hsv } from './hsv';
 import { Rgb } from './rgb';
 
+interface ICmyk {
+  c: number;
+  m: number;
+  y: number;
+  k: number;
+}
+
+const DEFAULT: ICmyk = {
+  c: 0,
+  m: 0,
+  y: 0,
+  k: 0,
+};
+
 /**
  * CMYK colorspace.
  *
@@ -24,19 +38,18 @@ export class Cmyk implements IColor {
     return ColorSpace.Cmyk;
   }
 
-  constructor(color?: any) {
-    color = color || {};
-    this.c = color.c || 0;
-    this.m = color.m || 0;
-    this.y = color.y || 0;
-    this.k = color.k || 0;
+  constructor({ c, m, y, k }: ICmyk = DEFAULT) {
+    this.c = c;
+    this.m = m;
+    this.y = y;
+    this.k = k;
   }
 
   public toRgb(): Rgb {
     return new Rgb({
-      r: Math.round(255 * (1 - this.c) * (1 - this.k)),
-      g: Math.round(255 * (1 - this.m) * (1 - this.k)),
-      b: Math.round(255 * (1 - this.y) * (1 - this.k)),
+      r: 255 * (1 - Math.min(1, this.c * (1 - this.k) + this.k)),
+      g: 255 * (1 - Math.min(1, this.m * (1 - this.k) + this.k)),
+      b: 255 * (1 - Math.min(1, this.y * (1 - this.k) + this.k)),
     });
   }
 

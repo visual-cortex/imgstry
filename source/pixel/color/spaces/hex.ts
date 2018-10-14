@@ -21,8 +21,8 @@ export class Hex implements IColor {
     return ColorSpace.Hex;
   }
 
-  constructor(color?: string) {
-    this.value = color || '#000000';
+  constructor(color = '#000000') {
+    this.value = color;
   }
 
   public toRgb(): Rgb {

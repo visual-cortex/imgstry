@@ -1,4 +1,4 @@
-export const colorMap = {
+export const colorMap: Record<string, any> = {
   fantasy: {
     rgb: {
       r: 249,
