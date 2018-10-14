@@ -1,4 +1,4 @@
-import { Hex }  from '../../dist/js/pixel';
+import { Hex } from '../../dist/js/pixel';
 import { Hsv } from '../../dist/js/pixel';
 import { colorMap } from './constants/colors';
 import { expect } from 'chai';
@@ -11,53 +11,52 @@ describe('HSV color', () => {
     expect(color.v).eql(0);
   });
 
-  let colors: any = colorMap;
-  for (let key in colors) {
-    if (colors[key]) {
-      it(`Should convert ${key} correctly to RGB`, () => {
-        let rgb = colors[key].rgb;
-        let hsv = colors[key].hsv;
-        let color = new Hsv(hsv);
+  Object.keys(colorMap).forEach(key => {
+    const colorDefinition = colorMap[key] as any;
+    it(`Should convert ${key} correctly to RGB`, () => {
+      let rgb = colorDefinition.rgb;
+      let hsv = colorDefinition.hsv;
+      let color = new Hsv(hsv);
 
-        let result = color.toRgb();
+      let result = color.toRgb();
 
-        expect(result.r).approximately(rgb.r, 2);
-        expect(result.g).approximately(rgb.g, 2);
-        expect(result.b).approximately(rgb.b, 2);
-      });
+      expect(result.r).approximately(rgb.r, 2);
+      expect(result.g).approximately(rgb.g, 2);
+      expect(result.b).approximately(rgb.b, 2);
+    });
 
-      it(`Should convert ${key} correctly to HEX`, () => {
-        let hsv = colors[key].hsv;
-        let hex = new Hex(colors[key].hex);
-        let color = new Hsv(hsv);
+    it(`Should convert ${key} correctly to HEX`, () => {
+      let hsv = colorDefinition.hsv;
+      let hex = new Hex(colorDefinition.hex);
+      let color = new Hsv(hsv);
 
-        let result = color.toHex();
+      let result = color.toHex();
 
-        expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.value.substring(1), 16), 140000);
-      });
+      expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.value.substring(1), 16), 140000);
+    });
 
-      it(`Should convert ${key} correctly to CMYK`, () => {
-        let hsv = colors[key].hsv;
-        let cmyk = colors[key].cmyk;
-        let color = new Hsv(hsv);
+    it(`Should convert ${key} correctly to CMYK`, () => {
+      let hsv = colorDefinition.hsv;
+      let cmyk = colorDefinition.cmyk;
+      let color = new Hsv(hsv);
 
-        let result = color.toCmyk();
+      let result = color.toCmyk();
 
-        expect(result.c).approximately(cmyk.c, 1);
-        expect(result.m).approximately(cmyk.m, 1);
-        expect(result.y).approximately(cmyk.y, 1);
-        expect(result.k).approximately(cmyk.k, .02);
-      });
+      expect(result.c).approximately(cmyk.c, 1);
+      expect(result.m).approximately(cmyk.m, 1);
+      expect(result.y).approximately(cmyk.y, 1);
+      expect(result.k).approximately(cmyk.k, .02);
+    });
 
-      it(`Should convert ${key} correctly to HSV`, () => {
-        let hsv = new Hsv(colors[key].hsv);
-        let color = hsv.toHsv();
-        expect(color.h).eql(hsv.h);
-        expect(color.s).eql(hsv.s);
-        expect(color.v).eql(hsv.v);
-      });
-    }
-  }
+    it(`Should convert ${key} correctly to HSV`, () => {
+      let hsv = new Hsv(colorDefinition.hsv);
+      let color = hsv.toHsv();
+      expect(color.h).eql(hsv.h);
+      expect(color.s).eql(hsv.s);
+      expect(color.v).eql(hsv.v);
+    });
+  });
+
 
   it('Should clamp correctly', () => {
     // interior limits
@@ -103,15 +102,13 @@ describe('HSV color', () => {
     expect(color.v).eql(1);
 
     // correct value
-    for (let key in colors) {
-      if (colors[key]) {
-        let hsv = colors[key].hsv;
-        color = new Hsv(hsv).clamp();
+    Object.keys(colorMap).forEach(key => {
+      const colorDefinition = colorMap[key] as any;
+      color = new Hsv(colorDefinition.hsv).clamp();
 
-        expect(color.h).eql(hsv.h);
-        expect(color.s).eql(hsv.s);
-        expect(color.v).eql(hsv.v);
-      }
-    }
+      expect(color.h).eql(colorDefinition.hsv.h);
+      expect(color.s).eql(colorDefinition.hsv.s);
+      expect(color.v).eql(colorDefinition.hsv.v);
+    });
   });
 });

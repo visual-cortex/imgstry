@@ -802,7 +802,7 @@ renderers.forEach((method: RenderMethod) => {
       [
         ...GREY_MAP.map(rgb => ({
           name: rgb.name,
-          color: new imgstry.Utility.Rgb(rgb).toHex().value,
+          color: new imgstry.Utility.Rgb(rgb.index).toHex().value,
         })),
         ...HEX_MAP,
       ]

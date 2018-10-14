@@ -11,54 +11,52 @@ describe('RGB color', () => {
     expect(color.b).eql(0);
   });
 
-  let colors: any = colorMap;
-  for (let key in colors) {
-    if (colors[key]) {
-      it(`Should convert ${key} correctly to HSV`, () => {
-          let rgb = colors[key].rgb;
-          let hsv = colors[key].hsv;
+  Object.keys(colorMap).forEach(key => {
+    const colorDefinition = colorMap[key] as any;
+    it(`Should convert ${key} correctly to HSV`, () => {
+      let rgb = colorDefinition.rgb;
+      let hsv = colorDefinition.hsv;
 
-          let color = new Rgb(rgb);
+      let color = new Rgb(rgb);
 
-          let result = color.toHsv();
+      let result = color.toHsv();
 
-          expect(result.h).approximately(hsv.h, 1);
-          expect(result.s).approximately(hsv.s, 1);
-          expect(result.v).approximately(hsv.v, 1);
-      });
+      expect(result.h).approximately(hsv.h, .1);
+      expect(result.s).approximately(hsv.s, .1);
+      expect(result.v).approximately(hsv.v, .1);
+    });
 
-      it(`Should convert ${key} correctly to HEX`, () => {
-        let rgb = colors[key].rgb;
-        let hex = new Hex(colors[key].hex);
-        let color = new Rgb(rgb);
+    it(`Should convert ${key} correctly to HEX`, () => {
+      let rgb = colorDefinition.rgb;
+      let hex = new Hex(colorDefinition.hex);
+      let color = new Rgb(rgb);
 
-        let result = color.toHex();
+      let result = color.toHex();
 
-        expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.value.substring(1), 16), 80000);
-      });
+      expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.value.substring(1), 16), 80000);
+    });
 
-      it(`Should convert ${key} correctly to CMYK`, () => {
-        let rgb = colors[key].rgb;
-        let cmyk = colors[key].cmyk;
-        let color = new Rgb(rgb);
+    it(`Should convert ${key} correctly to CMYK`, () => {
+      let rgb = colorDefinition.rgb;
+      let cmyk = colorDefinition.cmyk;
+      let color = new Rgb(rgb);
 
-        let result = color.toCmyk();
+      let result = color.toCmyk();
 
-        expect(result.c).approximately(cmyk.c, 1);
-        expect(result.m).approximately(cmyk.m, 1);
-        expect(result.y).approximately(cmyk.y, 1);
-        expect(result.k).approximately(cmyk.k, .01);
-      });
+      expect(result.c).approximately(cmyk.c, 1);
+      expect(result.m).approximately(cmyk.m, 1);
+      expect(result.y).approximately(cmyk.y, 1);
+      expect(result.k).approximately(cmyk.k, .01);
+    });
 
-      it(`Should convert ${key} correctly to RGB`, () => {
-        let rgb = new Rgb(colors[key].rgb);
-        let color = rgb.toRgb();
-        expect(color.r).eql(rgb.r);
-        expect(color.g).eql(rgb.g);
-        expect(color.b).eql(rgb.b);
-      });
-    }
-  }
+    it(`Should convert ${key} correctly to RGB`, () => {
+      let rgb = new Rgb(colorDefinition.rgb);
+      let color = rgb.toRgb();
+      expect(color.r).eql(rgb.r);
+      expect(color.g).eql(rgb.g);
+      expect(color.b).eql(rgb.b);
+    });
+  });
 
   it('Should clamp correctly', () => {
     // interior limits
@@ -103,16 +101,13 @@ describe('RGB color', () => {
     expect(color.g).eql(255);
     expect(color.b).eql(255);
 
-    // correct value
-    for (let key in colors) {
-      if (colors[key]) {
-        let rgb = colors[key].rgb;
-        color = new Rgb(rgb).clamp();
+    Object.keys(colorMap).forEach(key => {
+      const colorDefinition = colorMap[key] as any;
+      color = new Rgb(colorDefinition.rgb).clamp();
 
-        expect(color.r).eql(rgb.r);
-        expect(color.g).eql(rgb.g);
-        expect(color.b).eql(rgb.b);
-      }
-    }
+      expect(color.r).eql(colorDefinition.rgb.r);
+      expect(color.g).eql(colorDefinition.rgb.g);
+      expect(color.b).eql(colorDefinition.rgb.b);
+    });
   });
 });
