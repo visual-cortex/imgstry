@@ -1,34 +1,30 @@
-import { CubicInterpolationSet } from './cubic-interpolation-set';
-import { Point } from '../point';
+import {
+  IPoint,
+  Point,
+} from '../point';
+
+import { CubicInterpolationSet } from './cubicInterpolationSet';
 import { findLastIndex } from '../../utils/array';
 
 export class CubicSpline {
   private _coefficients: CubicInterpolationSet;
+  private _first: IPoint;
+  private _last: IPoint;
 
-  constructor(
-    // points
-    private x: number[],
-    y: number[],
-  ) {
-    // FIXME: remove
-    const _points = Array(x.length).fill(0).map((_, idx) => {
-      return new Point({
-        x: x[idx],
-        y: y[idx],
-      });
-    });
+  constructor(private _points: IPoint[]) {
+    if (_points == null) { throw new Error('The cubic spline instance requires both x and y series.'); }
 
-    if (
-      x == null ||
-      y == null
-    ) { throw new Error('The cubic spline instance requires both x and y series.'); }
-
-    this._coefficients = new CubicInterpolationSet(_points);
+    this._coefficients = new CubicInterpolationSet(_points.map(p => new Point(p)));
+    this._first = this._points[0];
+    this._last = this._points[this._points.length - 1];
   }
 
   public interpolate(x: number) {
-    let idx = findLastIndex(this.x, xCoord => xCoord <= x);
-    let deltaX = x - this.x[idx];
+    if (x < this._first.x) { return this._first.y; }
+    if (x > this._last.x) { return this._last.y; }
+
+    let idx = findLastIndex(this._points, point => point.x <= x);
+    let deltaX = x - this._points[idx].x;
 
     const { a, b, c, d } = this._coefficients.at(idx);
 
