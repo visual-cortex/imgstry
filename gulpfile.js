@@ -28,6 +28,11 @@ const path = {
             name: 'imgstry',
             fileName: 'imgstry.worker',
             base: 'browser/worker'
+        },
+        spline: {
+            name: 'spline',
+            fileName: 'imgstry.spline',
+            base: 'browser/spline'
         }
     },
     source: {
@@ -103,6 +108,7 @@ const bundle = (library) => {
 
 gulp.task('build:browser:bundle', bundle(path.library.browser));
 gulp.task('build:worker:bundle', bundle(path.library.worker));
+gulp.task('build:spline:bundle', bundle(path.library.spline));
 
 gulp.task('build:clean', () => {
     return del(path.dist.base);
@@ -113,7 +119,8 @@ gulp.task('build', gulp.series(
     'lint:ts',
     'build:ts',
     'build:browser:bundle',
-    'build:worker:bundle'
+    'build:worker:bundle',
+    'build:spline:bundle'
 ));
 
 gulp.task('browser:sync', (done) => {
@@ -216,8 +223,19 @@ gulp.task('test', gulp.series(
 ));
 
 gulp.task('watch', gulp.series('build', 'test:build', 'browser:sync', () => {
-    gulp.watch([path.source.ts], gulp.series('build:ts', 'build:browser:bundle', 'build:worker:bundle'));
-    gulp.watch([path.test.e2e.ts], gulp.series('test:e2e:build'));
+    gulp.watch(
+        [path.source.ts],
+        gulp.series(
+            'build:ts',
+            'build:browser:bundle',
+            'build:worker:bundle',
+            'build:spline:bundle',
+        )
+    );
+    gulp.watch(
+        [path.test.e2e.ts],
+        gulp.series('test:e2e:build')
+    );
 }));
 
 gulp.task('default', gulp.series('build'));

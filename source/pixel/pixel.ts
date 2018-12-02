@@ -3,6 +3,8 @@ import {
   IColor,
 } from './color';
 
+import { IPoint } from '../core/point';
+
 /**
  *
  *
@@ -10,7 +12,7 @@ import {
  * @class Pixel
  * @template IColor
  */
-export class Pixel<T extends IColor> {
+export class Pixel<T extends IColor> implements IPoint {
   public get x() {
     return this._x;
   }
