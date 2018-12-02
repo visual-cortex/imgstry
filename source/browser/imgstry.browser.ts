@@ -12,6 +12,7 @@ import {
 } from '../core';
 
 import { BindUtility } from '../decorators/bind-utility.decorator';
+import { getCanvas } from '../utils/dom';
 
 export type IPixel = {
   [K in keyof typeof Pixel]: typeof Pixel[K];
@@ -71,38 +72,8 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
    */
   @BindUtility(Kernel, Pixel)
   public static Utility: IKernel & IPixel;
-  /**
-   * (Retrieves the canvas elemented for a specified 'id'.)
-   *
-   * @static
-   */
-  public static getCanvas(selector: string | HTMLCanvasElement): HTMLCanvasElement {
-    if (selector instanceof HTMLCanvasElement) {
-      return selector;
-    }
 
-    if (!selector) {
-      throw 'A canvas selector must be provided.';
-    }
-
-    if (!Imgstry._selectorRegex.test(selector)) {
-      throw `'${selector}' is not a valid id.`;
-    }
-
-    if (selector[0] === '#') {
-      selector = selector.substring(1);
-    }
-
-    let canvas = document.getElementById(selector);
-
-    if (!(canvas instanceof HTMLCanvasElement)) {
-      throw `'${selector}' does not identify a canvas element.`;
-    }
-
-    return <HTMLCanvasElement>canvas;
-  }
-
-  private static _selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
+  public static getCanvas = getCanvas;
 
   public readonly context: CanvasRenderingContext2D;
   public readonly canvas: HTMLCanvasElement;
