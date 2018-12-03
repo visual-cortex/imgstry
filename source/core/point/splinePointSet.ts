@@ -97,7 +97,9 @@ export class SplinePointSet implements Iterable<Point> {
     if (!this._points[index]) { return this._pointResult(-1); }
     if (
       !this._allowedWithinBound({ x, y }) ||
-      this._points.find(p => p.x === x)
+      this._points.find(p => p.x === x) &&
+      index !== 0 &&
+      index !== this.length - 1
     ) { return this._pointResult(index); }
 
     this._points[index].x = x;

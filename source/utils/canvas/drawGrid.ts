@@ -1,29 +1,32 @@
 interface IGridOptions {
   gridSize: number;
   color: string;
+  padding: number;
 }
 
 export const drawGrid = (
   canvas: HTMLCanvasElement,
-  options: IGridOptions,
+  { gridSize, color, padding }: IGridOptions,
 ) => {
   const context = canvas.getContext('2d');
   context.beginPath();
 
-  const stepX = canvas.width / options.gridSize;
-  const stepY = canvas.height / options.gridSize;
+  const totalPadd = padding * 2;
 
-  for (let x = 0; x <= canvas.width; x += stepX) {
-    context.moveTo(x, 0);
-    context.lineTo(x, canvas.height);
+  const stepX = (canvas.width - totalPadd) / gridSize;
+  const stepY = (canvas.height - totalPadd) / gridSize;
+
+  for (let x = padding; x <= (canvas.width - padding); x += stepX) {
+    context.moveTo(x, padding);
+    context.lineTo(x, canvas.height - padding);
   }
 
-  for (let y = 0; y <= canvas.height; y += stepY) {
-    context.moveTo(0, y);
-    context.lineTo(canvas.width, y);
+  for (let y = padding; y <= (canvas.width - padding); y += stepY) {
+    context.moveTo(padding, y);
+    context.lineTo(canvas.width - padding, y);
   }
 
-  context.strokeStyle = options.color;
+  context.strokeStyle = color;
   context.stroke();
 
   context.closePath();
