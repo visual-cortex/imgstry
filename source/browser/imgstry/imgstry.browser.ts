@@ -1,26 +1,16 @@
-import * as Kernel from '../kernel';
-import * as Pixel from '../pixel';
+import * as Kernel from '../../kernel';
 
 import {
   ImgstryBrowserThread,
   ThreadBrowserOptions,
-} from './worker/browser.thread';
+} from '../worker/browser.thread';
 import {
   ImgstryEditor,
   ImgstryProcessor,
   OperationOption,
-} from '../core';
+} from '../../core';
 
-import { BindUtility } from '../decorators/bind-utility.decorator';
-import { getCanvas } from '../utils/dom';
-
-export type IPixel = {
-  [K in keyof typeof Pixel]: typeof Pixel[K];
-};
-
-export type IKernel = {
-  [K in keyof typeof Kernel]: typeof Kernel[K];
-};
+import { getCanvas } from '../../utils/dom';
 
 export interface ImgstryBrowserOptions {
   thread: ThreadBrowserOptions;
@@ -64,15 +54,6 @@ const assignDefault = (source: Partial<ImgstryBrowserOptions>): ImgstryBrowserOp
  * @class Imgstry
  */
 export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> {
-  /**
-   * Exposes all utilities required for a fruitful life alongside imstry.
-   *
-   * @static
-   * @type {IKernel & IPixel}
-   */
-  @BindUtility(Kernel, Pixel)
-  public static Utility: IKernel & IPixel;
-
   public static getCanvas = getCanvas;
 
   public readonly context: CanvasRenderingContext2D;

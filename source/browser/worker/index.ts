@@ -1,3 +1,1 @@
-import { ImgstryWorker } from './imgstry.worker';
-
-export = ImgstryWorker;
+export { ImgstryWorker } from './imgstry.worker';
