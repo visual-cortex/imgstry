@@ -67,20 +67,20 @@ export class SplineCurve implements IDisposable {
   }
 
   private get _colors() {
-    return splineTheme((this._options || { theme: Theme.light }).theme);
+    return splineTheme(this._options.theme || Theme.light);
   }
 
   private get _gridSize() {
-    return (this._options || { gridSize: 3 }).gridSize;
+    return this._options.gridSize || 3;
   }
 
   private get _anchorSize() {
-    return (this._options || { anchorSize: 15 }).anchorSize;
+    return this._options.anchorSize || 15;
   }
 
   constructor(
     elementIdOrCanvas: string | HTMLCanvasElement,
-    private _options: ISplineCurveOptions,
+    private _options: ISplineCurveOptions = {} as ISplineCurveOptions,
   ) {
     this._canvas = SplineCurve.getCanvas(elementIdOrCanvas);
     this._context = this._canvas.getContext('2d');
