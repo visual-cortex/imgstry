@@ -1,1 +1,1 @@
-export { SplineCurve } from './spline.browser';
+export { ImgstrySpline } from './spline.browser';
