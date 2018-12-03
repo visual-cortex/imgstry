@@ -1,10 +1,5 @@
-source/**/*.js
-source/**/*.js.map
-test/**/*.js
-test/**/*.js.map
-!test/**/resources/**/*
-!test/**/helpers/**/*
-example/resources/uploads
+test/**/*.test.js
+test/**/dist
 # Logs
 logs
 *.log
@@ -49,3 +44,4 @@ mochawesome-reports/**/*
 screenshots/**/*
 reports/**/*
 dist/**/*
+lib/**/*

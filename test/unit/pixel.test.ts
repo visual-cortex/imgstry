@@ -5,7 +5,7 @@ import {
   Hsv,
   Pixel,
   Rgb,
-} from '../../dist/js/pixel';
+} from '../../source/pixel';
 
 import { expect } from 'chai';
 

@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "target": "es5",
+    "sourceMap": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "isolatedModules": false,
+    "baseUrl": "./",
+    "outDir": "./",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "chai",
+      "mocha"
+    ],
+    "lib": [
+      "es2016",
+      "dom"
+    ]
+  },
+  "include": [
+    "*.ts",
+  ],
+  "exclude": []
+}

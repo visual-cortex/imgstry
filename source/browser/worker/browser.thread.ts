@@ -8,11 +8,11 @@ import {
   IWorkerResult,
 } from './types';
 
-import { ImgstryWorker } from './imgstry.worker';
+import { ImgstryWorker as IW } from './imgstry.worker';
 import { Logger } from '../../helpers/logger';
 
 declare const importScripts: (...scripts: string[]) => void;
-declare const imgstry: typeof ImgstryWorker;
+declare const ImgstryWorker: typeof IW;
 
 const executor = () => {
   const worker = self as any as Worker;
@@ -25,7 +25,7 @@ const executor = () => {
 
   worker.onmessage = (message) => {
     const data: IWorkerData = message.data;
-    const processor = new imgstry(data)
+    const processor = new ImgstryWorker(data)
       .batch(data.operations);
 
     worker.postMessage({

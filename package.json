@@ -2,16 +2,18 @@
   "name": "imgstry",
   "version": "1.0.0",
   "description": "A JavaScript image editing module.",
-  "main": "dist/js/index.js",
+  "main": "lib/js/index.js",
   "directories": {
     "example": "example"
   },
   "scripts": {
-    "build": "gulp build",
+    "build": "tsc && webpack -p",
+    "build:e2e": "webpack -p --config ./test/end-to-end/webpack.e2e.config.js",
     "clean": "gulp build:clean test:clean",
-    "bundle:spline": "gulp build:spline:bundle",
-    "test": "gulp test",
-    "watch": "gulp watch"
+    "watch": "npm run test:e2e -- --watch",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:e2e": "npm run build:e2e && node ./test/end-to-end/run.js",
+    "test:unit": "mocha -u bdd -R mochawesome -O reportDir=./reports/unit/,reportTitle=Imgstry,inlineAssets=true --require ts-node/register test/unit/**/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -36,27 +38,19 @@
     "@types/chai": "4.1.4",
     "@types/mocha": "5.2.5",
     "browser-sync": "2.24.7",
-    "browserify": "16.2.2",
     "chai": "4.1.2",
-    "del": "3.0.0",
-    "gulp": "4.0.0",
-    "gulp-istanbul": "1.1.3",
-    "gulp-mocha": "6.0.0",
-    "gulp-mocha-phantomjs": "0.12.2",
-    "gulp-sourcemaps": "2.6.4",
-    "gulp-tslint": "8.1.3",
-    "gulp-typescript": "5.0.0-alpha.3",
-    "gulp-uglify": "3.0.1",
-    "merge2": "1.2.2",
     "mocha": "5.2.0",
+    "mocha-headless-chrome": "2.0.1",
     "mochawesome": "3.0.3",
     "should": "13.2.3",
+    "ts-loader": "5.3.1",
+    "ts-node": "7.0.1",
     "tslint": "5.11.0",
     "typescript": "3.2.1",
-    "vinyl-buffer": "1.0.1",
-    "vinyl-source-stream": "2.0.0"
+    "webpack": "4.26.1",
+    "webpack-cli": "3.1.2"
   },
   "dependencies": {
-    "rxjs": "^6.3.3"
+    "rxjs": "6.3.3"
   }
 }

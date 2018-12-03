@@ -5,13 +5,13 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
-        "module": "commonjs",
         "moduleResolution": "node",
-        "target": "es5",
+        "target": "es6",
         "sourceMap": true,
         "removeComments": false,
         "preserveConstEnums": true,
         "isolatedModules": false,
+        "outDir": "./lib",
         "typeRoots": [
             "./node_modules/@types"
         ],
@@ -23,5 +23,11 @@
             "es2016",
             "dom"
         ]
-    }
+    },
+    "exclude": [
+        "node_modules",
+        "./test",
+        "./ui",
+        "./lib"
+    ]
 }

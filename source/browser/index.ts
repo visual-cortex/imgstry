@@ -1,5 +1,3 @@
-import {
-  Imgstry,
-} from './imgstry.browser';
-
-export = Imgstry;
+export * from './imgstry';
+export * from './spline';
+export * from './theme';
