@@ -48,7 +48,7 @@ export class ImgstrySpline implements IDisposable {
   public static getCanvas = getCanvas;
 
   private _points = new SplinePointSet();
-  private _interpolated: Point[] = [];
+  private _graphPointSeries: Point[] = [];
   private _context: CanvasRenderingContext2D;
   private _canvas: HTMLCanvasElement;
 
@@ -84,10 +84,12 @@ export class ImgstrySpline implements IDisposable {
   ) {
     this._canvas = ImgstrySpline.getCanvas(elementIdOrCanvas);
     this._context = this._canvas.getContext('2d');
-    this._interpolated = fillWith(this._width + 1, 0).map(_ => new Point());
+    this._graphPointSeries = fillWith(this._width + 1, 0).map((_, idx) =>
+      new Point(this._scaleDown({ x: idx, y: idx })),
+    );
 
-    this.add({ x: .01, y: .01 });
-    this.add({ x: .99, y: .99 });
+    this.add({ x: 0, y: 0 });
+    this.add({ x: 1, y: 1 });
 
     const mouseMove = fromEvent(this._canvas, 'mousemove')
       .pipe(
@@ -99,7 +101,13 @@ export class ImgstrySpline implements IDisposable {
       .pipe(
         throttleTime(1000 / (this._anchorSize * 2)),
         filter(_ => !this._dragging$.value),
-        map(cursor => this._points.closest(cursor, Math.pow(this._anchorSize, 2))),
+        map(cursor =>
+          this._points.closest(
+            cursor,
+            Math.pow(this._anchorSize, Math.PI / 2),
+            this._scaleUp,
+          ),
+        ),
         distinctUntilChanged((prev, curr) => prev.index === curr.index),
         tap(result => this._anchor$.next(result)),
       );
@@ -168,30 +176,29 @@ export class ImgstrySpline implements IDisposable {
   public add = ({ x, y }: IPoint) => {
     x = this._clampRatio(x);
     y = this._clampRatio(y);
-    this._add({
-      x: x * this._width,
-      y: y * this._height,
-    });
+    this._add({ x, y });
   }
 
   public remove({ x, y }: IPoint) {
     x = this._clampRatio(x);
     y = this._clampRatio(y);
-
-    this._remove({
-      x: x * this._width,
-      y: y * this._height,
-    });
+    this._remove({ x, y });
   }
 
   public interpolate(x: number) {
-    x = this._clampRatio(x) * this._width;
-    return new CubicSpline([...this._points]).interpolate(x) / this._width;
+    return new CubicSpline([...this._points])
+      .interpolate(this._clampRatio(x));
   }
 
   public lookup(): number[] {
     const spline = new CubicSpline([...this._points]);
-    return fillWith(256, 0).map((_, idx) => Math.round((spline.interpolate((idx / 256) * this._width) / this._width) * 256));
+    return fillWith(256, 0)
+      .map(
+        (_, idx) =>
+          Math.ceil(
+            spline.interpolate(this._clampRatio(idx / 255)) * 255,
+          ),
+      );
   }
 
   public dispose() {
@@ -220,7 +227,7 @@ export class ImgstrySpline implements IDisposable {
             color: isAnchorHovered ?
               this._colors.anchor.hovered :
               this._colors.anchor.idle,
-            point,
+            point: this._scaleUp(point),
           });
       },
     );
@@ -245,18 +252,18 @@ export class ImgstrySpline implements IDisposable {
     if (!this._points.length) { return; }
 
     this._context.beginPath();
-    this._context.moveTo(this._points.first.x, this._height - this._points.first.y);
+    let first = this._scaleUp(this._points.first);
+    this._context.moveTo(first.x, first.y);
 
     const spline = new CubicSpline([...this._points]);
 
-    this._interpolated.forEach((interpolation, x) => {
-      let y = spline.interpolate(x);
+    this._graphPointSeries.forEach((point) => {
+      let { x, y } = this._scaleUp({
+        x: point.x,
+        y: 1 - this._clampRatio(spline.interpolate(point.x)),
+      });
 
-      interpolation.x = x / this._width;
-      interpolation.y = y / this._height;
-
-      y = Math.max(0, Math.min(y, this._height));
-      this._context.lineTo(x, this._height - y);
+      this._context.lineTo(x, y);
     });
 
     this._context.strokeStyle = this._colors.spline;
@@ -264,10 +271,24 @@ export class ImgstrySpline implements IDisposable {
     this._context.closePath();
   }
 
-  private _mouseToPoint = (ev: MouseEvent) => ({
-    x: ev.offsetX,
-    y: this._height - ev.offsetY,
-  })
+  private _mouseToPoint = (ev: MouseEvent) =>
+    this._scaleDown({
+      x: ev.offsetX,
+      y: this._height - ev.offsetY,
+    })
 
-  private _clampRatio = (ratio: number) => Math.min(1, Math.max(0, ratio));
+  private _clampRatio =
+    (ratio: number) => Math.min(1, Math.max(0, ratio))
+
+  private _scaleUp =
+    ({ x, y }: IPoint) => ({
+      x: x * this._width,
+      y: y * this._height,
+    })
+
+  private _scaleDown =
+    ({ x, y }: IPoint) => ({
+      x: x / this._width,
+      y: y / this._height,
+    })
 }
