@@ -11,10 +11,7 @@
         "dist": true,
         "node_modules": true,
         "README.md": true,
-        "source/**/*.js": true,
         "src": true,
-        "test/end-to-end/*.js": true,
-        "test/unit/**/*.js": true,
         "typings": true
     },
     "files.trimTrailingWhitespace": true,
