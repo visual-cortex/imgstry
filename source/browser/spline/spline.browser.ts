@@ -15,6 +15,7 @@ import {
   clearCanvas,
   drawCircle,
   drawGrid,
+  fillCanvas,
 } from '../../utils/canvas';
 import {
   distinctUntilChanged,
@@ -48,7 +49,7 @@ export class ImgstrySpline implements IDisposable {
   public static getCanvas = getCanvas;
 
   private _points = new SplinePointSet();
-  private _graphPointSeries: Point[] = [];
+  private _splineXSeries: number[] = [];
   private _context: CanvasRenderingContext2D;
   private _canvas: HTMLCanvasElement;
 
@@ -78,15 +79,23 @@ export class ImgstrySpline implements IDisposable {
     return this._options.anchorSize || 15;
   }
 
+  private _fauxWidth: number;
+  private _fauxHeight: number;
+  private _padding: number;
+
   constructor(
     elementIdOrCanvas: string | HTMLCanvasElement,
     private _options: ISplineOptions = {} as ISplineOptions,
   ) {
     this._canvas = ImgstrySpline.getCanvas(elementIdOrCanvas);
     this._context = this._canvas.getContext('2d');
-    this._graphPointSeries = fillWith(this._width + 1, 0).map((_, idx) =>
-      new Point(this._scaleDown({ x: idx, y: idx })),
-    );
+
+    this._padding = this._anchorSize * 2;
+
+    this._fauxWidth = this._width - this._padding * 2;
+    this._fauxHeight = this._height - this._padding * 2;
+
+    this._splineXSeries = fillWith(this._width + 1, 0).map((_, idx) => idx / this._width);
 
     this.add({ x: 0, y: 0 });
     this.add({ x: 1, y: 1 });
@@ -94,6 +103,7 @@ export class ImgstrySpline implements IDisposable {
     const mouseMove = fromEvent(this._canvas, 'mousemove')
       .pipe(
         map(this._mouseToPoint),
+        map(this._clampPoint),
         share(),
       );
 
@@ -144,23 +154,23 @@ export class ImgstrySpline implements IDisposable {
         }),
       );
 
-    fromEvent(this._canvas, 'mousedown')
-      .pipe(
-        tap(ev => ev.preventDefault()),
-        takeUntil(this._destroyed$),
-        filter(() => !!this._anchor$.value),
-        tap(_ => this._dragging$.next(true)),
-      ).subscribe();
-
-    fromEvent(this._canvas, 'mouseup')
-      .pipe(
-        tap(ev => ev.preventDefault()),
-        takeUntil(this._destroyed$),
-        tap(_ => this._dragging$.next(false)),
-      ).subscribe();
+    merge(
+      fromEvent(this._canvas, 'mousedown')
+        .pipe(
+          tap(_ => this._dragging$.next(true)),
+        ),
+      fromEvent(this._canvas, 'mouseup')
+        .pipe(
+          tap(_ => this._dragging$.next(false)),
+        ),
+    ).pipe(
+      tap(ev => ev.preventDefault()),
+      takeUntil(this._destroyed$),
+    ).subscribe();
 
     merge(
       this._draw$,
+      this._dragging$,
       anchorHover,
       anchorMove,
       mouseLeave,
@@ -208,14 +218,21 @@ export class ImgstrySpline implements IDisposable {
   }
 
   private _draw = () => {
-    this._canvas.style.cursor = !!this._anchor$.value ? 'pointer' : 'auto';
+    this._canvas.style.cursor = this._anchor$.value.index !== -1 ? 'pointer' : 'auto';
+
     clearCanvas(this._canvas);
+
+    if (this._dragging$.value) {
+      fillCanvas(this._canvas, 'rgba(0, 0, 0, .1)');
+    }
+
     drawGrid(this._canvas, {
       gridSize: this._gridSize,
       color: this._colors.gridLine,
+      padding: this._padding,
     });
-    this._drawSplineCurve();
 
+    this._drawSplineCurve();
 
     this._points.forEach(
       (point, idx) => {
@@ -253,14 +270,14 @@ export class ImgstrySpline implements IDisposable {
 
     this._context.beginPath();
     let first = this._scaleUp(this._points.first);
-    this._context.moveTo(first.x, first.y);
+    this._context.moveTo(first.x, this._height - first.y);
 
     const spline = new CubicSpline([...this._points]);
 
-    this._graphPointSeries.forEach((point) => {
+    this._splineXSeries.forEach((value) => {
       let { x, y } = this._scaleUp({
-        x: point.x,
-        y: 1 - this._clampRatio(spline.interpolate(point.x)),
+        x: value,
+        y: 1 - this._clampRatio(spline.interpolate(value)),
       });
 
       this._context.lineTo(x, y);
@@ -272,9 +289,9 @@ export class ImgstrySpline implements IDisposable {
   }
 
   private _mouseToPoint = (ev: MouseEvent) =>
-    this._scaleDown({
-      x: ev.offsetX,
-      y: this._height - ev.offsetY,
+    ({
+      x: (ev.offsetX - this._padding) / this._fauxWidth,
+      y: 1 - (ev.offsetY - this._padding) / this._fauxHeight,
     })
 
   private _clampRatio =
@@ -282,13 +299,13 @@ export class ImgstrySpline implements IDisposable {
 
   private _scaleUp =
     ({ x, y }: IPoint) => ({
-      x: x * this._width,
-      y: y * this._height,
+      x: x * this._fauxWidth + this._padding,
+      y: y * this._fauxHeight + this._padding,
     })
 
-  private _scaleDown =
-    ({ x, y }: IPoint) => ({
-      x: x / this._width,
-      y: y / this._height,
+  private _clampPoint =
+    (point: IPoint) => ({
+      x: this._clampRatio(point.x),
+      y: this._clampRatio(point.y),
     })
 }
