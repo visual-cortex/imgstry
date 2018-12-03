@@ -1,4 +1,4 @@
-import { Cmyk } from '../../dist/js/pixel';
+import { Cmyk } from '../../source/pixel';
 import { colorMap } from './constants/colors';
 import { expect } from 'chai';
 

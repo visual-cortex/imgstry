@@ -1,5 +1,7 @@
-import { Hex } from '../../dist/js/pixel';
-import { Hsv } from '../../dist/js/pixel';
+import {
+  Hex,
+  Hsv,
+} from '../../source/pixel';
 import { colorMap } from './constants/colors';
 import { expect } from 'chai';
 

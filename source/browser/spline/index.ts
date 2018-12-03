@@ -1,3 +1,1 @@
-import { SplineCurve } from './spline.browser';
-
-export = SplineCurve;
+export { SplineCurve } from './spline.browser';
