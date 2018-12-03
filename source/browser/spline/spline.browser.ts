@@ -38,13 +38,13 @@ interface ISplinePointEvent {
   point: IPoint;
 }
 
-interface ISplineCurveOptions {
+interface ISplineOptions {
   theme: Theme;
   gridSize: number;
   anchorSize: number;
 }
 
-export class SplineCurve implements IDisposable {
+export class ImgstrySpline implements IDisposable {
   public static getCanvas = getCanvas;
 
   private _points = new SplinePointSet();
@@ -80,9 +80,9 @@ export class SplineCurve implements IDisposable {
 
   constructor(
     elementIdOrCanvas: string | HTMLCanvasElement,
-    private _options: ISplineCurveOptions = {} as ISplineCurveOptions,
+    private _options: ISplineOptions = {} as ISplineOptions,
   ) {
-    this._canvas = SplineCurve.getCanvas(elementIdOrCanvas);
+    this._canvas = ImgstrySpline.getCanvas(elementIdOrCanvas);
     this._context = this._canvas.getContext('2d');
     this._interpolated = fillWith(this._width + 1, 0).map(_ => new Point());
 
