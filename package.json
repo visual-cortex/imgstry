@@ -13,7 +13,7 @@
     "watch": "npm run test:e2e -- --watch",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "npm run build:e2e && node ./test/end-to-end/run.js",
-    "test:unit": "mocha -u bdd -R mochawesome -O reportDir=./reports/unit/,reportTitle=Imgstry,inlineAssets=true --require ts-node/register test/unit/**/*.test.ts"
+    "test:unit": "mocha --opts ./test/unit/mocha.opts"
   },
   "repository": {
     "type": "git",
