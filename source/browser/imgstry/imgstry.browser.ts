@@ -11,8 +11,10 @@ import {
   fillCanvas,
   imageData,
 } from '../../utils/canvas';
-
-import { getCanvas } from '../../utils/dom';
+import {
+  getCanvas,
+  loadImage,
+} from '../../utils/dom';
 
 export interface ImgstryBrowserOptions {
   thread: ThreadBrowserOptions;
@@ -57,6 +59,7 @@ const assignDefault = (source: Partial<ImgstryBrowserOptions>): ImgstryBrowserOp
  */
 export class Imgstry extends ImgstryEditor {
   public static getCanvas = getCanvas;
+  public static loadImage = (src: string) => loadImage(Image, src);
 
   public readonly context: CanvasRenderingContext2D;
   public readonly canvas: HTMLCanvasElement;
