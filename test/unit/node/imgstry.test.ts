@@ -1,14 +1,14 @@
 import {
   EdgeDetection,
   GaussianBlur,
-} from '../../source/kernel';
+} from '../../../source/kernel';
 import {
   Hex,
   Rgb,
-} from '../../source/pixel';
+} from '../../../source/pixel';
 
-import { COLOR_MAP } from '../color';
-import { Imgstry } from '../../source/node/imgstry';
+import { COLOR_MAP } from '../../color';
+import { Imgstry } from '../../../source/node/imgstry';
 import { expect } from 'chai';
 
 const IMAGE_SOURCE = './test/end-to-end/resources/rnm.jpg';

@@ -1,9 +1,9 @@
 import {
   Hex,
   Hsv,
-} from '../../source/pixel';
+} from '../../../source/pixel';
 
-import { COLOR_MAP } from '../color';
+import { COLOR_MAP } from '../../color';
 import { expect } from 'chai';
 
 describe('HSV color', () => {
