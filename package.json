@@ -2,7 +2,7 @@
   "name": "imgstry",
   "version": "1.0.0",
   "description": "A JavaScript image editing module.",
-  "main": "lib/js/index.js",
+  "main": "lib/index.js",
   "directories": {
     "example": "example"
   },
