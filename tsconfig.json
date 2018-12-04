@@ -13,11 +13,14 @@
         "isolatedModules": false,
         "outDir": "./lib",
         "typeRoots": [
-            "./node_modules/@types"
+            "./node_modules/@types",
+            "./declarations"
         ],
         "types": [
             "chai",
-            "mocha"
+            "mocha",
+            "node",
+            "canvas",
         ],
         "lib": [
             "es2016",
