@@ -1,13 +1,14 @@
 import {
-  Imgstry,
-  Rgb,
-  Hex,
   EdgeDetection,
   GaussianBlur,
+  Hex,
+  Imgstry,
+  Rgb,
 } from '../../lib';
 
 import { GREY_MAP } from './constants/greyMap';
 import { HEX_MAP } from './constants/colorMap';
+import { ImgstryEditor } from '../../lib/core';
 
 const isServer = document.location.protocol &&
   document.location.protocol.indexOf('http') !== -1;
@@ -21,7 +22,7 @@ const RenderMethod = {
   async: 'async' as 'async',
 };
 
-const render = async (processor: Imgstry, method: RenderMethod) => {
+const render = async (processor: ImgstryEditor, method: RenderMethod) => {
   switch (method) {
     case 'sync':
       return processor.renderSync();
