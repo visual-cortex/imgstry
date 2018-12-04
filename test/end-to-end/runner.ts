@@ -1,8 +1,11 @@
-const browserSync = require('browser-sync').create();
-const { runner } = require('mocha-headless-chrome');
+import {
+  BrowserSyncInstance,
+  create,
+} from 'browser-sync';
 
-console.log(process.arch);
-console.log(process.argv);
+import { runner } from 'mocha-headless-chrome';
+
+const browserSync = create();
 
 browserSync.init({
   server: {
@@ -12,9 +15,9 @@ browserSync.init({
   open: false,
   serveStatic: [{
     route: 'resources/rnm.jpg',
-    dir: 'test/end-to-end/resources/rnm.jpg'
-  }]
-}, async (_, browser) => {
+    dir: 'test/end-to-end/resources/rnm.jpg',
+  }],
+}, async (_, browser: BrowserSyncInstance) => {
   const url = browser.getOption('urls').get('local');
 
   await runner({
@@ -22,7 +25,7 @@ browserSync.init({
     reporter: 'mochawesome',
     timeout: 60000,
     visible: false,
-    args: ['no-sandbox']
+    args: ['no-sandbox'],
   });
 
   process.exit(0);

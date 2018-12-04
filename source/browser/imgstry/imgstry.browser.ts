@@ -9,6 +9,11 @@ import {
   ImgstryProcessor,
   OperationOption,
 } from '../../core';
+import {
+  drawImage,
+  fillCanvas,
+  imageData,
+} from '../../utils/canvas';
 
 import { getCanvas } from '../../utils/dom';
 
@@ -58,8 +63,12 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
 
   public readonly context: CanvasRenderingContext2D;
   public readonly canvas: HTMLCanvasElement;
-  public width: number;
-  public height: number;
+  public get width() {
+    return this.canvas.width;
+  }
+  public get height() {
+    return this.canvas.height;
+  }
 
   private _operations: OperationOption[] = [];
 
@@ -74,11 +83,9 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
   ) {
     super();
     this._options = assignDefault(_options) as ImgstryBrowserOptions;
-    this.canvas = Imgstry.getCanvas(elementIdOrCanvas);
+    this.canvas = getCanvas(elementIdOrCanvas);
     this.context = this.canvas.getContext('2d');
-    this.width = this.canvas.width;
-    this.height = this.canvas.height;
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    fillCanvas(this.canvas, '');
     this.original = this.imageData;
   }
 
@@ -89,7 +96,7 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
    * @memberof Imgstry
    */
   public drawImage(image: HTMLImageElement) {
-    this.context.drawImage(image, 0, 0);
+    drawImage(this.canvas, image);
     this.original = this.imageData;
   }
 
@@ -107,7 +114,7 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
   }
 
   public get imageData(): ImageData {
-    return this.context.getImageData(0, 0, this.width, this.height);
+    return imageData(this.canvas);
   }
 
   public set imageData(image: ImageData) {

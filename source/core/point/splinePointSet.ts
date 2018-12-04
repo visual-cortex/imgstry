@@ -97,7 +97,9 @@ export class SplinePointSet implements Iterable<Point> {
     if (!this._points[index]) { return this._pointResult(-1); }
     if (
       !this._allowedWithinBound({ x, y }) ||
-      this._points.find(p => p.x === x)
+      this._points.find(p => p.x === x) &&
+      index !== 0 &&
+      index !== this.length - 1
     ) { return this._pointResult(index); }
 
     this._points[index].x = x;
@@ -131,14 +133,14 @@ export class SplinePointSet implements Iterable<Point> {
     return removed;
   }
 
-  public indexOfClosest(coordinate: IPoint, maxRange: number) {
+  public indexOfClosest(coordinate: IPoint, maxRange: number, transform: (p: IPoint) => IPoint) {
     if (!this.length) { return -1; }
 
     let closestDistance = Infinity;
     let index = -1;
 
     this.forEach((point, idx) => {
-      let distance = point.distanceTo(coordinate);
+      let distance = new Point(transform(point)).distanceTo(transform(coordinate));
 
       if (closestDistance > distance) {
         closestDistance = distance;
@@ -151,7 +153,8 @@ export class SplinePointSet implements Iterable<Point> {
       -1;
   }
 
-  public closest = (coordinate: IPoint, maxRange: number) => this._pointResult(this.indexOfClosest(coordinate, maxRange));
+  public closest = (coordinate: IPoint, maxRange: number, transform: (p: IPoint) => IPoint) =>
+    this._pointResult(this.indexOfClosest(coordinate, maxRange, transform))
 
   private _sort = (left: Point, right: Point) =>
     left.x - right.x

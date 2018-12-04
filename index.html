@@ -1,0 +1,58 @@
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1" />
+
+  <title>Imgstry Spline Curve Widget</title>
+
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      background: #1e272e;
+    }
+
+    body {
+      width: 100%;
+      height: 50%;
+      margin-top: 5%;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"
+          width="500"
+          height="500">
+
+  </canvas>
+  <script src='imgstry.spline.min.js'></script>
+  <script>
+    const curve = new ImgstrySpline('#canvas', { theme: Theme.dark, anchorSize: 18, gridSize: 5 });
+    [
+      {
+        x: .11,
+        y: .35
+      },
+      {
+        x: .33,
+        y: .56
+      },
+      {
+        x: .65,
+        y: .8
+      },
+      {
+        x: .93,
+        y: .6
+      }
+    ].forEach(p => curve.add(p));
+  </script>
+
+  <body>
+
+</html>

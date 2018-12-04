@@ -8,13 +8,13 @@ import {
 import {
   IPoint,
   IPointResult,
-  Point,
   SplinePointSet,
 } from '../../core/point';
 import {
   clearCanvas,
   drawCircle,
   drawGrid,
+  fillCanvas,
 } from '../../utils/canvas';
 import {
   distinctUntilChanged,
@@ -38,17 +38,17 @@ interface ISplinePointEvent {
   point: IPoint;
 }
 
-interface ISplineCurveOptions {
+interface ISplineOptions {
   theme: Theme;
   gridSize: number;
   anchorSize: number;
 }
 
-export class SplineCurve implements IDisposable {
+export class ImgstrySpline implements IDisposable {
   public static getCanvas = getCanvas;
 
   private _points = new SplinePointSet();
-  private _interpolated: Point[] = [];
+  private _splineXSeries: number[] = [];
   private _context: CanvasRenderingContext2D;
   private _canvas: HTMLCanvasElement;
 
@@ -67,31 +67,42 @@ export class SplineCurve implements IDisposable {
   }
 
   private get _colors() {
-    return splineTheme((this._options || { theme: Theme.light }).theme);
+    return splineTheme(this._options.theme || Theme.light);
   }
 
   private get _gridSize() {
-    return (this._options || { gridSize: 3 }).gridSize;
+    return this._options.gridSize || 3;
   }
 
   private get _anchorSize() {
-    return (this._options || { anchorSize: 15 }).anchorSize;
+    return this._options.anchorSize || 15;
   }
+
+  private _fauxWidth: number;
+  private _fauxHeight: number;
+  private _padding: number;
 
   constructor(
     elementIdOrCanvas: string | HTMLCanvasElement,
-    private _options: ISplineCurveOptions,
+    private _options: ISplineOptions = {} as ISplineOptions,
   ) {
-    this._canvas = SplineCurve.getCanvas(elementIdOrCanvas);
+    this._canvas = ImgstrySpline.getCanvas(elementIdOrCanvas);
     this._context = this._canvas.getContext('2d');
-    this._interpolated = fillWith(this._width + 1, 0).map(_ => new Point());
 
-    this.add({ x: .01, y: .01 });
-    this.add({ x: .99, y: .99 });
+    this._padding = this._anchorSize * 2;
+
+    this._fauxWidth = this._width - this._padding * 2;
+    this._fauxHeight = this._height - this._padding * 2;
+
+    this._splineXSeries = fillWith(this._width + 1, 0).map((_, idx) => idx / this._width);
+
+    this.add({ x: 0, y: 0 });
+    this.add({ x: 1, y: 1 });
 
     const mouseMove = fromEvent(this._canvas, 'mousemove')
       .pipe(
         map(this._mouseToPoint),
+        map(this._clampPoint),
         share(),
       );
 
@@ -99,7 +110,13 @@ export class SplineCurve implements IDisposable {
       .pipe(
         throttleTime(1000 / (this._anchorSize * 2)),
         filter(_ => !this._dragging$.value),
-        map(cursor => this._points.closest(cursor, Math.pow(this._anchorSize, 2))),
+        map(cursor =>
+          this._points.closest(
+            cursor,
+            Math.pow(this._anchorSize, Math.PI / 2),
+            this._scaleUp,
+          ),
+        ),
         distinctUntilChanged((prev, curr) => prev.index === curr.index),
         tap(result => this._anchor$.next(result)),
       );
@@ -136,23 +153,23 @@ export class SplineCurve implements IDisposable {
         }),
       );
 
-    fromEvent(this._canvas, 'mousedown')
-      .pipe(
-        tap(ev => ev.preventDefault()),
-        takeUntil(this._destroyed$),
-        filter(() => !!this._anchor$.value),
-        tap(_ => this._dragging$.next(true)),
-      ).subscribe();
-
-    fromEvent(this._canvas, 'mouseup')
-      .pipe(
-        tap(ev => ev.preventDefault()),
-        takeUntil(this._destroyed$),
-        tap(_ => this._dragging$.next(false)),
-      ).subscribe();
+    merge(
+      fromEvent(this._canvas, 'mousedown')
+        .pipe(
+          tap(_ => this._dragging$.next(true)),
+        ),
+      fromEvent(this._canvas, 'mouseup')
+        .pipe(
+          tap(_ => this._dragging$.next(false)),
+        ),
+    ).pipe(
+      tap(ev => ev.preventDefault()),
+      takeUntil(this._destroyed$),
+    ).subscribe();
 
     merge(
       this._draw$,
+      this._dragging$,
       anchorHover,
       anchorMove,
       mouseLeave,
@@ -168,30 +185,29 @@ export class SplineCurve implements IDisposable {
   public add = ({ x, y }: IPoint) => {
     x = this._clampRatio(x);
     y = this._clampRatio(y);
-    this._add({
-      x: x * this._width,
-      y: y * this._height,
-    });
+    this._add({ x, y });
   }
 
   public remove({ x, y }: IPoint) {
     x = this._clampRatio(x);
     y = this._clampRatio(y);
-
-    this._remove({
-      x: x * this._width,
-      y: y * this._height,
-    });
+    this._remove({ x, y });
   }
 
   public interpolate(x: number) {
-    x = this._clampRatio(x) * this._width;
-    return new CubicSpline([...this._points]).interpolate(x) / this._width;
+    return new CubicSpline([...this._points])
+      .interpolate(this._clampRatio(x));
   }
 
   public lookup(): number[] {
     const spline = new CubicSpline([...this._points]);
-    return fillWith(256, 0).map((_, idx) => Math.round((spline.interpolate((idx / 256) * this._width) / this._width) * 256));
+    return fillWith(256, 0)
+      .map(
+        (_, idx) =>
+          Math.ceil(
+            spline.interpolate(this._clampRatio(idx / 255)) * 255,
+          ),
+      );
   }
 
   public dispose() {
@@ -201,14 +217,26 @@ export class SplineCurve implements IDisposable {
   }
 
   private _draw = () => {
-    this._canvas.style.cursor = !!this._anchor$.value ? 'pointer' : 'auto';
+    const isDragging = this._dragging$.value &&
+      this._anchor$.value.index !== -1;
+    const isHovered = !isDragging &&
+      this._anchor$.value.index !== -1;
+
+    this._drawCursor(isDragging, isHovered);
+
     clearCanvas(this._canvas);
+
+    if (isDragging) {
+      fillCanvas(this._canvas, 'rgba(0, 0, 0, .1)');
+    }
+
     drawGrid(this._canvas, {
       gridSize: this._gridSize,
       color: this._colors.gridLine,
+      padding: this._padding,
     });
-    this._drawSplineCurve();
 
+    this._drawSplineCurve();
 
     this._points.forEach(
       (point, idx) => {
@@ -220,7 +248,7 @@ export class SplineCurve implements IDisposable {
             color: isAnchorHovered ?
               this._colors.anchor.hovered :
               this._colors.anchor.idle,
-            point,
+            point: this._scaleUp(point),
           });
       },
     );
@@ -241,22 +269,32 @@ export class SplineCurve implements IDisposable {
     this._draw$.next();
   }
 
+  private _drawCursor = (isDragging: boolean, isHovered: boolean) => {
+    if (isDragging) {
+      this._canvas.style.cursor = 'move';
+    } else if (isHovered) {
+      this._canvas.style.cursor = 'pointer';
+    } else {
+      this._canvas.style.cursor = 'auto';
+    }
+  }
+
   private _drawSplineCurve() {
     if (!this._points.length) { return; }
 
     this._context.beginPath();
-    this._context.moveTo(this._points.first.x, this._height - this._points.first.y);
+    let first = this._scaleUp(this._points.first);
+    this._context.moveTo(first.x, this._height - first.y);
 
     const spline = new CubicSpline([...this._points]);
 
-    this._interpolated.forEach((interpolation, x) => {
-      let y = spline.interpolate(x);
+    this._splineXSeries.forEach((value) => {
+      let { x, y } = this._scaleUp({
+        x: value,
+        y: 1 - this._clampRatio(spline.interpolate(value)),
+      });
 
-      interpolation.x = x / this._width;
-      interpolation.y = y / this._height;
-
-      y = Math.max(0, Math.min(y, this._height));
-      this._context.lineTo(x, this._height - y);
+      this._context.lineTo(x, y);
     });
 
     this._context.strokeStyle = this._colors.spline;
@@ -264,10 +302,24 @@ export class SplineCurve implements IDisposable {
     this._context.closePath();
   }
 
-  private _mouseToPoint = (ev: MouseEvent) => ({
-    x: ev.offsetX,
-    y: this._height - ev.offsetY,
-  })
+  private _mouseToPoint = (ev: MouseEvent) =>
+    ({
+      x: (ev.offsetX - this._padding) / this._fauxWidth,
+      y: 1 - (ev.offsetY - this._padding) / this._fauxHeight,
+    })
 
-  private _clampRatio = (ratio: number) => Math.min(1, Math.max(0, ratio));
+  private _clampRatio =
+    (ratio: number) => Math.min(1, Math.max(0, ratio))
+
+  private _scaleUp =
+    ({ x, y }: IPoint) => ({
+      x: x * this._fauxWidth + this._padding,
+      y: y * this._fauxHeight + this._padding,
+    })
+
+  private _clampPoint =
+    (point: IPoint) => ({
+      x: this._clampRatio(point.x),
+      y: this._clampRatio(point.y),
+    })
 }
