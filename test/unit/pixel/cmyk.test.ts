@@ -1,5 +1,5 @@
-import { COLOR_MAP } from '../color';
-import { Cmyk } from '../../source/pixel';
+import { COLOR_MAP } from '../../color';
+import { Cmyk } from '../../../source/pixel';
 import { expect } from 'chai';
 
 describe('CMYK color', () => {

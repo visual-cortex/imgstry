@@ -1,5 +1,5 @@
-import { COLOR_MAP } from '../color';
-import { Hex } from '../../source/pixel';
+import { COLOR_MAP } from '../../color';
+import { Hex } from '../../../source/pixel';
 import { expect } from 'chai';
 
 describe('HEX color', () => {
