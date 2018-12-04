@@ -8,7 +8,6 @@ import {
 import {
   IPoint,
   IPointResult,
-  Point,
   SplinePointSet,
 } from '../../core/point';
 import {
@@ -218,11 +217,16 @@ export class ImgstrySpline implements IDisposable {
   }
 
   private _draw = () => {
-    this._canvas.style.cursor = this._anchor$.value.index !== -1 ? 'pointer' : 'auto';
+    const isDragging = this._dragging$.value &&
+      this._anchor$.value.index !== -1;
+    const isHovered = !isDragging &&
+      this._anchor$.value.index !== -1;
+
+    this._drawCursor(isDragging, isHovered);
 
     clearCanvas(this._canvas);
 
-    if (this._dragging$.value) {
+    if (isDragging) {
       fillCanvas(this._canvas, 'rgba(0, 0, 0, .1)');
     }
 
@@ -263,6 +267,16 @@ export class ImgstrySpline implements IDisposable {
     const { index } = this._points.find(point);
     this._points.remove(index);
     this._draw$.next();
+  }
+
+  private _drawCursor = (isDragging: boolean, isHovered: boolean) => {
+    if (isDragging) {
+      this._canvas.style.cursor = 'move';
+    } else if (isHovered) {
+      this._canvas.style.cursor = 'pointer';
+    } else {
+      this._canvas.style.cursor = 'auto';
+    }
   }
 
   private _drawSplineCurve() {
