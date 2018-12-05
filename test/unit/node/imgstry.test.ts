@@ -11,7 +11,7 @@ import { COLOR_MAP } from '../../color';
 import { Imgstry } from '../../../source/node/imgstry';
 import { expect } from 'chai';
 
-const IMAGE_SOURCE = './test/end-to-end/resources/rnm.jpg';
+const IMAGE_SOURCE = './test/resources/rnm.jpg';
 
 describe('Imgstry Browser Canvas', () => {
   const size = 100;
