@@ -1,1 +1,2 @@
-export * from './cubic.spline';
+export * from './spline.processor';
+export * from './interpolation';
