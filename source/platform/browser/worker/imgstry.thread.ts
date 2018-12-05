@@ -2,7 +2,7 @@ import {
   IThreadData,
   IThreadResult,
   IImgstryThread,
-} from '../../core/imgstry.thread';
+} from '../../../core/imgstry.thread';
 
 import {
   IWorkerData,
@@ -11,7 +11,7 @@ import {
 
 import ImgstryWorker from 'worker-loader?inline=true&fallback=false!./imgstry.worker';
 
-import { Logger } from '../../helpers/logger';
+import { Logger } from '../../../utils/logger';
 
 /**
  * Browser thread option contract.
