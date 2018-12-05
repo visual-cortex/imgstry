@@ -26,17 +26,11 @@ import {
   throttleTime,
 } from 'rxjs/operators';
 
-import { CubicSpline } from '../../../core/spline';
 import { IDisposable } from '../../../types';
+import { SplineProcessor } from '../../../core/spline';
 import { Theme } from '../theme';
-import { fillWith } from '../../../utils/array';
 import { getCanvas } from '../../../utils/dom';
 import { splineTheme } from './spline.theme';
-
-interface ISplinePointEvent {
-  index: number;
-  point: IPoint;
-}
 
 interface ISplineOptions {
   theme: Theme;
@@ -44,11 +38,9 @@ interface ISplineOptions {
   anchorSize: number;
 }
 
-export class ImgstrySpline implements IDisposable {
+export class ImgstrySpline extends SplineProcessor implements IDisposable {
   public static getCanvas = getCanvas;
 
-  private _points = new SplinePointSet();
-  private _splineXSeries: number[] = [];
   private _context: CanvasRenderingContext2D;
   private _maxAnchors = 15;
 
@@ -85,17 +77,13 @@ export class ImgstrySpline implements IDisposable {
     private _canvas: HTMLCanvasElement,
     private _options: ISplineOptions = {} as ISplineOptions,
   ) {
-    this._context = this._canvas.getContext('2d');
+    super(_canvas.width + 1);
 
+    this._context = this._canvas.getContext('2d');
     this._padding = this._anchorSize * 2;
 
     this._fauxWidth = this._width - this._padding * 2;
     this._fauxHeight = this._height - this._padding * 2;
-
-    this._splineXSeries = fillWith(this._width + 1, 0).map((_, idx) => idx / this._width);
-
-    this.add({ x: 0, y: 0 });
-    this.add({ x: 1, y: 1 });
 
     const mouseMove = fromEvent(this._canvas, 'mousemove')
       .pipe(
@@ -144,9 +132,9 @@ export class ImgstrySpline implements IDisposable {
         map(this._mouseToPoint),
         tap(point => {
           if (this._anchor$.value.index === -1) {
-            this._add(point);
+            this.add(point);
           } else {
-            this._remove(this._anchor$.value.point);
+            this.remove(this._anchor$.value.point);
           }
         }),
       );
@@ -180,32 +168,18 @@ export class ImgstrySpline implements IDisposable {
       .subscribe();
   }
 
-  public add = ({ x, y }: IPoint) => {
-    x = this._clampRatio(x);
-    y = this._clampRatio(y);
-    this._add({ x, y });
+  public add = (point: IPoint) => {
+    if (this._points.length === this._maxAnchors) { return; }
+
+    super.add(point);
+    this._draw$.next();
   }
 
-  public remove({ x, y }: IPoint) {
-    x = this._clampRatio(x);
-    y = this._clampRatio(y);
-    this._remove({ x, y });
-  }
+  public remove = (point: IPoint) => {
+    if (!this._points.length) { return; }
 
-  public interpolate(x: number) {
-    return new CubicSpline([...this._points])
-      .interpolate(this._clampRatio(x));
-  }
-
-  public lookup(): number[] {
-    const spline = new CubicSpline([...this._points]);
-    return fillWith(256, 0)
-      .map(
-        (_, idx) =>
-          Math.ceil(
-            spline.interpolate(this._clampRatio(idx / 255)) * 255,
-          ),
-      );
+    super.remove(point);
+    this._draw$.next();
   }
 
   public dispose() {
@@ -252,21 +226,6 @@ export class ImgstrySpline implements IDisposable {
     );
   }
 
-  private _add = (point: IPoint) => {
-    if (this._points.length === this._maxAnchors) { return; }
-
-    this._points.push(point);
-    this._draw$.next();
-  }
-
-  private _remove = (point: IPoint) => {
-    if (!this._points.length) { return; }
-
-    const { index } = this._points.find(point);
-    this._points.remove(index);
-    this._draw$.next();
-  }
-
   private _drawCursor = (isDragging: boolean, isHovered: boolean) => {
     if (isDragging) {
       this._canvas.style.cursor = 'move';
@@ -284,12 +243,11 @@ export class ImgstrySpline implements IDisposable {
     let first = this._scaleUp(this._points.first);
     this._context.moveTo(first.x, this._height - first.y);
 
-    const spline = new CubicSpline([...this._points]);
 
-    this._splineXSeries.forEach((value) => {
+    this.interpolate((result: IPoint) => {
       let { x, y } = this._scaleUp({
-        x: value,
-        y: 1 - this._clampRatio(spline.interpolate(value)),
+        x: result.x,
+        y: 1 - result.y,
       });
 
       this._context.lineTo(x, y);
@@ -306,18 +264,9 @@ export class ImgstrySpline implements IDisposable {
       y: 1 - (ev.offsetY - this._padding) / this._fauxHeight,
     })
 
-  private _clampRatio =
-    (ratio: number) => Math.min(1, Math.max(0, ratio))
-
   private _scaleUp =
     ({ x, y }: IPoint) => ({
       x: x * this._fauxWidth + this._padding,
       y: y * this._fauxHeight + this._padding,
-    })
-
-  private _clampPoint =
-    (point: IPoint) => ({
-      x: this._clampRatio(point.x),
-      y: this._clampRatio(point.y),
     })
 }
