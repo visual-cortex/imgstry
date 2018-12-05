@@ -1,14 +1,14 @@
 import { IWorkerData } from './types';
-import { ImgstryProcessor } from '../../core';
+import { ImgstryProcessor } from '../../../core';
 
 /**
  * Processor implementation for the web worker.
  *
  * @export
- * @class ImgstryWorker
+ * @class Imgstry Background Worker
  * @extends {ImgstryProcessor}
  */
-export class ImgstryWorker extends ImgstryProcessor {
+export class Imgstry extends ImgstryProcessor {
   public width: number;
   public height: number;
 

@@ -8,7 +8,7 @@ import {
 } from '../../../source/pixel';
 
 import { COLOR_MAP } from '../../color';
-import { Imgstry } from '../../../source/node/imgstry';
+import { Imgstry } from '../../../source/platform/node/imgstry';
 import { expect } from 'chai';
 
 const IMAGE_SOURCE = './test/resources/rnm.jpg';

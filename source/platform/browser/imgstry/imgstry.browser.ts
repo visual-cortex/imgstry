@@ -1,53 +1,41 @@
 import {
-  ImgstryBrowserThread,
-  ThreadBrowserOptions,
-} from '../worker/browser.thread';
+  ImgstryThread,
+  ImgstryThreadOptions,
+} from '../worker';
 import {
   ImgstryEditor,
   ImgstryProcessor,
-} from '../../core';
+} from '../../../core';
 import {
   drawImage,
   fillCanvas,
   imageData,
-} from '../../utils/canvas';
+} from '../../../utils/canvas';
 import {
   getCanvas,
   loadImage,
-} from '../../utils/dom';
+} from '../../../utils/dom';
 
 export interface ImgstryBrowserOptions {
-  thread: ThreadBrowserOptions;
+  thread: ImgstryThreadOptions;
 }
 
 const DEFAULT_OPTIONS: ImgstryBrowserOptions = {
   thread: {
-    isEnabled: !!Worker,
-    isDevelopment: false,
-    host: {
-      url: `${document.location.protocol}//${document.location.host}/`,
-      scriptDirectory: 'dist/',
-    },
+    isDebugEnabled: false,
   },
 };
 
 const assignDefault = (source: Partial<ImgstryBrowserOptions>): ImgstryBrowserOptions => {
   source = source || {} as ImgstryBrowserOptions;
-  source.thread = source.thread || {} as ThreadBrowserOptions;
-  source.thread.host = source.thread.host || {} as any;
+  source.thread = source.thread || {} as ImgstryThreadOptions;
 
   return {
     thread: {
       isEnabled: source.thread.isEnabled ||
         DEFAULT_OPTIONS.thread.isEnabled,
-      isDevelopment: source.thread.isDevelopment ||
-        DEFAULT_OPTIONS.thread.isDevelopment,
-      host: {
-        url: source.thread.host.url ||
-          DEFAULT_OPTIONS.thread.host.url,
-        scriptDirectory: source.thread.host.scriptDirectory ||
-          DEFAULT_OPTIONS.thread.host.scriptDirectory,
-      },
+      isDebugEnabled: source.thread.isDebugEnabled ||
+        DEFAULT_OPTIONS.thread.isDebugEnabled,
     },
   };
 };
@@ -122,7 +110,7 @@ export class Imgstry extends ImgstryEditor {
   }
 
   public async render(): Promise<Imgstry> {
-    const result = await new ImgstryBrowserThread(this._options.thread)
+    const result = await new ImgstryThread(this._options.thread)
       .run({
         imageData: this.imageData,
         operations: this._operations,
