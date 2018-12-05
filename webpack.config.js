@@ -9,8 +9,8 @@ const PATH = {
 
 module.exports = {
   entry: {
-    'imgstry.browser': `${PATH.src}/browser/imgstry/index.js`,
-    'imgstry.spline': `${PATH.src}/browser/spline/index.js`,
+    'imgstry.browser': `${PATH.src}/platform/browser/imgstry/index.js`,
+    'imgstry.spline': `${PATH.src}/platform/browser/spline/index.js`,
     'imgstry.pixel': `${PATH.src}/pixel/index.js`,
     'imgstry.kernel': `${PATH.src}/kernel/index.js`,
     'imgstry': `${PATH.src}/index.js`,

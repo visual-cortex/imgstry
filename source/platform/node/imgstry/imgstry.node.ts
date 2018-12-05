@@ -5,14 +5,14 @@ import {
 import {
   ImgstryEditor,
   ImgstryProcessor,
-} from '../../core';
+} from '../../../core';
 import {
   drawImage,
   fillCanvas,
   imageData,
-} from '../../utils/canvas';
+} from '../../../utils/canvas';
 
-import { loadImage } from '../../utils/dom';
+import { loadImage } from '../../../utils/dom';
 
 /**
  * (Exposes image processing methods for html canvas)
