@@ -1,43 +1,18 @@
+import { Imgstry } from './imgstry.background';
 import { IWorkerData } from './types';
-import { ImgstryProcessor } from '../../core';
 
-/**
- * Processor implementation for the web worker.
- *
- * @export
- * @class ImgstryWorker
- * @extends {ImgstryProcessor}
- */
-export class ImgstryWorker extends ImgstryProcessor {
-  public width: number;
-  public height: number;
+const worker = self as any as Worker;
 
-  private _imageData: ImageData;
+worker.onmessage = (message) => {
+  const data: IWorkerData = message.data;
+  const processor = new Imgstry(data)
+    .batch(data.operations);
 
-  constructor({ buffer, width, height }: IWorkerData) {
-    super();
-    this._imageData = new ImageData(new Uint8ClampedArray(buffer), width, height);
-    this.width = this.imageData.width;
-    this.height = this.imageData.height;
-  }
-
-  public toDataUrl(_: string): string {
-    return '';
-  }
-
-  public reset(): ImgstryProcessor {
-    return this;
-  }
-
-  public clone(data: ImageData): ImageData {
-    return new ImageData(new Uint8ClampedArray(data.data.length), data.width, data.height);
-  }
-
-  public get imageData(): ImageData {
-    return this._imageData;
-  }
-
-  public set imageData(image: ImageData) {
-    this._imageData = image;
-  }
-}
+  worker.postMessage({
+    buffer: processor.imageData.data.buffer,
+    width: processor.imageData.width,
+    height: processor.imageData.height,
+  },
+    [processor.imageData.data.buffer],
+  );
+};

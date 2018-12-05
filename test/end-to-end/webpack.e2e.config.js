@@ -23,6 +23,16 @@ module.exports = {
         test: /\.ts$/,
         loader: 'ts-loader'
       },
+      {
+        test: /\.worker\.ts$/,
+        use: {
+          loader: 'worker-loader',
+          options: {
+            inline: true,
+            fallback: false,
+          }
+        }
+      }
     ]
   },
   resolve: {
