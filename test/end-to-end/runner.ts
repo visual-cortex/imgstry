@@ -15,7 +15,7 @@ browserSync.init({
   open: false,
   serveStatic: [{
     route: 'resources/rnm.jpg',
-    dir: 'test/end-to-end/resources/rnm.jpg',
+    dir: 'test/resources/rnm.jpg',
   }],
 }, async (_, browser: BrowserSyncInstance) => {
   const url = browser.getOption('urls').get('local');
