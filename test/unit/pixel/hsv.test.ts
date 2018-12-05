@@ -1,8 +1,9 @@
 import {
   Hex,
   Hsv,
-} from '../../source/pixel';
-import { colorMap } from './constants/colors';
+} from '../../../source/pixel';
+
+import { COLOR_MAP } from '../../color';
 import { expect } from 'chai';
 
 describe('HSV color', () => {
@@ -13,8 +14,8 @@ describe('HSV color', () => {
     expect(color.v).eql(0);
   });
 
-  Object.keys(colorMap).forEach(key => {
-    const colorDefinition = colorMap[key] as any;
+  Object.keys(COLOR_MAP).forEach(key => {
+    const colorDefinition = COLOR_MAP[key] as any;
     it(`Should convert ${key} correctly to RGB`, () => {
       let rgb = colorDefinition.rgb;
       let hsv = colorDefinition.hsv;
@@ -104,8 +105,8 @@ describe('HSV color', () => {
     expect(color.v).eql(1);
 
     // correct value
-    Object.keys(colorMap).forEach(key => {
-      const colorDefinition = colorMap[key] as any;
+    Object.keys(COLOR_MAP).forEach(key => {
+      const colorDefinition = COLOR_MAP[key] as any;
       color = new Hsv(colorDefinition.hsv).clamp();
 
       expect(color.h).eql(colorDefinition.hsv.h);

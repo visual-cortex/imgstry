@@ -1,5 +1,3 @@
-import * as Kernel from '../../kernel';
-
 import {
   ImgstryBrowserThread,
   ThreadBrowserOptions,
@@ -7,15 +5,16 @@ import {
 import {
   ImgstryEditor,
   ImgstryProcessor,
-  OperationOption,
 } from '../../core';
 import {
   drawImage,
   fillCanvas,
   imageData,
 } from '../../utils/canvas';
-
-import { getCanvas } from '../../utils/dom';
+import {
+  getCanvas,
+  loadImage,
+} from '../../utils/dom';
 
 export interface ImgstryBrowserOptions {
   thread: ThreadBrowserOptions;
@@ -58,19 +57,20 @@ const assignDefault = (source: Partial<ImgstryBrowserOptions>): ImgstryBrowserOp
  *
  * @class Imgstry
  */
-export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> {
+export class Imgstry extends ImgstryEditor {
   public static getCanvas = getCanvas;
+  public static loadImage = (src: string) => loadImage(Image, src);
 
   public readonly context: CanvasRenderingContext2D;
   public readonly canvas: HTMLCanvasElement;
+
   public get width() {
     return this.canvas.width;
   }
+
   public get height() {
     return this.canvas.height;
   }
-
-  private _operations: OperationOption[] = [];
 
   /**
    * Creates an instance of Imgstry.
@@ -121,140 +121,15 @@ export class Imgstry extends ImgstryProcessor implements ImgstryEditor<Imgstry> 
     this.context.putImageData(image, 0, 0);
   }
 
-  public blackAndWhite(ratio?: [number, number, number]): Imgstry {
-    this._operations.push({
-      name: 'blackAndWhite',
-      value: ratio,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public contrast(value: number): Imgstry {
-    this._operations.push({
-      name: 'contrast',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public brightness(value: number): Imgstry {
-    this._operations.push({
-      name: 'brightness',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public saturation(value: number): Imgstry {
-    this._operations.push({
-      name: 'saturation',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public hue(value: number): Imgstry {
-    this._operations.push({
-      name: 'hue',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public sepia(value: number): Imgstry {
-    this._operations.push({
-      name: 'sepia',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public gamma(value: number): Imgstry {
-    this._operations.push({
-      name: 'gamma',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public noise(value: number): Imgstry {
-    this._operations.push({
-      name: 'noise',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public vibrance(value: number): Imgstry {
-    this._operations.push({
-      name: 'vibrance',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public invert(): Imgstry {
-    this._operations.push({
-      name: 'invert',
-      value: null,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public tint(color: string): Imgstry {
-    this._operations.push({
-      name: 'tint',
-      value: color,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public fill(color: string): Imgstry {
-    this._operations.push({
-      name: 'fill',
-      value: color,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public convolve(kernel: Kernel.Kernel | number[][]): Imgstry {
-    this._operations.push({
-      name: 'convolve',
-      value: kernel,
-      priority: this._operations.length,
-    });
-    return this;
-  }
-
-  public clear() {
-    this._operations = [];
-    return this;
-  }
-
-  public renderSync(): Imgstry {
-    this.batch(this._operations);
-    return this.clear();
-  }
-
   public async render(): Promise<Imgstry> {
     const result = await new ImgstryBrowserThread(this._options.thread)
       .run({
         imageData: this.imageData,
         operations: this._operations,
       });
+
     this.imageData = result.imageData;
+
     return this.clear();
   }
 }

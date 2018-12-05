@@ -1,13 +1,13 @@
 import {
-  Imgstry,
-  Rgb,
-  Hex,
   EdgeDetection,
   GaussianBlur,
+  Hex,
+  Imgstry,
+  Rgb,
 } from '../../lib';
 
-import { GREY_MAP } from './constants/greyMap';
-import { HEX_MAP } from './constants/colorMap';
+import { COLOR_MAP } from '../color';
+import { ImgstryEditor } from '../../lib/core';
 
 const isServer = document.location.protocol &&
   document.location.protocol.indexOf('http') !== -1;
@@ -21,7 +21,9 @@ const RenderMethod = {
   async: 'async' as 'async',
 };
 
-const render = async (processor: Imgstry, method: RenderMethod) => {
+const IMAGE_SOURCE = 'resources/rnm.jpg';
+
+const render = async (processor: ImgstryEditor, method: RenderMethod) => {
   switch (method) {
     case 'sync':
       return processor.renderSync();
@@ -277,13 +279,10 @@ renderers.forEach((method: RenderMethod) => {
         result.channel.blue.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
       });
 
-      [
-        ...GREY_MAP.map(rgb => ({
-          name: rgb.name,
-          color: new Rgb(rgb.index).toHex().value,
-        })),
-        ...HEX_MAP,
-      ]
+      Object.keys(COLOR_MAP).map(key => ({
+        name: key,
+        color: new Rgb(COLOR_MAP[key].rgb).toHex().value,
+      }))
         .forEach((hex) => {
           it(`should have spikes for ${hex.name}`, async () => {
             const rgb = new Hex(hex.color).toRgb();
@@ -305,90 +304,73 @@ renderers.forEach((method: RenderMethod) => {
 
     context('convolution', () => {
       context('edge detection', () => {
-        it('should have 98.% percent of pixels black after detection', (done) => {
-          const image = new Image();
-          image.onload = async () => {
-            try {
-              processor
-                .context
-                .drawImage(image, 0, 0);
+        it('should have 98.% percent of pixels black after detection', async () => {
+          const image = await Imgstry.loadImage(IMAGE_SOURCE);
 
-              let pixelData = processor.imageData.data;
-              let initialAlpha = 0;
-              for (let i = 0; i < pixelData.length; i += 4) {
-                initialAlpha += pixelData[i + 3];
-              }
+          processor
+            .drawImage(image);
 
-              await render(
-                processor
-                  .convolve(EdgeDetection()),
-                method,
-              );
+          let pixelData = processor.imageData.data;
+          let initialAlpha = 0;
+          for (let i = 0; i < pixelData.length; i += 4) {
+            initialAlpha += pixelData[i + 3];
+          }
+
+          await render(
+            processor
+              .convolve(EdgeDetection()),
+            method,
+          );
 
 
-              pixelData = processor.imageData.data;
-              let channelSum = 0;
-              let alpha = 0;
+          pixelData = processor.imageData.data;
+          let channelSum = 0;
+          let alpha = 0;
 
-              for (let i = 0; i < pixelData.length; i += 4) {
-                let rgb = {
-                  r: pixelData[i],
-                  g: pixelData[i + 1],
-                  b: pixelData[i + 2],
-                  a: pixelData[i + 3],
-                };
+          for (let i = 0; i < pixelData.length; i += 4) {
+            let rgb = {
+              r: pixelData[i],
+              g: pixelData[i + 1],
+              b: pixelData[i + 2],
+              a: pixelData[i + 3],
+            };
 
-                alpha += rgb.a;
-                channelSum += (rgb.r + rgb.b + rgb.g) / 3;
-              }
-              (channelSum / pixelData.length).should
-                .approximately(0, 1.51);
-              alpha.should.equal(initialAlpha, 'the alpha channel was mutated by the convolution');
-            } catch (e) {
-              return done(e);
-            }
-
-            done();
-          };
-          image.src = 'resources/rnm.jpg';
+            alpha += rgb.a;
+            channelSum += (rgb.r + rgb.b + rgb.g) / 3;
+          }
+          (channelSum / pixelData.length).should
+            .approximately(0, 1.51);
+          alpha.should.equal(initialAlpha, 'the alpha channel was mutated by the convolution');
         });
       });
 
       context('gaussian blur', () => {
-        it('should have 99.8% of pixels black after applying a 9x9 kernel and edge detection', (done) => {
-          const image = new Image();
-          image.onload = async () => {
-            try {
-              processor.context.drawImage(image, 0, 0);
+        it('should have 99.8% of pixels black after applying a 9x9 kernel and edge detection', async () => {
+          const image = await Imgstry.loadImage(IMAGE_SOURCE);
 
-              await render(
-                processor
-                  .convolve(GaussianBlur(9, 100))
-                  .convolve(EdgeDetection()),
-                method,
-              );
+          processor.context.drawImage(image, 0, 0);
 
-              let channelSum = 0;
-              let pixelData = processor.imageData.data;
-              for (let i = 0; i < pixelData.length; i += 4) {
-                let rgb = {
-                  r: pixelData[i],
-                  g: pixelData[i + 1],
-                  b: pixelData[i + 2],
-                  a: pixelData[i + 3],
-                };
+          await render(
+            processor
+              .convolve(GaussianBlur(9, 100))
+              .convolve(EdgeDetection()),
+            method,
+          );
 
-                channelSum += (rgb.r + rgb.b + rgb.g) / 3;
-              }
-              (channelSum / pixelData.length).should
-                .approximately(0, .2);
-            } catch (e) {
-              return done(e);
-            }
+          let channelSum = 0;
+          let pixelData = processor.imageData.data;
+          for (let i = 0; i < pixelData.length; i += 4) {
+            let rgb = {
+              r: pixelData[i],
+              g: pixelData[i + 1],
+              b: pixelData[i + 2],
+              a: pixelData[i + 3],
+            };
 
-            done();
-          };
-          image.src = 'resources/rnm.jpg';
+            channelSum += (rgb.r + rgb.b + rgb.g) / 3;
+          }
+          (channelSum / pixelData.length).should
+            .approximately(0, .2);
         });
       });
     });
