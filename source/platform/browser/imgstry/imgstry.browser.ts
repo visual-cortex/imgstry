@@ -1,11 +1,11 @@
 import {
-  ImgstryThread,
-  ImgstryThreadOptions,
-} from '../worker';
-import {
   ImgstryEditor,
   ImgstryProcessor,
 } from '../../../core';
+import {
+  ImgstryThread,
+  ImgstryThreadOptions,
+} from '../worker';
 import {
   drawImage,
   fillCanvas,
@@ -50,7 +50,6 @@ export class Imgstry extends ImgstryEditor {
   public static loadImage = (src: string) => loadImage(Image, src);
 
   public readonly context: CanvasRenderingContext2D;
-  public readonly canvas: HTMLCanvasElement;
 
   public get width() {
     return this.canvas.width;
@@ -66,12 +65,11 @@ export class Imgstry extends ImgstryEditor {
    * @param {HTMLCanvasElement} canvas (specifies the canvas base for imgstry)
    */
   constructor(
-    elementIdOrCanvas: string | HTMLCanvasElement,
+    public readonly canvas: HTMLCanvasElement,
     private _options?: Partial<ImgstryBrowserOptions>,
   ) {
     super();
     this._options = assignDefault(_options) as ImgstryBrowserOptions;
-    this.canvas = getCanvas(elementIdOrCanvas);
     this.context = this.canvas.getContext('2d');
     fillCanvas(this.canvas, '');
     this.original = this.imageData;

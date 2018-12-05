@@ -50,13 +50,12 @@ export class ImgstrySpline implements IDisposable {
   private _points = new SplinePointSet();
   private _splineXSeries: number[] = [];
   private _context: CanvasRenderingContext2D;
-  private _canvas: HTMLCanvasElement;
+  private _maxAnchors = 15;
 
   private _anchor$ = new BehaviorSubject<IPointResult>(SplinePointSet.NotFound);
   private _draw$ = new Subject();
   private _destroyed$ = new Subject();
   private _dragging$ = new BehaviorSubject(false);
-  private _maxAnchors = 15;
 
   private get _width() {
     return this._canvas.width;
@@ -83,10 +82,9 @@ export class ImgstrySpline implements IDisposable {
   private _padding: number;
 
   constructor(
-    elementIdOrCanvas: string | HTMLCanvasElement,
+    private _canvas: HTMLCanvasElement,
     private _options: ISplineOptions = {} as ISplineOptions,
   ) {
-    this._canvas = ImgstrySpline.getCanvas(elementIdOrCanvas);
     this._context = this._canvas.getContext('2d');
 
     this._padding = this._anchorSize * 2;
