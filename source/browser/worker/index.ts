@@ -1,1 +1,2 @@
-export { ImgstryWorker } from './imgstry.worker';
+export * from './imgstry.thread';
+export * from './types';
