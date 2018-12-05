@@ -1,4 +1,7 @@
-import { Kernel } from '../kernel';
+import * as Kernel from '../kernel';
+
+import { ImgstryProcessor } from './imgstry.processor';
+import { OperationOption } from './types';
 
 /**
  * Defines the imgstry editor schema.
@@ -7,7 +10,9 @@ import { Kernel } from '../kernel';
  * @interface ImgstryEditor
  * @template T
  */
-export interface ImgstryEditor<T> {
+export abstract class ImgstryEditor extends ImgstryProcessor {
+  protected _operations: OperationOption[] = [];
+
   /**
    * Turn the image black and white with the provided ratio.
    *
@@ -15,7 +20,15 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  blackAndWhite(ratio?: [number, number, number]): T;
+  public blackAndWhite(ratio?: [number, number, number]): ImgstryEditor {
+    this._operations.push({
+      name: 'blackAndWhite',
+      value: ratio,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Increase / decrease image constrast.
    *
@@ -23,7 +36,15 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  contrast(value: number): T;
+  public contrast(value: number): ImgstryEditor {
+    this._operations.push({
+      name: 'contrast',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Increase / decrease image brightness.
    *
@@ -31,7 +52,15 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  brightness(value: number): T;
+  public brightness(value: number): ImgstryEditor {
+    this._operations.push({
+      name: 'brightness',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Increase / decrease image saturation.
    *
@@ -39,7 +68,15 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  saturation(value: number): T;
+  public saturation(value: number): ImgstryEditor {
+    this._operations.push({
+      name: 'saturation',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
   * Shift the image hue.
   *
@@ -47,7 +84,15 @@ export interface ImgstryEditor<T> {
   * @returns {T}
   * @memberof ImgstryEditor
   */
-  hue(value: number): T;
+  public hue(value: number): ImgstryEditor {
+    this._operations.push({
+      name: 'hue',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Apply sepia with the specified intensity.
    *
@@ -55,7 +100,15 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  sepia(value: number): T;
+  public sepia(value: number): ImgstryEditor {
+    this._operations.push({
+      name: 'sepia',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
   * Increase / decrease image gamma.
   *
@@ -63,7 +116,15 @@ export interface ImgstryEditor<T> {
   * @returns {T}
   * @memberof ImgstryEditor
   */
-  gamma(value: number): T;
+  public gamma(value: number): ImgstryEditor {
+    this._operations.push({
+      name: 'gamma',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Add a provided amount of noise to the image.
    *
@@ -71,7 +132,15 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  noise(value: number): T;
+  public noise(value: number): ImgstryEditor {
+    this._operations.push({
+      name: 'noise',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Increase / decrease image vibrance.
    *
@@ -79,14 +148,30 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  vibrance(value: number): T;
+  public vibrance(value: number): ImgstryEditor {
+    this._operations.push({
+      name: 'vibrance',
+      value: value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Invert the image colors.
    *
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  invert(): T;
+  public invert(): ImgstryEditor {
+    this._operations.push({
+      name: 'invert',
+      value: null,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Apply a color tint to the image.
    *
@@ -94,7 +179,15 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  tint(color: string): T;
+  public tint(color: string): ImgstryEditor {
+    this._operations.push({
+      name: 'tint',
+      value: color,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Fill the canvas with a color.
    *
@@ -102,7 +195,15 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  fill(color: string): T;
+  public fill(color: string): ImgstryEditor {
+    this._operations.push({
+      name: 'fill',
+      value: color,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Apply a kernel to the image.
    *
@@ -110,26 +211,42 @@ export interface ImgstryEditor<T> {
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  convolve(kernel: Kernel | number[][]): T;
+  public convolve(kernel: Kernel.Kernel | number[][]): ImgstryEditor {
+    this._operations.push({
+      name: 'convolve',
+      value: kernel,
+      priority: this._operations.length,
+    });
+    return this;
+  }
+
   /**
    * Clears the operation list.
    *
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  clear(): T;
+  public clear() {
+    this._operations = [];
+    return this;
+  }
+
   /**
    * Apply the requested operations to the image.
    *
    * @returns {T}
    * @memberof ImgstryEditor
    */
-  renderSync(): T;
+  public renderSync(): ImgstryEditor {
+    this.batch(this._operations);
+    return this.clear();
+  }
+
   /**
   * Apply the requested operations to the image using a worker thread.
   *
   * @returns {Promise<T>}
   * @memberof ImgstryEditor
   */
-  render(): Promise<T>;
+  public abstract render(): Promise<ImgstryEditor>;
 }

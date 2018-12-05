@@ -1,5 +1,5 @@
-import { Cmyk } from '../../source/pixel';
-import { colorMap } from './constants/colors';
+import { COLOR_MAP } from '../../color';
+import { Cmyk } from '../../../source/pixel';
 import { expect } from 'chai';
 
 describe('CMYK color', () => {
@@ -12,9 +12,8 @@ describe('CMYK color', () => {
     expect(color.k).eql(0);
   });
 
-
-  Object.keys(colorMap).forEach(key => {
-    const colorDefinition = colorMap[key] as any;
+  Object.keys(COLOR_MAP).forEach(key => {
+    const colorDefinition = COLOR_MAP[key] as any;
 
     it(`Should convert ${key} correctly to RGB`, () => {
       let rgb = colorDefinition.rgb;

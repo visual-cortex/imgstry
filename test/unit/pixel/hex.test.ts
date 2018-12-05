@@ -1,5 +1,5 @@
-import { Hex } from '../../source/pixel';
-import { colorMap } from './constants/colors';
+import { COLOR_MAP } from '../../color';
+import { Hex } from '../../../source/pixel';
 import { expect } from 'chai';
 
 describe('HEX color', () => {
@@ -9,8 +9,8 @@ describe('HEX color', () => {
     expect(color.value).eql('#000000');
   });
 
-  Object.keys(colorMap).forEach(key => {
-    const colorDefinition = colorMap[key] as any;
+  Object.keys(COLOR_MAP).forEach(key => {
+    const colorDefinition = COLOR_MAP[key] as any;
 
     it(`Should convert ${key} correctly to RGB`, () => {
       let rgb = colorDefinition.rgb;
