@@ -9,13 +9,13 @@ import {
   IPoint,
   IPointResult,
   SplinePointSet,
-} from '../../core/point';
+} from '../../../core/point';
 import {
   clearCanvas,
   drawCircle,
   drawGrid,
   fillCanvas,
-} from '../../utils/canvas';
+} from '../../../utils/canvas';
 import {
   distinctUntilChanged,
   filter,
@@ -26,11 +26,11 @@ import {
   throttleTime,
 } from 'rxjs/operators';
 
-import { CubicSpline } from '../../core/spline';
-import { IDisposable } from '../../types';
+import { CubicSpline } from '../../../core/spline';
+import { IDisposable } from '../../../types';
 import { Theme } from '../theme';
-import { fillWith } from '../../utils/array';
-import { getCanvas } from '../../utils/dom';
+import { fillWith } from '../../../utils/array';
+import { getCanvas } from '../../../utils/dom';
 import { splineTheme } from './spline.theme';
 
 interface ISplinePointEvent {

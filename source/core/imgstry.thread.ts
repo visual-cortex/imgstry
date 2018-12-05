@@ -27,7 +27,7 @@ export interface IThreadResult {
  * @export
  * @interface ImgstryThread
  */
-export interface ImgstryThread {
+export interface IImgstryThread {
   /**
    * Starts a worker thread and initiates the request operations.
    *

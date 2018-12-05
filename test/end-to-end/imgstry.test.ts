@@ -56,7 +56,7 @@ renderers.forEach((method: RenderMethod) => {
       board = Imgstry.getCanvas(anchor);
       processor = new Imgstry(board, {
         thread: {
-          isDevelopment: true,
+          isDebugEnabled: true,
         },
       });
     });
