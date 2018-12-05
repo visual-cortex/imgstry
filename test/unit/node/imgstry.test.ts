@@ -13,7 +13,7 @@ import { expect } from 'chai';
 
 const IMAGE_SOURCE = './test/resources/rnm.jpg';
 
-describe('Imgstry Browser Canvas', () => {
+describe('Imgstry Node Canvas', () => {
   const size = 100;
   let processor: Imgstry;
 
