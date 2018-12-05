@@ -32,7 +32,12 @@
   </canvas>
   <script src='imgstry.spline.min.js'></script>
   <script>
-    const curve = new ImgstrySpline('#canvas', { theme: Theme.dark, anchorSize: 18, gridSize: 5 });
+    const canvas = ImgstrySpline.getCanvas('#canvas');
+    const curve = new ImgstrySpline(canvas, {
+      theme: Theme.dark,
+      anchorSize: 18,
+      gridSize: 5
+    });
     [
       {
         x: .11,
