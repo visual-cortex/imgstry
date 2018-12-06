@@ -6,4 +6,6 @@
 --reporter mochawesome
 --reporter-options reportDir=./reports/unit/,reportTitle=Imgstry,inlineAssets=true
 --require ts-node/register
+--require source-map-support/register
+--recursive
 test/unit/**/*.test.ts

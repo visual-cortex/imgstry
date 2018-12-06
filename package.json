@@ -13,7 +13,22 @@
     "clean": "gulp build:clean test:clean",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "npm run build:e2e && ts-node ./test/end-to-end/runner.ts",
-    "test:unit": "mocha --opts ./test/unit/mocha.opts"
+    "test:unit": "nyc mocha --opts ./test/unit/mocha.opts && nyc report --reporter=html"
+  },
+  "nyc": {
+    "include": [
+      "source/**/*.ts"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "report-dir": "./reports/coverage",
+    "cache": true,
+    "all": true
   },
   "repository": {
     "type": "git",
@@ -45,8 +60,10 @@
     "mocha": "5.2.0",
     "mocha-headless-chrome": "2.0.1",
     "mochawesome": "3.1.1",
+    "nyc": "13.1.0",
     "should": "13.2.3",
-    "terser-webpack-plugin": "^1.1.0",
+    "source-map-support": "0.5.9",
+    "terser-webpack-plugin": "1.1.0",
     "ts-loader": "5.3.1",
     "ts-node": "7.0.1",
     "tslint": "5.11.0",
