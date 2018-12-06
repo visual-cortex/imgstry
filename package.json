@@ -69,7 +69,6 @@
     "mochawesome": "3.1.1",
     "nyc": "13.1.0",
     "rimraf": "^2.6.2",
-    "should": "13.2.3",
     "source-map-support": "0.5.9",
     "terser-webpack-plugin": "1.1.0",
     "ts-loader": "5.3.1",

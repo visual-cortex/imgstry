@@ -5,7 +5,7 @@ import {
   Imgstry,
   Rgb,
 } from '../../../lib';
-
+import { expect } from 'chai';
 import { COLOR_MAP } from '../../color';
 import { ImgstryEditor } from '../../../lib/core';
 
@@ -67,12 +67,12 @@ renderers.forEach((method: RenderMethod) => {
 
     context('ctor', () => {
       it('should be able to fetch the canvas reference from the DOM', () => {
-        board.should.be.not.empty;
+        expect(board).not.null;
       });
 
       it('should correctly populate the width and height properties', () => {
-        processor.width.should.equal(500);
-        processor.height.should.equal(500);
+        expect(processor.width).equal(500);
+        expect(processor.height).equal(500);
       });
 
       it('should have all pixels black when constructed', () => {
@@ -89,7 +89,7 @@ renderers.forEach((method: RenderMethod) => {
           channelSum += (rgb.r + rgb.b + rgb.g) / 3;
         }
 
-        channelSum.should.equal(0);
+        expect(channelSum).equal(0);
       });
     });
 
@@ -112,7 +112,7 @@ renderers.forEach((method: RenderMethod) => {
 
           channelSum += (rgb.r + rgb.b + rgb.g) / 3;
         }
-        (channelSum / pixelData.length * 4).should.equal(255);
+        expect(channelSum / pixelData.length * 4).equal(255);
       });
     });
 
@@ -135,7 +135,7 @@ renderers.forEach((method: RenderMethod) => {
 
           channelSum += (rgb.r + rgb.b + rgb.g) / 3;
         }
-        (channelSum / pixelData.length * 4).should.oneOf([127, 128]);
+        expect(channelSum / pixelData.length * 4).oneOf([127, 128]);
       });
     });
 
@@ -157,9 +157,9 @@ renderers.forEach((method: RenderMethod) => {
           rgb.b += pixelData[i + 2];
         }
 
-        (rgb.r / pixelData.length * 4).should.equal(236);
-        (rgb.g / pixelData.length * 4).should.equal(214);
-        (rgb.b / pixelData.length * 4).should.equal(198);
+        expect(rgb.r / pixelData.length * 4).equal(236);
+        expect(rgb.g / pixelData.length * 4).equal(214);
+        expect(rgb.b / pixelData.length * 4).equal(198);
       });
     });
 
@@ -183,7 +183,7 @@ renderers.forEach((method: RenderMethod) => {
 
           channelSum += (rgb.r + rgb.b + rgb.g) / 3;
         }
-        (channelSum / pixelData.length * 4).should.equal(176);
+        expect(channelSum / pixelData.length * 4).equal(176);
       });
 
       it('should apply green sea to neutral grey', async () => {
@@ -205,7 +205,7 @@ renderers.forEach((method: RenderMethod) => {
 
           channelSum += (rgb.r + rgb.b + rgb.g) / 3;
         }
-        (channelSum / pixelData.length * 4).should.approximately(180, 1);
+        expect(channelSum / pixelData.length * 4).approximately(180, 1);
       });
     });
 
@@ -234,7 +234,7 @@ renderers.forEach((method: RenderMethod) => {
             rgb.g &&
             rgb.r !== 0;
         }
-        channelSum.should.be.equal(true);
+        expect(channelSum).equal(true);
       });
     });
 
@@ -259,7 +259,7 @@ renderers.forEach((method: RenderMethod) => {
 
           channelSum += (rgb.r + rgb.b + rgb.g) / 3;
         }
-        (channelSum / pixelData.length * 4).should.approximately(202, 1);
+        expect(channelSum / pixelData.length * 4).approximately(202, 1);
       });
     });
 
@@ -273,10 +273,13 @@ renderers.forEach((method: RenderMethod) => {
           method,
         );
         const result = processor.histogram;
-        result.all.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
-        result.channel.red.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
-        result.channel.green.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
-        result.channel.blue.reduce((a: number, b: number) => a + b, 0).should.approximately(1, .00000001);
+        const sum = (arr: number[]) =>
+          arr.reduce((a: number, b: number) => a + b, 0);
+
+        expect(sum(result.all)).approximately(1, 1e-7);
+        expect(sum(result.channel.red)).approximately(1, 1e-7);
+        expect(sum(result.channel.green)).approximately(1, 1e-7);
+        expect(sum(result.channel.blue)).approximately(1, 1e-7);
       });
 
       Object.keys(COLOR_MAP).map(key => ({
@@ -294,10 +297,10 @@ renderers.forEach((method: RenderMethod) => {
             );
             const result = processor.histogram;
 
-            result.all[mean].should.approximately(1, .00000001);
-            result.channel.red[rgb.r].should.approximately(1, .00000001);
-            result.channel.green[rgb.g].should.approximately(1, .00000001);
-            result.channel.blue[rgb.b].should.approximately(1, .00000001);
+            expect(result.all[mean]).approximately(1, 1e-7);
+            expect(result.channel.red[rgb.r]).approximately(1, 1e-7);
+            expect(result.channel.green[rgb.g]).approximately(1, 1e-7);
+            expect(result.channel.blue[rgb.b]).approximately(1, 1e-7);
           });
         });
     });
@@ -338,9 +341,9 @@ renderers.forEach((method: RenderMethod) => {
             alpha += rgb.a;
             channelSum += (rgb.r + rgb.b + rgb.g) / 3;
           }
-          (channelSum / pixelData.length).should
+          expect(channelSum / pixelData.length)
             .approximately(0, 1.51);
-          alpha.should.equal(initialAlpha, 'the alpha channel was mutated by the convolution');
+          expect(alpha).equal(initialAlpha, 'the alpha channel was mutated by the convolution');
         });
       });
 
@@ -369,7 +372,7 @@ renderers.forEach((method: RenderMethod) => {
 
             channelSum += (rgb.r + rgb.b + rgb.g) / 3;
           }
-          (channelSum / pixelData.length).should
+          expect(channelSum / pixelData.length)
             .approximately(0, .2);
         });
       });
