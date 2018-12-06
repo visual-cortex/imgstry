@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "concurrently \"tsc -w\" \"webpack-dev-server --port 8088\"",
-    "build": "tsc && webpack -p",
+    "build": "tsc && npm run build:path && webpack -p",
+    "build:path": "tscpaths -p tsconfig.json -s ./source -o ./lib",
     "build:e2e": "webpack -p --config ./test/end-to-end/webpack.e2e.config.js",
     "clean": "gulp build:clean test:clean",
     "test": "npm run test:unit && npm run test:e2e",
@@ -66,6 +67,7 @@
     "terser-webpack-plugin": "1.1.0",
     "ts-loader": "5.3.1",
     "ts-node": "7.0.1",
+    "tscpaths": "0.0.6",
     "tslint": "5.11.0",
     "typescript": "3.2.1",
     "webpack": "4.26.1",
