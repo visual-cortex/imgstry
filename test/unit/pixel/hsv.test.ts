@@ -1,7 +1,4 @@
-import {
-  Hex,
-  Hsv,
-} from '../../../source/pixel';
+import { Hsv } from '../../../source/pixel/color/spaces/hsv';
 
 import { COLOR_MAP } from '../../color';
 import { expect } from 'chai';

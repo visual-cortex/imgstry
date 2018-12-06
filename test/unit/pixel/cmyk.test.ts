@@ -1,5 +1,5 @@
 import { COLOR_MAP } from '../../color';
-import { Cmyk } from '../../../source/pixel';
+import { Cmyk } from '../../../source/pixel/color/spaces/cmyk';
 import { expect } from 'chai';
 import { hexToRgb } from '../../utils';
 
