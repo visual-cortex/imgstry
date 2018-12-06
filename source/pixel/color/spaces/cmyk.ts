@@ -1,11 +1,11 @@
 import {
   ColorSpace,
   IColor,
-} from '../icolor';
+} from '~pixel/color/icolor';
 
-import { Hex } from './hex';
-import { Hsv } from './hsv';
-import { Rgb } from './rgb';
+import { Hex } from '~pixel/color/spaces/hex';
+import { Hsv } from '~pixel/color/spaces/hsv';
+import { Rgb } from '~pixel/color/spaces/rgb';
 
 interface ICmyk {
   c: number;

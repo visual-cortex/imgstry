@@ -1,5 +1,5 @@
-import { Point } from '../../../point';
-import { fillWith } from '../../../../utils/array';
+import { Point } from '~core/point';
+import { fillWith } from '~utils/array';
 
 export class CubicInterpolationSet {
   public a: number[];

@@ -1,7 +1,7 @@
 import {
   IPoint,
   Point,
-} from '.';
+} from '~core/point';
 
 interface IBoundary {
   min?: number;

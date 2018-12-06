@@ -1,20 +1,20 @@
 import {
   ImgstryEditor,
   ImgstryProcessor,
-} from '../../../core';
+} from '~core';
 import {
   ImgstryThread,
   ImgstryThreadOptions,
-} from '../worker';
+} from '~platform/browser/worker';
 import {
   drawImage,
   fillCanvas,
   imageData,
-} from '../../../utils/canvas';
+} from '~utils/canvas';
 import {
   getCanvas,
   loadImage,
-} from '../../../utils/dom';
+} from '~utils/dom';
 
 export interface ImgstryBrowserOptions {
   thread: ImgstryThreadOptions;

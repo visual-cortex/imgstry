@@ -1,4 +1,4 @@
-import { IPoint } from '../../core/point';
+import { IPoint } from '~core/point';
 
 interface ICircleOptions {
   radius: number;

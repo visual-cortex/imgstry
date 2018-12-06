@@ -11,7 +11,13 @@
         "removeComments": false,
         "preserveConstEnums": true,
         "isolatedModules": false,
+        "baseUrl": "./",
         "outDir": "./lib",
+        "paths": {
+            "~*": [
+                "source/*"
+            ]
+        },
         "typeRoots": [
             "./node_modules/@types",
             "./declarations"
@@ -20,7 +26,7 @@
             "chai",
             "mocha",
             "node",
-            "canvas",
+            "canvas"
         ],
         "lib": [
             "es2016",
