@@ -12,6 +12,7 @@
         "node_modules": true,
         "README.md": true,
         "src": true,
+        "test/**/dist": true,
         "typings": true
     },
     "files.trimTrailingWhitespace": true,
