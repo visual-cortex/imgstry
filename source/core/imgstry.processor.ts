@@ -3,11 +3,11 @@ import {
   OperationMethod,
   OperationOption,
   TraversalPixelInfo,
-} from './types';
+} from '~core/types';
 
-import { Kernel } from '../kernel';
-import { Operation } from './imgstry.operation';
-import { Rgb } from '../pixel';
+import { Kernel } from '~kernel';
+import { Operation } from '~core/imgstry.operation';
+import { Rgb } from '~pixel';
 
 /**
  * Core logic for the imgstry editor.

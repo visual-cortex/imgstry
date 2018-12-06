@@ -1,2 +1,2 @@
-export * from './imgstry';
-export * from './spline';
+export * from '~platform/node/imgstry';
+export * from '~platform/node/spline';

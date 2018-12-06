@@ -1,2 +1,2 @@
-export * from './findLastIndex';
-export * from './fillWith';
+export * from '~utils/array/findLastIndex';
+export * from '~utils/array/fillWith';

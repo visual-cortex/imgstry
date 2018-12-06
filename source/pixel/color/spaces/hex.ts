@@ -1,11 +1,11 @@
 import {
   ColorSpace,
   IColor,
-} from '../icolor';
+} from '~pixel/color/icolor';
 
-import { Cmyk } from './cmyk';
-import { Hsv } from './hsv';
-import { Rgb } from './rgb';
+import { Cmyk } from '~pixel/color/spaces/cmyk';
+import { Hsv } from '~pixel/color/spaces/hsv';
+import { Rgb } from '~pixel/color/spaces/rgb';
 
 /**
  * HEX colorspace.

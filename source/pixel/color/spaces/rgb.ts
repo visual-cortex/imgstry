@@ -1,11 +1,11 @@
 import {
   ColorSpace,
   IColor,
-} from '../icolor';
+} from '~pixel/color/icolor';
 
-import { Cmyk } from './cmyk';
-import { Hex } from './hex';
-import { Hsv } from './hsv';
+import { Cmyk } from '~pixel/color/spaces/cmyk';
+import { Hex } from '~pixel/color/spaces/hex';
+import { Hsv } from '~pixel/color/spaces/hsv';
 
 interface IRgb {
   r: number;

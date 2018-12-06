@@ -1,4 +1,4 @@
-import { Theme } from '../theme';
+import { Theme } from '~platform/browser/theme';
 
 export const splineTheme = (theme: Theme) => {
   switch (theme) {

@@ -1,2 +1,2 @@
-export * from './imgstry.thread';
-export * from './types';
+export * from '~platform/browser/worker/imgstry.thread';
+export * from '~platform/browser/worker/types';
