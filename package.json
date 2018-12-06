@@ -9,8 +9,9 @@
   "scripts": {
     "start": "concurrently \"tsc -w\" \"webpack-dev-server --port 8088\"",
     "prebuild": "npm run clean",
-    "build": "tsc && npm run build:path",
-    "postbuild": "webpack -p",
+    "build": "tsc && npm run build:path && webpack -p --progress --env.target prod",
+    "prebuild:debug": "npm run clean",
+    "build:debug": "tsc && npm run build:path && webpack -p --progress --env.target debug",
     "build:path": "tscpaths -p tsconfig.json -s ./source -o ./lib",
     "build:test": "webpack -p --config ./test/integration/webpack-test.config.js",
     "clean": "npm run clean:lib && npm run clean:dist",
@@ -79,6 +80,7 @@
     "webpack": "4.26.1",
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4",
     "worker-loader": "^2.0.0"
   },
   "dependencies": {
