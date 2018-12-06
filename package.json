@@ -10,10 +10,10 @@
     "start": "concurrently \"tsc -w\" \"webpack-dev-server --port 8088\"",
     "build": "tsc && npm run build:path && webpack -p",
     "build:path": "tscpaths -p tsconfig.json -s ./source -o ./lib",
-    "build:e2e": "webpack -p --config ./test/end-to-end/webpack.e2e.config.js",
+    "build:test": "webpack -p --config ./test/integration/webpack-test.config.js",
     "clean": "gulp build:clean test:clean",
-    "test": "npm run test:unit && npm run test:e2e",
-    "test:e2e": "npm run build:e2e && ts-node ./test/end-to-end/runner.ts",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:integration": "npm run build:test && ts-node --project ./tsconfig.json ./test/integration/runner.ts",
     "test:unit": "nyc mocha --opts ./test/unit/mocha.opts && nyc report --reporter=html"
   },
   "nyc": {
@@ -67,6 +67,7 @@
     "terser-webpack-plugin": "1.1.0",
     "ts-loader": "5.3.1",
     "ts-node": "7.0.1",
+    "tsconfig-paths": "^3.7.0",
     "tscpaths": "0.0.6",
     "tslint": "5.11.0",
     "typescript": "3.2.1",

@@ -10,7 +10,7 @@ const browserSync = create();
 browserSync.init({
   server: {
     baseDir: './',
-    index: 'test/end-to-end/index.html',
+    index: 'test/integration/index.html',
   },
   open: false,
   serveStatic: [{
