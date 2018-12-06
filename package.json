@@ -65,6 +65,7 @@
     "concurrently": "^4.1.0",
     "mocha": "5.2.0",
     "mocha-headless-chrome": "2.0.1",
+    "mocha-loader": "^2.0.0",
     "mochawesome": "3.1.1",
     "nyc": "13.1.0",
     "rimraf": "^2.6.2",

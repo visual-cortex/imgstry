@@ -4,10 +4,10 @@ import {
   Hex,
   Imgstry,
   Rgb,
-} from '../../lib';
+} from '../../../lib';
 
-import { COLOR_MAP } from '../color';
-import { ImgstryEditor } from '../../lib/core';
+import { COLOR_MAP } from '../../color';
+import { ImgstryEditor } from '../../../lib/core';
 
 const isServer = document.location.protocol &&
   document.location.protocol.indexOf('http') !== -1;
