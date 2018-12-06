@@ -1,4 +1,4 @@
-import { OperationOption } from './types/index';
+import { OperationOption } from '~core/types';
 
 /**
  * Thread execution data.

@@ -1,2 +1,2 @@
-export * from './spline.processor';
-export * from './interpolation';
+export * from '~core/spline/spline.processor';
+export * from '~core/spline/interpolation';

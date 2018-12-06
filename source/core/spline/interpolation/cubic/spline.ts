@@ -1,10 +1,10 @@
 import {
   IPoint,
   Point,
-} from '../../../point';
+} from '~core/point';
 
-import { CubicInterpolationSet } from './interpolationSet';
-import { findLastIndex } from '../../../../utils/array';
+import { CubicInterpolationSet } from '~core/spline';
+import { findLastIndex } from '~utils/array';
 
 export class CubicSpline {
   private _coefficients: CubicInterpolationSet;

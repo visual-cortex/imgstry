@@ -1,10 +1,7 @@
-import {
-  Hex,
-  Rgb,
-} from '../../../source/pixel';
-
 import { COLOR_MAP } from '../../color';
+import { Rgb } from '../../../source/pixel/color/spaces/rgb';
 import { expect } from 'chai';
+import { hexToRgb } from '../../utils';
 
 describe('RGB color', () => {
   it('Should have all channels 0 initially', () => {
@@ -31,12 +28,13 @@ describe('RGB color', () => {
 
     it(`Should convert ${key} correctly to HEX`, () => {
       let rgb = colorDefinition.rgb;
-      let hex = new Hex(colorDefinition.hex);
-      let color = new Rgb(rgb);
 
-      let result = color.toHex();
+      let result = hexToRgb(new Rgb(rgb).toHex().value);
+      let expected = hexToRgb(colorDefinition.hex);
 
-      expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.value.substring(1), 16), 80000);
+      expect(result[0]).approximately(expected[0], .1);
+      expect(result[1]).approximately(expected[1], .1);
+      expect(result[2]).approximately(expected[2], .1);
     });
 
     it(`Should convert ${key} correctly to CMYK`, () => {

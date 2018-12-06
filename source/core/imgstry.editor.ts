@@ -1,7 +1,7 @@
-import * as Kernel from '../kernel';
+import * as Kernel from '~kernel';
 
-import { ImgstryProcessor } from './imgstry.processor';
-import { OperationOption } from './types';
+import { ImgstryProcessor } from '~core/imgstry.processor';
+import { OperationOption } from '~core/types';
 
 /**
  * Defines the imgstry editor schema.

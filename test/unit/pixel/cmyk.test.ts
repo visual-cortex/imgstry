@@ -1,6 +1,7 @@
 import { COLOR_MAP } from '../../color';
-import { Cmyk } from '../../../source/pixel';
+import { Cmyk } from '../../../source/pixel/color/spaces/cmyk';
 import { expect } from 'chai';
+import { hexToRgb } from '../../utils';
 
 describe('CMYK color', () => {
   it('Should have all channels 0 initially', () => {
@@ -28,13 +29,15 @@ describe('CMYK color', () => {
     });
 
     it(`Should convert ${key} correctly to HEX`, () => {
-      let hex = colorDefinition.hex;
       let cmyk = colorDefinition.cmyk;
       let color = new Cmyk(cmyk);
 
-      let result = color.toHex();
+      let result = hexToRgb(color.toHex().value);
+      let expected = hexToRgb(colorDefinition.hex);
 
-      expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.substring(1), 16), 140000);
+      expect(result[0]).approximately(expected[0], 5);
+      expect(result[1]).approximately(expected[1], 5);
+      expect(result[2]).approximately(expected[2], 5);
     });
 
     it(`Should convert ${key} correctly to CMYK`, () => {

@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const merge = require("webpack-merge");
 const TerserPlugin = require('terser-webpack-plugin');
 
 const PATH = {
@@ -7,13 +8,11 @@ const PATH = {
   build: path.join(__dirname, './dist')
 }
 
-module.exports = {
-  entry: {
-    'imgstry.browser': `${PATH.src}/platform/browser/imgstry/index.js`,
-    'imgstry.spline': `${PATH.src}/platform/browser/spline/index.js`,
-    'imgstry.pixel': `${PATH.src}/pixel/index.js`,
-    'imgstry.kernel': `${PATH.src}/kernel/index.js`,
-    'imgstry': `${PATH.src}/index.js`,
+const production = {
+  mode: 'production',
+  devtool: 'source-map',
+  optimization: {
+    minimizer: [new TerserPlugin()]
   },
   output: {
     path: PATH.build,
@@ -21,9 +20,33 @@ module.exports = {
     libraryTarget: 'umd',
     globalObject: `(typeof self !== 'undefined' ? self : this)`,
   },
-  devtool: 'source-map',
+};
+
+const debug = {
+  mode: 'development',
+  output: {
+    path: PATH.build,
+    filename: '[name].js',
+    libraryTarget: 'umd',
+    globalObject: `(typeof self !== 'undefined' ? self : this)`,
+  },
   optimization: {
-    minimizer: [new TerserPlugin()]
+    minimize: false,
+  },
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      debug: true
+    })
+  ]
+};
+
+const base = {
+  entry: {
+    'imgstry.browser': `${PATH.src}/platform/browser/imgstry/index.js`,
+    'imgstry.spline': `${PATH.src}/platform/browser/spline/index.js`,
+    'imgstry.pixel': `${PATH.src}/pixel/index.js`,
+    'imgstry.kernel': `${PATH.src}/kernel/index.js`,
+    'imgstry': `${PATH.src}/index.js`,
   },
   module: {
     rules: [
@@ -45,4 +68,13 @@ module.exports = {
   plugins: [
     new webpack.IgnorePlugin(/test\.ts$/)
   ]
+}
+
+module.exports = (mode) => {
+  switch (mode.target) {
+    case 'prod':
+      return merge(base, production);
+    case 'debug':
+      return merge(base, debug);
+  }
 }

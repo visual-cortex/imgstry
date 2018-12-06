@@ -1,3 +1,3 @@
-export * from './imgstry';
-export * from './spline';
-export * from './theme';
+export * from '~platform/browser/imgstry';
+export * from '~platform/browser/spline';
+export * from '~platform/browser/theme';

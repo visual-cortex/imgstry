@@ -1,10 +1,8 @@
-import {
-  Hex,
-  Hsv,
-} from '../../../source/pixel';
+import { Hsv } from '../../../source/pixel/color/spaces/hsv';
 
 import { COLOR_MAP } from '../../color';
 import { expect } from 'chai';
+import { hexToRgb } from '../../utils';
 
 describe('HSV color', () => {
   it('Should have all channels 0 initially', () => {
@@ -30,12 +28,13 @@ describe('HSV color', () => {
 
     it(`Should convert ${key} correctly to HEX`, () => {
       let hsv = colorDefinition.hsv;
-      let hex = new Hex(colorDefinition.hex);
-      let color = new Hsv(hsv);
 
-      let result = color.toHex();
+      let result = hexToRgb(new Hsv(hsv).toHex().value);
+      let expected = hexToRgb(colorDefinition.hex);
 
-      expect(parseInt(result.value.substring(1), 16)).approximately(parseInt(hex.value.substring(1), 16), 140000);
+      expect(result[0]).approximately(expected[0], 2);
+      expect(result[1]).approximately(expected[1], 2);
+      expect(result[2]).approximately(expected[2], 2);
     });
 
     it(`Should convert ${key} correctly to CMYK`, () => {

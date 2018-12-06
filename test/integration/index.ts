@@ -10,7 +10,7 @@ const browserSync = create();
 browserSync.init({
   server: {
     baseDir: './',
-    index: 'test/end-to-end/index.html',
+    index: 'test/integration/index.html',
   },
   open: false,
   serveStatic: [{
@@ -20,9 +20,8 @@ browserSync.init({
 }, async (_, browser: BrowserSyncInstance) => {
   const url = browser.getOption('urls').get('local');
 
-  await runner({
+  const result = await runner({
     file: url,
-    reporter: 'mochawesome',
     timeout: 60000,
     visible: false,
     args: ['no-sandbox'],

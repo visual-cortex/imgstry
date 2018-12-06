@@ -1,9 +1,9 @@
 import {
   ColorSpace,
   IColor,
-} from './color';
+} from '~pixel/color';
 
-import { IPoint } from '../core/point';
+import { IPoint } from '~core/point';
 
 /**
  *
