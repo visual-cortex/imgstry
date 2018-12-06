@@ -1,24 +1,23 @@
-import {
-  EdgeDetection,
-  GaussianBlur,
-} from '../../../source/kernel';
-import {
-  Hex,
-  Rgb,
-} from '../../../source/pixel';
-
 import { COLOR_MAP } from '../../color';
-import { Imgstry } from '../../../source/platform/node/imgstry';
+import { EdgeDetection } from '../../../source/kernel/collection/edge-detect.kernel';
+import { GaussianBlur } from '../../../source/kernel/collection/gaussion.kernel';
+import { Hex } from '../../../source/pixel/color/spaces/hex';
+import { Imgstry } from '../../../source/platform/node/imgstry/imgstry.node';
+import { ImgstryEditor } from '../../../source/core/imgstry.editor';
+import { ImgstryProcessor } from '../../../source/core/imgstry.processor';
+import { Rgb } from '../../../source/pixel/color/spaces/rgb';
 import { expect } from 'chai';
 
 const IMAGE_SOURCE = './test/resources/rnm.jpg';
 
+type IImgstry = ImgstryEditor & Imgstry & ImgstryProcessor;
+
 describe('Imgstry Node Canvas', () => {
   const size = 100;
-  let processor: Imgstry;
+  let processor: IImgstry;
 
   beforeEach(() => {
-    processor = new Imgstry(size, size);
+    processor = new Imgstry(size, size) as IImgstry;
   });
 
   it('should be able construct the editor', () => {
@@ -215,10 +214,12 @@ describe('Imgstry Node Canvas', () => {
         .renderSync();
 
       const result = processor.histogram;
-      expect(result.all.reduce((a: number, b: number) => a + b, 0)).approximately(1, .00000001);
-      expect(result.channel.red.reduce((a: number, b: number) => a + b, 0)).approximately(1, .00000001);
-      expect(result.channel.green.reduce((a: number, b: number) => a + b, 0)).approximately(1, .00000001);
-      expect(result.channel.blue.reduce((a: number, b: number) => a + b, 0)).approximately(1, .00000001);
+      const sum = (arr: number[]) =>
+        arr.reduce((a: number, b: number) => a + b, 0);
+      expect(sum(result.all)).approximately(1, 1e-7);
+      expect(sum(result.channel.red)).approximately(1, 1e-7);
+      expect(sum(result.channel.green)).approximately(1, 1e-7);
+      expect(sum(result.channel.blue)).approximately(1, 1e-7);
     });
 
     Object.keys(COLOR_MAP).map(key => ({
@@ -235,10 +236,10 @@ describe('Imgstry Node Canvas', () => {
 
         const result = processor.histogram;
 
-        expect(result.all[mean]).approximately(1, .00000001);
-        expect(result.channel.red[rgb.r]).approximately(1, .00000001);
-        expect(result.channel.green[rgb.g]).approximately(1, .00000001);
-        expect(result.channel.blue[rgb.b]).approximately(1, .00000001);
+        expect(result.all[mean]).approximately(1, 1e-7);
+        expect(result.channel.red[rgb.r]).approximately(1, 1e-7);
+        expect(result.channel.green[rgb.g]).approximately(1, 1e-7);
+        expect(result.channel.blue[rgb.b]).approximately(1, 1e-7);
       });
     });
   });

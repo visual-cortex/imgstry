@@ -1,12 +1,9 @@
-import {
-  Cmyk,
-  ColorSpace,
-  Hex,
-  Hsv,
-  Pixel,
-  Rgb,
-} from '../../../source/pixel';
-
+import { Cmyk } from '../../../source/pixel/color/spaces/cmyk';
+import { ColorSpace } from '../../../source/pixel/color/color';
+import { Hex } from '../../../source/pixel/color/spaces/hex';
+import { Hsv } from '../../../source/pixel/color/spaces/hsv';
+import { Pixel } from '../../../source/pixel/pixel';
+import { Rgb } from '../../../source/pixel/color/spaces/rgb';
 import { expect } from 'chai';
 
 describe('Pixel', () => {
