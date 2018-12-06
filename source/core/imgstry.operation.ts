@@ -1,7 +1,7 @@
 import {
   Hex,
   Rgb,
-} from '../pixel';
+} from '~pixel';
 
 export
 /**

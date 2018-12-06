@@ -1,2 +1,2 @@
-export * from './getCanvas';
-export * from './loadImage';
+export * from '~utils/dom/getCanvas';
+export * from '~utils/dom/loadImage';

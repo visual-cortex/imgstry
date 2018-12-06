@@ -1,4 +1,4 @@
-import { OperationOption } from '../../../../core';
+import { OperationOption } from '~core';
 
 /**
  * Internal web worker data definition.

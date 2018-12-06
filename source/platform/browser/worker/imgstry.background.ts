@@ -1,5 +1,5 @@
-import { IWorkerData } from './types';
-import { ImgstryProcessor } from '../../../core';
+import { IWorkerData } from '~platform/browser/worker/types';
+import { ImgstryProcessor } from '~core';
 
 /**
  * Processor implementation for the web worker.

@@ -1,4 +1,4 @@
-import { ImgstrySpline } from '../../../source/platform/node';
+import { ImgstrySpline } from '../../../source/platform/node/spline/spline.node';
 import { expect } from 'chai';
 
 describe('Spline Node Processor', () => {

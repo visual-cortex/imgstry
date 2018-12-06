@@ -1,5 +1,5 @@
-import { Kernel } from '../../kernel';
-import { Operation } from '../imgstry.operation';
+import { Kernel } from '~kernel';
+import { Operation } from '~core';
 
 /**
  * Holds a collection of operation method names.

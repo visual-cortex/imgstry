@@ -1,1 +1,1 @@
-export { ImgstrySpline } from './spline.node';
+export { ImgstrySpline } from '~platform/node/spline/spline.node';

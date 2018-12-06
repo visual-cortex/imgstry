@@ -1,10 +1,10 @@
 import {
   IPoint,
   SplinePointSet,
-} from '../point';
+} from '~core/point';
 
-import { CubicSpline } from './interpolation';
-import { fillWith } from '../../utils/array';
+import { CubicSpline } from '~core/spline';
+import { fillWith } from '~utils/array';
 
 export abstract class SplineProcessor {
   protected _points = new SplinePointSet();

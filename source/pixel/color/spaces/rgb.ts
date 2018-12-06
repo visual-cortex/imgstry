@@ -1,11 +1,11 @@
 import {
   ColorSpace,
   IColor,
-} from '../icolor';
+} from '~pixel/color/color';
 
-import { Cmyk } from './cmyk';
-import { Hex } from './hex';
-import { Hsv } from './hsv';
+import { Cmyk } from '~pixel/color/spaces/cmyk';
+import { Hex } from '~pixel/color/spaces/hex';
+import { Hsv } from '~pixel/color/spaces/hsv';
 
 interface IRgb {
   r: number;
@@ -96,15 +96,26 @@ export class Rgb implements IRgb, IColor {
   }
 
   public toHex(): Hex {
-    let hexString = '#' + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).toUpperCase().slice(1);
-    return new Hex(hexString);
+    const { r, g, b } = this._clamp(this);
+
+    const numeric = (
+      (1 << 24) +
+      (Math.round(r) << 16) +
+      (Math.round(g) << 8) +
+      Math.round(b)
+    );
+
+    return new Hex(`#${numeric.toString(16).toUpperCase().slice(1)}`);
   }
 
   public clamp(): Rgb {
-    return new Rgb({
-      r: Math.round(this.r > 255 ? 255 : this.r < 0 ? 0 : this.r),
-      g: Math.round(this.g > 255 ? 255 : this.g < 0 ? 0 : this.g),
-      b: Math.round(this.b > 255 ? 255 : this.b < 0 ? 0 : this.b),
-    });
+    return new Rgb(this._clamp(this));
   }
+
+  private _clamp = ({ r, g, b }: IRgb) =>
+    ({
+      r: Math.round(Math.min(255, Math.max(0, r))),
+      g: Math.round(Math.min(255, Math.max(0, g))),
+      b: Math.round(Math.min(255, Math.max(0, b))),
+    })
 }
