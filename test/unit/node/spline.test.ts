@@ -38,7 +38,7 @@ describe('Spline Node Processor', () => {
       it('should interpolate correct values for x in range 0...1', () => {
         for (let x = 0; x <= 1.001; x += .001) {
           const y = spline.interpolateOne(x);
-          expect(x).approximately(y, .0000000001, `for x: ${x}`);
+          expect(x).approximately(y, 1e-9, `for x: ${x}`);
         }
       });
     });
@@ -104,8 +104,18 @@ describe('Spline Node Processor', () => {
         lookup.forEach((y, x) => {
           if (x >= 256 * .5) {
             expect(y).equal(255);
-          } else {
-            expect(y).greaterThan(lastY);
+          } else if (
+            x !== 0 &&
+            y !== 0
+          ) {
+            expect(x / (y || 1))
+              .greaterThan(.3)
+              .and
+              .lessThan(.5);
+
+            expect(y)
+              .greaterThan(lastY);
+
             lastY = y;
           }
         });
@@ -131,7 +141,13 @@ describe('Spline Node Processor', () => {
           if (x < 256 * .5) {
             expect(y).equal(255);
           } else {
-            expect(y).lessThan(lastY);
+            expect(y / x)
+              .lessThan(2)
+              .and
+              .greaterThan(-1e-8);
+
+            expect(y)
+              .lessThan(lastY);
             lastY = y;
           }
         });
