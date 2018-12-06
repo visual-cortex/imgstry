@@ -8,13 +8,10 @@ const PATH = {
 
 module.exports = {
   mode: 'development',
-  entry: {
-    'imgstry.test': `${PATH.src}/imgstry.test.ts`,
-  },
+  entry: `mocha-loader!${PATH.src}/tests/index.ts`,
   output: {
     path: PATH.build,
-    filename: '[name].js',
-    libraryTarget: 'umd',
+    filename: 'test.bundle.js',
   },
   devtool: 'source-map',
   module: {

@@ -7,8 +7,6 @@
           content="text/html; charset=UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"
-          href="../../node_modules/mocha/mocha.css" />
 </head>
 
 <body>
@@ -17,19 +15,7 @@
                 width="500"
                 height="500" />
     </div>
-    <div id="mocha"></div>
-    <script src="../../node_modules/should/should.js"></script>
-    <script src="../../node_modules/mocha/mocha.js"></script>
-    <script>
-        mocha.setup({
-            ui: 'bdd',
-            timeout: 16000,
-        });
-    </script>
-    <script src="../../test/integration/dist/imgstry.test.js"></script>
-    <script>
-        mocha.run();
-    </script>
+    <script src="../../test/integration/dist/test.bundle.js"></script>
 </body>
 
 </html>

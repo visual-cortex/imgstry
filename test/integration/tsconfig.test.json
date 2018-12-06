@@ -5,7 +5,7 @@
     "experimentalDecorators": true,
     "noImplicitAny": false,
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es6",
     "sourceMap": true,
     "removeComments": false,
     "preserveConstEnums": true,
