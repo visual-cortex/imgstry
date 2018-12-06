@@ -16,5 +16,9 @@
     },
     "files.trimTrailingWhitespace": true,
     "typescript.tsdk": "./node_modules/typescript/lib",
-    "files.insertFinalNewline": true
+    "files.insertFinalNewline": true,
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "javascript.preferences.quoteStyle": "single",
+    "javascript.preferences.importModuleSpecifier": "relative"
 }
