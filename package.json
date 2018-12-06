@@ -13,12 +13,12 @@
     "prebuild:debug": "npm run clean",
     "build:debug": "tsc && npm run build:path && webpack -p --progress --env.target debug",
     "build:path": "tscpaths -p tsconfig.json -s ./source -o ./lib",
-    "build:test": "webpack -p --config ./test/integration/webpack-test.config.js",
+    "build:test": "webpack -p --config ./test/integration/webpack.mocha.js",
     "clean": "npm run clean:lib && npm run clean:dist",
     "clean:lib": "rimraf ./lib",
     "clean:dist": "rimraf ./dist",
     "test": "npm run test:unit && npm run test:integration",
-    "test:integration": "npm run build:test && ts-node --project ./tsconfig.json ./test/integration/runner.ts",
+    "test:integration": "npm run build:test && ts-node --project ./tsconfig.json ./test/integration",
     "test:unit": "nyc mocha --opts ./test/unit/mocha.opts && nyc report --reporter=html"
   },
   "nyc": {
