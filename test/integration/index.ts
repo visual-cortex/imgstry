@@ -20,9 +20,8 @@ browserSync.init({
 }, async (_, browser: BrowserSyncInstance) => {
   const url = browser.getOption('urls').get('local');
 
-  await runner({
+  const result = await runner({
     file: url,
-    reporter: 'mochawesome',
     timeout: 60000,
     visible: false,
     args: ['no-sandbox'],
