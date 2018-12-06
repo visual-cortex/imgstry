@@ -1,7 +1,7 @@
 import {
   ColorSpace,
   IColor,
-} from '~pixel/color/icolor';
+} from '~pixel/color/color';
 
 import { Cmyk } from '~pixel/color/spaces/cmyk';
 import { Hex } from '~pixel/color/spaces/hex';
