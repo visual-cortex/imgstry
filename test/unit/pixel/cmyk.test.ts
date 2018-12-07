@@ -1,7 +1,7 @@
-import { COLOR_MAP } from '../../color';
-import { Cmyk } from '../../../source/pixel/color/spaces/cmyk';
+import { COLOR_MAP } from 'test/color';
+import { Cmyk } from '~pixel';
 import { expect } from 'chai';
-import { hexToRgb } from '../../utils';
+import { hexToRgb } from 'test/utils';
 
 describe('CMYK color', () => {
   it('Should have all channels 0 initially', () => {
