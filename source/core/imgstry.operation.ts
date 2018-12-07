@@ -29,13 +29,9 @@ namespace Operation {
   };
 
   export const hue = (value: number) => {
-    value *= .5;
-
     return (pixel: Rgb) => {
       let hsv = pixel.toHsv();
-
-      hsv.h += Math.abs(value);
-
+      hsv.h += value;
       return hsv.toRgb();
     };
   };

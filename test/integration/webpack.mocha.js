@@ -1,9 +1,13 @@
 const path = require('path');
-const webpack = require('webpack');
+const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+
+const TSLoader = require('../../.webpack/ts-loader.config');
+const WorkerLoader = require('../../.webpack/worker-loader.config');
 
 const PATH = {
   src: path.join(__dirname, './'),
-  build: path.join(__dirname, './dist')
+  build: path.join(__dirname, './dist'),
+  config: path.join(__dirname, '../tsconfig.json'),
 }
 
 module.exports = {
@@ -16,23 +20,16 @@ module.exports = {
   devtool: 'source-map',
   module: {
     rules: [
-      {
-        test: /\.ts$/,
-        loader: 'ts-loader'
-      },
-      {
-        test: /\.worker\.ts$/,
-        use: {
-          loader: 'worker-loader',
-          options: {
-            inline: true,
-            fallback: false,
-          }
-        }
-      }
+      TSLoader,
+      WorkerLoader,
     ]
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    plugins: [
+      new TsConfigPathsPlugin({
+        configFile: PATH.config,
+      })
+    ]
   }
 }

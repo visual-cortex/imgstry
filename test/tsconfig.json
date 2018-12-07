@@ -1,31 +1,41 @@
 {
   "compilerOptions": {
+    "declaration": false,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "moduleResolution": "node",
     "target": "es6",
-    "sourceMap": true,
+    "sourceMap": false,
     "removeComments": false,
     "preserveConstEnums": true,
     "isolatedModules": false,
-    "baseUrl": "./",
-    "outDir": "./",
+    "baseUrl": "../",
+    "paths": {
+      "~*": [
+        "source/*"
+      ]
+    },
     "typeRoots": [
-      "./node_modules/@types"
+      "node_modules/@types",
+      "../node_modules/@types",
+      "declarations",
+      "../declarations"
     ],
     "types": [
       "chai",
-      "mocha"
+      "mocha",
+      "node",
+      "canvas"
     ],
     "lib": [
       "es2016",
       "dom"
     ]
   },
-  "include": [
-    "*.ts",
-  ],
-  "exclude": []
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
 }
