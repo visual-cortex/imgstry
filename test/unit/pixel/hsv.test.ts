@@ -1,8 +1,7 @@
-import { Hsv } from '../../../source/pixel/color/spaces/hsv';
-
-import { COLOR_MAP } from '../../color';
+import { COLOR_MAP } from 'test/color';
+import { Hsv } from '~pixel';
 import { expect } from 'chai';
-import { hexToRgb } from '../../utils';
+import { hexToRgb } from 'test/utils';
 
 describe('HSV color', () => {
   it('Should have all channels 0 initially', () => {
@@ -78,7 +77,7 @@ describe('HSV color', () => {
       v: 1,
     }).clamp();
 
-    expect(color.h).eql(360);
+    expect(color.h).oneOf([0, 360]);
     expect(color.s).eql(1);
     expect(color.v).eql(1);
 
@@ -89,7 +88,7 @@ describe('HSV color', () => {
       v: -1,
     }).clamp();
 
-    expect(color.h).eql(0);
+    expect(color.h).eql(359);
     expect(color.s).eql(0);
     expect(color.v).eql(0);
 
@@ -99,7 +98,7 @@ describe('HSV color', () => {
       v: 1.1,
     }).clamp();
 
-    expect(color.h).eql(360);
+    expect(color.h).oneOf([0, 360]);
     expect(color.s).eql(1);
     expect(color.v).eql(1);
 
