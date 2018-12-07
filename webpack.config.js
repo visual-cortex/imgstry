@@ -2,10 +2,12 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require("webpack-merge");
 const TerserPlugin = require('terser-webpack-plugin');
+const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const PATH = {
-  src: path.join(__dirname, './lib'),
-  build: path.join(__dirname, './dist')
+  src: path.join(__dirname, './source'),
+  build: path.join(__dirname, './dist'),
+  config: path.join(__dirname, './tsconfig.json'),
 }
 
 const production = {
@@ -42,14 +44,18 @@ const debug = {
 
 const base = {
   entry: {
-    'imgstry.browser': `${PATH.src}/platform/browser/imgstry/index.js`,
-    'imgstry.spline': `${PATH.src}/platform/browser/spline/index.js`,
-    'imgstry.pixel': `${PATH.src}/pixel/index.js`,
-    'imgstry.kernel': `${PATH.src}/kernel/index.js`,
-    'imgstry': `${PATH.src}/index.js`,
+    'imgstry.browser': `${PATH.src}/platform/browser/imgstry/index.ts`,
+    'imgstry.spline': `${PATH.src}/platform/browser/spline/index.ts`,
+    'imgstry.pixel': `${PATH.src}/pixel/index.ts`,
+    'imgstry.kernel': `${PATH.src}/kernel/index.ts`,
+    'imgstry': `${PATH.src}/index.ts`,
   },
   module: {
     rules: [
+      {
+        test: /\.ts$/,
+        loader: 'awesome-typescript-loader'
+      },
       {
         test: /\.worker\.js$/,
         use: {
@@ -59,11 +65,16 @@ const base = {
             fallback: false,
           }
         }
-      }
+      },
     ]
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.ts'],
+    plugins: [
+      new TsConfigPathsPlugin({
+        configFile: PATH.config,
+      })
+    ]
   },
   plugins: [
     new webpack.IgnorePlugin(/test\.ts$/)
