@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 
 const PATH = {
   src: path.join(__dirname, './'),
@@ -18,7 +17,7 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        loader: 'ts-loader'
+        loader: 'awesome-typescript-loader'
       },
       {
         test: /\.worker\.ts$/,
