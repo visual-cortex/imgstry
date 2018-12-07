@@ -135,4 +135,20 @@ describe('Image operations', () => {
       expect(result.b).equal(255 - original.b);
     });
   });
+
+  context('fill', () => {
+    Object.keys(COLOR_MAP)
+      .forEach(name => {
+        const color = COLOR_MAP[name];
+        it(`should correctly fill with '${name}'`, () => {
+          const hex = color.hex;
+          const [r, g, b] = hexToRgb(hex);
+          const result: Rgb = Operation.fill(hex)();
+
+          expect(result.r).equal(r);
+          expect(result.g).equal(g);
+          expect(result.b).equal(b);
+        });
+      });
+  });
 });
