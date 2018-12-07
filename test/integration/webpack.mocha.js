@@ -1,6 +1,9 @@
 const path = require('path');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
+const TSLoader = require('../../.webpack/ts-loader.config');
+const WorkerLoader = require('../../.webpack/worker-loader.config');
+
 const PATH = {
   src: path.join(__dirname, './'),
   build: path.join(__dirname, './dist'),
@@ -17,20 +20,8 @@ module.exports = {
   devtool: 'source-map',
   module: {
     rules: [
-      {
-        test: /\.ts$/,
-        loader: 'awesome-typescript-loader'
-      },
-      {
-        test: /\.worker\.js$/,
-        use: {
-          loader: 'worker-loader',
-          options: {
-            inline: true,
-            fallback: false,
-          }
-        }
-      },
+      TSLoader,
+      WorkerLoader,
     ]
   },
   resolve: {
