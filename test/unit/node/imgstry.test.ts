@@ -1,23 +1,24 @@
-import { COLOR_MAP } from '../../color';
-import { EdgeDetection } from '../../../source/kernel/collection/edge-detect.kernel';
-import { GaussianBlur } from '../../../source/kernel/collection/gaussion.kernel';
-import { Hex } from '../../../source/pixel/color/spaces/hex';
-import { Imgstry } from '../../../source/platform/node/imgstry/imgstry.node';
-import { ImgstryEditor } from '../../../source/core/imgstry.editor';
-import { ImgstryProcessor } from '../../../source/core/imgstry.processor';
-import { Rgb } from '../../../source/pixel/color/spaces/rgb';
+import {
+  EdgeDetection,
+  GaussianBlur,
+} from '~kernel';
+import {
+  Hex,
+  Rgb
+} from '~pixel';
+
+import { COLOR_MAP } from 'test/color';
+import { Imgstry } from '~platform/node';
 import { expect } from 'chai';
 
 const IMAGE_SOURCE = './test/resources/rnm.jpg';
 
-type IImgstry = ImgstryEditor & Imgstry & ImgstryProcessor;
-
 describe('Imgstry Node Canvas', () => {
   const size = 100;
-  let processor: IImgstry;
+  let processor: Imgstry;
 
   beforeEach(() => {
-    processor = new Imgstry(size, size) as IImgstry;
+    processor = new Imgstry(size, size);
   });
 
   it('should be able construct the editor', () => {

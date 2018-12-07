@@ -1,7 +1,12 @@
-import { Hsv } from '../../../source/pixel/color/spaces/hsv';
-import { Operation } from '../../../source/core/imgstry.operation';
-import { Rgb } from '../../../source/pixel/color/spaces/rgb';
+import {
+  Hsv,
+  Rgb,
+} from '~pixel';
+
+import { COLOR_MAP } from 'test/color';
+import { Operation } from '~core';
 import { expect } from 'chai';
+import { hexToRgb } from 'test/utils';
 
 describe('Image operations', () => {
   context('black and white', () => {

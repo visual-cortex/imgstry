@@ -1,8 +1,7 @@
-import { Hsv } from '../../../source/pixel/color/spaces/hsv';
-
-import { COLOR_MAP } from '../../color';
+import { COLOR_MAP } from 'test/color';
+import { Hsv } from '~pixel';
 import { expect } from 'chai';
-import { hexToRgb } from '../../utils';
+import { hexToRgb } from 'test/utils';
 
 describe('HSV color', () => {
   it('Should have all channels 0 initially', () => {
