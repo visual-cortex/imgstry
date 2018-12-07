@@ -1,8 +1,10 @@
 const path = require('path');
+const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const PATH = {
   src: path.join(__dirname, './'),
-  build: path.join(__dirname, './dist')
+  build: path.join(__dirname, './dist'),
+  config: path.join(__dirname, '../tsconfig.json'),
 }
 
 module.exports = {
@@ -20,7 +22,7 @@ module.exports = {
         loader: 'awesome-typescript-loader'
       },
       {
-        test: /\.worker\.ts$/,
+        test: /\.worker\.js$/,
         use: {
           loader: 'worker-loader',
           options: {
@@ -28,10 +30,15 @@ module.exports = {
             fallback: false,
           }
         }
-      }
+      },
     ]
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    plugins: [
+      new TsConfigPathsPlugin({
+        configFile: PATH.config,
+      })
+    ]
   }
 }

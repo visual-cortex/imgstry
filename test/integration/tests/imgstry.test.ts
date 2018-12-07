@@ -1,13 +1,16 @@
+
+import { expect } from 'chai';
+import { ImgstryEditor } from '~core';
+import { Imgstry } from '~platform/browser';
+import { COLOR_MAP } from 'test/color';
+import {
+  Rgb,
+  Hex,
+} from '~pixel';
 import {
   EdgeDetection,
   GaussianBlur,
-  Hex,
-  Imgstry,
-  Rgb,
-} from '../../../lib';
-import { expect } from 'chai';
-import { COLOR_MAP } from '../../color';
-import { ImgstryEditor } from '../../../lib/core';
+} from '~kernel';
 
 const isServer = document.location.protocol &&
   document.location.protocol.indexOf('http') !== -1;
