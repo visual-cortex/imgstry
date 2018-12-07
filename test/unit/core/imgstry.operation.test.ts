@@ -119,4 +119,20 @@ describe('Image operations', () => {
         });
       });
   });
+
+  context('invert', () => {
+    it('should invert color values', () => {
+      const original = {
+        r: 123,
+        g: 100,
+        b: 178,
+      };
+
+      const result: Rgb = Operation.invert()(new Rgb(original));
+
+      expect(result.r).equal(255 - original.r);
+      expect(result.g).equal(255 - original.g);
+      expect(result.b).equal(255 - original.b);
+    });
+  });
 });
