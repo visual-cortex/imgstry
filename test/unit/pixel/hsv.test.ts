@@ -78,7 +78,7 @@ describe('HSV color', () => {
       v: 1,
     }).clamp();
 
-    expect(color.h).eql(360);
+    expect(color.h).oneOf([0, 360]);
     expect(color.s).eql(1);
     expect(color.v).eql(1);
 
@@ -89,7 +89,7 @@ describe('HSV color', () => {
       v: -1,
     }).clamp();
 
-    expect(color.h).eql(0);
+    expect(color.h).eql(359);
     expect(color.s).eql(0);
     expect(color.v).eql(0);
 
@@ -99,7 +99,7 @@ describe('HSV color', () => {
       v: 1.1,
     }).clamp();
 
-    expect(color.h).eql(360);
+    expect(color.h).oneOf([0, 360]);
     expect(color.s).eql(1);
     expect(color.v).eql(1);
 

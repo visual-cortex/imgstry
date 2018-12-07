@@ -90,9 +90,9 @@ export class Hsv implements IColor {
 
   public clamp(): Hsv {
     return new Hsv({
-      h: this.h > 360 ? 360 : this.h < 0 ? 0 : this.h,
-      s: this.s > 1 ? 1 : this.s < 0 ? 0 : this.s,
-      v: this.v > 1 ? 1 : this.v < 0 ? 0 : this.v,
+      h: (this.h < 0 ? (360 + this.h) : this.h) % 361,
+      s: Math.min(1, Math.max(0, this.s)),
+      v: Math.min(1, Math.max(0, this.v)),
     });
   }
 }
