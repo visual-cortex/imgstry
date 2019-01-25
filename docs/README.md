@@ -18,37 +18,37 @@ Documentation
 
 ### Modules
 
-* [Operation](docs/modules/operation.md)
+* [Operation](modules/operation.md)
 
 ### Enumerations
 
-* [ColorSpace](docs/enums/colorspace.md)
+* [ColorSpace](enums/colorspace.md)
 
 ### Classes
 
-* [Cmyk](docs/classes/cmyk.md)
-* [CubicInterpolationSet](docs/classes/cubicinterpolationset.md)
-* [CubicSpline](docs/classes/cubicspline.md)
-* [Hex](docs/classes/hex.md)
-* [Hsv](docs/classes/hsv.md)
-* [Imgstry](docs/classes/imgstry.md)
-* [ImgstryEditor](docs/classes/imgstryeditor.md)
-* [ImgstrySpline](docs/classes/imgstryspline.md)
-* [Kernel](docs/classes/kernel.md)
-* [Pixel](docs/classes/pixel.md)
-* [Point](docs/classes/point.md)
-* [Rgb](docs/classes/rgb.md)
-* [SplinePointSet](docs/classes/splinepointset.md)
-* [SplineProcessor](docs/classes/splineprocessor.md)
+* [Cmyk](classes/cmyk.md)
+* [CubicInterpolationSet](classes/cubicinterpolationset.md)
+* [CubicSpline](classes/cubicspline.md)
+* [Hex](classes/hex.md)
+* [Hsv](classes/hsv.md)
+* [Imgstry](classes/imgstry.md)
+* [ImgstryEditor](classes/imgstryeditor.md)
+* [ImgstrySpline](classes/imgstryspline.md)
+* [Kernel](classes/kernel.md)
+* [Pixel](classes/pixel.md)
+* [Point](classes/point.md)
+* [Rgb](classes/rgb.md)
+* [SplinePointSet](classes/splinepointset.md)
+* [SplineProcessor](classes/splineprocessor.md)
 
 ### Interfaces
 
-* [IColor](docs/interfaces/icolor.md)
-* [IDisposable](docs/interfaces/idisposable.md)
-* [IPoint](docs/interfaces/ipoint.md)
-* [IPointResult](docs/interfaces/ipointresult.md)
-* [ImgstryBrowserOptions](docs/interfaces/imgstrybrowseroptions.md)
-* [KernelIndex](docs/interfaces/kernelindex.md)
+* [IColor](interfaces/icolor.md)
+* [IDisposable](interfaces/idisposable.md)
+* [IPoint](interfaces/ipoint.md)
+* [IPointResult](interfaces/ipointresult.md)
+* [ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)
+* [KernelIndex](interfaces/kernelindex.md)
 
 ### Functions
 
