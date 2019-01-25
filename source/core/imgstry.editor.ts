@@ -16,8 +16,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Turn the image black and white with the provided ratio.
    *
-   * @param {[number, number, number]} [ratio]
-   * @returns {T}
+   * @param {[number, number, number]} [ratio] an array of rations for each RGB channel the total sum must be 1
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public blackAndWhite(ratio?: [number, number, number]): ImgstryEditor {
@@ -32,8 +32,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Increase / decrease image constrast.
    *
-   * @param {number} value
-   * @returns {T}
+   * @param {number} value contrast intensity
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public contrast(value: number): ImgstryEditor {
@@ -48,8 +48,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Increase / decrease image brightness.
    *
-   * @param {number} value
-   * @returns {T}
+   * @param {number} value brightness intensity
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public brightness(value: number): ImgstryEditor {
@@ -64,8 +64,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Increase / decrease image saturation.
    *
-   * @param {number} value
-   * @returns {T}
+   * @param {number} value saturation intensity
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public saturation(value: number): ImgstryEditor {
@@ -80,8 +80,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
   * Shift the image hue.
   *
-  * @param {number} value
-  * @returns {T}
+  * @param {number} value hue shift value (-180, 180)
+  * @returns {T} the current editor instance
   * @memberof ImgstryEditor
   */
   public hue(value: number): ImgstryEditor {
@@ -96,8 +96,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Apply sepia with the specified intensity.
    *
-   * @param {number} value
-   * @returns {T}
+   * @param {number} value desired intensity of the sepia effect
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public sepia(value: number): ImgstryEditor {
@@ -112,8 +112,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
   * Increase / decrease image gamma.
   *
-  * @param {number} value
-  * @returns {T}
+  * @param {number} value gamma intensity
+  * @returns {T} the current editor instance
   * @memberof ImgstryEditor
   */
   public gamma(value: number): ImgstryEditor {
@@ -128,8 +128,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Add a provided amount of noise to the image.
    *
-   * @param {number} value
-   * @returns {T}
+   * @param {number} value noise amount
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public noise(value: number): ImgstryEditor {
@@ -144,8 +144,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Increase / decrease image vibrance.
    *
-   * @param {number} value
-   * @returns {T}
+   * @param {number} value vibrance intensity
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public vibrance(value: number): ImgstryEditor {
@@ -160,7 +160,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Invert the image colors.
    *
-   * @returns {T}
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public invert(): ImgstryEditor {
@@ -175,8 +175,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Apply a color tint to the image.
    *
-   * @param {string} color
-   * @returns {T}
+   * @param {string} color the hex color code of the desired tint
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public tint(color: string): ImgstryEditor {
@@ -191,8 +191,8 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Fill the canvas with a color.
    *
-   * @param {string} color
-   * @returns {T}
+   * @param {string} color the hex color code of the desired tint
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public fill(color: string): ImgstryEditor {
@@ -205,10 +205,10 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   }
 
   /**
-   * Apply a kernel to the image.
+   * Apply a kernel to the active image
    *
-   * @param {(Kernel.Kernel | number[][])} kernel
-   * @returns {T}
+   * @param {Kernel.Kernel | Array<number[]>} kernel a square matrice that will be applied to the image
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public convolve(kernel: Kernel.Kernel | number[][]): ImgstryEditor {
@@ -223,7 +223,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Clears the operation list.
    *
-   * @returns {T}
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public clear() {
@@ -234,7 +234,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Apply the requested operations to the image.
    *
-   * @returns {T}
+   * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
   public renderSync(): ImgstryEditor {
@@ -245,7 +245,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
   * Apply the requested operations to the image using a worker thread.
   *
-  * @returns {Promise<T>}
+  * @returns {Promise<T>} a promise that resolves in the current editor instance
   * @memberof ImgstryEditor
   */
   public abstract render(): Promise<ImgstryEditor>;

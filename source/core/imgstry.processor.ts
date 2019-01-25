@@ -44,8 +44,8 @@ export abstract class ImgstryProcessor {
   /**
    * Encodes the canvas data to a data URI.
    *
-   * @param {string}
-   * @returns {string}
+   * @param {string} type data url type (eg: 'image/png')
+   * @returns {string} url with the encoded image
    * @memberof Imgstry
    */
   public abstract toDataUrl(type: string): string;
@@ -54,7 +54,7 @@ export abstract class ImgstryProcessor {
    * Resets the image to the original state.
    *
    * @abstract
-   * @returns {ImgstryProcessor}
+   * @returns {ImgstryProcessor} the current processor instance
    *
    * @memberOf ImgstryProcessor
    */
@@ -63,7 +63,8 @@ export abstract class ImgstryProcessor {
    * Clone image data
    *
    * @abstract
-   *
+   * @param {ImageData} original source image data
+   * @returns {ImageData} the cloned canvas image data
    * @memberOf ImgstryProcessor
    */
   public abstract clone(original: ImageData): ImageData;
@@ -117,9 +118,9 @@ export abstract class ImgstryProcessor {
   /**
    * Applies a series of filters to the image.
    *
-   * @param {OperationOption[]} options
-   * @param {boolean} [reset]
-   * @returns {ImgstryProcessor}
+   * @param {OperationOption[]} options the set of operations
+   * @param {boolean} [reset] if the image should be reset to its original state before applying operations
+   * @returns {ImgstryProcessor} the current processor instance
    * @memberof ImgstryProcessor
    */
   public batch(options: OperationOption[], reset?: boolean): ImgstryProcessor {
