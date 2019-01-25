@@ -1,9 +1,9 @@
 export /**
  * Generate a gaussian blur kernel with a given radius / sigma.
  *
- * @param {number} [radius=3]
- * @param {number} [sigma=1]
- * @returns
+ * @param {number} [radius=3] the radius of the gaussian kernel
+ * @param {number} [sigma=1] the displacement of the gaussian kernel
+ * @returns {Array<number[]>} a kernel that will apply gaussian blur
  */
   const GaussianBlur = (radius = 3, sigma = 1) => {
     let kernel: number[][] = [];
