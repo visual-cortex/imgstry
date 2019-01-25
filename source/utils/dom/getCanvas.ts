@@ -3,7 +3,8 @@ const _selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
 /**
  * Retrieves the canvas elemented for a specified 'id'.
  *
- * @param selector canvas id selector or the canvas element
+ * @param {string | HTMLCanvasElement} selector canvas id selector or the canvas element
+ * @return {HTMLCanvasElement} the canvas element
  */
 export const getCanvas = (selector: string | HTMLCanvasElement): HTMLCanvasElement => {
   if (selector instanceof HTMLCanvasElement) {

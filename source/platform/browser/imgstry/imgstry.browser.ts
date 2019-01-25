@@ -63,6 +63,8 @@ export class Imgstry extends ImgstryEditor {
    * Creates an instance of Imgstry.
    *
    * @param {HTMLCanvasElement} canvas (specifies the canvas base for imgstry)
+   * @param {Partial<ImgstryBrowserOptions>} _options (specifies the canvas base for imgstry)
+   * @constructor
    */
   constructor(
     public readonly canvas: HTMLCanvasElement,
@@ -78,8 +80,9 @@ export class Imgstry extends ImgstryEditor {
   /**
    * Draws an image on the canvas.
    *
-   * @param {HTMLImageElement} image
+   * @param {HTMLImageElement} image the source image that will be drawn on the canvas
    * @memberof Imgstry
+   * @returns {void}
    */
   public drawImage(image: HTMLImageElement) {
     drawImage(this.canvas, image);

@@ -1,15 +1,28 @@
 {
+  "extends": [
+    "tslint-eslint-rules"
+  ],
   "rules": {
     "class-name": true,
-    "comment-format": [true, "check-space"],
+    "comment-format": [
+      true,
+      "check-space"
+    ],
     "curly": true,
     "eofline": true,
     "forin": true,
-    "indent": [true, "spaces"],
+    "indent": [
+      true,
+      "spaces"
+    ],
     "label-position": true,
-    "max-line-length": [true, 140],
+    "max-line-length": [
+      true,
+      140
+    ],
     "member-access": true,
-    "member-ordering": [true,
+    "member-ordering": [
+      true,
       {
         "order": [
           "public-static-field",
@@ -32,7 +45,8 @@
     ],
     "no-arg": true,
     "no-bitwise": false,
-    "no-console": [true,
+    "no-console": [
+      true,
       "debug",
       "info",
       "time",
@@ -53,30 +67,47 @@
     "no-unused-variable": false,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
-    "one-line": [true,
+    "one-line": [
+      true,
       "check-open-brace",
       "check-catch",
       "check-else",
       "check-finally",
       "check-whitespace"
     ],
-    "quotemark": [true, "single", "avoid-escape"],
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
     "radix": true,
     "semicolon": true,
-    "trailing-comma": [true, {
-      "singleline": "never",
-      "multiline": "always"
-    }],
-    "triple-equals": [true, "allow-null-check"],
-    "typedef-whitespace": [true, {
-      "call-signature": "nospace",
-      "index-signature": "nospace",
-      "parameter": "nospace",
-      "property-declaration": "nospace",
-      "variable-declaration": "nospace"
-    }],
+    "trailing-comma": [
+      true,
+      {
+        "singleline": "never",
+        "multiline": "always"
+      }
+    ],
+    "triple-equals": [
+      true,
+      "allow-null-check"
+    ],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
+    "valid-js-doc": true,
     "variable-name": false,
-    "whitespace": [true,
+    "sort-imports": [true],
+    "whitespace": [
+      true,
       "check-branch",
       "check-decl",
       "check-operator",
