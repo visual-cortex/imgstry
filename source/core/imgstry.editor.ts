@@ -1,6 +1,5 @@
-import * as Kernel from '~kernel';
-
 import { ImgstryProcessor } from '~core/imgstry.processor';
+import { Kernel } from '~kernel';
 import { OperationOption } from '~core/types';
 
 /**
@@ -207,11 +206,11 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Apply a kernel to the active image
    *
-   * @param {Kernel.Kernel | Array<number[]>} kernel a square matrice that will be applied to the image
+   * @param {Kernel | Array<number[]>} kernel a square matrice that will be applied to the image
    * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
-  public convolve(kernel: Kernel.Kernel | number[][]): ImgstryEditor {
+  public convolve(kernel: Kernel | number[][]): ImgstryEditor {
     this._operations.push({
       name: 'convolve',
       value: kernel,
