@@ -183,7 +183,7 @@ ___
 
 ▸ **blackAndWhite**(ratio?: *[`number`, `number`, `number`]*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:23](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L23)*
+*Defined in [core/imgstry.editor.ts:22](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L22)*
 
 Turn the image black and white with the provided ratio.
 *__memberof__*: ImgstryEditor
@@ -204,7 +204,7 @@ ___
 
 ▸ **brightness**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:55](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L55)*
+*Defined in [core/imgstry.editor.ts:54](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L54)*
 
 Increase / decrease image brightness.
 *__memberof__*: ImgstryEditor
@@ -225,7 +225,7 @@ ___
 
 ▸ **clear**(): `this`
 
-*Defined in [core/imgstry.editor.ts:229](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L229)*
+*Defined in [core/imgstry.editor.ts:228](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L228)*
 
 Clears the operation list.
 *__memberof__*: ImgstryEditor
@@ -265,7 +265,7 @@ ___
 
 ▸ **contrast**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:39](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L39)*
+*Defined in [core/imgstry.editor.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L38)*
 
 Increase / decrease image constrast.
 *__memberof__*: ImgstryEditor
@@ -286,7 +286,7 @@ ___
 
 ▸ **convolve**(kernel: *[Kernel](kernel.md) \| `number`[][]*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:214](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L214)*
+*Defined in [core/imgstry.editor.ts:213](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L213)*
 
 Apply a kernel to the active image
 *__memberof__*: ImgstryEditor
@@ -307,7 +307,7 @@ ___
 
 ▸ **fill**(color: *`string`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:198](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L198)*
+*Defined in [core/imgstry.editor.ts:197](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L197)*
 
 Fill the canvas with a color.
 *__memberof__*: ImgstryEditor
@@ -328,7 +328,7 @@ ___
 
 ▸ **gamma**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:119](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L119)*
+*Defined in [core/imgstry.editor.ts:118](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L118)*
 
 Increase / decrease image gamma.
 *__memberof__*: ImgstryEditor
@@ -349,7 +349,7 @@ ___
 
 ▸ **hue**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:87](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L87)*
+*Defined in [core/imgstry.editor.ts:86](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L86)*
 
 Shift the image hue.
 *__memberof__*: ImgstryEditor
@@ -370,7 +370,7 @@ ___
 
 ▸ **invert**(): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:166](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L166)*
+*Defined in [core/imgstry.editor.ts:165](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L165)*
 
 Invert the image colors.
 *__memberof__*: ImgstryEditor
@@ -385,7 +385,7 @@ ___
 
 ▸ **noise**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:135](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L135)*
+*Defined in [core/imgstry.editor.ts:134](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L134)*
 
 Add a provided amount of noise to the image.
 *__memberof__*: ImgstryEditor
@@ -406,7 +406,7 @@ ___
 
 ▸ **render**(): `Promise`<[ImgstryEditor](imgstryeditor.md)>
 
-*Defined in [core/imgstry.editor.ts:251](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L251)*
+*Defined in [core/imgstry.editor.ts:250](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L250)*
 
 Apply the requested operations to the image using a worker thread.
 *__memberof__*: ImgstryEditor
@@ -421,7 +421,7 @@ ___
 
 ▸ **renderSync**(): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:240](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L240)*
+*Defined in [core/imgstry.editor.ts:239](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L239)*
 
 Apply the requested operations to the image.
 *__memberof__*: ImgstryEditor
@@ -455,7 +455,7 @@ ___
 
 ▸ **saturation**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:71](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L71)*
+*Defined in [core/imgstry.editor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L70)*
 
 Increase / decrease image saturation.
 *__memberof__*: ImgstryEditor
@@ -476,7 +476,7 @@ ___
 
 ▸ **sepia**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:103](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L103)*
+*Defined in [core/imgstry.editor.ts:102](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L102)*
 
 Apply sepia with the specified intensity.
 *__memberof__*: ImgstryEditor
@@ -497,7 +497,7 @@ ___
 
 ▸ **tint**(color: *`string`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:182](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L182)*
+*Defined in [core/imgstry.editor.ts:181](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L181)*
 
 Apply a color tint to the image.
 *__memberof__*: ImgstryEditor
@@ -541,7 +541,7 @@ ___
 
 ▸ **vibrance**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
 
-*Defined in [core/imgstry.editor.ts:151](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L151)*
+*Defined in [core/imgstry.editor.ts:150](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L150)*
 
 Increase / decrease image vibrance.
 *__memberof__*: ImgstryEditor
