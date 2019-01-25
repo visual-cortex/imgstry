@@ -105,6 +105,7 @@
     ],
     "valid-js-doc": true,
     "variable-name": false,
+    "sort-imports": [true],
     "whitespace": [
       true,
       "check-branch",
