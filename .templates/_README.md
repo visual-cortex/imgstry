@@ -6,6 +6,4 @@
     choco install -y python2 gtk-runtime microsoft-build-tools libjpeg-turbo
   ```
 
-## Usage
-
--- coming soon.
+## Documentation

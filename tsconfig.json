@@ -33,6 +33,24 @@
             "dom"
         ]
     },
+    "typedocOptions": {
+        "out": "./docs",
+        "includes": "./source",
+        "exclude": [
+            "**/index.ts",
+            "**/*thread*"
+        ],
+        "readme": "./.templates/_README.md",
+        "theme": "markdown",
+        "mode": "file",
+        "mdSourceRepo": "visual-cortex/imgstry",
+        "mdEngine": "github",
+        "excludePrivate": true,
+        "excludeProtected": true,
+        "excludeNotExported": true,
+        "ignoreCompilerErrors": true,
+        "gitRevision": "master"
+    },
     "exclude": [
         "node_modules",
         "./test",
