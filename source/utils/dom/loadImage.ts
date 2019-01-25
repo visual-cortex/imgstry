@@ -13,6 +13,7 @@ export /**
     (ImageCtor: ImageConstructor, src: string): Promise<HTMLImageElement> =>
       new Promise((res, rej) => {
         const image: HTMLImageElement = new ImageCtor();
+        image.crossOrigin = 'Anonymous';
 
         image.onload = () => res(image);
         image.onerror = (err) => rej(image);
