@@ -2,10 +2,10 @@ import { IWorkerData } from '~platform/browser/worker/types';
 import { ImgstryProcessor } from '~core';
 
 /**
- * Processor implementation for the web worker.
+ * Processor implementation for the web worker
  *
  * @export
- * @class Imgstry Background Worker
+ * @class Imgstry
  * @extends {ImgstryProcessor}
  */
 export class Imgstry extends ImgstryProcessor {

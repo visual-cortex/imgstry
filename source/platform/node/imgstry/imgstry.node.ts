@@ -35,8 +35,10 @@ export class Imgstry extends ImgstryEditor {
 
   /**
    * Creates an instance of Imgstry.
-   *
-   * @param {Canvas} canvas (specifies the canvas base for imgstry)
+   * @param {number} width the canvas width
+   * @param {number} height the canvas height
+   * @constructor
+   * @memberof Imgstry
    */
   constructor(width: number, height: number) {
     super();
@@ -49,8 +51,9 @@ export class Imgstry extends ImgstryEditor {
   /**
    * Draws an image on the canvas.
    *
-   * @param {Image} image
+   * @param {Image} image the image to draw on the canvas
    * @memberof Imgstry
+   * @returns {void}
    */
   public drawImage(image: Image) {
     drawImage(this.canvas, image);
