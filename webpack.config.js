@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require("webpack-merge");
-const TerserPlugin = require('terser-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const TSLoader = require('./.webpack/ts-loader.config');
@@ -15,15 +14,13 @@ const PATH = {
 
 const production = require('./webpack.production');
 const debug = require('./webpack.debug');
+const entries = require('./webpack.entries');
 
 const base = {
-  entry: {
-    'imgstry.browser': `${PATH.src}/platform/browser/imgstry/index.ts`,
-    'imgstry.spline': `${PATH.src}/platform/browser/spline/index.ts`,
-    'imgstry.pixel': `${PATH.src}/pixel/index.ts`,
-    'imgstry.kernel': `${PATH.src}/kernel/index.ts`,
-    'imgstry': `${PATH.src}/index.ts`,
-  },
+  entry: entries({
+    isDeclaration: false,
+    src: PATH.src,
+  }),
   output: {
     path: PATH.build,
   },
