@@ -8,6 +8,7 @@
 
 ## Implemented by
 
+* [Imgstry](../classes/imgstry.md)
 * [ImgstrySpline](../classes/imgstryspline.md)
 
 ## Index

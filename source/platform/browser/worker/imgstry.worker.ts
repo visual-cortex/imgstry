@@ -12,6 +12,7 @@ worker.onmessage = (message) => {
     buffer: processor.imageData.data.buffer,
     width: processor.imageData.width,
     height: processor.imageData.height,
+    guid: data.guid,
   },
     [processor.imageData.data.buffer],
   );

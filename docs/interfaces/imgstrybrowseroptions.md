@@ -22,7 +22,7 @@
 
 **● thread**: *`ImgstryThreadOptions`*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:20](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L20)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:23](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L23)*
 
 ___
 

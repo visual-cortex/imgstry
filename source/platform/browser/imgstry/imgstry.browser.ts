@@ -7,6 +7,7 @@ import {
   ImgstryThreadOptions,
 } from '~platform/browser/worker';
 import {
+  clearCanvas,
   drawImage,
   fillCanvas,
   imageData,
@@ -15,6 +16,8 @@ import {
   getCanvas,
   loadImage,
 } from '~utils/dom';
+
+import { IDisposable } from '~types';
 
 export interface ImgstryBrowserOptions {
   thread: ImgstryThreadOptions;
@@ -40,12 +43,16 @@ const assignDefault = (source: Partial<ImgstryBrowserOptions>): ImgstryBrowserOp
   };
 };
 
+
 /**
  * (Exposes image processing methods for html canvas)
  *
+ * @export
  * @class Imgstry
+ * @extends {ImgstryEditor}
+ * @implements {IDisposable}
  */
-export class Imgstry extends ImgstryEditor {
+export class Imgstry extends ImgstryEditor implements IDisposable {
   public static getCanvas = getCanvas;
   public static loadImage = (src: string) => loadImage(Image, src);
 
@@ -58,6 +65,8 @@ export class Imgstry extends ImgstryEditor {
   public get height() {
     return this.canvas.height;
   }
+
+  private _thread: ImgstryThread;
 
   /**
    * Creates an instance of Imgstry.
@@ -75,12 +84,13 @@ export class Imgstry extends ImgstryEditor {
     this.context = this.canvas.getContext('2d');
     fillCanvas(this.canvas, '');
     this.original = this.imageData;
+    this._thread = new ImgstryThread(this._options.thread);
   }
 
   /**
    * Draws an image on the canvas.
    *
-   * @param {HTMLImageElement} image the source image that will be drawn on the canvas
+   * @param {HTMLImageElement} image The source image that will be drawn on the canvas.
    * @memberof Imgstry
    * @returns {void}
    */
@@ -89,6 +99,14 @@ export class Imgstry extends ImgstryEditor {
     this.original = this.imageData;
   }
 
+  /**
+   * Returns the content of the current canvas as an image that you can use as a source for another canvas or an HTML element.
+   *
+   * @param {string} [type='image/png'] The standard MIME type for the image format to return.
+   * If you do not specify this parameter, the default value is a PNG format image.
+   * @returns {string} The image encoded as a data url.
+   * @memberof Imgstry
+   */
   public toDataUrl(type = 'image/png'): string {
     return this.canvas.toDataURL(type);
   }
@@ -111,14 +129,25 @@ export class Imgstry extends ImgstryEditor {
   }
 
   public async render(): Promise<Imgstry> {
-    const result = await new ImgstryThread(this._options.thread)
-      .run({
-        imageData: this.imageData,
-        operations: this._operations,
-      });
+    const result = await this._thread.run({
+      imageData: this.imageData,
+      operations: this._operations,
+    });
 
     this.imageData = result.imageData;
 
     return this.clear();
+  }
+
+  /**
+   * Destroys the thread and clears the canvas of data.
+   *
+   * @memberof Imgstry
+   * @returns {void}
+   */
+  public dispose() {
+    this.original = null;
+    this._thread.dispose();
+    clearCanvas(this.canvas);
   }
 }

@@ -101,7 +101,7 @@ gethistogram(): `HistogramData`
 
 *Inherited from ImgstryProcessor.histogram*
 
-*Defined in [core/imgstry.processor.ts:95](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L95)*
+*Defined in [core/imgstry.processor.ts:96](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L96)*
 
 Returns the channel histogram of the image.
 *__readonly__*: 
@@ -121,7 +121,7 @@ getimageData(): `ImageData`setimageData(imgData: *`ImageData`*): `any`
 
 *Inherited from ImgstryProcessor.imageData*
 
-*Defined in [core/imgstry.processor.ts:78](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L78)*
+*Defined in [core/imgstry.processor.ts:79](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L79)*
 
 Gets the image data.
 *__abstract__*: 
@@ -134,7 +134,7 @@ Gets the image data.
 
 *Inherited from ImgstryProcessor.imageData*
 
-*Defined in [core/imgstry.processor.ts:86](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L86)*
+*Defined in [core/imgstry.processor.ts:87](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L87)*
 
 Sets the image data.
 *__abstract__*: 
@@ -161,7 +161,7 @@ ___
 
 *Inherited from ImgstryProcessor.batch*
 
-*Defined in [core/imgstry.processor.ts:126](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L126)*
+*Defined in [core/imgstry.processor.ts:127](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L127)*
 
 Applies a series of filters to the image.
 *__memberof__*: ImgstryProcessor
@@ -170,11 +170,11 @@ Applies a series of filters to the image.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| options | `OperationOption`[] |  the set of operations |
+| options | `OperationOption`[] |  The set of operations. |
 | `Optional` reset | `boolean` |
 
 **Returns:** `ImgstryProcessor`
-the current processor instance
+The current processor instance
 
 ___
 <a id="blackandwhite"></a>
@@ -242,7 +242,7 @@ ___
 
 *Inherited from ImgstryProcessor.clone*
 
-*Defined in [core/imgstry.processor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L70)*
+*Defined in [core/imgstry.processor.ts:71](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L71)*
 
 Clone image data
 *__abstract__*: 
@@ -253,10 +253,10 @@ Clone image data
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| original | `ImageData` |  source image data |
+| original | `ImageData` |  The source image data. |
 
 **Returns:** `ImageData`
-the cloned canvas image data
+The cloned canvas image data.
 
 ___
 <a id="contrast"></a>
@@ -438,7 +438,7 @@ ___
 
 *Inherited from ImgstryProcessor.reset*
 
-*Defined in [core/imgstry.processor.ts:61](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L61)*
+*Defined in [core/imgstry.processor.ts:62](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L62)*
 
 Resets the image to the original state.
 *__abstract__*: 
@@ -446,7 +446,7 @@ Resets the image to the original state.
 *__memberof__*: ImgstryProcessor
 
 **Returns:** `ImgstryProcessor`
-the current processor instance
+The current processor instance.
 
 ___
 <a id="saturation"></a>
@@ -520,7 +520,7 @@ ___
 
 *Inherited from ImgstryProcessor.toDataUrl*
 
-*Defined in [core/imgstry.processor.ts:51](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L51)*
+*Defined in [core/imgstry.processor.ts:52](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L52)*
 
 Encodes the canvas data to a data URI.
 *__memberof__*: Imgstry
@@ -529,10 +529,10 @@ Encodes the canvas data to a data URI.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| type | `string` |  data url type (eg: 'image/png') |
+| type | `string` |  The standard MIME type for the image format to return. If you do not specify this parameter, the default value is a PNG format image. |
 
 **Returns:** `string`
-url with the encoded image
+The image encoded as a data url.
 
 ___
 <a id="vibrance"></a>
