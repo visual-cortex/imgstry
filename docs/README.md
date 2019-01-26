@@ -65,6 +65,7 @@ Documentation
 * [imageData](#imagedata)
 * [loadImage](#loadimage)
 * [splineTheme](#splinetheme)
+* [uuid](#uuid)
 
 ---
 
@@ -307,6 +308,17 @@ ___
 | theme | `Theme` |
 
 **Returns:** `object`
+
+___
+<a id="uuid"></a>
+
+### `<Const>` uuid
+
+▸ **uuid**(): `string`
+
+*Defined in [utils/random/uuid.ts:7](https://github.com/visual-cortex/imgstry/blob/master/source/utils/random/uuid.ts#L7)*
+
+**Returns:** `string`
 
 ___
 

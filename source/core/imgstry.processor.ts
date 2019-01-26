@@ -44,8 +44,9 @@ export abstract class ImgstryProcessor {
   /**
    * Encodes the canvas data to a data URI.
    *
-   * @param {string} type data url type (eg: 'image/png')
-   * @returns {string} url with the encoded image
+   * @param {string} type The standard MIME type for the image format to return.
+   * If you do not specify this parameter, the default value is a PNG format image.
+   * @returns {string} The image encoded as a data url.
    * @memberof Imgstry
    */
   public abstract toDataUrl(type: string): string;
@@ -54,7 +55,7 @@ export abstract class ImgstryProcessor {
    * Resets the image to the original state.
    *
    * @abstract
-   * @returns {ImgstryProcessor} the current processor instance
+   * @returns {ImgstryProcessor} The current processor instance.
    *
    * @memberOf ImgstryProcessor
    */
@@ -63,8 +64,8 @@ export abstract class ImgstryProcessor {
    * Clone image data
    *
    * @abstract
-   * @param {ImageData} original source image data
-   * @returns {ImageData} the cloned canvas image data
+   * @param {ImageData} original The source image data.
+   * @returns {ImageData} The cloned canvas image data.
    * @memberOf ImgstryProcessor
    */
   public abstract clone(original: ImageData): ImageData;
@@ -118,9 +119,9 @@ export abstract class ImgstryProcessor {
   /**
    * Applies a series of filters to the image.
    *
-   * @param {OperationOption[]} options the set of operations
-   * @param {boolean} [reset] if the image should be reset to its original state before applying operations
-   * @returns {ImgstryProcessor} the current processor instance
+   * @param {OperationOption[]} options The set of operations.
+   * @param {boolean} [reset] If the image should be reset to its original state before applying operations.
+   * @returns {ImgstryProcessor} The current processor instance
    * @memberof ImgstryProcessor
    */
   public batch(options: OperationOption[], reset?: boolean): ImgstryProcessor {
