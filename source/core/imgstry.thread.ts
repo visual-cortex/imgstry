@@ -19,6 +19,7 @@ export interface IThreadData extends IThreadResult {
  */
 export interface IThreadResult {
   imageData: ImageData;
+  guid?: string;
 }
 
 /**

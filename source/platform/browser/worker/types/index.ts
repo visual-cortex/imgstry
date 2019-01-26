@@ -23,4 +23,5 @@ export interface IWorkerResult {
   buffer: ArrayBuffer;
   width: number;
   height: number;
+  guid: string;
 }
