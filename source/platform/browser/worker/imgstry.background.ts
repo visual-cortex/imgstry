@@ -30,7 +30,15 @@ export class Imgstry extends ImgstryProcessor {
   }
 
   public clone(data: ImageData): ImageData {
-    return new ImageData(new Uint8ClampedArray(data.data.length), data.width, data.height);
+    return new ImageData(
+      new Uint8ClampedArray(data.data.length),
+      data.width,
+      data.height,
+    );
+  }
+
+  public createImageData(data: ImageData): ImageData {
+    return this.clone(data);
   }
 
   public get imageData(): ImageData {

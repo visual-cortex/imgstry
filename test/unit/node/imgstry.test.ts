@@ -47,6 +47,21 @@ describe('Imgstry Node Canvas', () => {
     expect(channelSum).equal(0);
   });
 
+  it('should clone the image data', () => {
+    processor
+      .fill('#8A4F3D')
+      .renderSync();
+
+    const original = processor.imageData;
+    const cloned = processor.clone(processor.imageData);
+
+    expect(cloned).to.not.equal(processor.imageData);
+
+    original.data.forEach((value, idx) => {
+      expect(value).to.equal(cloned.data[idx]);
+    });
+  });
+
   context('invert', () => {
     it('should have all pixels white if invert is applied', () => {
       processor.invert().renderSync();

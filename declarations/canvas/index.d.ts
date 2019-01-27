@@ -6,6 +6,8 @@ declare namespace NodeCanvas {
   export class Image extends HTMLImageElement {
     constructor();
   }
+
+  export function createImageData(data: Uint16Array, width: number, height: number): ImageData;
 }
 
 declare module 'canvas' {

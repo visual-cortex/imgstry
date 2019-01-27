@@ -64,11 +64,20 @@ export abstract class ImgstryProcessor {
    * Clone image data
    *
    * @abstract
-   * @param {ImageData} original The source image data.
+   * @param {ImageData} source The source image data.
    * @returns {ImageData} The cloned canvas image data.
    * @memberOf ImgstryProcessor
    */
-  public abstract clone(original: ImageData): ImageData;
+  public abstract clone(source: ImageData): ImageData;
+  /**
+   * Create image data based on a source
+   *
+   * @abstract
+   * @param {ImageData} source The source image data.
+   * @returns {ImageData} The new image data.
+   * @memberOf ImgstryProcessor
+   */
+  public abstract createImageData(source: ImageData): ImageData;
   /**
    * Gets the image data.
    *
@@ -159,7 +168,7 @@ export abstract class ImgstryProcessor {
     kernel = new Kernel((kernel as any)._kernel || kernel);
 
     const data = this.imageData.data;
-    const result = this.clone(this.imageData);
+    const result = this.createImageData(this.imageData);
     const limit = {
       lower: 0,
       upper: this.width * this.height * 4,
