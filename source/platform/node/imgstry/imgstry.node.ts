@@ -1,6 +1,7 @@
 import {
   Canvas,
   Image,
+  createImageData,
 } from 'canvas';
 import {
   ImgstryEditor,
@@ -45,7 +46,7 @@ export class Imgstry extends ImgstryEditor {
     this.canvas = new Canvas(width, height);
     this.context = this.canvas.getContext('2d');
     fillCanvas(this.canvas, '');
-    this.original = this.imageData;
+    this.original = this.clone(this.imageData);
   }
 
   /**
@@ -57,7 +58,7 @@ export class Imgstry extends ImgstryEditor {
    */
   public drawImage(image: Image) {
     drawImage(this.canvas, image);
-    this.original = this.imageData;
+    this.original = this.clone(this.imageData);
   }
 
   public toDataUrl(type = 'image/png'): string {
@@ -69,8 +70,16 @@ export class Imgstry extends ImgstryEditor {
     return <ImgstryProcessor>this;
   }
 
-  public clone(data: ImageData): ImageData {
-    return this.context.createImageData(data);
+  public clone(source: ImageData): ImageData {
+    return createImageData(
+      new Uint16Array(source.data),
+      source.width,
+      source.height,
+    );
+  }
+
+  public createImageData(source: ImageData): ImageData {
+    return this.context.createImageData(source);
   }
 
   public get imageData(): ImageData {

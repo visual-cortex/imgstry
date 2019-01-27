@@ -61,6 +61,7 @@
 * [clone](imgstry.md#clone)
 * [contrast](imgstry.md#contrast)
 * [convolve](imgstry.md#convolve)
+* [createImageData](imgstry.md#createimagedata)
 * [dispose](imgstry.md#dispose)
 * [drawImage](imgstry.md#drawimage)
 * [fill](imgstry.md#fill)
@@ -113,7 +114,7 @@ ___
 **● canvas**: *`HTMLCanvasElement`*
 
 *Defined in [platform/browser/imgstry/imgstry.browser.ts:79](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L79)*
-*Defined in [platform/node/imgstry/imgstry.node.ts:26](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L26)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:27](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L27)*
 
 (specifies the canvas base for imgstry)
 
@@ -125,7 +126,7 @@ ___
 **● context**: *`CanvasRenderingContext2D`*
 
 *Defined in [platform/browser/imgstry/imgstry.browser.ts:59](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L59)*
-*Defined in [platform/node/imgstry/imgstry.node.ts:25](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L25)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:26](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L26)*
 
 ___
 <a id="getcanvas"></a>
@@ -146,7 +147,7 @@ ___
 
 getheight(): `number`
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L32)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L33)*
 
 **Returns:** `number`
 
@@ -161,7 +162,7 @@ gethistogram(): `HistogramData`
 
 *Overrides ImgstryProcessor.histogram*
 
-*Defined in [core/imgstry.processor.ts:96](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L96)*
+*Defined in [core/imgstry.processor.ts:105](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L105)*
 
 Returns the channel histogram of the image.
 *__readonly__*: 
@@ -179,11 +180,11 @@ ___
 
 getimageData(): `ImageData`setimageData(image: *`ImageData`*): `void`
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:76](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L76)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:85](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L85)*
 
 **Returns:** `ImageData`
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:80](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L80)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:89](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L89)*
 
 **Parameters:**
 
@@ -200,7 +201,7 @@ ___
 
 getwidth(): `number`
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L28)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L29)*
 
 **Returns:** `number`
 
@@ -218,7 +219,7 @@ ___
 
 *Overrides ImgstryProcessor.batch*
 
-*Defined in [core/imgstry.processor.ts:127](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L127)*
+*Defined in [core/imgstry.processor.ts:136](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L136)*
 
 Applies a series of filters to the image.
 *__memberof__*: ImgstryProcessor
@@ -307,7 +308,7 @@ ___
 
 ###  clone
 
-▸ **clone**(data: *`ImageData`*): `ImageData`
+▸ **clone**(source: *`ImageData`*): `ImageData`
 
 *Overrides ImgstryProcessor.clone*
 
@@ -317,7 +318,7 @@ ___
 
 | Name | Type |
 | ------ | ------ |
-| data | `ImageData` |
+| source | `ImageData` |
 
 **Returns:** `ImageData`
 
@@ -372,6 +373,25 @@ Apply a kernel to the active image
 the current editor instance
 
 ___
+<a id="createimagedata"></a>
+
+###  createImageData
+
+▸ **createImageData**(source: *`ImageData`*): `ImageData`
+
+*Overrides ImgstryProcessor.createImageData*
+
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:127](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L127)*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| source | `ImageData` |
+
+**Returns:** `ImageData`
+
+___
 <a id="dispose"></a>
 
 ###  dispose
@@ -380,7 +400,7 @@ ___
 
 *Implementation of [IDisposable](../interfaces/idisposable.md).[dispose](../interfaces/idisposable.md#dispose)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:148](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L148)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:156](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L156)*
 
 Destroys the thread and clears the canvas of data.
 *__memberof__*: Imgstry
@@ -535,7 +555,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[render](imgstryeditor.md#render)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:131](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L131)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:139](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L139)*
 
 **Returns:** `Promise`<[Imgstry](imgstry.md)>
 
@@ -713,7 +733,7 @@ ___
 
 **Returns:** `Promise`<`HTMLImageElement`>
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:23](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L23)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:24](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L24)*
 
 **Parameters:**
 
