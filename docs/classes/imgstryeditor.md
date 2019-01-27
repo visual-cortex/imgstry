@@ -40,6 +40,7 @@ Defines the imgstry editor schema.
 * [clone](imgstryeditor.md#clone)
 * [contrast](imgstryeditor.md#contrast)
 * [convolve](imgstryeditor.md#convolve)
+* [createImageData](imgstryeditor.md#createimagedata)
 * [fill](imgstryeditor.md#fill)
 * [gamma](imgstryeditor.md#gamma)
 * [hue](imgstryeditor.md#hue)
@@ -101,7 +102,7 @@ gethistogram(): `HistogramData`
 
 *Inherited from ImgstryProcessor.histogram*
 
-*Defined in [core/imgstry.processor.ts:96](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L96)*
+*Defined in [core/imgstry.processor.ts:105](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L105)*
 
 Returns the channel histogram of the image.
 *__readonly__*: 
@@ -121,7 +122,7 @@ getimageData(): `ImageData`setimageData(imgData: *`ImageData`*): `any`
 
 *Inherited from ImgstryProcessor.imageData*
 
-*Defined in [core/imgstry.processor.ts:79](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L79)*
+*Defined in [core/imgstry.processor.ts:88](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L88)*
 
 Gets the image data.
 *__abstract__*: 
@@ -134,7 +135,7 @@ Gets the image data.
 
 *Inherited from ImgstryProcessor.imageData*
 
-*Defined in [core/imgstry.processor.ts:87](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L87)*
+*Defined in [core/imgstry.processor.ts:96](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L96)*
 
 Sets the image data.
 *__abstract__*: 
@@ -161,7 +162,7 @@ ___
 
 *Inherited from ImgstryProcessor.batch*
 
-*Defined in [core/imgstry.processor.ts:127](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L127)*
+*Defined in [core/imgstry.processor.ts:136](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L136)*
 
 Applies a series of filters to the image.
 *__memberof__*: ImgstryProcessor
@@ -238,7 +239,7 @@ ___
 
 ### `<Abstract>` clone
 
-▸ **clone**(original: *`ImageData`*): `ImageData`
+▸ **clone**(source: *`ImageData`*): `ImageData`
 
 *Inherited from ImgstryProcessor.clone*
 
@@ -253,7 +254,7 @@ Clone image data
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| original | `ImageData` |  The source image data. |
+| source | `ImageData` |  The source image data. |
 
 **Returns:** `ImageData`
 The cloned canvas image data.
@@ -299,6 +300,31 @@ Apply a kernel to the active image
 
 **Returns:** [ImgstryEditor](imgstryeditor.md)
 the current editor instance
+
+___
+<a id="createimagedata"></a>
+
+### `<Abstract>` createImageData
+
+▸ **createImageData**(source: *`ImageData`*): `ImageData`
+
+*Inherited from ImgstryProcessor.createImageData*
+
+*Defined in [core/imgstry.processor.ts:80](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L80)*
+
+Create image data based on a source
+*__abstract__*: 
+
+*__memberof__*: ImgstryProcessor
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| source | `ImageData` |  The source image data. |
+
+**Returns:** `ImageData`
+The new image data.
 
 ___
 <a id="fill"></a>
