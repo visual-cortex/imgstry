@@ -11,7 +11,7 @@ export abstract class SplineProcessor {
   private _splineXSeries: number[];
 
   constructor(width = 256) {
-    this._splineXSeries = fillWith(width, 0).map((_, idx) => idx / width);
+    this._splineXSeries = fillWith(width, (idx) => idx / width);
 
     this.add({ x: 0, y: 0 });
     this.add({ x: 1, y: 1 });
