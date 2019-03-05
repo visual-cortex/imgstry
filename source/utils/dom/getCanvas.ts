@@ -12,11 +12,11 @@ export const getCanvas = (selector: string | HTMLCanvasElement): HTMLCanvasEleme
   }
 
   if (!selector) {
-    throw 'A canvas selector must be provided.';
+    throw new Error('A canvas selector must be provided.');
   }
 
   if (!_selectorRegex.test(selector)) {
-    throw `'${selector}' is not a valid id.`;
+    throw new Error(`'${selector}' is not a valid id.`);
   }
 
   const [hashBang] = selector;
@@ -27,7 +27,7 @@ export const getCanvas = (selector: string | HTMLCanvasElement): HTMLCanvasEleme
   let canvas = document.getElementById(selector);
 
   if (!(canvas instanceof HTMLCanvasElement)) {
-    throw `'${selector}' does not identify a canvas element.`;
+    throw new Error(`'${selector}' does not identify a canvas element.`);
   }
 
   return <HTMLCanvasElement>canvas;
