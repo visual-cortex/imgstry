@@ -2,7 +2,6 @@ import {
   IPoint,
   SplinePointSet,
 } from '~core/point';
-
 import { CubicSpline } from '~core/spline';
 import { fillWith } from '~utils/array';
 

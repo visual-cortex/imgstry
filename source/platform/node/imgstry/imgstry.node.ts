@@ -1,7 +1,7 @@
 import {
   Canvas,
-  Image,
   createImageData,
+  Image,
 } from 'canvas';
 import {
   ImgstryEditor,
@@ -12,7 +12,6 @@ import {
   fillCanvas,
   imageData,
 } from '~utils/canvas';
-
 import { loadImage } from '~utils/dom';
 
 /**

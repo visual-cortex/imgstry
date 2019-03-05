@@ -1,21 +1,10 @@
 import {
-  BehaviorSubject,
-  Subject,
   animationFrameScheduler,
+  BehaviorSubject,
   fromEvent,
   merge,
+  Subject,
 } from 'rxjs';
-import {
-  IPoint,
-  IPointResult,
-  SplinePointSet,
-} from '~core/point';
-import {
-  clearCanvas,
-  drawCircle,
-  drawGrid,
-  fillCanvas,
-} from '~utils/canvas';
 import {
   distinctUntilChanged,
   filter,
@@ -25,12 +14,22 @@ import {
   tap,
   throttleTime,
 } from 'rxjs/operators';
-
-import { IDisposable } from '~types';
+import {
+  IPoint,
+  IPointResult,
+  SplinePointSet,
+} from '~core/point';
 import { SplineProcessor } from '~core/spline';
-import { Theme } from '~platform/browser/theme';
-import { getCanvas } from '~utils/dom';
 import { splineTheme } from '~platform/browser/spline/spline.theme';
+import { Theme } from '~platform/browser/theme';
+import { IDisposable } from '~types';
+import {
+  clearCanvas,
+  drawCircle,
+  drawGrid,
+  fillCanvas,
+} from '~utils/canvas';
+import { getCanvas } from '~utils/dom';
 
 interface ISplineOptions {
   theme: Theme;

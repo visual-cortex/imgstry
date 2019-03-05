@@ -6,6 +6,7 @@ import {
   ImgstryThread,
   ImgstryThreadOptions,
 } from '~platform/browser/worker';
+import { IDisposable } from '~types';
 import {
   clearCanvas,
   drawImage,
@@ -16,8 +17,6 @@ import {
   getCanvas,
   loadImage,
 } from '~utils/dom';
-
-import { IDisposable } from '~types';
 
 export interface ImgstryBrowserOptions {
   thread: ImgstryThreadOptions;

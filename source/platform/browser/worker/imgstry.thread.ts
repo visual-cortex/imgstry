@@ -1,3 +1,10 @@
+import { Subject } from 'rxjs';
+import {
+  filter,
+  first,
+  throttleTime,
+} from 'rxjs/operators';
+import ImgstryWorker from 'worker-loader?inline=true&fallback=false!./imgstry.worker';
 import {
   IImgstryThread,
   IThreadData,
@@ -7,16 +14,8 @@ import {
   IWorkerData,
   IWorkerResult,
 } from '~platform/browser/worker/types';
-import {
-  filter,
-  first,
-  throttleTime,
-} from 'rxjs/operators';
-
 import { IDisposable } from '~types';
-import ImgstryWorker from 'worker-loader?inline=true&fallback=false!./imgstry.worker';
 import { Logger } from '~utils/logger';
-import { Subject } from 'rxjs';
 import { uuid } from '~utils/random';
 
 /**

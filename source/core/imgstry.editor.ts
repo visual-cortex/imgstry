@@ -1,6 +1,6 @@
 import { ImgstryProcessor } from '~core/imgstry.processor';
-import { Kernel } from '~kernel';
 import { OperationOption } from '~core/types';
+import { Kernel } from '~kernel';
 
 /**
  * Defines the imgstry editor schema.
