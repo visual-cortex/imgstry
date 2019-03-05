@@ -1,5 +1,5 @@
-import { Kernel } from '~kernel';
 import { Operation } from '~core';
+import { Kernel } from '~kernel';
 
 /**
  * Holds a collection of operation method names.

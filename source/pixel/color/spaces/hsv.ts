@@ -2,7 +2,6 @@ import {
   ColorSpace,
   IColor,
 } from '~pixel/color/color';
-
 import { Cmyk } from '~pixel/color/spaces/cmyk';
 import { Hex } from '~pixel/color/spaces/hex';
 import { Rgb } from '~pixel/color/spaces/rgb';

@@ -2,7 +2,6 @@ import {
   IPoint,
   Point,
 } from '~core/point';
-
 import { CubicInterpolationSet } from '~core/spline';
 import { findLastIndex } from '~utils/array';
 

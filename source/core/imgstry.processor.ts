@@ -1,12 +1,11 @@
+import { Operation } from '~core/imgstry.operation';
 import {
   HistogramData,
   OperationMethod,
   OperationOption,
   TraversalPixelInfo,
 } from '~core/types';
-
 import { Kernel } from '~kernel';
-import { Operation } from '~core/imgstry.operation';
 import { Rgb } from '~pixel';
 
 /**

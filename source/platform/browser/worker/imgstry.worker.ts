@@ -1,5 +1,5 @@
-import { IWorkerData } from '~platform/browser/worker/types';
 import { Imgstry } from '~platform/browser/worker/imgstry.background';
+import { IWorkerData } from '~platform/browser/worker/types';
 
 const worker = self as any as Worker;
 
