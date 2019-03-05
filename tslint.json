@@ -106,6 +106,7 @@
     "valid-js-doc": true,
     "variable-name": false,
     "ordered-imports": false,
+    "no-string-throw": true,
     "whitespace": [
       true,
       "check-branch",
