@@ -1,3 +1,6 @@
+import { expect } from 'chai';
+import { COLOR_MAP } from 'test/color';
+import { ImgstryEditor } from '~core';
 import {
   EdgeDetection,
   GaussianBlur,
@@ -6,11 +9,7 @@ import {
   Hex,
   Rgb,
 } from '~pixel';
-
-import { COLOR_MAP } from 'test/color';
 import { Imgstry } from '~platform/browser';
-import { ImgstryEditor } from '~core';
-import { expect } from 'chai';
 
 const isServer = document.location.protocol &&
   document.location.protocol.indexOf('http') !== -1;
@@ -35,6 +34,9 @@ const render = async (processor: ImgstryEditor, method: RenderMethod) => {
   }
 };
 
+const wait = async (timeout: number) =>
+  new Promise((res) => setTimeout(() => res(), timeout));
+
 const renderers = ['sync'];
 
 if (isServer) {
@@ -54,8 +56,10 @@ renderers.forEach((method: RenderMethod) => {
     let anchor = '#board';
     let board: HTMLCanvasElement;
     let processor: Imgstry;
+    let test: Mocha.Test;
 
-    beforeEach(() => {
+    beforeEach(function() {
+      test = this.currentTest;
       board = Imgstry.getCanvas(anchor);
       processor = new Imgstry(board, {
         thread: {
@@ -377,6 +381,46 @@ renderers.forEach((method: RenderMethod) => {
           }
           expect(channelSum / pixelData.length)
             .approximately(0, .2);
+        });
+      });
+
+      context('render', () => {
+        it('should render multiple without locking the image buffer', async () => {
+          test.timeout(5000);
+
+          const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+          processor.context.drawImage(image, 0, 0);
+
+          await render(
+            processor
+              .brightness(20),
+            method,
+          );
+
+          await wait(251);
+
+          await render(
+            processor
+              .contrast(10),
+            method,
+          );
+
+          await wait(251);
+
+          await render(
+            processor
+              .contrast(35),
+            method,
+          );
+
+          await wait(251);
+
+          await render(
+            processor
+              .contrast(200),
+            method,
+          );
         });
       });
     });

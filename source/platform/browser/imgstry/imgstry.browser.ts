@@ -137,7 +137,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
 
   public async render(): Promise<Imgstry> {
     const result = await this._thread.run({
-      imageData: this.clone(this.original),
+      imageData: this.imageData,
       operations: this._operations,
     });
 
