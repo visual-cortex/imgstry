@@ -37,7 +37,8 @@
       ".tsx"
     ],
     "exclude": [
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "**/index.ts"
     ],
     "report-dir": "./reports/coverage",
     "cache": true,
