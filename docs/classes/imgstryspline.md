@@ -45,7 +45,7 @@
 
 *Overrides [SplineProcessor](splineprocessor.md).[constructor](splineprocessor.md#constructor)*
 
-*Defined in [platform/browser/spline/spline.browser.ts:74](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L74)*
+*Defined in [platform/browser/spline/spline.browser.ts:73](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L73)*
 
 **Parameters:**
 
@@ -66,7 +66,7 @@ ___
 
 **● getCanvas**: *[getCanvas]()* =  getCanvas
 
-*Defined in [platform/browser/spline/spline.browser.ts:42](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L42)*
+*Defined in [platform/browser/spline/spline.browser.ts:41](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L41)*
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 *Overrides [SplineProcessor](splineprocessor.md).[add](splineprocessor.md#add)*
 
-*Defined in [platform/browser/spline/spline.browser.ts:171](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L171)*
+*Defined in [platform/browser/spline/spline.browser.ts:170](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L170)*
 
 **Parameters:**
 
@@ -99,7 +99,7 @@ ___
 
 *Implementation of [IDisposable](../interfaces/idisposable.md).[dispose](../interfaces/idisposable.md#dispose)*
 
-*Defined in [platform/browser/spline/spline.browser.ts:185](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L185)*
+*Defined in [platform/browser/spline/spline.browser.ts:184](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L184)*
 
 **Returns:** `void`
 
@@ -114,7 +114,7 @@ ___
 
 *Overrides [SplineProcessor](splineprocessor.md).[interpolate](splineprocessor.md#interpolate)*
 
-*Defined in [core/spline/spline.processor.ts:44](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L44)*
+*Defined in [core/spline/spline.processor.ts:43](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L43)*
 
 **Parameters:**
 
@@ -135,7 +135,7 @@ ___
 
 *Overrides [SplineProcessor](splineprocessor.md).[interpolateOne](splineprocessor.md#interpolateone)*
 
-*Defined in [core/spline/spline.processor.ts:53](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L53)*
+*Defined in [core/spline/spline.processor.ts:52](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L52)*
 
 **Parameters:**
 
@@ -156,7 +156,7 @@ ___
 
 *Overrides [SplineProcessor](splineprocessor.md).[lookup](splineprocessor.md#lookup)*
 
-*Defined in [core/spline/spline.processor.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L33)*
+*Defined in [core/spline/spline.processor.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L32)*
 
 **Returns:** `number`[]
 
@@ -169,7 +169,7 @@ ___
 
 *Overrides [SplineProcessor](splineprocessor.md).[remove](splineprocessor.md#remove)*
 
-*Defined in [platform/browser/spline/spline.browser.ts:178](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L178)*
+*Defined in [platform/browser/spline/spline.browser.ts:177](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L177)*
 
 **Parameters:**
 

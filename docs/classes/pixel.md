@@ -44,7 +44,7 @@
 
 ⊕ **new Pixel**(_x: *`number`*, _y: *`number`*, color?: *`T`*): [Pixel](pixel.md)
 
-*Defined in [pixel/pixel.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L34)*
+*Defined in [pixel/pixel.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L33)*
 
 **Parameters:**
 
@@ -66,7 +66,7 @@ ___
 
 **● color**: *`T`*
 
-*Defined in [pixel/pixel.ts:39](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L39)*
+*Defined in [pixel/pixel.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L38)*
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 getcolorSpace(): [ColorSpace](../enums/colorspace.md)
 
-*Defined in [pixel/pixel.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L30)*
+*Defined in [pixel/pixel.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L29)*
 
 **Returns:** [ColorSpace](../enums/colorspace.md)
 
@@ -89,11 +89,11 @@ ___
 
 getx(): `number`setx(value: *`number`*): `void`
 
-*Defined in [pixel/pixel.ts:16](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L16)*
+*Defined in [pixel/pixel.ts:15](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L15)*
 
 **Returns:** `number`
 
-*Defined in [pixel/pixel.ts:19](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L19)*
+*Defined in [pixel/pixel.ts:18](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L18)*
 
 **Parameters:**
 
@@ -110,11 +110,11 @@ ___
 
 gety(): `number`sety(value: *`number`*): `void`
 
-*Defined in [pixel/pixel.ts:23](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L23)*
+*Defined in [pixel/pixel.ts:22](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L22)*
 
 **Returns:** `number`
 
-*Defined in [pixel/pixel.ts:26](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L26)*
+*Defined in [pixel/pixel.ts:25](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L25)*
 
 **Parameters:**
 

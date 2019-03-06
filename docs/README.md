@@ -193,9 +193,9 @@ ___
 
 ###  fillWith
 
-▸ **fillWith**(count: *`number`*, value: *`number`*): `any`[]
+▸ **fillWith**(count: *`number`*, predicateOrValue: *`FillPredicate`*): `any`[]
 
-*Defined in [utils/array/fillWith.ts:9](https://github.com/visual-cortex/imgstry/blob/master/source/utils/array/fillWith.ts#L9)*
+*Defined in [utils/array/fillWith.ts:12](https://github.com/visual-cortex/imgstry/blob/master/source/utils/array/fillWith.ts#L12)*
 
 Creates an array and fills it with the specified value
 *__export__*: 
@@ -205,7 +205,7 @@ Creates an array and fills it with the specified value
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | count | `number` |  the number of elements the array should contain |
-| value | `number` |  the filler value |
+| predicateOrValue | `FillPredicate` |  the fill predicate |
 
 **Returns:** `any`[]
 the array with the requested value

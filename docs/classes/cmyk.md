@@ -52,7 +52,7 @@ CMYK colorspace.
 
 ⊕ **new Cmyk**(__namedParameters?: *`object`*): [Cmyk](cmyk.md)
 
-*Defined in [pixel/color/spaces/cmyk.ts:39](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L39)*
+*Defined in [pixel/color/spaces/cmyk.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L38)*
 
 **Parameters:**
 
@@ -72,7 +72,7 @@ ___
 
 **● c**: *`number`*
 
-*Defined in [pixel/color/spaces/cmyk.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L32)*
+*Defined in [pixel/color/spaces/cmyk.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L31)*
 
 ___
 <a id="k"></a>
@@ -81,7 +81,7 @@ ___
 
 **● k**: *`number`*
 
-*Defined in [pixel/color/spaces/cmyk.ts:35](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L35)*
+*Defined in [pixel/color/spaces/cmyk.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L34)*
 
 ___
 <a id="m"></a>
@@ -90,7 +90,7 @@ ___
 
 **● m**: *`number`*
 
-*Defined in [pixel/color/spaces/cmyk.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L33)*
+*Defined in [pixel/color/spaces/cmyk.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L32)*
 
 ___
 <a id="y"></a>
@@ -99,7 +99,7 @@ ___
 
 **● y**: *`number`*
 
-*Defined in [pixel/color/spaces/cmyk.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L34)*
+*Defined in [pixel/color/spaces/cmyk.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L33)*
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 getkind(): [ColorSpace](../enums/colorspace.md)
 
-*Defined in [pixel/color/spaces/cmyk.ts:37](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L37)*
+*Defined in [pixel/color/spaces/cmyk.ts:36](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L36)*
 
 **Returns:** [ColorSpace](../enums/colorspace.md)
 
@@ -127,7 +127,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[clamp](../interfaces/icolor.md#clamp)*
 
-*Defined in [pixel/color/spaces/cmyk.ts:68](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L68)*
+*Defined in [pixel/color/spaces/cmyk.ts:67](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L67)*
 
 **Returns:** [Cmyk](cmyk.md)
 
@@ -140,7 +140,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toCmyk](../interfaces/icolor.md#tocmyk)*
 
-*Defined in [pixel/color/spaces/cmyk.ts:60](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L60)*
+*Defined in [pixel/color/spaces/cmyk.ts:59](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L59)*
 
 **Returns:** [Cmyk](cmyk.md)
 
@@ -153,7 +153,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toHex](../interfaces/icolor.md#tohex)*
 
-*Defined in [pixel/color/spaces/cmyk.ts:64](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L64)*
+*Defined in [pixel/color/spaces/cmyk.ts:63](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L63)*
 
 **Returns:** [Hex](hex.md)
 
@@ -166,7 +166,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toHsv](../interfaces/icolor.md#tohsv)*
 
-*Defined in [pixel/color/spaces/cmyk.ts:56](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L56)*
+*Defined in [pixel/color/spaces/cmyk.ts:55](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L55)*
 
 **Returns:** [Hsv](hsv.md)
 
@@ -179,7 +179,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toRgb](../interfaces/icolor.md#torgb)*
 
-*Defined in [pixel/color/spaces/cmyk.ts:48](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L48)*
+*Defined in [pixel/color/spaces/cmyk.ts:47](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/cmyk.ts#L47)*
 
 **Returns:** [Rgb](rgb.md)
 

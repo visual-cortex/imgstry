@@ -52,7 +52,7 @@ Rgb colorspace.
 
 ⊕ **new Rgb**(__namedParameters?: *`object`*): [Rgb](rgb.md)
 
-*Defined in [pixel/color/spaces/rgb.ts:36](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L36)*
+*Defined in [pixel/color/spaces/rgb.ts:35](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L35)*
 
 **Parameters:**
 
@@ -72,7 +72,7 @@ ___
 
 **● b**: *`number`*
 
-*Defined in [pixel/color/spaces/rgb.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L32)*
+*Defined in [pixel/color/spaces/rgb.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L31)*
 
 ___
 <a id="g"></a>
@@ -81,7 +81,7 @@ ___
 
 **● g**: *`number`*
 
-*Defined in [pixel/color/spaces/rgb.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L31)*
+*Defined in [pixel/color/spaces/rgb.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L30)*
 
 ___
 <a id="r"></a>
@@ -90,7 +90,7 @@ ___
 
 **● r**: *`number`*
 
-*Defined in [pixel/color/spaces/rgb.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L30)*
+*Defined in [pixel/color/spaces/rgb.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L29)*
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 getkind(): [ColorSpace](../enums/colorspace.md)
 
-*Defined in [pixel/color/spaces/rgb.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L34)*
+*Defined in [pixel/color/spaces/rgb.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L33)*
 
 **Returns:** [ColorSpace](../enums/colorspace.md)
 
@@ -118,7 +118,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[clamp](../interfaces/icolor.md#clamp)*
 
-*Defined in [pixel/color/spaces/rgb.ts:111](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L111)*
+*Defined in [pixel/color/spaces/rgb.ts:110](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L110)*
 
 **Returns:** [Rgb](rgb.md)
 
@@ -131,7 +131,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toCmyk](../interfaces/icolor.md#tocmyk)*
 
-*Defined in [pixel/color/spaces/rgb.ts:81](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L81)*
+*Defined in [pixel/color/spaces/rgb.ts:80](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L80)*
 
 **Returns:** [Cmyk](cmyk.md)
 
@@ -144,7 +144,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toHex](../interfaces/icolor.md#tohex)*
 
-*Defined in [pixel/color/spaces/rgb.ts:98](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L98)*
+*Defined in [pixel/color/spaces/rgb.ts:97](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L97)*
 
 **Returns:** [Hex](hex.md)
 
@@ -157,7 +157,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toHsv](../interfaces/icolor.md#tohsv)*
 
-*Defined in [pixel/color/spaces/rgb.ts:44](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L44)*
+*Defined in [pixel/color/spaces/rgb.ts:43](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L43)*
 
 **Returns:** [Hsv](hsv.md)
 
@@ -170,7 +170,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toRgb](../interfaces/icolor.md#torgb)*
 
-*Defined in [pixel/color/spaces/rgb.ts:77](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L77)*
+*Defined in [pixel/color/spaces/rgb.ts:76](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L76)*
 
 **Returns:** [Rgb](rgb.md)
 

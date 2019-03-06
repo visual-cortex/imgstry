@@ -34,7 +34,7 @@
 
 ⊕ **new SplineProcessor**(width?: *`number`*): [SplineProcessor](splineprocessor.md)
 
-*Defined in [core/spline/spline.processor.ts:12](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L12)*
+*Defined in [core/spline/spline.processor.ts:11](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L11)*
 
 **Parameters:**
 
@@ -54,7 +54,7 @@ ___
 
 ▸ **add**(point: *[IPoint](../interfaces/ipoint.md)*): `void`
 
-*Defined in [core/spline/spline.processor.ts:21](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L21)*
+*Defined in [core/spline/spline.processor.ts:20](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L20)*
 
 **Parameters:**
 
@@ -71,7 +71,7 @@ ___
 
 ▸ **interpolate**(predicate: *`function`*): `void`
 
-*Defined in [core/spline/spline.processor.ts:44](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L44)*
+*Defined in [core/spline/spline.processor.ts:43](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L43)*
 
 **Parameters:**
 
@@ -88,7 +88,7 @@ ___
 
 ▸ **interpolateOne**(x: *`number`*): `number`
 
-*Defined in [core/spline/spline.processor.ts:53](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L53)*
+*Defined in [core/spline/spline.processor.ts:52](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L52)*
 
 **Parameters:**
 
@@ -105,7 +105,7 @@ ___
 
 ▸ **lookup**(): `number`[]
 
-*Defined in [core/spline/spline.processor.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L33)*
+*Defined in [core/spline/spline.processor.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L32)*
 
 **Returns:** `number`[]
 
@@ -116,7 +116,7 @@ ___
 
 ▸ **remove**(point: *[IPoint](../interfaces/ipoint.md)*): `void`
 
-*Defined in [core/spline/spline.processor.ts:25](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L25)*
+*Defined in [core/spline/spline.processor.ts:24](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/spline.processor.ts#L24)*
 
 **Parameters:**
 

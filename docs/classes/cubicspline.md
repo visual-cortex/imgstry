@@ -26,7 +26,7 @@
 
 ⊕ **new CubicSpline**(_points: *[IPoint](../interfaces/ipoint.md)[]*): [CubicSpline](cubicspline.md)
 
-*Defined in [core/spline/interpolation/cubic/spline.ts:12](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/spline.ts#L12)*
+*Defined in [core/spline/interpolation/cubic/spline.ts:11](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/spline.ts#L11)*
 
 **Parameters:**
 
@@ -46,7 +46,7 @@ ___
 
 ▸ **interpolate**(x: *`number`*): `number`
 
-*Defined in [core/spline/interpolation/cubic/spline.ts:22](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/spline.ts#L22)*
+*Defined in [core/spline/interpolation/cubic/spline.ts:21](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/spline.ts#L21)*
 
 **Parameters:**
 

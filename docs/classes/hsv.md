@@ -51,7 +51,7 @@ HSV colorspace.
 
 ⊕ **new Hsv**(__namedParameters?: *`object`*): [Hsv](hsv.md)
 
-*Defined in [pixel/color/spaces/hsv.ts:36](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L36)*
+*Defined in [pixel/color/spaces/hsv.ts:35](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L35)*
 
 **Parameters:**
 
@@ -71,7 +71,7 @@ ___
 
 **● h**: *`number`*
 
-*Defined in [pixel/color/spaces/hsv.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L30)*
+*Defined in [pixel/color/spaces/hsv.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L29)*
 
 ___
 <a id="s"></a>
@@ -80,7 +80,7 @@ ___
 
 **● s**: *`number`*
 
-*Defined in [pixel/color/spaces/hsv.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L31)*
+*Defined in [pixel/color/spaces/hsv.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L30)*
 
 ___
 <a id="v"></a>
@@ -89,7 +89,7 @@ ___
 
 **● v**: *`number`*
 
-*Defined in [pixel/color/spaces/hsv.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L32)*
+*Defined in [pixel/color/spaces/hsv.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L31)*
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 getkind(): [ColorSpace](../enums/colorspace.md)
 
-*Defined in [pixel/color/spaces/hsv.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L34)*
+*Defined in [pixel/color/spaces/hsv.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L33)*
 
 **Returns:** [ColorSpace](../enums/colorspace.md)
 
@@ -117,7 +117,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[clamp](../interfaces/icolor.md#clamp)*
 
-*Defined in [pixel/color/spaces/hsv.ts:91](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L91)*
+*Defined in [pixel/color/spaces/hsv.ts:90](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L90)*
 
 **Returns:** [Hsv](hsv.md)
 
@@ -130,7 +130,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toCmyk](../interfaces/icolor.md#tocmyk)*
 
-*Defined in [pixel/color/spaces/hsv.ts:83](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L83)*
+*Defined in [pixel/color/spaces/hsv.ts:82](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L82)*
 
 **Returns:** [Cmyk](cmyk.md)
 
@@ -143,7 +143,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toHex](../interfaces/icolor.md#tohex)*
 
-*Defined in [pixel/color/spaces/hsv.ts:87](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L87)*
+*Defined in [pixel/color/spaces/hsv.ts:86](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L86)*
 
 **Returns:** [Hex](hex.md)
 
@@ -156,7 +156,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toHsv](../interfaces/icolor.md#tohsv)*
 
-*Defined in [pixel/color/spaces/hsv.ts:79](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L79)*
+*Defined in [pixel/color/spaces/hsv.ts:78](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L78)*
 
 **Returns:** [Hsv](hsv.md)
 
@@ -169,7 +169,7 @@ ___
 
 *Implementation of [IColor](../interfaces/icolor.md).[toRgb](../interfaces/icolor.md#torgb)*
 
-*Defined in [pixel/color/spaces/hsv.ts:44](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L44)*
+*Defined in [pixel/color/spaces/hsv.ts:43](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L43)*
 
 **Returns:** [Rgb](rgb.md)
 

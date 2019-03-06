@@ -67,7 +67,7 @@ Defines the imgstry editor schema.
 
 *Inherited from ImgstryProcessor.height*
 
-*Defined in [core/imgstry.processor.ts:35](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L35)*
+*Defined in [core/imgstry.processor.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L34)*
 
 Height of the image.
 *__type__*: {number}
@@ -83,7 +83,7 @@ ___
 
 *Inherited from ImgstryProcessor.width*
 
-*Defined in [core/imgstry.processor.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L28)*
+*Defined in [core/imgstry.processor.ts:27](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L27)*
 
 Width of the image.
 *__type__*: {number}
@@ -102,7 +102,7 @@ gethistogram(): `HistogramData`
 
 *Inherited from ImgstryProcessor.histogram*
 
-*Defined in [core/imgstry.processor.ts:105](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L105)*
+*Defined in [core/imgstry.processor.ts:104](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L104)*
 
 Returns the channel histogram of the image.
 *__readonly__*: 
@@ -122,7 +122,7 @@ getimageData(): `ImageData`setimageData(imgData: *`ImageData`*): `any`
 
 *Inherited from ImgstryProcessor.imageData*
 
-*Defined in [core/imgstry.processor.ts:88](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L88)*
+*Defined in [core/imgstry.processor.ts:87](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L87)*
 
 Gets the image data.
 *__abstract__*: 
@@ -135,7 +135,7 @@ Gets the image data.
 
 *Inherited from ImgstryProcessor.imageData*
 
-*Defined in [core/imgstry.processor.ts:96](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L96)*
+*Defined in [core/imgstry.processor.ts:95](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L95)*
 
 Sets the image data.
 *__abstract__*: 
@@ -162,7 +162,7 @@ ___
 
 *Inherited from ImgstryProcessor.batch*
 
-*Defined in [core/imgstry.processor.ts:136](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L136)*
+*Defined in [core/imgstry.processor.ts:135](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L135)*
 
 Applies a series of filters to the image.
 *__memberof__*: ImgstryProcessor
@@ -243,7 +243,7 @@ ___
 
 *Inherited from ImgstryProcessor.clone*
 
-*Defined in [core/imgstry.processor.ts:71](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L71)*
+*Defined in [core/imgstry.processor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L70)*
 
 Clone image data
 *__abstract__*: 
@@ -310,7 +310,7 @@ ___
 
 *Inherited from ImgstryProcessor.createImageData*
 
-*Defined in [core/imgstry.processor.ts:80](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L80)*
+*Defined in [core/imgstry.processor.ts:79](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L79)*
 
 Create image data based on a source
 *__abstract__*: 
@@ -464,7 +464,7 @@ ___
 
 *Inherited from ImgstryProcessor.reset*
 
-*Defined in [core/imgstry.processor.ts:62](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L62)*
+*Defined in [core/imgstry.processor.ts:61](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L61)*
 
 Resets the image to the original state.
 *__abstract__*: 
@@ -546,7 +546,7 @@ ___
 
 *Inherited from ImgstryProcessor.toDataUrl*
 
-*Defined in [core/imgstry.processor.ts:52](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L52)*
+*Defined in [core/imgstry.processor.ts:51](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L51)*
 
 Encodes the canvas data to a data URI.
 *__memberof__*: Imgstry
