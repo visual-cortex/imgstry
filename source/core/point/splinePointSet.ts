@@ -20,20 +20,6 @@ export class SplinePointSet implements Iterable<Point> {
     return this._points[0];
   }
 
-  public set xBoundary({ min, max }: IBoundary) {
-    this._boundary.x.min = min ||
-      this._boundary.x.min;
-    this._boundary.x.max = max ||
-      this._boundary.x.max;
-  }
-
-  public set yBoundary({ min, max }: IBoundary) {
-    this._boundary.y.min = min ||
-      this._boundary.y.min;
-    this._boundary.y.max = max ||
-      this._boundary.y.max;
-  }
-
   public get length() {
     return this._points.length;
   }
