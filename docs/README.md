@@ -2,8 +2,8 @@
 Imgstry
 =======
 
+[![npm version](https://badge.fury.io/js/imgstry.svg)](https://badge.fury.io/js/imgstry)
 [![Build Status](https://travis-ci.org/visual-cortex/imgstry.svg?branch=master)](https://travis-ci.org/visual-cortex/imgstry)
-
 [![codecov](https://codecov.io/gh/visual-cortex/imgstry/branch/master/graph/badge.svg)](https://codecov.io/gh/visual-cortex/imgstry)
 
 Development Notes
