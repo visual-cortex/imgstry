@@ -331,5 +331,41 @@ describe('class: Imgstry (node)', () => {
           .approximately(0, .5);
       });
     });
+
+    context('reset', () => {
+      it('should set original image state', async () => {
+        const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+        processor.drawImage(image);
+
+        const original = processor.clone(processor.imageData);
+
+        processor
+          .contrast(100)
+          .renderSync()
+          .reset();
+
+        expect(processor.imageData.width).to.equal(original.width);
+        expect(processor.imageData.height).to.equal(original.height);
+
+        processor.imageData.data.forEach((value, idx) => {
+          expect(value).to.equal(original.data[idx]);
+        });
+      });
+    });
+
+    context('base64 conversion', () => {
+      it('should serialize canvas data png data uri', async () => {
+        const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+        processor.drawImage(image);
+
+        const dataUri = processor.toDataUrl();
+
+        const dataUriRegex = /^(data:)([\w\/\+]+);(charset=[\w-]+|base64).*,(.*)/gi;
+
+        expect(dataUri).to.match(dataUriRegex);
+      });
+    });
   });
 });

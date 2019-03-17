@@ -71,7 +71,8 @@ export class Imgstry extends ImgstryEditor {
 
   public clone(source: ImageData): ImageData {
     return createImageData(
-      new Uint16Array(source.data),
+      // typings are screwed 🤦‍
+      new Uint8ClampedArray(source.data) as unknown as Uint16Array,
       source.width,
       source.height,
     );
