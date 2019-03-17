@@ -1,15 +1,14 @@
+import { expect } from 'chai';
+import { COLOR_MAP } from 'test/color';
 import {
   EdgeDetection,
   GaussianBlur,
 } from '~kernel';
 import {
   Hex,
-  Rgb
+  Rgb,
 } from '~pixel';
-
-import { COLOR_MAP } from 'test/color';
 import { Imgstry } from '~platform/node';
-import { expect } from 'chai';
 
 const IMAGE_SOURCE = './test/resources/rnm.jpg';
 

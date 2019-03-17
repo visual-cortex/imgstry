@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import {
   Cmyk,
   ColorSpace,
@@ -6,8 +7,6 @@ import {
   Pixel,
   Rgb,
 } from '~pixel';
-
-import { expect } from 'chai';
 
 describe('Pixel', () => {
   context('color space code', () => {

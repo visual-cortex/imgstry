@@ -1,5 +1,5 @@
-import { ImgstrySpline } from '~platform/node';
 import { expect } from 'chai';
+import { ImgstrySpline } from '~platform/node';
 
 describe('Spline Node Processor', () => {
   let spline: ImgstrySpline;

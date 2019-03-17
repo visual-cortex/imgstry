@@ -2,7 +2,6 @@ import {
   BrowserSyncInstance,
   create,
 } from 'browser-sync';
-
 import { runner } from 'mocha-headless-chrome';
 
 const browserSync = create();

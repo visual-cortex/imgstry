@@ -1,6 +1,6 @@
+import { expect } from 'chai';
 import { COLOR_MAP } from 'test/color';
 import { Hex } from '~pixel';
-import { expect } from 'chai';
 
 describe('HEX color', () => {
   it('Should have black initially', () => {

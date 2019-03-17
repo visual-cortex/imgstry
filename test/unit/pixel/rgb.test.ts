@@ -1,7 +1,7 @@
-import { COLOR_MAP } from 'test/color';
-import { Rgb } from '~pixel';
 import { expect } from 'chai';
+import { COLOR_MAP } from 'test/color';
 import { hexToRgb } from 'test/utils';
+import { Rgb } from '~pixel';
 
 describe('RGB color', () => {
   it('Should have all channels 0 initially', () => {
