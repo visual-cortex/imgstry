@@ -1,19 +1,18 @@
+import { expect } from 'chai';
+import { COLOR_MAP } from 'test/color';
 import {
   EdgeDetection,
   GaussianBlur,
 } from '~kernel';
 import {
   Hex,
-  Rgb
+  Rgb,
 } from '~pixel';
-
-import { COLOR_MAP } from 'test/color';
 import { Imgstry } from '~platform/node';
-import { expect } from 'chai';
 
 const IMAGE_SOURCE = './test/resources/rnm.jpg';
 
-describe('Imgstry Node Canvas', () => {
+describe('class: Imgstry (node)', () => {
   const size = 100;
   let processor: Imgstry;
 
@@ -330,6 +329,42 @@ describe('Imgstry Node Canvas', () => {
         }
         expect(channelSum / pixelData.length)
           .approximately(0, .5);
+      });
+    });
+
+    context('reset', () => {
+      it('should set original image state', async () => {
+        const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+        processor.drawImage(image);
+
+        const original = processor.clone(processor.imageData);
+
+        processor
+          .contrast(100)
+          .renderSync()
+          .reset();
+
+        expect(processor.imageData.width).to.equal(original.width);
+        expect(processor.imageData.height).to.equal(original.height);
+
+        processor.imageData.data.forEach((value, idx) => {
+          expect(value).to.equal(original.data[idx]);
+        });
+      });
+    });
+
+    context('base64 conversion', () => {
+      it('should serialize canvas data png data uri', async () => {
+        const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+        processor.drawImage(image);
+
+        const dataUri = processor.toDataUrl();
+
+        const dataUriRegex = /^(data:)([\w\/\+]+);(charset=[\w-]+|base64).*,(.*)/gi;
+
+        expect(dataUri).to.match(dataUriRegex);
       });
     });
   });

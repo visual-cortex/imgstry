@@ -1,10 +1,10 @@
-import { COLOR_MAP } from 'test/color';
-import { Hsv } from '~pixel';
 import { expect } from 'chai';
+import { COLOR_MAP } from 'test/color';
 import { hexToRgb } from 'test/utils';
+import { Hsv } from '~pixel';
 
-describe('HSV color', () => {
-  it('Should have all channels 0 initially', () => {
+describe('class: Hsv', () => {
+  it('should have all channels 0 initially', () => {
     let color = new Hsv();
     expect(color.h).eql(0);
     expect(color.s).eql(0);
@@ -13,7 +13,7 @@ describe('HSV color', () => {
 
   Object.keys(COLOR_MAP).forEach(key => {
     const colorDefinition = COLOR_MAP[key] as any;
-    it(`Should convert ${key} correctly to RGB`, () => {
+    it(`should convert ${key} correctly to RGB`, () => {
       let rgb = colorDefinition.rgb;
       let hsv = colorDefinition.hsv;
       let color = new Hsv(hsv);
@@ -25,7 +25,7 @@ describe('HSV color', () => {
       expect(result.b).approximately(rgb.b, 2);
     });
 
-    it(`Should convert ${key} correctly to HEX`, () => {
+    it(`should convert ${key} correctly to HEX`, () => {
       let hsv = colorDefinition.hsv;
 
       let result = hexToRgb(new Hsv(hsv).toHex().value);
@@ -36,7 +36,7 @@ describe('HSV color', () => {
       expect(result[2]).approximately(expected[2], 2);
     });
 
-    it(`Should convert ${key} correctly to CMYK`, () => {
+    it(`should convert ${key} correctly to CMYK`, () => {
       let hsv = colorDefinition.hsv;
       let cmyk = colorDefinition.cmyk;
       let color = new Hsv(hsv);
@@ -49,7 +49,7 @@ describe('HSV color', () => {
       expect(result.k).approximately(cmyk.k, .02);
     });
 
-    it(`Should convert ${key} correctly to HSV`, () => {
+    it(`should convert ${key} correctly to HSV`, () => {
       let hsv = new Hsv(colorDefinition.hsv);
       let color = hsv.toHsv();
       expect(color.h).eql(hsv.h);
@@ -59,7 +59,7 @@ describe('HSV color', () => {
   });
 
 
-  it('Should clamp correctly', () => {
+  it('should clamp correctly', () => {
     // interior limits
     let color = new Hsv({
       h: 0,

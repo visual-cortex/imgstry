@@ -4,7 +4,7 @@ import {
   SplinePointSet,
 } from '~core/point';
 
-describe('spline point set', () => {
+describe('class: SplinePointSet', () => {
   it(`should have a static 'NotFound' definition`, () => {
     const notFound = SplinePointSet.NotFound;
 
@@ -33,7 +33,7 @@ describe('spline point set', () => {
     set.forEach(point => expect(point).to.be.an.instanceOf(Point));
   });
 
-  it('should find the closest point', () => {
+  it('should find the closest point index', () => {
     const set = new SplinePointSet([
       { x: 1, y: 1 },
       { x: 2, y: 2 },
@@ -45,12 +45,32 @@ describe('spline point set', () => {
     expect(idx).to.equal(2);
   });
 
+  it('should find the closest point', () => {
+    const set = new SplinePointSet([
+      { x: 1, y: 1 },
+      { x: 2, y: 2 },
+      new Point({ x: 3, y: 3 }),
+    ]);
+
+    const point = set.closest({ x: 2.6, y: 2.6 }, .5, (p) => p);
+
+    expect(point.point).to.deep.include({ x: 3, y: 3 });
+  });
+
   it('should return -1 if the closest point is not found', () => {
     const set = new SplinePointSet([
       { x: 1, y: 1 },
       { x: 2, y: 2 },
       new Point({ x: 3, y: 3 }),
     ]);
+
+    const idx = set.indexOfClosest({ x: 2.6, y: 2.6 }, .001, (point) => point);
+
+    expect(idx).to.equal(-1);
+  });
+
+  it('should return -1 if the set is empty', () => {
+    const set = new SplinePointSet([]);
 
     const idx = set.indexOfClosest({ x: 2.6, y: 2.6 }, .001, (point) => point);
 
@@ -95,5 +115,37 @@ describe('spline point set', () => {
     for (const point of set) {
       expect(point).to.be.an.instanceOf(Point);
     }
+  });
+
+  it('should update point', () => {
+    const set = new SplinePointSet([
+      { x: 1, y: 1 },
+      { x: 2, y: 2 },
+      new Point({ x: 3, y: 3 }),
+    ]);
+
+    const idx = set.indexOfClosest({ x: 2.6, y: 2.6 }, .5, (point) => point);
+
+    const updated = set.update(idx, { x: .3, y: .3 });
+
+    expect(set.first).to.deep.include({ x: .3, y: .3 });
+    expect(updated.point).to.deep.include({ x: .3, y: .3 });
+    expect(set.length).to.equal(3);
+  });
+
+  it('should NOT update point if there is another point on the same X coordinate', () => {
+    const set = new SplinePointSet([
+      { x: 1, y: 1 },
+      { x: 2, y: 2 },
+      new Point({ x: 3, y: 3 }),
+    ]);
+
+    const idx = set.indexOfClosest({ x: 2.6, y: 2.6 }, .5, (point) => point);
+
+    const updated = set.update(idx, { x: 1, y: .3 });
+
+    expect(set.first).to.deep.include({ x: 1, y: 1 });
+    expect(updated.point).to.deep.include({ x: 1, y: 1 });
+    expect(set.length).to.equal(3);
   });
 });

@@ -1,14 +1,13 @@
+import { expect } from 'chai';
+import { COLOR_MAP } from 'test/color';
+import { hexToRgb } from 'test/utils';
+import { Operation } from '~core';
 import {
   Hsv,
   Rgb,
 } from '~pixel';
 
-import { COLOR_MAP } from 'test/color';
-import { Operation } from '~core';
-import { expect } from 'chai';
-import { hexToRgb } from 'test/utils';
-
-describe('Image operations', () => {
+describe('namespace: Operation', () => {
   context('black and white', () => {
     it('should flatten channel', () => {
       const pixel = new Rgb({
@@ -153,6 +152,74 @@ describe('Image operations', () => {
           expect(result.r).equal(r);
           expect(result.g).equal(g);
           expect(result.b).equal(b);
+        });
+      });
+  });
+
+  context('gamma', () => {
+    [0, 10, 13.333, 15, 16.666, 17, 23, 43, 83, 100].forEach(value => {
+      it(`should correctly apply positive value: ${value}`, () => {
+        const pixel = new Rgb({
+          r: 3,
+          g: 67,
+          b: 133,
+        });
+
+        const result = Operation.gamma(value)(pixel);
+
+        const expected = (pixelValue: number) =>
+          Math.pow(pixelValue / 255, 1 - (value / 100)) * 255;
+
+        expect(result.r).to.equal(expected(pixel.r));
+        expect(result.g).to.equal(expected(pixel.g));
+        expect(result.b).to.equal(expected(pixel.b));
+      });
+    });
+
+    [10, 13.333, 15, 16.666, 17, 23, 43, 83, 100].map(value => -value).forEach(value => {
+      it(`should correctly apply negative value: ${value}`, () => {
+        const pixel = new Rgb({
+          r: 3,
+          g: 67,
+          b: 133,
+        });
+
+        const result = Operation.gamma(value)(pixel);
+
+        const expected = (pixelValue: number) =>
+          Math.pow(pixelValue / 255, value / -10) * 255;
+
+        expect(result.r).to.equal(expected(pixel.r));
+        expect(result.g).to.equal(expected(pixel.g));
+        expect(result.b).to.equal(expected(pixel.b));
+      });
+    });
+  });
+
+  context('saturation', () => {
+    const values = [0, 10, 13.333, 15, 16.666, 17, 23, 43, 83, 100];
+    [
+      ...values,
+      ...values.map(value => - value),
+    ]
+      .forEach(value => {
+        it(`should correctly apply value: ${value}`, () => {
+          const pixel = new Rgb({
+            r: 3,
+            g: 67,
+            b: 133,
+          });
+
+          const result = Operation.saturation(value)(pixel);
+
+          const max = Math.max(pixel.r, pixel.g, pixel.b);
+
+          const expected = (pixelValue: number) =>
+            pixelValue + (value * -.01 * (max - pixelValue));
+
+          expect(result.r).to.equal(expected(pixel.r));
+          expect(result.g).to.equal(expected(pixel.g));
+          expect(result.b).to.equal(expected(pixel.b));
         });
       });
   });

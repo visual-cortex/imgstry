@@ -1,10 +1,10 @@
-import { COLOR_MAP } from 'test/color';
-import { Cmyk } from '~pixel';
 import { expect } from 'chai';
+import { COLOR_MAP } from 'test/color';
 import { hexToRgb } from 'test/utils';
+import { Cmyk } from '~pixel';
 
-describe('CMYK color', () => {
-  it('Should have all channels 0 initially', () => {
+describe('class: Cmyk', () => {
+  it('should have all channels 0 initially', () => {
     let color = new Cmyk();
 
     expect(color.c).eql(0);
@@ -16,7 +16,7 @@ describe('CMYK color', () => {
   Object.keys(COLOR_MAP).forEach(key => {
     const colorDefinition = COLOR_MAP[key] as any;
 
-    it(`Should convert ${key} correctly to RGB`, () => {
+    it(`should convert ${key} correctly to RGB`, () => {
       let rgb = colorDefinition.rgb;
       let cmyk = colorDefinition.cmyk;
       let color = new Cmyk(cmyk);
@@ -28,7 +28,7 @@ describe('CMYK color', () => {
       expect(result.b).approximately(rgb.b, 5);
     });
 
-    it(`Should convert ${key} correctly to HEX`, () => {
+    it(`should convert ${key} correctly to HEX`, () => {
       let cmyk = colorDefinition.cmyk;
       let color = new Cmyk(cmyk);
 
@@ -40,7 +40,7 @@ describe('CMYK color', () => {
       expect(result[2]).approximately(expected[2], 5);
     });
 
-    it(`Should convert ${key} correctly to CMYK`, () => {
+    it(`should convert ${key} correctly to CMYK`, () => {
       let cmyk = colorDefinition.cmyk;
       let color = new Cmyk(cmyk);
 
@@ -52,7 +52,7 @@ describe('CMYK color', () => {
       expect(result.k).equals(cmyk.k);
     });
 
-    it(`Should convert ${key} correctly to HSV`, () => {
+    it(`should convert ${key} correctly to HSV`, () => {
       let hsv = colorDefinition.hsv;
       let cmyk = colorDefinition.cmyk;
       let color = new Cmyk(cmyk);
@@ -64,7 +64,7 @@ describe('CMYK color', () => {
     });
   });
 
-  it('Should clamp correctly', () => {
+  it('should clamp correctly', () => {
     let color = new Cmyk({
       c: 0,
       m: 0,

@@ -4,7 +4,7 @@ import { Theme } from '~platform/browser/theme';
 
 const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
-describe('spline theme', () => {
+describe('theme: spline', () => {
   it(`should have a valid 'light' theme defined`, () => {
     const theme = splineTheme(Theme.light);
 
