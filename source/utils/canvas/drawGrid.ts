@@ -28,7 +28,7 @@ export /**
       context.lineTo(x, canvas.height - padding);
     }
 
-    for (let y = padding; y <= (canvas.width - padding); y += stepY) {
+    for (let y = padding; y <= (canvas.height - padding); y += stepY) {
       context.moveTo(padding, y);
       context.lineTo(canvas.width - padding, y);
     }
