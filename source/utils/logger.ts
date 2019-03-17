@@ -23,8 +23,6 @@ export class Logger {
   }
 
   public error(message: any, ...list: any[]): void {
-    if (this._isDebug) {
-      console.error(message, ...list);
-    }
+    console.error(message, ...list);
   }
 }
