@@ -7,7 +7,7 @@ import {
   Rgb,
 } from '~pixel';
 
-describe('Image operations', () => {
+describe('namespace: Operation', () => {
   context('black and white', () => {
     it('should flatten channel', () => {
       const pixel = new Rgb({

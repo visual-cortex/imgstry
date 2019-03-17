@@ -4,7 +4,7 @@ import {
   SplinePointSet,
 } from '~core/point';
 
-describe('spline point set', () => {
+describe('class: SplinePointSet', () => {
   it(`should have a static 'NotFound' definition`, () => {
     const notFound = SplinePointSet.NotFound;
 

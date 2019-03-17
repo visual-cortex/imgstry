@@ -12,7 +12,7 @@ import { Imgstry } from '~platform/node';
 
 const IMAGE_SOURCE = './test/resources/rnm.jpg';
 
-describe('Imgstry Node Canvas', () => {
+describe('class: Imgstry (node)', () => {
   const size = 100;
   let processor: Imgstry;
 

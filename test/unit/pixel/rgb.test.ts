@@ -3,8 +3,8 @@ import { COLOR_MAP } from 'test/color';
 import { hexToRgb } from 'test/utils';
 import { Rgb } from '~pixel';
 
-describe('RGB color', () => {
-  it('Should have all channels 0 initially', () => {
+describe('class: Rgb', () => {
+  it('should have all channels 0 initially', () => {
     let color = new Rgb();
     expect(color.r).eql(0);
     expect(color.g).eql(0);
@@ -13,7 +13,7 @@ describe('RGB color', () => {
 
   Object.keys(COLOR_MAP).forEach(key => {
     const colorDefinition = COLOR_MAP[key] as any;
-    it(`Should convert ${key} correctly to HSV`, () => {
+    it(`should convert ${key} correctly to HSV`, () => {
       let rgb = colorDefinition.rgb;
       let hsv = colorDefinition.hsv;
 
@@ -26,7 +26,7 @@ describe('RGB color', () => {
       expect(result.v).approximately(hsv.v, .1);
     });
 
-    it(`Should convert ${key} correctly to HEX`, () => {
+    it(`should convert ${key} correctly to HEX`, () => {
       let rgb = colorDefinition.rgb;
 
       let result = hexToRgb(new Rgb(rgb).toHex().value);
@@ -37,7 +37,7 @@ describe('RGB color', () => {
       expect(result[2]).approximately(expected[2], .1);
     });
 
-    it(`Should convert ${key} correctly to CMYK`, () => {
+    it(`should convert ${key} correctly to CMYK`, () => {
       let rgb = colorDefinition.rgb;
       let cmyk = colorDefinition.cmyk;
       let color = new Rgb(rgb);
@@ -50,7 +50,7 @@ describe('RGB color', () => {
       expect(result.k).approximately(cmyk.k, .01);
     });
 
-    it(`Should convert ${key} correctly to RGB`, () => {
+    it(`should convert ${key} correctly to RGB`, () => {
       let rgb = new Rgb(colorDefinition.rgb);
       let color = rgb.toRgb();
       expect(color.r).eql(rgb.r);
@@ -59,7 +59,7 @@ describe('RGB color', () => {
     });
   });
 
-  it('Should clamp correctly', () => {
+  it('should clamp correctly', () => {
     // interior limits
     let color = new Rgb({
       r: 0,

@@ -8,7 +8,7 @@ import {
   Rgb,
 } from '~pixel';
 
-describe('Pixel', () => {
+describe('class: Pixel', () => {
   context('color space code', () => {
     it('should return for Rgb', () => {
       const pixel = new Pixel(0, 0, new Rgb());

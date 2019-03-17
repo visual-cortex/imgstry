@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { Point } from '~core/point';
 import { fillWith } from '~utils/array';
 
-describe('Point class', () => {
+describe('class: Point', () => {
   it('should construct correctly', () => {
     const point = new Point();
 

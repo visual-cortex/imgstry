@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { COLOR_MAP } from 'test/color';
 import { Hex } from '~pixel';
 
-describe('HEX color', () => {
-  it('Should have black initially', () => {
+describe('class: Hex', () => {
+  it('should have black initially', () => {
     let color = new Hex();
 
     expect(color.value).eql('#000000');
@@ -12,7 +12,7 @@ describe('HEX color', () => {
   Object.keys(COLOR_MAP).forEach(key => {
     const colorDefinition = COLOR_MAP[key] as any;
 
-    it(`Should convert ${key} correctly to RGB`, () => {
+    it(`should convert ${key} correctly to RGB`, () => {
       let rgb = colorDefinition.rgb;
       let hex = colorDefinition.hex;
       let color = new Hex(hex);
@@ -24,7 +24,7 @@ describe('HEX color', () => {
       expect(result.b).approximately(rgb.b, 1);
     });
 
-    it(`Should convert ${key} correctly to HEX`, () => {
+    it(`should convert ${key} correctly to HEX`, () => {
       let hex = colorDefinition.hex;
       let color = new Hex(hex);
 
@@ -33,7 +33,7 @@ describe('HEX color', () => {
       expect(result.value).eql(hex);
     });
 
-    it(`Should convert ${key} correctly to CMYK`, () => {
+    it(`should convert ${key} correctly to CMYK`, () => {
       let hex = colorDefinition.hex;
       let cmyk = colorDefinition.cmyk;
       let color = new Hex(hex);
@@ -46,7 +46,7 @@ describe('HEX color', () => {
       expect(result.k).approximately(cmyk.k, .01);
     });
 
-    it(`Should convert ${key} correctly to HSV`, () => {
+    it(`should convert ${key} correctly to HSV`, () => {
       let hex = new Hex(colorDefinition.hex);
       let hsv = colorDefinition.hsv;
       let color = hex.toHsv();
@@ -57,7 +57,7 @@ describe('HEX color', () => {
     });
   });
 
-  it('Should clamp correctly', () => {
+  it('should clamp correctly', () => {
     let color = new Hex('#012345');
     expect(color.clamp().value).eql('#012345');
 

@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { ImgstrySpline } from '~platform/node';
 
-describe('Spline Node Processor', () => {
+describe('class: ImgstrySpline (node)', () => {
   let spline: ImgstrySpline;
 
   beforeEach(() => {
     spline = new ImgstrySpline();
   });
 
-  describe('ctor', () => {
+  context('ctor', () => {
     it('should have 2 points predefined', () => {
       expect(spline['_points'].length).equal(2);
     });
@@ -34,17 +34,17 @@ describe('Spline Node Processor', () => {
       });
     });
 
-    describe('interpolation', () => {
-      it('should interpolate correct values for x in range 0...1', () => {
-        for (let x = 0; x <= 1.001; x += .001) {
-          const y = spline.interpolateOne(x);
-          expect(x).approximately(y, 1e-9, `for x: ${x}`);
-        }
-      });
+  });
+  context('interpolation', () => {
+    it('should interpolate correct values for x in range 0...1', () => {
+      for (let x = 0; x <= 1.001; x += .001) {
+        const y = spline.interpolateOne(x);
+        expect(x).approximately(y, 1e-9, `for x: ${x}`);
+      }
     });
   });
 
-  describe('remove', () => {
+  context('remove', () => {
     it('should remove all point (0, 0) and (1, 0)', () => {
       spline.remove({ x: 0, y: 0 });
       spline.remove({ x: 1, y: 1 });
@@ -71,8 +71,8 @@ describe('Spline Node Processor', () => {
     });
   });
 
-  describe('interpolation', () => {
-    describe('result for points (0, 1) and (1, 0)', () => {
+  context('interpolation', () => {
+    context('result for points (0, 1) and (1, 0)', () => {
       it('should interpolate correct values for x in range 0...1', () => {
         spline.remove({ x: 0, y: 0 });
         spline.remove({ x: 1, y: 1 });
@@ -91,7 +91,7 @@ describe('Spline Node Processor', () => {
       });
     });
 
-    describe('result for points (0, 0), (.5, 1) and (1, 1)', () => {
+    context('result for points (0, 0), (.5, 1) and (1, 1)', () => {
       it('should interpolate correct values for x in range 0...1', () => {
         spline.add({ x: .5, y: 1 });
 
@@ -122,7 +122,7 @@ describe('Spline Node Processor', () => {
       });
     });
 
-    describe('result for points (1, 0), (.5, 1) and (0, 1)', () => {
+    context('result for points (1, 0), (.5, 1) and (0, 1)', () => {
       it('should interpolate correct values for x in range 0...1', () => {
         spline.remove({ x: 0, y: 0 });
         spline.remove({ x: 1, y: 1 });
