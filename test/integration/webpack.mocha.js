@@ -20,6 +20,15 @@ module.exports = {
   devtool: 'source-map',
   module: {
     rules: [
+      {
+        test: /\.(js|ts)/,
+        include: path.resolve('source'),
+        loader: 'istanbul-instrumenter-loader',
+        query: {
+          esModules: true
+        },
+        exclude: /node_modules|\.test\.ts$/,
+      },
       TSLoader,
       WorkerLoader,
     ]

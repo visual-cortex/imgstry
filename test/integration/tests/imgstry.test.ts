@@ -25,10 +25,10 @@ const RenderMethod = {
 
 const IMAGE_SOURCE = 'resources/rnm.jpg';
 
-const render = async (processor: ImgstryEditor, method: RenderMethod) => {
+const render = async (processor: ImgstryEditor, method: RenderMethod): Promise<ImgstryEditor> => {
   switch (method) {
     case 'sync':
-      return processor.renderSync();
+      return new Promise((res) => { processor.renderSync(); res(processor); });
     case 'async':
       return await processor.render();
   }
@@ -61,6 +61,7 @@ renderers.forEach((method: RenderMethod) => {
 
       beforeEach(function () {
         test = this.currentTest;
+        test.timeout(5000);
         board = Imgstry.getCanvas(anchor);
         processor = new Imgstry(board, {
           thread: {
@@ -387,8 +388,6 @@ renderers.forEach((method: RenderMethod) => {
 
         context('render', () => {
           it('should render multiple without locking the image buffer', async () => {
-            test.timeout(5000);
-
             const image = await Imgstry.loadImage(IMAGE_SOURCE);
 
             processor.context.drawImage(image, 0, 0);
