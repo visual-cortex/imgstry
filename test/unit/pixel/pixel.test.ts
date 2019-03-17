@@ -10,6 +10,28 @@ import {
 
 describe('class: Pixel', () => {
   context('color space code', () => {
+    it('should return correct coordinate values', () => {
+      const pixel = new Pixel(10, 5, new Rgb());
+      expect(pixel.x).to.equal(10);
+      expect(pixel.y).to.equal(5);
+    });
+
+    it('should return persist a coordinate value update', () => {
+      const pixel = new Pixel(10, 5, new Rgb());
+
+      pixel.x = 100;
+      pixel.y = 50;
+
+      expect(pixel.x).to.equal(100);
+      expect(pixel.y).to.equal(50);
+    });
+
+    it('should return correct color space for empty pixel', () => {
+      const pixel = new Pixel(0, 0, null);
+
+      expect(pixel.colorSpace).eql(ColorSpace.Empty);
+    });
+
     it('should return for Rgb', () => {
       const pixel = new Pixel(0, 0, new Rgb());
       expect(pixel.colorSpace).eql(ColorSpace.Rgb);
