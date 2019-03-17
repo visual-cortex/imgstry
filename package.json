@@ -99,7 +99,7 @@
     "worker-loader": "2.0.0"
   },
   "dependencies": {
-    "canvas": "2.2.0",
-    "rxjs": "6.3.3"
+    "canvas": "2.4.0",
+    "rxjs": "6.4.0"
   }
 }
