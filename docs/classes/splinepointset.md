@@ -61,7 +61,7 @@ ___
 
 ###  first
 
-getfirst(): [Point](point.md)
+**get first**(): [Point](point.md)
 
 *Defined in [core/point/splinePointSet.ts:19](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L19)*
 
@@ -72,7 +72,7 @@ ___
 
 ###  length
 
-getlength(): `number`
+**get length**(): `number`
 
 *Defined in [core/point/splinePointSet.ts:23](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L23)*
 
@@ -83,7 +83,7 @@ ___
 
 ### `<Static>` NotFound
 
-getNotFound(): [IPointResult](../interfaces/ipointresult.md)
+**get NotFound**(): [IPointResult](../interfaces/ipointresult.md)
 
 *Defined in [core/point/splinePointSet.ts:17](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L17)*
 

@@ -3,6 +3,7 @@
 # Class: Hex
 
 HEX colorspace.
+
 *__export__*: 
 
 *__class__*: Hex
@@ -79,7 +80,7 @@ ___
 
 ###  kind
 
-getkind(): [ColorSpace](../enums/colorspace.md)
+**get kind**(): [ColorSpace](../enums/colorspace.md)
 
 *Defined in [pixel/color/spaces/hex.ts:19](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hex.ts#L19)*
 

@@ -2,9 +2,7 @@
 Imgstry
 =======
 
-[![npm version](https://badge.fury.io/js/imgstry.svg)](https://badge.fury.io/js/imgstry)
-[![Build Status](https://travis-ci.org/visual-cortex/imgstry.svg?branch=master)](https://travis-ci.org/visual-cortex/imgstry)
-[![codecov](https://codecov.io/gh/visual-cortex/imgstry/branch/master/graph/badge.svg)](https://codecov.io/gh/visual-cortex/imgstry)
+[![npm version](https://badge.fury.io/js/imgstry.svg)](https://badge.fury.io/js/imgstry) [![Build Status](https://travis-ci.org/visual-cortex/imgstry.svg?branch=master)](https://travis-ci.org/visual-cortex/imgstry) [![codecov](https://codecov.io/gh/visual-cortex/imgstry/branch/master/graph/badge.svg)](https://codecov.io/gh/visual-cortex/imgstry)
 
 Development Notes
 -----------------
@@ -202,7 +200,8 @@ ___
 *Defined in [utils/array/fillWith.ts:12](https://github.com/visual-cortex/imgstry/blob/master/source/utils/array/fillWith.ts#L12)*
 
 Creates an array and fills it with the specified value
-*__export__*:
+
+*__export__*: 
 
 **Parameters:**
 
@@ -224,13 +223,14 @@ ___
 *Defined in [utils/array/findLastIndex.ts:10](https://github.com/visual-cortex/imgstry/blob/master/source/utils/array/findLastIndex.ts#L10)*
 
 Retrieves the last index that resolves the predicate
-*__export__*:
+
+*__export__*: 
 
 *__template__*: T
 
 **Type parameters:**
 
-#### T
+#### T 
 **Parameters:**
 
 | Name | Type | Description |

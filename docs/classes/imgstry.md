@@ -3,6 +3,7 @@
 # Class: Imgstry
 
 (Exposes image processing methods for html canvas) Processor implementation for the web worker (Exposes image processing methods for html canvas)
+
 *__export__*: 
 
 *__class__*: Imgstry
@@ -92,6 +93,7 @@
 *Defined in [platform/browser/imgstry/imgstry.browser.ts:68](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L68)*
 
 Creates an instance of Imgstry.
+
 *__constructor__*: 
 
 **Parameters:**
@@ -145,7 +147,7 @@ ___
 
 ###  height
 
-getheight(): `number`
+**get height**(): `number`
 
 *Defined in [platform/node/imgstry/imgstry.node.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L32)*
 
@@ -156,7 +158,7 @@ ___
 
 ###  histogram
 
-gethistogram(): `HistogramData`
+**get histogram**(): `HistogramData`
 
 *Inherited from ImgstryProcessor.histogram*
 
@@ -165,6 +167,7 @@ gethistogram(): `HistogramData`
 *Defined in [core/imgstry.processor.ts:104](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L104)*
 
 Returns the channel histogram of the image.
+
 *__readonly__*: 
 
 *__type__*: {HistogramData}
@@ -178,13 +181,15 @@ ___
 
 ###  imageData
 
-getimageData(): `ImageData`setimageData(image: *`ImageData`*): `void`
+**get imageData**(): `ImageData`
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:84](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L84)*
+**set imageData**(image: *`ImageData`*): `void`
+
+*Defined in [platform/node/imgstry/imgstry.node.ts:85](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L85)*
 
 **Returns:** `ImageData`
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:88](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L88)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:89](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L89)*
 
 **Parameters:**
 
@@ -199,7 +204,7 @@ ___
 
 ###  width
 
-getwidth(): `number`
+**get width**(): `number`
 
 *Defined in [platform/node/imgstry/imgstry.node.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L28)*
 
@@ -222,6 +227,7 @@ ___
 *Defined in [core/imgstry.processor.ts:135](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L135)*
 
 Applies a series of filters to the image.
+
 *__memberof__*: ImgstryProcessor
 
 **Parameters:**
@@ -248,6 +254,7 @@ ___
 *Defined in [core/imgstry.editor.ts:22](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L22)*
 
 Turn the image black and white with the provided ratio.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -273,6 +280,7 @@ ___
 *Defined in [core/imgstry.editor.ts:54](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L54)*
 
 Increase / decrease image brightness.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -298,6 +306,7 @@ ___
 *Defined in [core/imgstry.editor.ts:228](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L228)*
 
 Clears the operation list.
+
 *__memberof__*: ImgstryEditor
 
 **Returns:** `this`
@@ -336,6 +345,7 @@ ___
 *Defined in [core/imgstry.editor.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L38)*
 
 Increase / decrease image constrast.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -361,6 +371,7 @@ ___
 *Defined in [core/imgstry.editor.ts:213](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L213)*
 
 Apply a kernel to the active image
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -403,6 +414,7 @@ ___
 *Defined in [platform/browser/imgstry/imgstry.browser.ts:155](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L155)*
 
 Destroys the thread and clears the canvas of data.
+
 *__memberof__*: Imgstry
 
 **Returns:** `void`
@@ -417,6 +429,7 @@ ___
 *Defined in [platform/browser/imgstry/imgstry.browser.ts:96](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L96)*
 
 Draws an image on the canvas.
+
 *__memberof__*: Imgstry
 
 **Parameters:**
@@ -441,6 +454,7 @@ ___
 *Defined in [core/imgstry.editor.ts:197](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L197)*
 
 Fill the canvas with a color.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -466,6 +480,7 @@ ___
 *Defined in [core/imgstry.editor.ts:118](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L118)*
 
 Increase / decrease image gamma.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -491,6 +506,7 @@ ___
 *Defined in [core/imgstry.editor.ts:86](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L86)*
 
 Shift the image hue.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -516,6 +532,7 @@ ___
 *Defined in [core/imgstry.editor.ts:165](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L165)*
 
 Invert the image colors.
+
 *__memberof__*: ImgstryEditor
 
 **Returns:** [ImgstryEditor](imgstryeditor.md)
@@ -535,6 +552,7 @@ ___
 *Defined in [core/imgstry.editor.ts:134](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L134)*
 
 Add a provided amount of noise to the image.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -573,6 +591,7 @@ ___
 *Defined in [core/imgstry.editor.ts:239](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L239)*
 
 Apply the requested operations to the image.
+
 *__memberof__*: ImgstryEditor
 
 **Returns:** [ImgstryEditor](imgstryeditor.md)
@@ -605,6 +624,7 @@ ___
 *Defined in [core/imgstry.editor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L70)*
 
 Increase / decrease image saturation.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -630,6 +650,7 @@ ___
 *Defined in [core/imgstry.editor.ts:102](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L102)*
 
 Apply sepia with the specified intensity.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -655,6 +676,7 @@ ___
 *Defined in [core/imgstry.editor.ts:181](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L181)*
 
 Apply a color tint to the image.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**
@@ -678,6 +700,7 @@ ___
 *Defined in [platform/browser/imgstry/imgstry.browser.ts:109](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L109)*
 
 Returns the content of the current canvas as an image that you can use as a source for another canvas or an HTML element.
+
 *__memberof__*: Imgstry
 
 **Parameters:**
@@ -703,6 +726,7 @@ ___
 *Defined in [core/imgstry.editor.ts:150](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L150)*
 
 Increase / decrease image vibrance.
+
 *__memberof__*: ImgstryEditor
 
 **Parameters:**

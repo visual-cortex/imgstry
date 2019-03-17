@@ -3,6 +3,7 @@
 # Class: Rgb
 
 Rgb colorspace.
+
 *__export__*: 
 
 *__class__*: Rgb
@@ -100,7 +101,7 @@ ___
 
 ###  kind
 
-getkind(): [ColorSpace](../enums/colorspace.md)
+**get kind**(): [ColorSpace](../enums/colorspace.md)
 
 *Defined in [pixel/color/spaces/rgb.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L33)*
 

@@ -3,6 +3,7 @@
 # Class: Hsv
 
 HSV colorspace.
+
 *__export__*: 
 
 *__class__*: Hsv
@@ -99,7 +100,7 @@ ___
 
 ###  kind
 
-getkind(): [ColorSpace](../enums/colorspace.md)
+**get kind**(): [ColorSpace](../enums/colorspace.md)
 
 *Defined in [pixel/color/spaces/hsv.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/hsv.ts#L33)*
 
