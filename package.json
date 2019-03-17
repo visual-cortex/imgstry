@@ -24,6 +24,7 @@
     "clean:dist": "rimraf ./dist",
     "clean:docs": "rimraf ./docs",
     "test": "npm run test:unit && npm run test:integration",
+    "posttest": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "test:integration": "npm run build:test && ts-node --project ./tsconfig.json ./test/integration",
     "test:unit": "nyc mocha --opts ./test/unit/mocha.opts && nyc report --reporter=html",
     "lint": "tslint -p tsconfig.json"
@@ -72,6 +73,7 @@
     "awesome-typescript-loader": "5.2.1",
     "browser-sync": "2.26.3",
     "chai": "4.2.0",
+    "codecov": "^3.2.0",
     "concurrently": "4.1.0",
     "dts-bundle": "^0.7.3",
     "jsdom": "^13.2.0",
