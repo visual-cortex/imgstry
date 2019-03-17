@@ -3,6 +3,7 @@
 # Interface: IColor
 
 Color interface, describes a colorspace.
+
 *__export__*: 
 
 *__interface__*: IColor
@@ -45,6 +46,7 @@ Color interface, describes a colorspace.
 *Defined in [pixel/color/color.ts:22](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/color.ts#L22)*
 
 Returns the colorspace value associated to this color.
+
 *__type__*: {ColorSpace}
 
 *__memberof__*: IColor
@@ -62,6 +64,7 @@ ___
 *Defined in [pixel/color/color.ts:58](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/color.ts#L58)*
 
 Clamps the color values to prevent bleeding.
+
 *__memberof__*: IColor
 
 **Returns:** [IColor](icolor.md)
@@ -76,6 +79,7 @@ ___
 *Defined in [pixel/color/color.ts:44](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/color.ts#L44)*
 
 Converts the color to CMYK.
+
 *__memberof__*: IColor
 
 **Returns:** [IColor](icolor.md)
@@ -90,6 +94,7 @@ ___
 *Defined in [pixel/color/color.ts:51](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/color.ts#L51)*
 
 Converts the color to HEX.
+
 *__memberof__*: IColor
 
 **Returns:** [IColor](icolor.md)
@@ -104,6 +109,7 @@ ___
 *Defined in [pixel/color/color.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/color.ts#L30)*
 
 Converts the color to HSV.
+
 *__memberof__*: IColor
 
 **Returns:** [IColor](icolor.md)
@@ -118,6 +124,7 @@ ___
 *Defined in [pixel/color/color.ts:37](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/color.ts#L37)*
 
 Converts the color to RGB.
+
 *__memberof__*: IColor
 
 **Returns:** [IColor](icolor.md)

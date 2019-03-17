@@ -20,15 +20,15 @@ export /**
 
     const totalPadd = padding * 2;
 
-    const stepX = (canvas.width - totalPadd) / gridSize;
-    const stepY = (canvas.height - totalPadd) / gridSize;
+    const stepX = Math.round((canvas.width - totalPadd) / gridSize);
+    const stepY = Math.round((canvas.height - totalPadd) / gridSize);
 
     for (let x = padding; x <= (canvas.width - padding); x += stepX) {
       context.moveTo(x, padding);
       context.lineTo(x, canvas.height - padding);
     }
 
-    for (let y = padding; y <= (canvas.width - padding); y += stepY) {
+    for (let y = padding; y <= (canvas.height - padding); y += stepY) {
       context.moveTo(padding, y);
       context.lineTo(canvas.width - padding, y);
     }

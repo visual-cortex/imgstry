@@ -43,8 +43,28 @@ if (isServer) {
   renderers.push('async');
 }
 
-renderers.forEach((method: RenderMethod) => {
-  describe('class: Imgstry (browser)', () => {
+describe('class: Imgstry (browser)', () => {
+  let processor: Imgstry;
+  let anchor = '#board';
+  let board: HTMLCanvasElement;
+  let test: Mocha.Test;
+
+  beforeEach(function () {
+    test = this.currentTest;
+    test.timeout(10000);
+    board = Imgstry.getCanvas(anchor);
+    processor = new Imgstry(board, {
+      thread: {
+        isDebugEnabled: true,
+      },
+    });
+  });
+
+  afterEach(function () {
+    takeScreenshot(this.currentTest);
+  });
+
+  renderers.forEach((method: RenderMethod) => {
     if (!isServer) {
       context('renderer async', () => {
         it(`use run npm watch to test the async methods`, () => {
@@ -54,26 +74,6 @@ renderers.forEach((method: RenderMethod) => {
     }
 
     context(`renderer ${method}`, () => {
-      let anchor = '#board';
-      let board: HTMLCanvasElement;
-      let processor: Imgstry;
-      let test: Mocha.Test;
-
-      beforeEach(function () {
-        test = this.currentTest;
-        test.timeout(5000);
-        board = Imgstry.getCanvas(anchor);
-        processor = new Imgstry(board, {
-          thread: {
-            isDebugEnabled: true,
-          },
-        });
-      });
-
-      afterEach(function () {
-        takeScreenshot(this.currentTest);
-      });
-
       context('ctor', () => {
         it('should be able to fetch the canvas reference from the DOM', () => {
           expect(board).not.null;
@@ -360,7 +360,7 @@ renderers.forEach((method: RenderMethod) => {
           it('should have 99.8% of pixels black after applying a 9x9 kernel and edge detection', async () => {
             const image = await Imgstry.loadImage(IMAGE_SOURCE);
 
-            processor.context.drawImage(image, 0, 0);
+            processor.drawImage(image);
 
             await render(
               processor
@@ -390,7 +390,7 @@ renderers.forEach((method: RenderMethod) => {
           it('should render multiple without locking the image buffer', async () => {
             const image = await Imgstry.loadImage(IMAGE_SOURCE);
 
-            processor.context.drawImage(image, 0, 0);
+            processor.drawImage(image);
 
             await render(
               processor
@@ -424,6 +424,43 @@ renderers.forEach((method: RenderMethod) => {
           });
         });
       });
+    });
+  });
+
+  context('reset', () => {
+    it('should set original image state', async () => {
+      const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+      processor.drawImage(image);
+
+      const original = processor.clone(processor.imageData);
+
+      processor
+        .contrast(100)
+        .renderSync();
+
+      processor.reset();
+
+      expect(processor.imageData.width).to.equal(original.width);
+      expect(processor.imageData.height).to.equal(original.height);
+
+      processor.imageData.data.forEach((value, idx) => {
+        expect(value).to.equal(original.data[idx]);
+      });
+    });
+  });
+
+  context('base64 conversion', () => {
+    it('should serialize canvas data png data uri', async () => {
+      const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+      processor.drawImage(image);
+
+      const dataUri = processor.toDataUrl();
+
+      const dataUriRegex = /^(data:)([\w\/\+]+);(charset=[\w-]+|base64).*,(.*)/gi;
+
+      expect(dataUri).to.match(dataUriRegex);
     });
   });
 });

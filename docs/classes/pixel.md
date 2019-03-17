@@ -76,7 +76,7 @@ ___
 
 ###  colorSpace
 
-getcolorSpace(): [ColorSpace](../enums/colorspace.md)
+**get colorSpace**(): [ColorSpace](../enums/colorspace.md)
 
 *Defined in [pixel/pixel.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L29)*
 
@@ -87,7 +87,9 @@ ___
 
 ###  x
 
-getx(): `number`setx(value: *`number`*): `void`
+**get x**(): `number`
+
+**set x**(value: *`number`*): `void`
 
 *Defined in [pixel/pixel.ts:15](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L15)*
 
@@ -108,7 +110,9 @@ ___
 
 ###  y
 
-gety(): `number`sety(value: *`number`*): `void`
+**get y**(): `number`
+
+**set y**(value: *`number`*): `void`
 
 *Defined in [pixel/pixel.ts:22](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L22)*
 
