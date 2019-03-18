@@ -25,6 +25,8 @@ interface IDrawGridTesCase {
   height: number;
 }
 
+// proper tests can only be written for cases with integer step results
+// if we round the steps inside the draw grid util, sometimes last lines not drawn due to position overflows
 const TEST_CASES: IDrawGridTesCase[] = [
   {
     gridSize: 4,
@@ -43,7 +45,7 @@ const TEST_CASES: IDrawGridTesCase[] = [
   {
     gridSize: 4,
     color: '#111333',
-    padding: 33,
+    padding: 36,
     width: 100,
     height: 100,
   },
@@ -51,15 +53,22 @@ const TEST_CASES: IDrawGridTesCase[] = [
     gridSize: 4,
     color: '#133773',
     padding: 10,
-    width: 50,
+    width: 60,
     height: 100,
   },
   {
     gridSize: 3,
     color: '#733113',
     padding: 0,
-    width: 50,
+    width: 54,
     height: 30,
+  },
+  {
+    width: 60,
+    height: 60,
+    color: '#ff0000',
+    gridSize: 5,
+    padding: 20,
   },
 ];
 
@@ -82,8 +91,8 @@ describe('canvasUtil: drawGrid', () => {
 
         const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
 
-        const stepX = Math.round((canvas.width - testCase.padding * 2) / testCase.gridSize);
-        const stepY = Math.round((canvas.height - testCase.padding * 2) / testCase.gridSize);
+        const stepX = (canvas.width - testCase.padding * 2) / testCase.gridSize;
+        const stepY = (canvas.height - testCase.padding * 2) / testCase.gridSize;
 
         for (let y = testCase.padding; y < canvas.height - testCase.padding; y++) {
           for (let x = testCase.padding; x < canvas.width - testCase.padding; x++) {
