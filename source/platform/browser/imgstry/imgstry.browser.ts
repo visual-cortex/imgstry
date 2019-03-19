@@ -82,7 +82,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
     this._options = assignDefault(_options) as ImgstryBrowserOptions;
     this.context = this.canvas.getContext('2d');
     fillCanvas(this.canvas, '');
-    this.original = this.clone(this.imageData);
+    this._original = this.clone(this.imageData);
     this._thread = new ImgstryThread(this._options.thread);
   }
 
@@ -95,7 +95,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
    */
   public drawImage(image: HTMLImageElement) {
     drawImage(this.canvas, image);
-    this.original = this.clone(this.imageData);
+    this._original = this.clone(this.imageData);
   }
 
   /**
@@ -111,7 +111,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
   }
 
   public reset(): ImgstryProcessor {
-    this.imageData = this.original;
+    this.imageData = this._original;
     return <ImgstryProcessor>this;
   }
 
@@ -153,7 +153,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
    * @returns {void}
    */
   public dispose() {
-    this.original = null;
+    this._original = null;
     this._thread.dispose();
     clearCanvas(this.canvas);
   }

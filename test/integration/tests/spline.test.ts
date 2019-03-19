@@ -34,7 +34,7 @@ describe('class: ImgstrySpline (browser)', () => {
     spline = new ImgstrySpline(ImgstrySpline.getCanvas(anchor), {
       anchorSize: 5,
       gridSize: 4,
-      theme: Theme.light,
+      theme: Theme.Light,
     });
     padding = spline['_options'].anchorSize * 2;
     element = document.querySelector(anchor);

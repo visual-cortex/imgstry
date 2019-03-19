@@ -2,7 +2,7 @@ import { Theme } from '~platform/browser/theme';
 
 export const splineTheme = (theme: Theme) => {
   switch (theme) {
-    case Theme.dark:
+    case Theme.Dark:
       return {
         gridLine: '#485460',
         anchor: {
@@ -11,7 +11,7 @@ export const splineTheme = (theme: Theme) => {
         },
         spline: '#d2dae2',
       };
-    case Theme.light:
+    case Theme.Light:
       return {
         gridLine: '#d2dae2',
         anchor: {

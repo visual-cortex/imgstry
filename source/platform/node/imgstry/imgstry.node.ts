@@ -45,7 +45,7 @@ export class Imgstry extends ImgstryEditor {
     this.canvas = new Canvas(width, height);
     this.context = this.canvas.getContext('2d');
     fillCanvas(this.canvas, '');
-    this.original = this.clone(this.imageData);
+    this._original = this.clone(this.imageData);
   }
 
   /**
@@ -57,7 +57,7 @@ export class Imgstry extends ImgstryEditor {
    */
   public drawImage(image: Image) {
     drawImage(this.canvas, image);
-    this.original = this.clone(this.imageData);
+    this._original = this.clone(this.imageData);
   }
 
   public toDataUrl(type = 'image/png'): string {
@@ -65,7 +65,7 @@ export class Imgstry extends ImgstryEditor {
   }
 
   public reset(): ImgstryProcessor {
-    this.imageData = this.original;
+    this.imageData = this._original;
     return <ImgstryProcessor>this;
   }
 

@@ -43,7 +43,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
   private _context: CanvasRenderingContext2D;
   private _maxAnchors = 15;
 
-  private _anchor$ = new BehaviorSubject<IPointResult>(SplinePointSet.NotFound);
+  private _anchor$ = new BehaviorSubject<IPointResult>(SplinePointSet.notFound);
   private _draw$ = new Subject();
   private _destroyed$ = new Subject();
   private _dragging$ = new BehaviorSubject(false);
@@ -57,7 +57,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
   }
 
   private get _colors() {
-    return splineTheme(this._options.theme || Theme.light);
+    return splineTheme(this._options.theme || Theme.Light);
   }
 
   private get _gridSize() {
@@ -122,7 +122,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
 
     const mouseLeave = fromEvent(this._canvas, 'mouseleave')
       .pipe(
-        tap(_ => this._anchor$.next(SplinePointSet.NotFound)),
+        tap(_ => this._anchor$.next(SplinePointSet.notFound)),
         tap(_ => this._dragging$.next(false)),
       );
 

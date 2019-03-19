@@ -23,7 +23,7 @@
 
 **● index**: *`number`*
 
-*Defined in [core/point/splinePointSet.ts:12](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L12)*
+*Defined in [core/point/splinePointSet.ts:7](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L7)*
 
 ___
 <a id="point"></a>
@@ -32,7 +32,7 @@ ___
 
 **● point**: *[IPoint](ipoint.md)*
 
-*Defined in [core/point/splinePointSet.ts:13](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L13)*
+*Defined in [core/point/splinePointSet.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L8)*
 
 ___
 
