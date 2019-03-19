@@ -38,7 +38,7 @@ export abstract class ImgstryProcessor {
    * @type {ImageData}
    * @memberOf ImgstryProcessor
    */
-  protected original: ImageData;
+  protected _original: ImageData;
 
   /**
    * Encodes the canvas data to a data URI.

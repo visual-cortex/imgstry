@@ -20,7 +20,7 @@
 
 * [first](splinepointset.md#first)
 * [length](splinepointset.md#length)
-* [NotFound](splinepointset.md#notfound)
+* [notFound](splinepointset.md#notfound)
 
 ### Methods
 
@@ -43,7 +43,7 @@
 
 ⊕ **new SplinePointSet**(points?: *[IPoint](../interfaces/ipoint.md)[]*): [SplinePointSet](splinepointset.md)
 
-*Defined in [core/point/splinePointSet.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L38)*
+*Defined in [core/point/splinePointSet.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L33)*
 
 **Parameters:**
 
@@ -63,7 +63,7 @@ ___
 
 **get first**(): [Point](point.md)
 
-*Defined in [core/point/splinePointSet.ts:19](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L19)*
+*Defined in [core/point/splinePointSet.ts:14](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L14)*
 
 **Returns:** [Point](point.md)
 
@@ -74,18 +74,18 @@ ___
 
 **get length**(): `number`
 
-*Defined in [core/point/splinePointSet.ts:23](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L23)*
+*Defined in [core/point/splinePointSet.ts:18](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L18)*
 
 **Returns:** `number`
 
 ___
 <a id="notfound"></a>
 
-### `<Static>` NotFound
+### `<Static>` notFound
 
-**get NotFound**(): [IPointResult](../interfaces/ipointresult.md)
+**get notFound**(): [IPointResult](../interfaces/ipointresult.md)
 
-*Defined in [core/point/splinePointSet.ts:17](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L17)*
+*Defined in [core/point/splinePointSet.ts:12](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L12)*
 
 **Returns:** [IPointResult](../interfaces/ipointresult.md)
 
@@ -99,7 +99,7 @@ ___
 
 ▸ **__@iterator**(): `object`
 
-*Defined in [core/point/splinePointSet.ts:47](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L47)*
+*Defined in [core/point/splinePointSet.ts:42](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L42)*
 
 **Returns:** `object`
 
@@ -110,7 +110,7 @@ ___
 
 ▸ **closest**(coordinate: *[IPoint](../interfaces/ipoint.md)*, maxRange: *`number`*, transform: *`function`*): [IPointResult](../interfaces/ipointresult.md)
 
-*Defined in [core/point/splinePointSet.ts:142](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L142)*
+*Defined in [core/point/splinePointSet.ts:137](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L137)*
 
 **Parameters:**
 
@@ -129,7 +129,7 @@ ___
 
 ▸ **find**(point: *[IPoint](../interfaces/ipoint.md)*): [IPointResult](../interfaces/ipointresult.md)
 
-*Defined in [core/point/splinePointSet.ts:99](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L99)*
+*Defined in [core/point/splinePointSet.ts:94](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L94)*
 
 **Parameters:**
 
@@ -146,7 +146,7 @@ ___
 
 ▸ **forEach**(predicateFn: *`function`*): `void`
 
-*Defined in [core/point/splinePointSet.ts:108](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L108)*
+*Defined in [core/point/splinePointSet.ts:103](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L103)*
 
 **Parameters:**
 
@@ -163,7 +163,7 @@ ___
 
 ▸ **indexOfClosest**(coordinate: *[IPoint](../interfaces/ipoint.md)*, maxRange: *`number`*, transform: *`function`*): `number`
 
-*Defined in [core/point/splinePointSet.ts:122](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L122)*
+*Defined in [core/point/splinePointSet.ts:117](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L117)*
 
 **Parameters:**
 
@@ -182,7 +182,7 @@ ___
 
 ▸ **push**(...points: *[IPoint](../interfaces/ipoint.md)[]*): `number`
 
-*Defined in [core/point/splinePointSet.ts:67](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L67)*
+*Defined in [core/point/splinePointSet.ts:62](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L62)*
 
 **Parameters:**
 
@@ -199,7 +199,7 @@ ___
 
 ▸ **remove**(index: *`number`*): [Point](point.md)
 
-*Defined in [core/point/splinePointSet.ts:111](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L111)*
+*Defined in [core/point/splinePointSet.ts:106](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L106)*
 
 **Parameters:**
 
@@ -216,7 +216,7 @@ ___
 
 ▸ **update**(index: *`number`*, __namedParameters: *`object`*): [IPointResult](../interfaces/ipointresult.md)
 
-*Defined in [core/point/splinePointSet.ts:82](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L82)*
+*Defined in [core/point/splinePointSet.ts:77](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L77)*
 
 **Parameters:**
 

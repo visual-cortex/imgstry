@@ -6,7 +6,7 @@ const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
 describe('theme: spline', () => {
   it(`should have a valid 'light' theme defined`, () => {
-    const theme = splineTheme(Theme.light);
+    const theme = splineTheme(Theme.Light);
 
     expect(theme).to.not.be.undefined;
     expect(theme.anchor).to.be.not.be.undefined;
@@ -17,7 +17,7 @@ describe('theme: spline', () => {
   });
 
   it(`should have a valid 'dark' theme defined`, () => {
-    const theme = splineTheme(Theme.dark);
+    const theme = splineTheme(Theme.Dark);
 
     expect(theme).to.not.be.undefined;
     expect(theme.anchor).to.be.not.be.undefined;

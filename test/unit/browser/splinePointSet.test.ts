@@ -6,7 +6,7 @@ import {
 
 describe('class: SplinePointSet', () => {
   it(`should have a static 'NotFound' definition`, () => {
-    const notFound = SplinePointSet.NotFound;
+    const notFound = SplinePointSet.notFound;
 
     expect(notFound).to.not.be.undefined;
     expect(notFound.index).to.equal(-1);

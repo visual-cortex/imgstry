@@ -3,18 +3,13 @@ import {
   Point,
 } from '~core/point';
 
-interface IBoundary {
-  min?: number;
-  max?: number;
-}
-
 export interface IPointResult {
   index: number;
   point: IPoint;
 }
 
 export class SplinePointSet implements Iterable<Point> {
-  static get NotFound(): IPointResult { return { index: -1, point: null }; }
+  static get notFound(): IPointResult { return { index: -1, point: null }; }
 
   public get first() {
     return this._points[0];
