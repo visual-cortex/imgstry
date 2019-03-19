@@ -79,6 +79,7 @@
       "check-finally",
       "check-whitespace"
     ],
+    "prefer-const-enum": true,
     "quotemark": [
       true,
       "single",
