@@ -10,6 +10,7 @@
       "check-space"
     ],
     "curly": true,
+    "early-exit": true,
     "eofline": true,
     "forin": true,
     "indent": [

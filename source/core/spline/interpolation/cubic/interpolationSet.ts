@@ -22,16 +22,16 @@ export class CubicInterpolationSet {
     for (let i = 0; i < degree; i++) {
       h[i] = this._diffX(i + 1, i);
 
-      if (i > 0) {
-        const y = 3 / h[i] * this._diffY(i + 1, i) -
-          3 / h[i - 1] * this._diffY(i, i - 1);
+      if (i <= 0) { continue; }
 
-        const l = 2 * this._diffX(i + 1, i - 1) -
-          h[i - 1] * u[i - 1];
+      const y = 3 / h[i] * this._diffY(i + 1, i) -
+        3 / h[i - 1] * this._diffY(i, i - 1);
 
-        u[i] = h[i] / l;
-        z[i] = (y - h[i - 1] * z[i - 1]) / l;
-      }
+      const l = 2 * this._diffX(i + 1, i - 1) -
+        h[i - 1] * u[i - 1];
+
+      u[i] = h[i] / l;
+      z[i] = (y - h[i - 1] * z[i - 1]) / l;
     }
 
     const { c, b, d } = this;

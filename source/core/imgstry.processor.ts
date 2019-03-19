@@ -233,13 +233,16 @@ export abstract class ImgstryProcessor {
 
       if (!isComputation) { continue; }
 
-      if (pixel) {
-        pixel = pixel.clamp();
+      if (!pixel) {
+        isComputation = false;
+        continue;
+      }
 
-        pixelArray[i] = pixel.r;
-        pixelArray[i + 1] = pixel.g;
-        pixelArray[i + 2] = pixel.b;
-      } else { isComputation = false; }
+      pixel = pixel.clamp();
+
+      pixelArray[i] = pixel.r;
+      pixelArray[i + 1] = pixel.g;
+      pixelArray[i + 2] = pixel.b;
     }
 
     if (isComputation) { this.imageData = image; }
