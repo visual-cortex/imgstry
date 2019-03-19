@@ -54,12 +54,12 @@ export class SplinePointSet implements Iterable<Point> {
             done: false,
             value: this._points[pointer++],
           };
-        } else {
-          return {
-            done: true,
-            value: null,
-          };
         }
+
+        return {
+          done: true,
+          value: null,
+        };
       },
     };
   }

@@ -47,6 +47,7 @@
     ],
     "no-arg": true,
     "no-bitwise": false,
+    "no-collapsible-if": true,
     "no-console": [
       true,
       "debug",
@@ -65,6 +66,7 @@
     "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
+    "no-unnecessary-else": true,
     "no-unused-expression": false,
     "no-unused-variable": false,
     "no-var-keyword": true,
