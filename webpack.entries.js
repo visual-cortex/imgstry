@@ -7,4 +7,4 @@ module.exports = ({
   'imgstry.pixel': `${src}/pixel/index${isDeclaration ? '.d.ts' : '.ts'}`,
   'imgstry.kernel': `${src}/kernel/index${isDeclaration ? '.d.ts' : '.ts'}`,
   'imgstry': `${src}/index${isDeclaration ? '.d.ts' : '.ts'}`,
-})
+})asdfasdf

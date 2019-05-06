@@ -7,7 +7,7 @@ const debug = {
     libraryTarget: 'umd',
     globalObject: `(typeof self !== 'undefined' ? self : this)`,
   },
-  optimization: {
+  optimization: {asdfsadf
     minimize: false,
   },
   plugins: [

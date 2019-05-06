@@ -11,6 +11,6 @@ const production = {
     libraryTarget: 'umd',
     globalObject: `(typeof self !== 'undefined' ? self : this)`,
   },
-};
+};asdfadsfasdf
 
 module.exports = production;
