@@ -66,10 +66,10 @@ export class Cmyk implements IColor {
 
   public clamp(): Cmyk {
     return new Cmyk({
-      c: this.c > 1 ? 1 : this.c < 0 ? 0 : this.c,
-      m: this.m > 1 ? 1 : this.m < 0 ? 0 : this.m,
-      y: this.y > 1 ? 1 : this.y < 0 ? 0 : this.y,
-      k: this.k > 1 ? 1 : this.k < 0 ? 0 : this.k,
+      c: Math.min(1, Math.max(this.c, 0)),
+      m: Math.min(1, Math.max(this.m, 0)),
+      y: Math.min(1, Math.max(this.y, 0)),
+      k: Math.min(1, Math.max(this.k, 0)),
     });
   }
 }

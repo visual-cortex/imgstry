@@ -2,7 +2,6 @@ import { Subject } from 'rxjs';
 import {
   filter,
   first,
-  throttleTime,
 } from 'rxjs/operators';
 import ImgstryWorker from 'worker-loader?inline=true&fallback=false!./imgstry.worker';
 import {
@@ -43,7 +42,6 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
 
   private _worker: ImgstryWorker;
   private _logger: Logger;
-  private _work$ = new Subject<IWorkerData>();
 
   /**
    * Creates an instance of ImgstryThread.
@@ -73,19 +71,6 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
       this._logger.error(err);
       this.process$.error(err);
     };
-
-    this._work$
-      .pipe(
-        throttleTime(250),
-      )
-      .subscribe((data) => {
-        this._logger.info(
-          'Send to worker: ',
-          data,
-        );
-
-        this._worker.postMessage(data, [data.buffer]);
-      });
   }
 
   /**
@@ -104,13 +89,15 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
   }: IThreadData): Promise<IThreadResult> {
     const identifier = uuid();
 
-    this._work$.next({
+    const data: IWorkerData = {
       buffer: imageData.data.buffer,
       width: imageData.width,
       height: imageData.height,
       operations: operations,
       guid: identifier,
-    });
+    };
+
+    this._worker.postMessage(data, [data.buffer]);
 
     return this.process$
       .pipe(
@@ -128,7 +115,6 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
    */
   public dispose() {
     this._worker.terminate();
-    this._work$.complete();
     this.process$.complete();
   }
 }

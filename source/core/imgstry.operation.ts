@@ -36,34 +36,41 @@ namespace Operation {
     };
   };
 
+
+  const _sepiaRChannel = (pixel: Rgb, value: number) =>
+    (pixel.r *
+      (1 - .607 * value)) +
+    (pixel.g *
+      (.769 * value)) +
+    (pixel.b *
+      (.189 * value));
+
+  const _sepiaGChannel = (pixel: Rgb, value: number) =>
+    (pixel.r *
+      (.349 * value)) +
+    (pixel.g *
+      (1 - .314 * value)) +
+    (pixel.b *
+      (.168 * value)
+    );
+
+  const _sepiaBChannel = (pixel: Rgb, value: number) =>
+    (pixel.r *
+      (.272 * value)) +
+    (pixel.g *
+      (.534 * value)) +
+    (pixel.b * (
+      1 - .869 * value));
+
   export const sepia = (value: number) => {
     if (!value) {
       value = 100;
     }
     value /= 100;
     return (pixel: Rgb) => {
-      pixel.r =
-        (pixel.r *
-          (1 - .607 * value)) +
-        (pixel.g *
-          (.769 * value)) +
-        (pixel.b *
-          (.189 * value));
-      pixel.g =
-        (pixel.r *
-          (.349 * value)) +
-        (pixel.g *
-          (1 - .314 * value)) +
-        (pixel.b *
-          (.168 * value)
-        );
-      pixel.b =
-        (pixel.r *
-          (.272 * value)) +
-        (pixel.g *
-          (.534 * value)) +
-        (pixel.b * (
-          1 - .869 * value));
+      pixel.r = _sepiaRChannel(pixel, value);
+      pixel.g = _sepiaGChannel(pixel, value);
+      pixel.b = _sepiaBChannel(pixel, value);
 
       return pixel;
     };

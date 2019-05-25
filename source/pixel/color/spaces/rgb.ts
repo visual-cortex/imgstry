@@ -57,16 +57,7 @@ export class Rgb implements IRgb, IColor {
       v: max,
     });
 
-    if (max === min) {
-      result.h = 0;
-    } else {
-      switch (max) {
-        case clamp.r: result.h = (clamp.g - clamp.b) / delta; break;
-        case clamp.g: result.h = 2 + (clamp.b - clamp.r) / delta; break;
-        case clamp.b: result.h = 4 + (clamp.r - clamp.g) / delta; break;
-      }
-    }
-
+    result.h = this._determineHue(min, max, delta, clamp);
     result.h = Math.round(Math.min(result.h * 60, 360));
     result.h += result.h < 0 ? 360 : 0;
 
@@ -117,4 +108,17 @@ export class Rgb implements IRgb, IColor {
       g: Math.round(Math.min(255, Math.max(0, g))),
       b: Math.round(Math.min(255, Math.max(0, b))),
     })
+
+  private _determineHue = (min: number, max: number, delta: number, pixel: Rgb) => {
+    switch (max) {
+      case min:
+        return 0;
+      case pixel.r:
+        return (pixel.g - pixel.b) / delta;
+      case pixel.g:
+        return 2 + (pixel.b - pixel.r) / delta;
+      case pixel.b:
+        return 4 + (pixel.r - pixel.g) / delta;
+    }
+  }
 }

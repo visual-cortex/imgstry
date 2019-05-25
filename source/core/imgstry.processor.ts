@@ -164,7 +164,7 @@ export abstract class ImgstryProcessor {
   }
 
   private _convolve(kernel: Kernel | number[][], factor = 1): ImgstryProcessor {
-    kernel = new Kernel((kernel as any)._kernel || kernel);
+    const _kernel = new Kernel((kernel as any)._kernel || kernel);
 
     const data = this.imageData.data;
     const result = this.createImageData(this.imageData);
@@ -173,42 +173,47 @@ export abstract class ImgstryProcessor {
       upper: this.width * this.height * 4,
     };
 
-    const half = Math.floor(kernel.height / 2);
+    const half = Math.floor(_kernel.height / 2);
 
-    for (let y = 0; y < this.height; y++) {
-      for (let x = 0; x < this.width; x++) {
-        const offset = (y * this.width + x) * 4;
-        let pixel = new Rgb();
+    this._matrixTraverse((y, x) => {
+      const offset = (y * this.width + x) * 4;
+      let pixel = new Rgb();
+      _kernel.forEach((value, idx) => {
+        let index =
+          ((y + (idx.y - half)) * this.width +
+            (x + (idx.x - half))) * 4;
 
-        kernel.forEach((value, idx) => {
-          let index =
-            ((y + (idx.y - half)) * this.width +
-              (x + (idx.x - half))) * 4;
+        if (index < limit.lower) {
+          index = limit.lower;
+        }
 
-          if (index < limit.lower) {
-            index = limit.lower;
-          }
+        if (index > limit.upper) {
+          index = limit.upper;
+        }
 
-          if (index > limit.upper) {
-            index = limit.upper;
-          }
+        pixel.r += data[index + 0] * value;
+        pixel.g += data[index + 1] * value;
+        pixel.b += data[index + 2] * value;
+        result.data[index + 3] = data[index + 3];
+      });
 
-          pixel.r += data[index + 0] * value;
-          pixel.g += data[index + 1] * value;
-          pixel.b += data[index + 2] * value;
-          result.data[index + 3] = data[index + 3];
-        });
+      pixel = pixel.clamp();
 
-        pixel = pixel.clamp();
-
-        result.data[offset + 0] = factor * pixel.r;
-        result.data[offset + 1] = factor * pixel.g;
-        result.data[offset + 2] = factor * pixel.b;
-      }
-    }
+      result.data[offset + 0] = factor * pixel.r;
+      result.data[offset + 1] = factor * pixel.g;
+      result.data[offset + 2] = factor * pixel.b;
+    });
 
     this.imageData = result;
     return this;
+  }
+
+  private _matrixTraverse = (delegate: (y: number, x: number) => void) => {
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        delegate(y, x);
+      }
+    }
   }
 
   private _traverse = (delegate: (pixel: Rgb, information?: TraversalPixelInfo) => Rgb | void): ImgstryProcessor => {
