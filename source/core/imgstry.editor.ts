@@ -1,5 +1,9 @@
 import { ImgstryProcessor } from '~core/imgstry.processor';
-import { OperationOption } from '~core/types';
+import {
+  OperationMethod,
+  OperationOption,
+  OperationValue,
+} from '~core/types';
 import { Kernel } from '~kernel';
 
 /**
@@ -20,12 +24,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public blackAndWhite(ratio?: [number, number, number]): ImgstryEditor {
-    this._operations.push({
-      name: 'blackAndWhite',
-      value: ratio,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('blackAndWhite', ratio);
   }
 
   /**
@@ -36,12 +35,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public contrast(value: number): ImgstryEditor {
-    this._operations.push({
-      name: 'contrast',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('contrast', value);
   }
 
   /**
@@ -52,12 +46,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public brightness(value: number): ImgstryEditor {
-    this._operations.push({
-      name: 'brightness',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('brightness', value);
   }
 
   /**
@@ -68,12 +57,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public saturation(value: number): ImgstryEditor {
-    this._operations.push({
-      name: 'saturation',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('saturation', value);
   }
 
   /**
@@ -84,12 +68,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   * @memberof ImgstryEditor
   */
   public hue(value: number): ImgstryEditor {
-    this._operations.push({
-      name: 'hue',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('hue', value);
   }
 
   /**
@@ -100,12 +79,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public sepia(value: number): ImgstryEditor {
-    this._operations.push({
-      name: 'sepia',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('sepia', value);
   }
 
   /**
@@ -116,12 +90,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   * @memberof ImgstryEditor
   */
   public gamma(value: number): ImgstryEditor {
-    this._operations.push({
-      name: 'gamma',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('gamma', value);
   }
 
   /**
@@ -132,12 +101,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public noise(value: number): ImgstryEditor {
-    this._operations.push({
-      name: 'noise',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('noise', value);
   }
 
   /**
@@ -148,12 +112,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public vibrance(value: number): ImgstryEditor {
-    this._operations.push({
-      name: 'vibrance',
-      value: value,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('vibrance', value);
   }
 
   /**
@@ -163,12 +122,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public invert(): ImgstryEditor {
-    this._operations.push({
-      name: 'invert',
-      value: null,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('invert', null);
   }
 
   /**
@@ -179,12 +133,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public tint(color: string): ImgstryEditor {
-    this._operations.push({
-      name: 'tint',
-      value: color,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('tint', color);
   }
 
   /**
@@ -195,12 +144,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public fill(color: string): ImgstryEditor {
-    this._operations.push({
-      name: 'fill',
-      value: color,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('fill', color);
   }
 
   /**
@@ -211,12 +155,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public convolve(kernel: Kernel | number[][]): ImgstryEditor {
-    this._operations.push({
-      name: 'convolve',
-      value: kernel,
-      priority: this._operations.length,
-    });
-    return this;
+    return this._recordOperatoin('convolve', kernel);
   }
 
   /**
@@ -248,4 +187,13 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   * @memberof ImgstryEditor
   */
   public abstract render(): Promise<ImgstryEditor>;
+
+  private _recordOperatoin = (name: OperationMethod, value: OperationValue) => {
+    this._operations.push({
+      name,
+      value,
+      priority: this._operations.length,
+    });
+    return this;
+  }
 }

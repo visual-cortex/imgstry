@@ -53,17 +53,40 @@ export class Hex implements IColor {
 
     for (let i = 1; i < this.value.length; i++) {
       clampedValue[i] = this.value[i];
-      let charCode = this.value.charCodeAt(i);
-
-      if (charCode < '0'.charCodeAt(0) || (charCode > '9'.charCodeAt(0) && charCode < 'A'.charCodeAt(0))) {
-        clampedValue[i] = '0';
-      }
-
-      if (charCode > 'F'.charCodeAt(0)) {
-        clampedValue[i] = 'F';
-      }
+      clampedValue[i] = this._clampUnderflow(clampedValue[i]);
+      clampedValue[i] = this._clampMidRange(clampedValue[i]);
+      clampedValue[i] = this._clampOverflow(clampedValue[i]);
     }
 
     return new Hex(clampedValue.join(''));
+  }
+
+  private _clampMidRange = (hexValue: string) => {
+    const charCode = hexValue.charCodeAt(0);
+
+    if (
+      charCode > '9'.charCodeAt(0) &&
+      charCode < 'A'.charCodeAt(0)
+    ) {
+      return '0';
+    }
+
+    return hexValue;
+  }
+
+  private _clampUnderflow = (hexValue: string) => {
+    const charCode = hexValue.charCodeAt(0);
+
+    if (charCode < '0'.charCodeAt(0)) { return '0'; }
+
+    return hexValue;
+  }
+
+  private _clampOverflow = (hexValue: string) => {
+    if (hexValue.charCodeAt(0) > 'F'.charCodeAt(0)) {
+      return 'F';
+    }
+
+    return hexValue;
   }
 }

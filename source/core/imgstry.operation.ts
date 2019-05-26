@@ -20,12 +20,21 @@ namespace Operation {
     },
   };
 
-  const _lookup = (delegate: (i: number) => number): number[] => {
-    const arr: any[] = [];
+  const _generateLut = (delegate: (i: number) => number): Record<number, number> => {
+    const arr: number[] = [];
     for (let i = Default.rgb.min; i <= Default.rgb.max; i++) {
       arr[i] = delegate(i);
     }
     return arr;
+  };
+
+  export const lookup = (lut: Record<number, number>) => {
+    return (pixel: Rgb) => {
+      pixel.r = lut[pixel.r];
+      pixel.g = lut[pixel.g];
+      pixel.b = lut[pixel.b];
+      return pixel;
+    };
   };
 
   export const hue = (value: number) => {
@@ -36,34 +45,41 @@ namespace Operation {
     };
   };
 
+
+  const _sepiaRChannel = (pixel: Rgb, value: number) =>
+    (pixel.r *
+      (1 - .607 * value)) +
+    (pixel.g *
+      (.769 * value)) +
+    (pixel.b *
+      (.189 * value));
+
+  const _sepiaGChannel = (pixel: Rgb, value: number) =>
+    (pixel.r *
+      (.349 * value)) +
+    (pixel.g *
+      (1 - .314 * value)) +
+    (pixel.b *
+      (.168 * value)
+    );
+
+  const _sepiaBChannel = (pixel: Rgb, value: number) =>
+    (pixel.r *
+      (.272 * value)) +
+    (pixel.g *
+      (.534 * value)) +
+    (pixel.b * (
+      1 - .869 * value));
+
   export const sepia = (value: number) => {
     if (!value) {
       value = 100;
     }
     value /= 100;
     return (pixel: Rgb) => {
-      pixel.r =
-        (pixel.r *
-          (1 - .607 * value)) +
-        (pixel.g *
-          (.769 * value)) +
-        (pixel.b *
-          (.189 * value));
-      pixel.g =
-        (pixel.r *
-          (.349 * value)) +
-        (pixel.g *
-          (1 - .314 * value)) +
-        (pixel.b *
-          (.168 * value)
-        );
-      pixel.b =
-        (pixel.r *
-          (.272 * value)) +
-        (pixel.g *
-          (.534 * value)) +
-        (pixel.b * (
-          1 - .869 * value));
+      pixel.r = _sepiaRChannel(pixel, value);
+      pixel.g = _sepiaGChannel(pixel, value);
+      pixel.b = _sepiaBChannel(pixel, value);
 
       return pixel;
     };
@@ -76,19 +92,11 @@ namespace Operation {
       value /= -10;
     }
 
-    const lookup = _lookup((i) => {
+    const lut = _generateLut((i) => {
       return Math.pow(i / Default.rgb.max, value) * Default.rgb.max;
     });
 
-    return (pixel: Rgb) => {
-      pixel = pixel.clamp();
-
-      pixel.r = lookup[pixel.r];
-      pixel.g = lookup[pixel.g];
-      pixel.b = lookup[pixel.b];
-
-      return pixel;
-    };
+    return (pixel: Rgb) => lookup(lut)(pixel.clamp());
   };
 
   export const noise = (value: number) => {
@@ -177,7 +185,7 @@ namespace Operation {
 
     value = Math.pow((value + 100) / 100, 2);
 
-    const lookup = _lookup((i) => {
+    const lut = _generateLut((i) => {
       i /= Default.rgb.max;
       i -= .5;
       i *= value;
@@ -187,15 +195,7 @@ namespace Operation {
       return i;
     });
 
-    return (pixel: Rgb) => {
-      pixel = pixel.clamp();
-
-      pixel.r = lookup[pixel.r];
-      pixel.g = lookup[pixel.g];
-      pixel.b = lookup[pixel.b];
-
-      return pixel;
-    };
+    return (pixel: Rgb) => lookup(lut)(pixel.clamp());
   };
 
   export const brightness = (value: number) => {
@@ -213,7 +213,7 @@ namespace Operation {
   export const saturation = (value: number) => {
     value *= -.01;
 
-    const lookup = _lookup((i) => {
+    const lut = _generateLut((i) => {
       return i * value;
     });
 
@@ -221,9 +221,9 @@ namespace Operation {
       let max = Math.max(pixel.r, pixel.g, pixel.b);
       pixel = pixel.clamp();
 
-      pixel.r += lookup[max - pixel.r];
-      pixel.g += lookup[max - pixel.g];
-      pixel.b += lookup[max - pixel.b];
+      pixel.r += lut[max - pixel.r];
+      pixel.g += lut[max - pixel.g];
+      pixel.b += lut[max - pixel.b];
 
       return pixel;
     };

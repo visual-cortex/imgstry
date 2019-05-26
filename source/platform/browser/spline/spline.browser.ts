@@ -3,6 +3,7 @@ import {
   BehaviorSubject,
   fromEvent,
   merge,
+  Observable,
   Subject,
 } from 'rxjs';
 import {
@@ -84,59 +85,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
     this._fauxWidth = this._width - this._padding * 2;
     this._fauxHeight = this._height - this._padding * 2;
 
-    const mouseMove = fromEvent(this._canvas, 'mousemove')
-      .pipe(
-        map(this._mouseToPoint),
-        map(this._clampPoint),
-        share(),
-      );
-
-    const anchorHover = mouseMove
-      .pipe(
-        throttleTime(1000 / (this._anchorSize * 2)),
-        filter(_ => !this._dragging$.value),
-        map(cursor =>
-          this._points.closest(
-            cursor,
-            Math.pow(this._anchorSize, Math.PI / 2),
-            this._scaleUp,
-          ),
-        ),
-        distinctUntilChanged((prev, curr) => prev.index === curr.index),
-        tap(result => this._anchor$.next(result)),
-      );
-
-    const anchorMove = mouseMove
-      .pipe(
-        filter(_ => this._dragging$.value),
-        tap(point => {
-          this._anchor$.next(
-            this._points.update(
-              this._anchor$.value.index,
-              point,
-            ),
-          );
-        },
-        ),
-      );
-
-    const mouseLeave = fromEvent(this._canvas, 'mouseleave')
-      .pipe(
-        tap(_ => this._anchor$.next(SplinePointSet.notFound)),
-        tap(_ => this._dragging$.next(false)),
-      );
-
-    const dblClick = fromEvent(this._canvas, 'dblclick')
-      .pipe(
-        map(this._mouseToPoint),
-        tap(point => {
-          if (this._anchor$.value.index === -1) {
-            this.add(point);
-          } else {
-            this.remove(this._anchor$.value.point);
-          }
-        }),
-      );
+    const mouseMove = this._mouseMove(this._canvas);
 
     merge(
       fromEvent(this._canvas, 'mousedown')
@@ -155,14 +104,14 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
     merge(
       this._draw$,
       this._dragging$,
-      anchorHover,
-      anchorMove,
-      mouseLeave,
-      dblClick,
+      this._moveToAnchorHover(mouseMove),
+      this._moveToAnchorMove(mouseMove),
+      this._mouseLeave(this._canvas),
+      this._dblClick(this._canvas),
     )
       .pipe(
-        takeUntil(this._destroyed$),
         tap(_ => animationFrameScheduler.schedule(this._draw)),
+        takeUntil(this._destroyed$),
       )
       .subscribe();
   }
@@ -208,7 +157,10 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
     });
 
     this._drawSplineCurve();
+    this._drawCircles();
+  }
 
+  private _drawCircles = () => {
     this._points.forEach(
       (point, idx) => {
         const isAnchorHovered = idx === this._anchor$.value.index;
@@ -268,4 +220,63 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
       x: x * this._fauxWidth + this._padding,
       y: y * this._fauxHeight + this._padding,
     })
+
+  private _moveToAnchorHover = (mouseMove: Observable<IPoint>) =>
+    mouseMove
+      .pipe(
+        throttleTime(1000 / (this._anchorSize * 2)),
+        filter(_ => !this._dragging$.value),
+        map(cursor =>
+          this._points.closest(
+            cursor,
+            Math.pow(this._anchorSize, Math.PI / 2),
+            this._scaleUp,
+          ),
+        ),
+        distinctUntilChanged((prev, curr) => prev.index === curr.index),
+        tap(result => this._anchor$.next(result)),
+      )
+
+  private _moveToAnchorMove = (mouseMove: Observable<IPoint>) =>
+    mouseMove
+      .pipe(
+        filter(_ => this._dragging$.value),
+        tap(point => {
+          this._anchor$.next(
+            this._points.update(
+              this._anchor$.value.index,
+              point,
+            ),
+          );
+        },
+        ),
+      )
+
+  private _mouseMove = (canvas: HTMLCanvasElement) =>
+    fromEvent(canvas, 'mousemove')
+      .pipe(
+        map(this._mouseToPoint),
+        map(this._clampPoint),
+        share(),
+      )
+
+  private _mouseLeave = (canvas: HTMLCanvasElement) =>
+    fromEvent(canvas, 'mouseleave')
+      .pipe(
+        tap(_ => this._anchor$.next(SplinePointSet.notFound)),
+        tap(_ => this._dragging$.next(false)),
+      )
+
+  private _dblClick = (canvas: HTMLCanvasElement) =>
+    fromEvent(canvas, 'dblclick')
+      .pipe(
+        map(this._mouseToPoint),
+        tap(point => {
+          if (this._anchor$.value.index === -1) {
+            this.add(point);
+          } else {
+            this.remove(this._anchor$.value.point);
+          }
+        }),
+      )
 }
