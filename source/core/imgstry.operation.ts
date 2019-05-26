@@ -142,13 +142,17 @@ namespace Operation {
     };
   };
 
+  const _tintOffset = (pixelChannel: number, tintChannel: number) =>
+    (Default.rgb.max - pixelChannel) *
+    (tintChannel / Default.rgb.max);
+
   export const tint = (color: string) => {
     let rgb = new Hex(color).toRgb();
 
     return (pixel: Rgb) => {
-      pixel.r = pixel.r + (Default.rgb.max - pixel.r) * (rgb.r / Default.rgb.max);
-      pixel.g = pixel.g + (Default.rgb.max - pixel.g) * (rgb.g / Default.rgb.max);
-      pixel.b = pixel.b + (Default.rgb.max - pixel.b) * (rgb.b / Default.rgb.max);
+      pixel.r = pixel.r + _tintOffset(pixel.r, rgb.r);
+      pixel.g = pixel.g + _tintOffset(pixel.g, rgb.g);
+      pixel.b = pixel.b + _tintOffset(pixel.b, rgb.b);
 
       return pixel;
     };
