@@ -46,9 +46,9 @@ export class Cmyk implements IColor {
 
   public toRgb(): Rgb {
     return new Rgb({
-      r: 255 * (1 - Math.min(1, this.c * (1 - this.k) + this.k)),
-      g: 255 * (1 - Math.min(1, this.m * (1 - this.k) + this.k)),
-      b: 255 * (1 - Math.min(1, this.y * (1 - this.k) + this.k)),
+      r: 255 * (1 - Math.min(1, this._applyKChannel(this.c))),
+      g: 255 * (1 - Math.min(1, this._applyKChannel(this.m))),
+      b: 255 * (1 - Math.min(1, this._applyKChannel(this.y))),
     });
   }
 
@@ -72,4 +72,6 @@ export class Cmyk implements IColor {
       k: Math.min(1, Math.max(this.k, 0)),
     });
   }
+
+  private _applyKChannel = (value: number) => value * (1 - this.k) + this.k;
 }
