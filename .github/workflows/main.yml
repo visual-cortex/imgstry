@@ -1,0 +1,69 @@
+name: ci
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [ ubuntu-latest, macos-latest, windows-latest ]
+        node: [ '12' ]
+    name: build / node ${{ matrix.node }} / ${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure node ${{ matrix.node }}
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Restore dependencies
+        run: npm ci
+
+      - name: Build library
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2-preview
+        if: matrix.platform == 'ubuntu-latest'
+        with:
+          name: binaries
+          path: ./dist
+
+  test:
+    strategy:
+      matrix:
+        platform: [ ubuntu-latest, macos-latest, windows-latest ]
+        node: [ '12' ]
+    name: test / node ${{ matrix.node }} / ${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure node ${{ matrix.node }}
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Restore dependencies
+        run: npm ci
+
+      - name: Test library
+        if: matrix.platform != 'ubuntu-latest'
+        run: npm run test
+
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.5.6
+        if: matrix.platform == 'ubuntu-latest'
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.ccToken }}
+        with:
+          debug: true
+          executable: ./cc-test-reporter
+          coverageCommand: npm run test
+          coverageLocations: ./coverage.lcov:lcov
