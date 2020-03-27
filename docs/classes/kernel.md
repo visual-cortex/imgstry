@@ -1,10 +1,10 @@
-[imgstry](../README.md) > [Kernel](../classes/kernel.md)
+[imgstry](../README.md) › [Globals](../globals.md) › [Kernel](kernel.md)
 
 # Class: Kernel
 
 ## Hierarchy
 
-**Kernel**
+* **Kernel**
 
 ## Index
 
@@ -21,66 +21,57 @@
 
 * [forEach](kernel.md#foreach)
 
----
-
 ## Constructors
-
-<a id="constructor"></a>
 
 ###  constructor
 
-⊕ **new Kernel**(_kernel: *`number`[][]*): [Kernel](kernel.md)
+\+ **new Kernel**(`_kernel`: number[][]): *[Kernel](kernel.md)*
 
 *Defined in [kernel/kernel.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/kernel/kernel.ts#L8)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| _kernel | `number`[][] |
+Name | Type |
+------ | ------ |
+`_kernel` | number[][] |
 
-**Returns:** [Kernel](kernel.md)
-
-___
+**Returns:** *[Kernel](kernel.md)*
 
 ## Properties
 
-<a id="height"></a>
-
 ###  height
 
-**● height**: *`number`*
+• **height**: *number*
 
 *Defined in [kernel/kernel.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/kernel/kernel.ts#L8)*
 
 ___
-<a id="width"></a>
 
 ###  width
 
-**● width**: *`number`*
+• **width**: *number*
 
 *Defined in [kernel/kernel.ts:7](https://github.com/visual-cortex/imgstry/blob/master/source/kernel/kernel.ts#L7)*
 
-___
-
 ## Methods
-
-<a id="foreach"></a>
 
 ###  forEach
 
-▸ **forEach**(delegate: *`function`*): `void`
+▸ **forEach**(`delegate`: function): *void*
 
 *Defined in [kernel/kernel.ts:25](https://github.com/visual-cortex/imgstry/blob/master/source/kernel/kernel.ts#L25)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| delegate | `function` |
+▪ **delegate**: *function*
 
-**Returns:** `void`
+▸ (`value`: number, `index`: [KernelIndex](../interfaces/kernelindex.md)): *void*
 
-___
+**Parameters:**
 
+Name | Type |
+------ | ------ |
+`value` | number |
+`index` | [KernelIndex](../interfaces/kernelindex.md) |
+
+**Returns:** *void*

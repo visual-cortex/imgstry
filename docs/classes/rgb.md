@@ -1,22 +1,20 @@
-[imgstry](../README.md) > [Rgb](../classes/rgb.md)
+[imgstry](../README.md) › [Globals](../globals.md) › [Rgb](rgb.md)
 
 # Class: Rgb
 
 Rgb colorspace.
 
-*__export__*: 
+**`export`** 
 
-*__class__*: Rgb
-
-*__implements__*: {IColor}
+**`implements`** {IColor}
 
 ## Hierarchy
 
-**Rgb**
+* **Rgb**
 
 ## Implements
 
-* `IRgb`
+* [IRgb](../interfaces/irgb.md)
 * [IColor](../interfaces/icolor.md)
 
 ## Index
@@ -43,137 +41,122 @@ Rgb colorspace.
 * [toHsv](rgb.md#tohsv)
 * [toRgb](rgb.md#torgb)
 
----
-
 ## Constructors
-
-<a id="constructor"></a>
 
 ###  constructor
 
-⊕ **new Rgb**(__namedParameters?: *`object`*): [Rgb](rgb.md)
+\+ **new Rgb**(`__namedParameters`: object): *[Rgb](rgb.md)*
 
 *Defined in [pixel/color/spaces/rgb.ts:35](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L35)*
 
 **Parameters:**
 
-| Name | Type | Default value |
-| ------ | ------ | ------ |
-| `Default value` __namedParameters | `object` |  DEFAULT |
+▪`Default value`  **__namedParameters**: *object*= DEFAULT
 
-**Returns:** [Rgb](rgb.md)
+Name | Type |
+------ | ------ |
+`b` | number |
+`g` | number |
+`r` | number |
 
-___
+**Returns:** *[Rgb](rgb.md)*
 
 ## Properties
 
-<a id="b"></a>
-
 ###  b
 
-**● b**: *`number`*
+• **b**: *number*
+
+*Implementation of [IRgb](../interfaces/irgb.md).[b](../interfaces/irgb.md#b)*
 
 *Defined in [pixel/color/spaces/rgb.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L31)*
 
 ___
-<a id="g"></a>
 
 ###  g
 
-**● g**: *`number`*
+• **g**: *number*
+
+*Implementation of [IRgb](../interfaces/irgb.md).[g](../interfaces/irgb.md#g)*
 
 *Defined in [pixel/color/spaces/rgb.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L30)*
 
 ___
-<a id="r"></a>
 
 ###  r
 
-**● r**: *`number`*
+• **r**: *number*
+
+*Implementation of [IRgb](../interfaces/irgb.md).[r](../interfaces/irgb.md#r)*
 
 *Defined in [pixel/color/spaces/rgb.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L29)*
 
-___
-
 ## Accessors
-
-<a id="kind"></a>
 
 ###  kind
 
-**get kind**(): [ColorSpace](../enums/colorspace.md)
+• **get kind**(): *[ColorSpace](../enums/colorspace.md)*
 
 *Defined in [pixel/color/spaces/rgb.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L33)*
 
-**Returns:** [ColorSpace](../enums/colorspace.md)
-
-___
+**Returns:** *[ColorSpace](../enums/colorspace.md)*
 
 ## Methods
 
-<a id="clamp"></a>
-
 ###  clamp
 
-▸ **clamp**(): [Rgb](rgb.md)
+▸ **clamp**(): *[Rgb](rgb.md)*
 
-*Implementation of [IColor](../interfaces/icolor.md).[clamp](../interfaces/icolor.md#clamp)*
+*Implementation of [IColor](../interfaces/icolor.md)*
 
-*Defined in [pixel/color/spaces/rgb.ts:110](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L110)*
+*Defined in [pixel/color/spaces/rgb.ts:101](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L101)*
 
-**Returns:** [Rgb](rgb.md)
+**Returns:** *[Rgb](rgb.md)*
 
 ___
-<a id="tocmyk"></a>
 
 ###  toCmyk
 
-▸ **toCmyk**(): [Cmyk](cmyk.md)
+▸ **toCmyk**(): *[Cmyk](cmyk.md)*
 
-*Implementation of [IColor](../interfaces/icolor.md).[toCmyk](../interfaces/icolor.md#tocmyk)*
+*Implementation of [IColor](../interfaces/icolor.md)*
 
-*Defined in [pixel/color/spaces/rgb.ts:80](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L80)*
+*Defined in [pixel/color/spaces/rgb.ts:71](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L71)*
 
-**Returns:** [Cmyk](cmyk.md)
+**Returns:** *[Cmyk](cmyk.md)*
 
 ___
-<a id="tohex"></a>
 
 ###  toHex
 
-▸ **toHex**(): [Hex](hex.md)
+▸ **toHex**(): *[Hex](hex.md)*
 
-*Implementation of [IColor](../interfaces/icolor.md).[toHex](../interfaces/icolor.md#tohex)*
+*Implementation of [IColor](../interfaces/icolor.md)*
 
-*Defined in [pixel/color/spaces/rgb.ts:97](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L97)*
+*Defined in [pixel/color/spaces/rgb.ts:88](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L88)*
 
-**Returns:** [Hex](hex.md)
+**Returns:** *[Hex](hex.md)*
 
 ___
-<a id="tohsv"></a>
 
 ###  toHsv
 
-▸ **toHsv**(): [Hsv](hsv.md)
+▸ **toHsv**(): *[Hsv](hsv.md)*
 
-*Implementation of [IColor](../interfaces/icolor.md).[toHsv](../interfaces/icolor.md#tohsv)*
+*Implementation of [IColor](../interfaces/icolor.md)*
 
 *Defined in [pixel/color/spaces/rgb.ts:43](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L43)*
 
-**Returns:** [Hsv](hsv.md)
+**Returns:** *[Hsv](hsv.md)*
 
 ___
-<a id="torgb"></a>
 
 ###  toRgb
 
-▸ **toRgb**(): [Rgb](rgb.md)
+▸ **toRgb**(): *[Rgb](rgb.md)*
 
-*Implementation of [IColor](../interfaces/icolor.md).[toRgb](../interfaces/icolor.md#torgb)*
+*Implementation of [IColor](../interfaces/icolor.md)*
 
-*Defined in [pixel/color/spaces/rgb.ts:76](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L76)*
+*Defined in [pixel/color/spaces/rgb.ts:67](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/color/spaces/rgb.ts#L67)*
 
-**Returns:** [Rgb](rgb.md)
-
-___
-
+**Returns:** *[Rgb](rgb.md)*

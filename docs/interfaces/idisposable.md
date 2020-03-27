@@ -1,10 +1,10 @@
-[imgstry](../README.md) > [IDisposable](../interfaces/idisposable.md)
+[imgstry](../README.md) › [Globals](../globals.md) › [IDisposable](idisposable.md)
 
 # Interface: IDisposable
 
 ## Hierarchy
 
-**IDisposable**
+* **IDisposable**
 
 ## Implemented by
 
@@ -17,19 +17,12 @@
 
 * [dispose](idisposable.md#dispose)
 
----
-
 ## Methods
-
-<a id="dispose"></a>
 
 ###  dispose
 
-▸ **dispose**(): `void`
+▸ **dispose**(): *void*
 
 *Defined in [types/disposable.ts:2](https://github.com/visual-cortex/imgstry/blob/master/source/types/disposable.ts#L2)*
 
-**Returns:** `void`
-
-___
-
+**Returns:** *void*

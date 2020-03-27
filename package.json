@@ -18,7 +18,6 @@
     "build:types": "node ./.webpack/build/types.js",
     "build:bundle": "webpack -p --progress --env.target prod",
     "build:readme": "typedoc ./source",
-    "postbuild:readme": "node ./.webpack/build/readme.js",
     "clean": "npm run clean:lib && npm run clean:dist && npm run clean:docs",
     "clean:test": "npm run clean:nyc && npm run clean:reports",
     "clean:lib": "rimraf ./lib",

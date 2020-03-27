@@ -1,10 +1,10 @@
-[imgstry](../README.md) > [KernelIndex](../interfaces/kernelindex.md)
+[imgstry](../README.md) › [Globals](../globals.md) › [KernelIndex](kernelindex.md)
 
 # Interface: KernelIndex
 
 ## Hierarchy
 
-**KernelIndex**
+* **KernelIndex**
 
 ## Index
 
@@ -13,26 +13,18 @@
 * [x](kernelindex.md#x)
 * [y](kernelindex.md#y)
 
----
-
 ## Properties
-
-<a id="x"></a>
 
 ###  x
 
-**● x**: *`number`*
+• **x**: *number*
 
 *Defined in [kernel/kernel.ts:2](https://github.com/visual-cortex/imgstry/blob/master/source/kernel/kernel.ts#L2)*
 
 ___
-<a id="y"></a>
 
 ###  y
 
-**● y**: *`number`*
+• **y**: *number*
 
 *Defined in [kernel/kernel.ts:3](https://github.com/visual-cortex/imgstry/blob/master/source/kernel/kernel.ts#L3)*
-
-___
-
