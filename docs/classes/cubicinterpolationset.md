@@ -1,10 +1,10 @@
-[imgstry](../README.md) > [CubicInterpolationSet](../classes/cubicinterpolationset.md)
+[imgstry](../README.md) › [Globals](../globals.md) › [CubicInterpolationSet](cubicinterpolationset.md)
 
 # Class: CubicInterpolationSet
 
 ## Hierarchy
 
-**CubicInterpolationSet**
+* **CubicInterpolationSet**
 
 ## Index
 
@@ -23,84 +23,74 @@
 
 * [at](cubicinterpolationset.md#at)
 
----
-
 ## Constructors
-
-<a id="constructor"></a>
 
 ###  constructor
 
-⊕ **new CubicInterpolationSet**(_points: *[Point](point.md)[]*): [CubicInterpolationSet](cubicinterpolationset.md)
+\+ **new CubicInterpolationSet**(`_points`: [Point](point.md)[]): *[CubicInterpolationSet](cubicinterpolationset.md)*
 
 *Defined in [core/spline/interpolation/cubic/interpolationSet.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/interpolationSet.ts#L8)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| _points | [Point](point.md)[] |
+Name | Type |
+------ | ------ |
+`_points` | [Point](point.md)[] |
 
-**Returns:** [CubicInterpolationSet](cubicinterpolationset.md)
-
-___
+**Returns:** *[CubicInterpolationSet](cubicinterpolationset.md)*
 
 ## Properties
 
-<a id="a"></a>
-
 ###  a
 
-**● a**: *`number`[]*
+• **a**: *number[]*
 
 *Defined in [core/spline/interpolation/cubic/interpolationSet.ts:5](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/interpolationSet.ts#L5)*
 
 ___
-<a id="b"></a>
 
 ###  b
 
-**● b**: *`number`[]*
+• **b**: *number[]*
 
 *Defined in [core/spline/interpolation/cubic/interpolationSet.ts:6](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/interpolationSet.ts#L6)*
 
 ___
-<a id="c"></a>
 
 ###  c
 
-**● c**: *`number`[]*
+• **c**: *number[]*
 
 *Defined in [core/spline/interpolation/cubic/interpolationSet.ts:7](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/interpolationSet.ts#L7)*
 
 ___
-<a id="d"></a>
 
 ###  d
 
-**● d**: *`number`[]*
+• **d**: *number[]*
 
 *Defined in [core/spline/interpolation/cubic/interpolationSet.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/interpolationSet.ts#L8)*
 
-___
-
 ## Methods
-
-<a id="at"></a>
 
 ###  at
 
-▸ **at**(idx: *`number`*): `object`
+▸ **at**(`idx`: number): *object*
 
-*Defined in [core/spline/interpolation/cubic/interpolationSet.ts:46](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/interpolationSet.ts#L46)*
+*Defined in [core/spline/interpolation/cubic/interpolationSet.ts:19](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/interpolationSet.ts#L19)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| idx | `number` |
+Name | Type |
+------ | ------ |
+`idx` | number |
 
-**Returns:** `object`
+**Returns:** *object*
 
-___
+* **a**: *number* = this.a[idx]
 
+* **b**: *number* = this.b[idx]
+
+* **c**: *number* = this.c[idx]
+
+* **d**: *number* = this.d[idx]

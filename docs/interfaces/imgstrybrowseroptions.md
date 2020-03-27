@@ -1,10 +1,10 @@
-[imgstry](../README.md) > [ImgstryBrowserOptions](../interfaces/imgstrybrowseroptions.md)
+[imgstry](../README.md) › [Globals](../globals.md) › [ImgstryBrowserOptions](imgstrybrowseroptions.md)
 
 # Interface: ImgstryBrowserOptions
 
 ## Hierarchy
 
-**ImgstryBrowserOptions**
+* **ImgstryBrowserOptions**
 
 ## Index
 
@@ -12,17 +12,10 @@
 
 * [thread](imgstrybrowseroptions.md#thread)
 
----
-
 ## Properties
-
-<a id="thread"></a>
 
 ###  thread
 
-**● thread**: *`ImgstryThreadOptions`*
+• **thread**: *ImgstryThreadOptions*
 
 *Defined in [platform/browser/imgstry/imgstry.browser.ts:22](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L22)*
-
-___
-

@@ -40,7 +40,6 @@
             "**/index.ts",
             "**/*thread*"
         ],
-        "readme": "./.templates/_README.md",
         "theme": "markdown",
         "mode": "file",
         "mdSourceRepo": "visual-cortex/imgstry",

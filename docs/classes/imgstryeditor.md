@@ -1,31 +1,31 @@
-[imgstry](../README.md) > [ImgstryEditor](../classes/imgstryeditor.md)
+[imgstry](../README.md) › [Globals](../globals.md) › [ImgstryEditor](imgstryeditor.md)
 
 # Class: ImgstryEditor
 
 Defines the imgstry editor schema.
 
-*__export__*: 
+**`export`** 
 
-*__interface__*: ImgstryEditor
+**`interface`** ImgstryEditor
 
-*__template__*: T
+**`template`** 
 
 ## Hierarchy
 
- `ImgstryProcessor`
+* ImgstryProcessor
 
-**↳ ImgstryEditor**
+  ↳ **ImgstryEditor**
 
-↳  [Imgstry](imgstry.md)
+  ↳ [Imgstry](imgstry.md)
 
-↳  [Imgstry](imgstry.md)
+  ↳ [Imgstry](imgstry.md)
 
 ## Index
 
 ### Properties
 
-* [height](imgstryeditor.md#height)
-* [width](imgstryeditor.md#width)
+* [height](imgstryeditor.md#abstract-height)
+* [width](imgstryeditor.md#abstract-width)
 
 ### Accessors
 
@@ -38,577 +38,553 @@ Defines the imgstry editor schema.
 * [blackAndWhite](imgstryeditor.md#blackandwhite)
 * [brightness](imgstryeditor.md#brightness)
 * [clear](imgstryeditor.md#clear)
-* [clone](imgstryeditor.md#clone)
+* [clone](imgstryeditor.md#abstract-clone)
 * [contrast](imgstryeditor.md#contrast)
 * [convolve](imgstryeditor.md#convolve)
-* [createImageData](imgstryeditor.md#createimagedata)
+* [createImageData](imgstryeditor.md#abstract-createimagedata)
 * [fill](imgstryeditor.md#fill)
 * [gamma](imgstryeditor.md#gamma)
 * [hue](imgstryeditor.md#hue)
 * [invert](imgstryeditor.md#invert)
 * [noise](imgstryeditor.md#noise)
-* [render](imgstryeditor.md#render)
+* [render](imgstryeditor.md#abstract-render)
 * [renderSync](imgstryeditor.md#rendersync)
-* [reset](imgstryeditor.md#reset)
+* [reset](imgstryeditor.md#abstract-reset)
 * [saturation](imgstryeditor.md#saturation)
 * [sepia](imgstryeditor.md#sepia)
 * [tint](imgstryeditor.md#tint)
-* [toDataUrl](imgstryeditor.md#todataurl)
+* [toDataUrl](imgstryeditor.md#abstract-todataurl)
 * [vibrance](imgstryeditor.md#vibrance)
-
----
 
 ## Properties
 
-<a id="height"></a>
+### `Abstract` height
 
-### `<Abstract>` height
+• **height**: *number*
 
-**● height**: *`number`*
-
-*Inherited from ImgstryProcessor.height*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L34)*
 
 Height of the image.
 
-*__type__*: {number}
-
-*__memberof__*: ImgstryProcessor
+**`memberof`** ImgstryProcessor
 
 ___
-<a id="width"></a>
 
-### `<Abstract>` width
+### `Abstract` width
 
-**● width**: *`number`*
+• **width**: *number*
 
-*Inherited from ImgstryProcessor.width*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:27](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L27)*
 
 Width of the image.
 
-*__type__*: {number}
-
-*__memberof__*: ImgstryProcessor
-
-___
+**`memberof`** ImgstryProcessor
 
 ## Accessors
 
-<a id="histogram"></a>
-
 ###  histogram
 
-**get histogram**(): `HistogramData`
+• **get histogram**(): *HistogramData*
 
-*Inherited from ImgstryProcessor.histogram*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:104](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L104)*
 
 Returns the channel histogram of the image.
 
-*__readonly__*: 
+**`readonly`** 
 
-*__type__*: {HistogramData}
+**`memberof`** ImgstryProcessor
 
-*__memberof__*: ImgstryProcessor
-
-**Returns:** `HistogramData`
+**Returns:** *HistogramData*
 
 ___
-<a id="imagedata"></a>
 
 ###  imageData
 
-**get imageData**(): `ImageData`
+• **get imageData**(): *ImageData*
 
-**set imageData**(imgData: *`ImageData`*): `any`
-
-*Inherited from ImgstryProcessor.imageData*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:87](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L87)*
 
 Gets the image data.
 
-*__abstract__*: 
+**`abstract`** 
 
-*__type__*: {ImageData}
+**`memberof`** ImgstryProcessor
 
-*__memberof__*: ImgstryProcessor
+**Returns:** *ImageData*
 
-**Returns:** `ImageData`
+• **set imageData**(`imgData`: ImageData): *any*
 
-*Inherited from ImgstryProcessor.imageData*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:95](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L95)*
 
 Sets the image data.
 
-*__abstract__*: 
+**`abstract`** 
 
-*__memberof__*: ImgstryProcessor
+**`memberof`** ImgstryProcessor
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| imgData | `ImageData` |
+Name | Type |
+------ | ------ |
+`imgData` | ImageData |
 
-**Returns:** `any`
-
-___
+**Returns:** *any*
 
 ## Methods
 
-<a id="batch"></a>
-
 ###  batch
 
-▸ **batch**(options: *`OperationOption`[]*, reset?: *`boolean`*): `ImgstryProcessor`
+▸ **batch**(`options`: OperationOption[], `reset?`: boolean): *ImgstryProcessor*
 
-*Inherited from ImgstryProcessor.batch*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:135](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L135)*
 
 Applies a series of filters to the image.
 
-*__memberof__*: ImgstryProcessor
+**`memberof`** ImgstryProcessor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| options | `OperationOption`[] |  The set of operations. |
-| `Optional` reset | `boolean` |
+Name | Type | Description |
+------ | ------ | ------ |
+`options` | OperationOption[] | The set of operations. |
+`reset?` | boolean | - |
 
-**Returns:** `ImgstryProcessor`
+**Returns:** *ImgstryProcessor*
+
 The current processor instance
 
 ___
-<a id="blackandwhite"></a>
 
 ###  blackAndWhite
 
-▸ **blackAndWhite**(ratio?: *[`number`, `number`, `number`]*): [ImgstryEditor](imgstryeditor.md)
+▸ **blackAndWhite**(`ratio?`: [number, number, number]): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:22](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L22)*
+*Defined in [core/imgstry.editor.ts:26](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L26)*
 
 Turn the image black and white with the provided ratio.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` ratio | [`number`, `number`, `number`] |
+Name | Type |
+------ | ------ |
+`ratio?` | [number, number, number] |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="brightness"></a>
 
 ###  brightness
 
-▸ **brightness**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
+▸ **brightness**(`value`: number): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:54](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L54)*
+*Defined in [core/imgstry.editor.ts:48](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L48)*
 
 Increase / decrease image brightness.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| value | `number` |  brightness intensity |
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | number | brightness intensity |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="clear"></a>
 
 ###  clear
 
-▸ **clear**(): `this`
+▸ **clear**(): *this*
 
-*Defined in [core/imgstry.editor.ts:228](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L228)*
+*Defined in [core/imgstry.editor.ts:167](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L167)*
 
 Clears the operation list.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
-**Returns:** `this`
+**Returns:** *this*
+
 the current editor instance
 
 ___
-<a id="clone"></a>
 
-### `<Abstract>` clone
+### `Abstract` clone
 
-▸ **clone**(source: *`ImageData`*): `ImageData`
+▸ **clone**(`source`: ImageData): *ImageData*
 
-*Inherited from ImgstryProcessor.clone*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L70)*
 
 Clone image data
 
-*__abstract__*: 
+**`abstract`** 
 
-*__memberof__*: ImgstryProcessor
+**`memberof`** ImgstryProcessor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| source | `ImageData` |  The source image data. |
+Name | Type | Description |
+------ | ------ | ------ |
+`source` | ImageData | The source image data. |
 
-**Returns:** `ImageData`
+**Returns:** *ImageData*
+
 The cloned canvas image data.
 
 ___
-<a id="contrast"></a>
 
 ###  contrast
 
-▸ **contrast**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
+▸ **contrast**(`value`: number): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L38)*
+*Defined in [core/imgstry.editor.ts:37](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L37)*
 
 Increase / decrease image constrast.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| value | `number` |  contrast intensity |
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | number | contrast intensity |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="convolve"></a>
 
 ###  convolve
 
-▸ **convolve**(kernel: *[Kernel](kernel.md) \| `number`[][]*): [ImgstryEditor](imgstryeditor.md)
+▸ **convolve**(`kernel`: [Kernel](kernel.md) | number[][]): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:213](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L213)*
+*Defined in [core/imgstry.editor.ts:157](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L157)*
 
 Apply a kernel to the active image
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| kernel | [Kernel](kernel.md) \| `number`[][] |  a square matrice that will be applied to the image |
+Name | Type | Description |
+------ | ------ | ------ |
+`kernel` | [Kernel](kernel.md) &#124; number[][] | a square matrice that will be applied to the image |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="createimagedata"></a>
 
-### `<Abstract>` createImageData
+### `Abstract` createImageData
 
-▸ **createImageData**(source: *`ImageData`*): `ImageData`
+▸ **createImageData**(`source`: ImageData): *ImageData*
 
-*Inherited from ImgstryProcessor.createImageData*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:79](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L79)*
 
 Create image data based on a source
 
-*__abstract__*: 
+**`abstract`** 
 
-*__memberof__*: ImgstryProcessor
+**`memberof`** ImgstryProcessor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| source | `ImageData` |  The source image data. |
+Name | Type | Description |
+------ | ------ | ------ |
+`source` | ImageData | The source image data. |
 
-**Returns:** `ImageData`
+**Returns:** *ImageData*
+
 The new image data.
 
 ___
-<a id="fill"></a>
 
 ###  fill
 
-▸ **fill**(color: *`string`*): [ImgstryEditor](imgstryeditor.md)
+▸ **fill**(`color`: string): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:197](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L197)*
+*Defined in [core/imgstry.editor.ts:146](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L146)*
 
 Fill the canvas with a color.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| color | `string` |  the hex color code of the desired tint |
+Name | Type | Description |
+------ | ------ | ------ |
+`color` | string | the hex color code of the desired tint |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="gamma"></a>
 
 ###  gamma
 
-▸ **gamma**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
+▸ **gamma**(`value`: number): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:118](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L118)*
+*Defined in [core/imgstry.editor.ts:92](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L92)*
 
 Increase / decrease image gamma.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| value | `number` |  gamma intensity |
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | number | gamma intensity |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="hue"></a>
 
 ###  hue
 
-▸ **hue**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
+▸ **hue**(`value`: number): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:86](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L86)*
+*Defined in [core/imgstry.editor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L70)*
 
 Shift the image hue.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| value | `number` |  hue shift value (-180, 180) |
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | number | hue shift value (-180, 180) |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="invert"></a>
 
 ###  invert
 
-▸ **invert**(): [ImgstryEditor](imgstryeditor.md)
+▸ **invert**(): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:165](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L165)*
+*Defined in [core/imgstry.editor.ts:124](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L124)*
 
 Invert the image colors.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="noise"></a>
 
 ###  noise
 
-▸ **noise**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
+▸ **noise**(`value`: number): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:134](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L134)*
+*Defined in [core/imgstry.editor.ts:103](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L103)*
 
 Add a provided amount of noise to the image.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| value | `number` |  noise amount |
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | number | noise amount |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="render"></a>
 
-### `<Abstract>` render
+### `Abstract` render
 
-▸ **render**(): `Promise`<[ImgstryEditor](imgstryeditor.md)>
+▸ **render**(): *Promise‹[ImgstryEditor](imgstryeditor.md)›*
 
-*Defined in [core/imgstry.editor.ts:250](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L250)*
+*Defined in [core/imgstry.editor.ts:189](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L189)*
 
 Apply the requested operations to the image using a worker thread.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
-**Returns:** `Promise`<[ImgstryEditor](imgstryeditor.md)>
+**Returns:** *Promise‹[ImgstryEditor](imgstryeditor.md)›*
+
 a promise that resolves in the current editor instance
 
 ___
-<a id="rendersync"></a>
 
 ###  renderSync
 
-▸ **renderSync**(): [ImgstryEditor](imgstryeditor.md)
+▸ **renderSync**(): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:239](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L239)*
+*Defined in [core/imgstry.editor.ts:178](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L178)*
 
 Apply the requested operations to the image.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="reset"></a>
 
-### `<Abstract>` reset
+### `Abstract` reset
 
-▸ **reset**(): `ImgstryProcessor`
+▸ **reset**(): *ImgstryProcessor*
 
-*Inherited from ImgstryProcessor.reset*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:61](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L61)*
 
 Resets the image to the original state.
 
-*__abstract__*: 
+**`abstract`** 
 
-*__memberof__*: ImgstryProcessor
+**`memberof`** ImgstryProcessor
 
-**Returns:** `ImgstryProcessor`
+**Returns:** *ImgstryProcessor*
+
 The current processor instance.
 
 ___
-<a id="saturation"></a>
 
 ###  saturation
 
-▸ **saturation**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
+▸ **saturation**(`value`: number): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L70)*
+*Defined in [core/imgstry.editor.ts:59](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L59)*
 
 Increase / decrease image saturation.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| value | `number` |  saturation intensity |
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | number | saturation intensity |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="sepia"></a>
 
 ###  sepia
 
-▸ **sepia**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
+▸ **sepia**(`value`: number): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:102](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L102)*
+*Defined in [core/imgstry.editor.ts:81](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L81)*
 
 Apply sepia with the specified intensity.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| value | `number` |  desired intensity of the sepia effect |
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | number | desired intensity of the sepia effect |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="tint"></a>
 
 ###  tint
 
-▸ **tint**(color: *`string`*): [ImgstryEditor](imgstryeditor.md)
+▸ **tint**(`color`: string): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:181](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L181)*
+*Defined in [core/imgstry.editor.ts:135](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L135)*
 
 Apply a color tint to the image.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| color | `string` |  the hex color code of the desired tint |
+Name | Type | Description |
+------ | ------ | ------ |
+`color` | string | the hex color code of the desired tint |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
 
 ___
-<a id="todataurl"></a>
 
-### `<Abstract>` toDataUrl
+### `Abstract` toDataUrl
 
-▸ **toDataUrl**(type: *`string`*): `string`
+▸ **toDataUrl**(`type`: string): *string*
 
-*Inherited from ImgstryProcessor.toDataUrl*
+*Inherited from void*
 
 *Defined in [core/imgstry.processor.ts:51](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L51)*
 
 Encodes the canvas data to a data URI.
 
-*__memberof__*: Imgstry
+**`memberof`** Imgstry
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| type | `string` |  The standard MIME type for the image format to return. If you do not specify this parameter, the default value is a PNG format image. |
+Name | Type | Description |
+------ | ------ | ------ |
+`type` | string | The standard MIME type for the image format to return. If you do not specify this parameter, the default value is a PNG format image. |
 
-**Returns:** `string`
+**Returns:** *string*
+
 The image encoded as a data url.
 
 ___
-<a id="vibrance"></a>
 
 ###  vibrance
 
-▸ **vibrance**(value: *`number`*): [ImgstryEditor](imgstryeditor.md)
+▸ **vibrance**(`value`: number): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:150](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L150)*
+*Defined in [core/imgstry.editor.ts:114](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L114)*
 
 Increase / decrease image vibrance.
 
-*__memberof__*: ImgstryEditor
+**`memberof`** ImgstryEditor
 
 **Parameters:**
 
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| value | `number` |  vibrance intensity |
+Name | Type | Description |
+------ | ------ | ------ |
+`value` | number | vibrance intensity |
 
-**Returns:** [ImgstryEditor](imgstryeditor.md)
+**Returns:** *[ImgstryEditor](imgstryeditor.md)*
+
 the current editor instance
-
-___
-

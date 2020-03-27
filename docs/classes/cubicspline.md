@@ -1,10 +1,10 @@
-[imgstry](../README.md) > [CubicSpline](../classes/cubicspline.md)
+[imgstry](../README.md) › [Globals](../globals.md) › [CubicSpline](cubicspline.md)
 
 # Class: CubicSpline
 
 ## Hierarchy
 
-**CubicSpline**
+* **CubicSpline**
 
 ## Index
 
@@ -16,45 +16,34 @@
 
 * [interpolate](cubicspline.md#interpolate)
 
----
-
 ## Constructors
-
-<a id="constructor"></a>
 
 ###  constructor
 
-⊕ **new CubicSpline**(_points: *[IPoint](../interfaces/ipoint.md)[]*): [CubicSpline](cubicspline.md)
+\+ **new CubicSpline**(`_points`: [IPoint](../interfaces/ipoint.md)[]): *[CubicSpline](cubicspline.md)*
 
 *Defined in [core/spline/interpolation/cubic/spline.ts:11](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/spline.ts#L11)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| _points | [IPoint](../interfaces/ipoint.md)[] |
+Name | Type |
+------ | ------ |
+`_points` | [IPoint](../interfaces/ipoint.md)[] |
 
-**Returns:** [CubicSpline](cubicspline.md)
-
-___
+**Returns:** *[CubicSpline](cubicspline.md)*
 
 ## Methods
 
-<a id="interpolate"></a>
-
 ###  interpolate
 
-▸ **interpolate**(x: *`number`*): `number`
+▸ **interpolate**(`x`: number): *number*
 
 *Defined in [core/spline/interpolation/cubic/spline.ts:21](https://github.com/visual-cortex/imgstry/blob/master/source/core/spline/interpolation/cubic/spline.ts#L21)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| x | `number` |
+Name | Type |
+------ | ------ |
+`x` | number |
 
-**Returns:** `number`
-
-___
-
+**Returns:** *number*
