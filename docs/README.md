@@ -6,7 +6,7 @@ Imgstry
 =======
 
 [![npm version](https://badge.fury.io/js/imgstry.svg)](https://badge.fury.io/js/imgstry)
-[![Build Status](https://travis-ci.org/visual-cortex/imgstry.svg?branch=master)](https://travis-ci.org/visual-cortex/imgstry)
+![ci](https://github.com/visual-cortex/imgstry/workflows/ci/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/58e446d2b05ef9317064/maintainability)](https://codeclimate.com/github/visual-cortex/imgstry/maintainability)
 <a href="https://codeclimate.com/github/visual-cortex/imgstry/test_coverage"><img src="https://api.codeclimate.com/v1/badges/58e446d2b05ef9317064/test_coverage" /></a>
 

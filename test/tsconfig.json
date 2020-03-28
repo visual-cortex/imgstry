@@ -1,16 +1,6 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
-    "downlevelIteration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "target": "es6",
-    "sourceMap": false,
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "isolatedModules": false,
     "baseUrl": "../",
     "paths": {
       "~*": [

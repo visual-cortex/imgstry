@@ -11,8 +11,10 @@ describe('class: Kernel', () => {
     });
 
     it(`should throw an error if it's not provided a two-dimensional array`, () => {
+      // @ts-expect-error
       expect(Kernel.bind(Kernel, null)).to.throw;
       expect(Kernel.bind(Kernel, [])).to.throw;
+      // @ts-expect-error
       expect(Kernel.bind(Kernel, {})).to.throw;
     });
 

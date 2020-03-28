@@ -20,7 +20,7 @@
 
 • **color**: *string*
 
-*Defined in [utils/canvas/drawCircle.ts:5](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawCircle.ts#L5)*
+*Defined in [utils/canvas/drawCircle.ts:6](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawCircle.ts#L6)*
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 • **point**: *[IPoint](ipoint.md)*
 
-*Defined in [utils/canvas/drawCircle.ts:6](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawCircle.ts#L6)*
+*Defined in [utils/canvas/drawCircle.ts:7](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawCircle.ts#L7)*
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 • **radius**: *number*
 
-*Defined in [utils/canvas/drawCircle.ts:4](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawCircle.ts#L4)*
+*Defined in [utils/canvas/drawCircle.ts:5](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawCircle.ts#L5)*

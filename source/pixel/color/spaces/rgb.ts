@@ -119,6 +119,8 @@ export class Rgb implements IRgb, IColor {
         return 2 + (pixel.b - pixel.r) / delta;
       case pixel.b:
         return 4 + (pixel.r - pixel.g) / delta;
+      default:
+        return 0;
     }
   }
 }

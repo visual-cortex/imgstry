@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require("webpack-merge");
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TSLoader = require('./.webpack/ts-loader.config');
 const WorkerLoader = require('./.webpack/worker-loader.config');
 
@@ -39,6 +39,7 @@ const base = {
     ]
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin(),
     new webpack.IgnorePlugin(/test\.ts$/)
   ]
 }

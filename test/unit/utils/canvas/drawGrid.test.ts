@@ -79,7 +79,7 @@ describe('canvasUtil: drawGrid', () => {
       } on a ${testCase.width}x${testCase.height} canvas with ${
       testCase.padding
       } padding`, () => {
-        const canvas: HTMLCanvasElement = document.querySelector('#myCanvas');
+        const canvas = document.querySelector<HTMLCanvasElement>('#myCanvas')!;
         canvas.width = testCase.width;
         canvas.height = testCase.height;
 
@@ -89,7 +89,7 @@ describe('canvasUtil: drawGrid', () => {
 
         const { r, g, b } = color.toRgb();
 
-        const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+        const data = canvas.getContext('2d')!.getImageData(0, 0, canvas.width, canvas.height).data;
 
         const stepX = (canvas.width - testCase.padding * 2) / testCase.gridSize;
         const stepY = (canvas.height - testCase.padding * 2) / testCase.gridSize;

@@ -16,7 +16,7 @@ export /**
         image.crossOrigin = 'Anonymous';
 
         image.onload = () => res(image);
-        image.onerror = (err) => rej(image);
+        image.onerror = (err) => rej(err);
 
         image.src = src;
       });

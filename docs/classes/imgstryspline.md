@@ -41,7 +41,7 @@
 
 *Overrides [SplineProcessor](splineprocessor.md).[constructor](splineprocessor.md#constructor)*
 
-*Defined in [platform/browser/spline/spline.browser.ts:74](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L74)*
+*Defined in [platform/browser/spline/spline.browser.ts:75](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L75)*
 
 **Parameters:**
 
@@ -58,7 +58,7 @@ Name | Type | Default |
 
 ▪ **getCanvas**: *getCanvas* = getCanvas
 
-*Defined in [platform/browser/spline/spline.browser.ts:42](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L42)*
+*Defined in [platform/browser/spline/spline.browser.ts:43](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L43)*
 
 ## Methods
 
@@ -68,7 +68,7 @@ Name | Type | Default |
 
 *Overrides [SplineProcessor](splineprocessor.md).[add](splineprocessor.md#add)*
 
-*Defined in [platform/browser/spline/spline.browser.ts:119](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L119)*
+*Defined in [platform/browser/spline/spline.browser.ts:120](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L120)*
 
 **Parameters:**
 
@@ -86,7 +86,7 @@ ___
 
 *Implementation of [IDisposable](../interfaces/idisposable.md)*
 
-*Defined in [platform/browser/spline/spline.browser.ts:133](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L133)*
+*Defined in [platform/browser/spline/spline.browser.ts:134](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L134)*
 
 **Returns:** *void*
 
@@ -154,16 +154,16 @@ ___
 
 ###  remove
 
-▸ **remove**(`point`: [IPoint](../interfaces/ipoint.md)): *void*
+▸ **remove**(`point`: [IPoint](../interfaces/ipoint.md) | null): *void*
 
 *Overrides [SplineProcessor](splineprocessor.md).[remove](splineprocessor.md#remove)*
 
-*Defined in [platform/browser/spline/spline.browser.ts:126](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L126)*
+*Defined in [platform/browser/spline/spline.browser.ts:127](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L127)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`point` | [IPoint](../interfaces/ipoint.md) |
+`point` | [IPoint](../interfaces/ipoint.md) &#124; null |
 
 **Returns:** *void*

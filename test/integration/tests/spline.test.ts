@@ -37,7 +37,7 @@ describe('class: ImgstrySpline (browser)', () => {
       theme: Theme.Light,
     });
     padding = spline['_options'].anchorSize * 2;
-    element = document.querySelector(anchor);
+    element = document.querySelector<HTMLCanvasElement>(anchor)!;
     gridHeight = element.height - padding * 2;
     gridWidth = element.width - padding * 2;
   });

@@ -1,3 +1,5 @@
+import { getContext2D } from '~utils/canvas';
+
 export /**
  * Fills a canvas with the specified color
  *
@@ -6,7 +8,7 @@ export /**
  * @returns {void}
  */
   const fillCanvas = (canvas: HTMLCanvasElement, color: string) => {
-    const context = canvas.getContext('2d');
+    const context = getContext2D(canvas);
     context.fillStyle = color;
     context.fillRect(0, 0, canvas.width, canvas.height);
   };

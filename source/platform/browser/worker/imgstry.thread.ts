@@ -52,7 +52,7 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
   constructor(
     _options: ImgstryThreadOptions,
   ) {
-    this._logger = new Logger(_options.isDebugEnabled);
+    this._logger = new Logger(!!_options.isDebugEnabled);
     this._worker = new ImgstryWorker();
 
     this._worker.onmessage = (message: MessageEvent) => {

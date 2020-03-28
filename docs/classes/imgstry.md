@@ -78,7 +78,7 @@ Processor implementation for the web worker
 
 \+ **new Imgstry**(`canvas`: HTMLCanvasElement, `_options?`: Partial‹[ImgstryBrowserOptions](../interfaces/imgstrybrowseroptions.md)›): *[Imgstry](imgstry.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:68](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L68)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L70)*
 
 Creates an instance of Imgstry.
 
@@ -97,9 +97,9 @@ Name | Type | Description |
 
 • **canvas**: *HTMLCanvasElement*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:78](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L78)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:80](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L80)*
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:26](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L26)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L28)*
 
 (specifies the canvas base for imgstry)
 
@@ -109,9 +109,9 @@ ___
 
 • **context**: *CanvasRenderingContext2D*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:58](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L58)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:60](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L60)*
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:25](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L25)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:27](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L27)*
 
 ___
 
@@ -119,7 +119,7 @@ ___
 
 ▪ **getCanvas**: *getCanvas* = getCanvas
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:55](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L55)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:57](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L57)*
 
 ## Accessors
 
@@ -127,7 +127,7 @@ ___
 
 • **get height**(): *number*
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L32)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L34)*
 
 **Returns:** *number*
 
@@ -157,13 +157,13 @@ ___
 
 • **get imageData**(): *ImageData*
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:85](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L85)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:87](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L87)*
 
 **Returns:** *ImageData*
 
 • **set imageData**(`image`: ImageData): *void*
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:89](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L89)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:91](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L91)*
 
 **Parameters:**
 
@@ -179,7 +179,7 @@ ___
 
 • **get width**(): *number*
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L28)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L30)*
 
 **Returns:** *number*
 
@@ -187,13 +187,13 @@ ___
 
 ###  batch
 
-▸ **batch**(`options`: OperationOption[], `reset?`: boolean): *ImgstryProcessor*
+▸ **batch**(`options`: OperationOption[], `reset?`: undefined | false | true): *ImgstryProcessor*
 
 *Inherited from void*
 
 *Overrides void*
 
-*Defined in [core/imgstry.processor.ts:135](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L135)*
+*Defined in [core/imgstry.processor.ts:136](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L136)*
 
 Applies a series of filters to the image.
 
@@ -204,7 +204,7 @@ Applies a series of filters to the image.
 Name | Type | Description |
 ------ | ------ | ------ |
 `options` | OperationOption[] | The set of operations. |
-`reset?` | boolean | - |
+`reset?` | undefined &#124; false &#124; true | - |
 
 **Returns:** *ImgstryProcessor*
 
@@ -220,7 +220,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[blackAndWhite](imgstryeditor.md#blackandwhite)*
 
-*Defined in [core/imgstry.editor.ts:26](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L26)*
+*Defined in [core/imgstry.editor.ts:27](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L27)*
 
 Turn the image black and white with the provided ratio.
 
@@ -246,7 +246,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[brightness](imgstryeditor.md#brightness)*
 
-*Defined in [core/imgstry.editor.ts:48](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L48)*
+*Defined in [core/imgstry.editor.ts:49](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L49)*
 
 Increase / decrease image brightness.
 
@@ -272,7 +272,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[clear](imgstryeditor.md#clear)*
 
-*Defined in [core/imgstry.editor.ts:167](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L167)*
+*Defined in [core/imgstry.editor.ts:168](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L168)*
 
 Clears the operation list.
 
@@ -290,7 +290,7 @@ ___
 
 *Overrides void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:118](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L118)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:120](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L120)*
 
 **Parameters:**
 
@@ -310,7 +310,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[contrast](imgstryeditor.md#contrast)*
 
-*Defined in [core/imgstry.editor.ts:37](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L37)*
+*Defined in [core/imgstry.editor.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L38)*
 
 Increase / decrease image constrast.
 
@@ -336,7 +336,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[convolve](imgstryeditor.md#convolve)*
 
-*Defined in [core/imgstry.editor.ts:157](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L157)*
+*Defined in [core/imgstry.editor.ts:158](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L158)*
 
 Apply a kernel to the active image
 
@@ -360,7 +360,7 @@ ___
 
 *Overrides void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:126](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L126)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:128](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L128)*
 
 **Parameters:**
 
@@ -378,7 +378,7 @@ ___
 
 *Implementation of [IDisposable](../interfaces/idisposable.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:155](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L155)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:157](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L157)*
 
 Destroys the thread and clears the canvas of data.
 
@@ -392,7 +392,7 @@ ___
 
 ▸ **drawImage**(`image`: HTMLImageElement): *void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:96](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L96)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:98](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L98)*
 
 Draws an image on the canvas.
 
@@ -416,7 +416,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[fill](imgstryeditor.md#fill)*
 
-*Defined in [core/imgstry.editor.ts:146](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L146)*
+*Defined in [core/imgstry.editor.ts:147](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L147)*
 
 Fill the canvas with a color.
 
@@ -442,7 +442,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[gamma](imgstryeditor.md#gamma)*
 
-*Defined in [core/imgstry.editor.ts:92](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L92)*
+*Defined in [core/imgstry.editor.ts:93](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L93)*
 
 Increase / decrease image gamma.
 
@@ -468,7 +468,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[hue](imgstryeditor.md#hue)*
 
-*Defined in [core/imgstry.editor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L70)*
+*Defined in [core/imgstry.editor.ts:71](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L71)*
 
 Shift the image hue.
 
@@ -494,7 +494,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[invert](imgstryeditor.md#invert)*
 
-*Defined in [core/imgstry.editor.ts:124](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L124)*
+*Defined in [core/imgstry.editor.ts:125](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L125)*
 
 Invert the image colors.
 
@@ -514,7 +514,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[noise](imgstryeditor.md#noise)*
 
-*Defined in [core/imgstry.editor.ts:103](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L103)*
+*Defined in [core/imgstry.editor.ts:104](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L104)*
 
 Add a provided amount of noise to the image.
 
@@ -538,7 +538,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[render](imgstryeditor.md#abstract-render)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:138](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L138)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:140](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L140)*
 
 **Returns:** *Promise‹[Imgstry](imgstry.md)›*
 
@@ -552,7 +552,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[renderSync](imgstryeditor.md#rendersync)*
 
-*Defined in [core/imgstry.editor.ts:178](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L178)*
+*Defined in [core/imgstry.editor.ts:179](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L179)*
 
 Apply the requested operations to the image.
 
@@ -570,7 +570,7 @@ ___
 
 *Overrides void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:113](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L113)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:115](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L115)*
 
 **Returns:** *ImgstryProcessor*
 
@@ -584,7 +584,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[saturation](imgstryeditor.md#saturation)*
 
-*Defined in [core/imgstry.editor.ts:59](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L59)*
+*Defined in [core/imgstry.editor.ts:60](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L60)*
 
 Increase / decrease image saturation.
 
@@ -610,7 +610,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[sepia](imgstryeditor.md#sepia)*
 
-*Defined in [core/imgstry.editor.ts:81](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L81)*
+*Defined in [core/imgstry.editor.ts:82](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L82)*
 
 Apply sepia with the specified intensity.
 
@@ -636,7 +636,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[tint](imgstryeditor.md#tint)*
 
-*Defined in [core/imgstry.editor.ts:135](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L135)*
+*Defined in [core/imgstry.editor.ts:136](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L136)*
 
 Apply a color tint to the image.
 
@@ -660,7 +660,7 @@ ___
 
 *Overrides void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:109](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L109)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:111](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L111)*
 
 Returns the content of the current canvas as an image that you can use as a source for another canvas or an HTML element.
 
@@ -686,7 +686,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[vibrance](imgstryeditor.md#vibrance)*
 
-*Defined in [core/imgstry.editor.ts:114](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L114)*
+*Defined in [core/imgstry.editor.ts:115](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L115)*
 
 Increase / decrease image vibrance.
 
@@ -708,7 +708,7 @@ ___
 
 ▸ **loadImage**(`src`: string): *Promise‹HTMLImageElement›*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:56](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L56)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:58](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L58)*
 
 **Parameters:**
 
@@ -720,7 +720,7 @@ Name | Type |
 
 ▸ **loadImage**(`src`: string): *Promise‹HTMLImageElement›*
 
-*Defined in [platform/node/imgstry/imgstry.node.ts:23](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L23)*
+*Defined in [platform/node/imgstry/imgstry.node.ts:25](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L25)*
 
 **Parameters:**
 

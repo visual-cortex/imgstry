@@ -11,7 +11,7 @@ export type OperationMethod = keyof typeof Operation | 'convolve';
 /**
  * Defines possible operation values.
  */
-export type OperationValue = number | string | [number, number, number] | Kernel | number[][];
+export type OperationValue = number | string | [number, number, number] | Kernel | number[][] | null;
 
 /**
  * Imgstry filter option defintion

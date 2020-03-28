@@ -63,10 +63,12 @@
 * [drawCircle](globals.md#const-drawcircle)
 * [drawGrid](globals.md#const-drawgrid)
 * [drawImage](globals.md#const-drawimage)
+* [emptyImageData](globals.md#const-emptyimagedata)
 * [fillCanvas](globals.md#const-fillcanvas)
 * [fillWith](globals.md#fillwith)
 * [findLastIndex](globals.md#findlastindex)
 * [getCanvas](globals.md#const-getcanvas)
+* [getContext2D](globals.md#const-getcontext2d)
 * [imageData](globals.md#const-imagedata)
 * [loadImage](globals.md#const-loadimage)
 * [splineTheme](globals.md#const-splinetheme)
@@ -95,7 +97,7 @@
 
 Name | Type | Default |
 ------ | ------ | ------ |
-`__namedParameters` | [number, number, number] | Default.blackAndWhite.ratio |
+`__namedParameters` | [number, number, number] | DEFAULT.blackAndWhite.ratio |
 
 **Returns:** *(Anonymous function)*
 
@@ -261,6 +263,20 @@ Name | Type |
 
 **Returns:** *(Anonymous function)*
 
+### ▪ **DEFAULT**: *object*
+
+*Defined in [core/imgstry.operation.ts:13](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L13)*
+
+* **blackAndWhite**: *object*
+
+  * **ratio**: *[number, number, number]* = [.3, .59, .11] as [number, number, number]
+
+* **rgb**: *object*
+
+  * **max**: *number* = 255
+
+  * **min**: *number* = 0
+
 ## Type aliases
 
 ###  FillPredicate
@@ -318,13 +334,13 @@ ___
 
 ▸ **assignDefault**(`source`: Partial‹[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)›): *[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L31)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L33)*
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`source` | Partial‹[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)› |
+Name | Type | Default |
+------ | ------ | ------ |
+`source` | Partial‹[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)› | {} |
 
 **Returns:** *[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)*
 
@@ -334,7 +350,7 @@ ___
 
 ▸ **clearCanvas**(`canvas`: HTMLCanvasElement): *void*
 
-*Defined in [utils/canvas/clearCanvas.ts:7](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/clearCanvas.ts#L7)*
+*Defined in [utils/canvas/clearCanvas.ts:9](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/clearCanvas.ts#L9)*
 
 **Parameters:**
 
@@ -350,7 +366,7 @@ ___
 
 ▸ **drawCircle**(`canvas`: HTMLCanvasElement, `options`: [ICircleOptions](interfaces/icircleoptions.md)): *void*
 
-*Defined in [utils/canvas/drawCircle.ts:16](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawCircle.ts#L16)*
+*Defined in [utils/canvas/drawCircle.ts:17](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawCircle.ts#L17)*
 
 **Parameters:**
 
@@ -367,7 +383,7 @@ ___
 
 ▸ **drawGrid**(`canvas`: HTMLCanvasElement, `__namedParameters`: object): *void*
 
-*Defined in [utils/canvas/drawGrid.ts:14](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawGrid.ts#L14)*
+*Defined in [utils/canvas/drawGrid.ts:16](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawGrid.ts#L16)*
 
 **Parameters:**
 
@@ -389,7 +405,7 @@ ___
 
 ▸ **drawImage**(`canvas`: HTMLCanvasElement, `image`: CanvasImageSource): *void*
 
-*Defined in [utils/canvas/drawImage.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawImage.ts#L8)*
+*Defined in [utils/canvas/drawImage.ts:10](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawImage.ts#L10)*
 
 **Parameters:**
 
@@ -402,11 +418,27 @@ Name | Type |
 
 ___
 
+### `Const` emptyImageData
+
+▸ **emptyImageData**(`canvas`: HTMLCanvasElement): *ImageData*
+
+*Defined in [utils/canvas/emptyImageData.ts:9](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/emptyImageData.ts#L9)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`canvas` | HTMLCanvasElement |
+
+**Returns:** *ImageData*
+
+___
+
 ### `Const` fillCanvas
 
 ▸ **fillCanvas**(`canvas`: HTMLCanvasElement, `color`: string): *void*
 
-*Defined in [utils/canvas/fillCanvas.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/fillCanvas.ts#L8)*
+*Defined in [utils/canvas/fillCanvas.ts:10](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/fillCanvas.ts#L10)*
 
 **Parameters:**
 
@@ -500,11 +532,27 @@ the canvas element
 
 ___
 
+### `Const` getContext2D
+
+▸ **getContext2D**(`canvas`: HTMLCanvasElement): *CanvasRenderingContext2D*
+
+*Defined in [utils/canvas/getContext2D.ts:7](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/getContext2D.ts#L7)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`canvas` | HTMLCanvasElement |
+
+**Returns:** *CanvasRenderingContext2D*
+
+___
+
 ### `Const` imageData
 
 ▸ **imageData**(`canvas`: HTMLCanvasElement): *ImageData*
 
-*Defined in [utils/canvas/imageData.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/imageData.ts#L8)*
+*Defined in [utils/canvas/imageData.ts:9](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/imageData.ts#L9)*
 
 **Parameters:**
 
@@ -645,10 +693,10 @@ ___
 
 ### ▪ **DEFAULT_OPTIONS**: *object*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:25](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L25)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:27](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L27)*
 
 ▪ **thread**: *object*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:26](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L26)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L28)*
 
 * **isDebugEnabled**: *false* = false

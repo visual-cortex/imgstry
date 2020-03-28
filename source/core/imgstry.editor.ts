@@ -1,3 +1,4 @@
+import { Operation } from '~core/imgstry.operation';
 import { ImgstryProcessor } from '~core/imgstry.processor';
 import {
   OperationMethod,
@@ -24,7 +25,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public blackAndWhite(ratio?: [number, number, number]): ImgstryEditor {
-    return this._recordOperatoin('blackAndWhite', ratio);
+    return this._recordOperation('blackAndWhite', ratio ?? Operation.DEFAULT.blackAndWhite.ratio);
   }
 
   /**
@@ -35,7 +36,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public contrast(value: number): ImgstryEditor {
-    return this._recordOperatoin('contrast', value);
+    return this._recordOperation('contrast', value);
   }
 
   /**
@@ -46,7 +47,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public brightness(value: number): ImgstryEditor {
-    return this._recordOperatoin('brightness', value);
+    return this._recordOperation('brightness', value);
   }
 
   /**
@@ -57,7 +58,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public saturation(value: number): ImgstryEditor {
-    return this._recordOperatoin('saturation', value);
+    return this._recordOperation('saturation', value);
   }
 
   /**
@@ -68,7 +69,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   * @memberof ImgstryEditor
   */
   public hue(value: number): ImgstryEditor {
-    return this._recordOperatoin('hue', value);
+    return this._recordOperation('hue', value);
   }
 
   /**
@@ -79,7 +80,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public sepia(value: number): ImgstryEditor {
-    return this._recordOperatoin('sepia', value);
+    return this._recordOperation('sepia', value);
   }
 
   /**
@@ -90,7 +91,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   * @memberof ImgstryEditor
   */
   public gamma(value: number): ImgstryEditor {
-    return this._recordOperatoin('gamma', value);
+    return this._recordOperation('gamma', value);
   }
 
   /**
@@ -101,7 +102,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public noise(value: number): ImgstryEditor {
-    return this._recordOperatoin('noise', value);
+    return this._recordOperation('noise', value);
   }
 
   /**
@@ -112,7 +113,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public vibrance(value: number): ImgstryEditor {
-    return this._recordOperatoin('vibrance', value);
+    return this._recordOperation('vibrance', value);
   }
 
   /**
@@ -122,7 +123,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public invert(): ImgstryEditor {
-    return this._recordOperatoin('invert', null);
+    return this._recordOperation('invert', null);
   }
 
   /**
@@ -133,7 +134,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public tint(color: string): ImgstryEditor {
-    return this._recordOperatoin('tint', color);
+    return this._recordOperation('tint', color);
   }
 
   /**
@@ -144,7 +145,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public fill(color: string): ImgstryEditor {
-    return this._recordOperatoin('fill', color);
+    return this._recordOperation('fill', color);
   }
 
   /**
@@ -155,7 +156,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
    * @memberof ImgstryEditor
    */
   public convolve(kernel: Kernel | number[][]): ImgstryEditor {
-    return this._recordOperatoin('convolve', kernel);
+    return this._recordOperation('convolve', kernel);
   }
 
   /**
@@ -188,7 +189,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   */
   public abstract render(): Promise<ImgstryEditor>;
 
-  private _recordOperatoin = (name: OperationMethod, value: OperationValue) => {
+  private _recordOperation = (name: OperationMethod, value: OperationValue) => {
     this._operations.push({
       name,
       value,

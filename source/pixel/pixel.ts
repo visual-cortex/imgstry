@@ -27,9 +27,7 @@ export class Pixel<T extends IColor> implements IPoint {
   }
 
   public get colorSpace(): ColorSpace {
-    return !!this.color ?
-      this.color.kind :
-      ColorSpace.Empty;
+    return this.color?.kind ?? ColorSpace.Empty;
   }
 
   constructor(
@@ -42,9 +40,8 @@ export class Pixel<T extends IColor> implements IPoint {
   }
 
   private _normalize(coordinate: number) {
-    return !coordinate ||
-      coordinate < 0 ?
-      0 :
-      coordinate;
+    return !coordinate || coordinate < 0
+      ? 0
+      : coordinate;
   }
 }

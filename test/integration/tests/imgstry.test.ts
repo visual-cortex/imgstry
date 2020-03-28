@@ -37,7 +37,7 @@ const render = async (processor: ImgstryEditor, method: RenderMethod): Promise<I
 const wait = async (timeout: number) =>
   new Promise((res) => setTimeout(() => res(), timeout));
 
-const renderers = ['sync'];
+const renderers: RenderMethod[] = ['sync'];
 
 if (isServer) {
   renderers.push('async');
@@ -50,7 +50,7 @@ describe('class: Imgstry (browser)', () => {
   let test: Mocha.Test;
 
   beforeEach(function () {
-    test = this.currentTest;
+    test = this.currentTest!;
     test.timeout(10000);
     board = Imgstry.getCanvas(anchor);
     processor = new Imgstry(board, {
@@ -61,7 +61,7 @@ describe('class: Imgstry (browser)', () => {
   });
 
   afterEach(function () {
-    takeScreenshot(this.currentTest);
+    takeScreenshot(this.currentTest!);
   });
 
   renderers.forEach((method: RenderMethod) => {

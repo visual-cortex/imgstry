@@ -20,7 +20,7 @@
 
 • **anchorSize**: *number*
 
-*Defined in [platform/browser/spline/spline.browser.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L38)*
+*Defined in [platform/browser/spline/spline.browser.ts:39](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L39)*
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 • **gridSize**: *number*
 
-*Defined in [platform/browser/spline/spline.browser.ts:37](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L37)*
+*Defined in [platform/browser/spline/spline.browser.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L38)*
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 • **theme**: *Theme*
 
-*Defined in [platform/browser/spline/spline.browser.ts:36](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L36)*
+*Defined in [platform/browser/spline/spline.browser.ts:37](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/spline/spline.browser.ts#L37)*
