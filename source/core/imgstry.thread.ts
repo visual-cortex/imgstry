@@ -42,5 +42,5 @@ export interface IImgstryThread {
   run({
     imageData,
     operations,
-  }: IThreadData): Promise<IThreadResult>;
+  }: IThreadData): Promise<IThreadResult | undefined>;
 }

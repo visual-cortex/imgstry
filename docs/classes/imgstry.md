@@ -378,7 +378,7 @@ ___
 
 *Implementation of [IDisposable](../interfaces/idisposable.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:157](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L157)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:159](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L159)*
 
 Destroys the thread and clears the canvas of data.
 

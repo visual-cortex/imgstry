@@ -1,7 +1,13 @@
-import { Subject } from 'rxjs';
+import {
+  animationFrameScheduler,
+  fromEvent,
+  Subject,
+} from 'rxjs';
 import {
   filter,
   first,
+  observeOn,
+  takeUntil,
 } from 'rxjs/operators';
 import ImgstryWorker from 'worker-loader?inline=true&fallback=false!./imgstry.worker';
 import {
@@ -40,6 +46,7 @@ export interface ImgstryThreadOptions {
 export class ImgstryThread implements IImgstryThread, IDisposable {
   public process$ = new Subject<IThreadResult>();
 
+  private _disposed$ = new Subject();
   private _worker: ImgstryWorker;
   private _logger: Logger;
 
@@ -55,22 +62,17 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
     this._logger = new Logger(!!_options.isDebugEnabled);
     this._worker = new ImgstryWorker();
 
-    this._worker.onmessage = (message: MessageEvent) => {
-      this._logger.info(
-        'Worker recieved:',
-        message.data,
-      );
-      const { buffer, width, height, guid } = (message.data as IWorkerResult);
-      this.process$.next({
-        imageData: new ImageData(new Uint8ClampedArray(buffer), width, height),
-        guid,
-      });
-    };
+    fromEvent<MessageEvent>(this._worker, 'message')
+      .pipe(
+        takeUntil(this._disposed$),
+      )
+      .subscribe(this._handleMessage);
 
-    this._worker.onerror = (err: ErrorEvent) => {
-      this._logger.error(err);
-      this.process$.error(err);
-    };
+    fromEvent<ErrorEvent>(this._worker, 'error')
+      .pipe(
+        takeUntil(this._disposed$),
+      )
+      .subscribe(this._handleError);
   }
 
   /**
@@ -86,7 +88,7 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
   public run({
     imageData,
     operations,
-  }: IThreadData): Promise<IThreadResult> {
+  }: IThreadData): Promise<IThreadResult | undefined> {
     const identifier = uuid();
 
     const data: IWorkerData = {
@@ -103,6 +105,7 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
       .pipe(
         filter(response => response.guid === identifier),
         first(),
+        observeOn(animationFrameScheduler),
       )
       .toPromise();
   }
@@ -115,6 +118,25 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
    */
   public dispose() {
     this._worker.terminate();
+    this._disposed$.next();
+    this._disposed$.complete();
     this.process$.complete();
+  }
+
+  private _handleMessage = (message: MessageEvent) => {
+    this._logger.info(
+      'Worker recieved:',
+      message.data,
+    );
+    const { buffer, width, height, guid } = (message.data as IWorkerResult);
+    this.process$.next({
+      imageData: new ImageData(new Uint8ClampedArray(buffer), width, height),
+      guid,
+    });
+  }
+
+  private _handleError = (err: ErrorEvent) => {
+    this._logger.error(err);
+    this.process$.error(err);
   }
 }

@@ -143,7 +143,9 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
       operations: this._operations,
     });
 
-    this.imageData = result.imageData;
+    if (!!result) {
+      this.imageData = result.imageData;
+    }
 
     return this.clear();
   }
