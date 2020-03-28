@@ -10,7 +10,7 @@ export
  * @ignore
  */
 namespace Operation {
-  const Default = {
+  export const DEFAULT = {
     blackAndWhite: {
       ratio: [.3, .59, .11] as [number, number, number],
     },
@@ -22,7 +22,7 @@ namespace Operation {
 
   const _generateLut = (delegate: (i: number) => number): Record<number, number> => {
     const arr: number[] = [];
-    for (let i = Default.rgb.min; i <= Default.rgb.max; i++) {
+    for (let i = DEFAULT.rgb.min; i <= DEFAULT.rgb.max; i++) {
       arr[i] = delegate(i);
     }
     return arr;
@@ -93,7 +93,7 @@ namespace Operation {
     }
 
     const lut = _generateLut((i) => {
-      return Math.pow(i / Default.rgb.max, value) * Default.rgb.max;
+      return Math.pow(i / DEFAULT.rgb.max, value) * DEFAULT.rgb.max;
     });
 
     return (pixel: Rgb) => lookup(lut)(pixel.clamp());
@@ -101,7 +101,7 @@ namespace Operation {
 
   export const noise = (value: number) => {
     return (pixel: Rgb) => {
-      let random = Math.random() * value * (Default.rgb.max / 100);
+      let random = Math.random() * value * (DEFAULT.rgb.max / 100);
       random = (Math.random() > .5 ? -random : random);
 
       pixel.r += random;
@@ -122,7 +122,7 @@ namespace Operation {
 
       max = Math.max(pixel.r, pixel.g, pixel.b);
       average = (pixel.r + pixel.g + pixel.b) / 3;
-      amount = ((Math.abs(max - average) * 2 / Default.rgb.max) * value) / 100;
+      amount = ((Math.abs(max - average) * 2 / DEFAULT.rgb.max) * value) / 100;
 
       pixel.r += (max - pixel.r) * amount;
       pixel.g += (max - pixel.g) * amount;
@@ -134,17 +134,17 @@ namespace Operation {
 
   export const invert = () => {
     return (pixel: Rgb) => {
-      pixel.r ^= Default.rgb.max;
-      pixel.g ^= Default.rgb.max;
-      pixel.b ^= Default.rgb.max;
+      pixel.r ^= DEFAULT.rgb.max;
+      pixel.g ^= DEFAULT.rgb.max;
+      pixel.b ^= DEFAULT.rgb.max;
 
       return pixel;
     };
   };
 
   const _tintOffset = (pixelChannel: number, tintChannel: number) =>
-    (Default.rgb.max - pixelChannel) *
-    (tintChannel / Default.rgb.max);
+    (DEFAULT.rgb.max - pixelChannel) *
+    (tintChannel / DEFAULT.rgb.max);
 
   export const tint = (color: string) => {
     let rgb = new Hex(color).toRgb();
@@ -166,9 +166,9 @@ namespace Operation {
     };
   };
 
-  export const blackAndWhite = ([rRatio, gRatio, bRatio]: [number, number, number] = Default.blackAndWhite.ratio) => {
+  export const blackAndWhite = ([rRatio, gRatio, bRatio]: [number, number, number] = DEFAULT.blackAndWhite.ratio) => {
     if (rRatio + gRatio + bRatio !== 1) {
-      [rRatio, gRatio, bRatio] = Default.blackAndWhite.ratio;
+      [rRatio, gRatio, bRatio] = DEFAULT.blackAndWhite.ratio;
     }
 
     return (pixel: Rgb) => {
@@ -190,11 +190,11 @@ namespace Operation {
     value = Math.pow((value + 100) / 100, 2);
 
     const lut = _generateLut((i) => {
-      i /= Default.rgb.max;
+      i /= DEFAULT.rgb.max;
       i -= .5;
       i *= value;
       i += .5;
-      i *= Default.rgb.max;
+      i *= DEFAULT.rgb.max;
 
       return i;
     });
@@ -203,7 +203,7 @@ namespace Operation {
   };
 
   export const brightness = (value: number) => {
-    value = Math.floor(Default.rgb.max * (value / 100));
+    value = Math.floor(DEFAULT.rgb.max * (value / 100));
 
     return (pixel: Rgb) => {
       pixel.r += value;

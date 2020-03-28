@@ -202,7 +202,7 @@ ___
 
 ###  remove
 
-▸ **remove**(`index`: number): *[Point](point.md)*
+▸ **remove**(`index`: number): *[Point](point.md) | undefined*
 
 *Defined in [core/point/splinePointSet.ts:106](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L106)*
 
@@ -212,7 +212,7 @@ Name | Type |
 ------ | ------ |
 `index` | number |
 
-**Returns:** *[Point](point.md)*
+**Returns:** *[Point](point.md) | undefined*
 
 ___
 

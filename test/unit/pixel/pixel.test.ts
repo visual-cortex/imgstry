@@ -27,6 +27,7 @@ describe('class: Pixel', () => {
     });
 
     it('should return correct color space for empty pixel', () => {
+      // @ts-ignore
       const pixel = new Pixel(0, 0, null);
 
       expect(pixel.colorSpace).eql(ColorSpace.Empty);

@@ -89,7 +89,7 @@ describe('canvasUtil: drawCircle', () => {
       } having the center-point in x:${testCase.point.x} y:${testCase.point.y} of radius ${
       testCase.radius
       }`, () => {
-        const canvas: HTMLCanvasElement = document.querySelector('#myCanvas');
+        const canvas = document.querySelector<HTMLCanvasElement>('#myCanvas')!;
 
         canvas.width = 100;
         canvas.height = 100;
@@ -106,7 +106,7 @@ describe('canvasUtil: drawCircle', () => {
 
         const { r, g, b } = color.toRgb();
 
-        const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+        const data = canvas.getContext('2d')!.getImageData(0, 0, canvas.width, canvas.height).data;
 
         for (let y = 0; y < canvas.height; y++) {
           for (let x = 0; x < canvas.width; x++) {

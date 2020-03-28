@@ -25,6 +25,6 @@ ___
 
 ###  point
 
-• **point**: *[IPoint](ipoint.md)*
+• **point**: *[IPoint](ipoint.md) | null*
 
 *Defined in [core/point/splinePointSet.ts:8](https://github.com/visual-cortex/imgstry/blob/master/source/core/point/splinePointSet.ts#L8)*

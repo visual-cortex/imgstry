@@ -20,7 +20,7 @@
 
 • **color**: *string*
 
-*Defined in [utils/canvas/drawGrid.ts:3](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawGrid.ts#L3)*
+*Defined in [utils/canvas/drawGrid.ts:5](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawGrid.ts#L5)*
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 • **gridSize**: *number*
 
-*Defined in [utils/canvas/drawGrid.ts:2](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawGrid.ts#L2)*
+*Defined in [utils/canvas/drawGrid.ts:4](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawGrid.ts#L4)*
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 • **padding**: *number*
 
-*Defined in [utils/canvas/drawGrid.ts:4](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawGrid.ts#L4)*
+*Defined in [utils/canvas/drawGrid.ts:6](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawGrid.ts#L6)*

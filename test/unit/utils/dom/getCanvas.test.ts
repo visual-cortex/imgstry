@@ -25,6 +25,7 @@ describe('domUtil: getCanvas', () => {
 
   [0, null, void 0, false, ''].forEach(value => {
     it(`should throw an error if a (value) is provided`, () => {
+      // @ts-ignore
       expect(getCanvas.bind(getCanvas, value)).to.throw('A canvas selector must be provided.');
     });
   });

@@ -1,4 +1,5 @@
 import { IPoint } from '~core/point';
+import { getContext2D } from '~utils/canvas/getContext2D';
 
 interface ICircleOptions {
   radius: number;
@@ -17,8 +18,7 @@ export /**
     canvas: HTMLCanvasElement,
     options: ICircleOptions,
   ) => {
-    const context = canvas.getContext('2d');
-
+    const context = getContext2D(canvas);
     context.beginPath();
 
     context.arc(

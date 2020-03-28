@@ -38,7 +38,7 @@ export abstract class ImgstryProcessor {
    * @type {ImageData}
    * @memberOf ImgstryProcessor
    */
-  protected _original: ImageData;
+  protected _original: ImageData | null = null;
 
   /**
    * Encodes the canvas data to a data URI.
@@ -114,11 +114,12 @@ export abstract class ImgstryProcessor {
     };
 
     this._traverse((pixel, info) => {
+      const total = info?.total ?? Operation.DEFAULT.rgb.max;
       const mean = Math.floor((pixel.r + pixel.g + pixel.b) / 3);
-      histogramResult.all[mean] += 1 / info.total;
-      histogramResult.channel.red[pixel.r] += 1 / info.total;
-      histogramResult.channel.green[pixel.g] += 1 / info.total;
-      histogramResult.channel.blue[pixel.b] += 1 / info.total;
+      histogramResult.all[mean] += 1 / total;
+      histogramResult.channel.red[pixel.r] += 1 / total;
+      histogramResult.channel.green[pixel.g] += 1 / total;
+      histogramResult.channel.blue[pixel.b] += 1 / total;
     });
 
     return histogramResult;

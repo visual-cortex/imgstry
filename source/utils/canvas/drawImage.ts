@@ -1,3 +1,5 @@
+import { getContext2D } from '~utils/canvas';
+
 export /**
  * draws an image on a canvas
  *
@@ -6,6 +8,6 @@ export /**
  * @returns {void}
  */
   const drawImage = (canvas: HTMLCanvasElement, image: CanvasImageSource) => {
-    const context = canvas.getContext('2d');
+    const context = getContext2D(canvas);
     context.drawImage(image, 0, 0);
   };

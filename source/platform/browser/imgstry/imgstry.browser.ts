@@ -10,7 +10,9 @@ import { IDisposable } from '~types';
 import {
   clearCanvas,
   drawImage,
+  emptyImageData,
   fillCanvas,
+  getContext2D,
   imageData,
 } from '~utils/canvas';
 import {
@@ -28,7 +30,7 @@ const DEFAULT_OPTIONS: ImgstryBrowserOptions = {
   },
 };
 
-const assignDefault = (source: Partial<ImgstryBrowserOptions>): ImgstryBrowserOptions => {
+const assignDefault = (source: Partial<ImgstryBrowserOptions> = {}): ImgstryBrowserOptions => {
   source = source || {} as ImgstryBrowserOptions;
   source.thread = source.thread || {} as ImgstryThreadOptions;
 
@@ -76,14 +78,14 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
    */
   constructor(
     public readonly canvas: HTMLCanvasElement,
-    private _options?: Partial<ImgstryBrowserOptions>,
+    _options?: Partial<ImgstryBrowserOptions>,
   ) {
     super();
-    this._options = assignDefault(_options) as ImgstryBrowserOptions;
-    this.context = this.canvas.getContext('2d');
+    const options = assignDefault(_options);
+    this.context = getContext2D(canvas);
     fillCanvas(this.canvas, '');
     this._original = this.clone(this.imageData);
-    this._thread = new ImgstryThread(this._options.thread);
+    this._thread = new ImgstryThread(options.thread);
   }
 
   /**
@@ -111,7 +113,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
   }
 
   public reset(): ImgstryProcessor {
-    this.imageData = this._original;
+    this.imageData = this._original ?? emptyImageData(this.canvas);
     return <ImgstryProcessor>this;
   }
 

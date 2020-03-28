@@ -1,3 +1,5 @@
+import { getContext2D } from '~utils/canvas';
+
 interface IGridOptions {
   gridSize: number;
   color: string;
@@ -15,7 +17,7 @@ export /**
     canvas: HTMLCanvasElement,
     { gridSize, color, padding }: IGridOptions,
   ) => {
-    const context = canvas.getContext('2d');
+    const context = getContext2D(canvas);
     context.beginPath();
 
     const totalPadd = padding * 2;

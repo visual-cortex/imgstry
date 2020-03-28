@@ -40,7 +40,7 @@
 
 \+ **new Pixel**(`_x`: number, `_y`: number, `color?`: T): *[Pixel](pixel.md)*
 
-*Defined in [pixel/pixel.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L33)*
+*Defined in [pixel/pixel.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L31)*
 
 **Parameters:**
 
@@ -58,7 +58,7 @@ Name | Type |
 
 • **color**? : *T*
 
-*Defined in [pixel/pixel.ts:38](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L38)*
+*Defined in [pixel/pixel.ts:36](https://github.com/visual-cortex/imgstry/blob/master/source/pixel/pixel.ts#L36)*
 
 ## Accessors
 

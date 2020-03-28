@@ -29,6 +29,7 @@ import {
   drawCircle,
   drawGrid,
   fillCanvas,
+  getContext2D,
 } from '~utils/canvas';
 import { getCanvas } from '~utils/dom';
 
@@ -79,7 +80,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
   ) {
     super(_canvas.width + 1);
 
-    this._context = this._canvas.getContext('2d');
+    this._context = getContext2D(_canvas);
     this._padding = this._anchorSize * 2;
 
     this._fauxWidth = this._width - this._padding * 2;
@@ -123,8 +124,8 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
     this._draw$.next();
   }
 
-  public remove = (point: IPoint) => {
-    if (!this._points.length) { return; }
+  public remove = (point: IPoint | null) => {
+    if (!this._points.length || !point) { return; }
 
     super.remove(point);
     this._draw$.next();
@@ -132,8 +133,8 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
 
   public dispose() {
     this._destroyed$.next();
-    this._context = null;
-    this._canvas = null;
+    delete this._context;
+    delete this._canvas;
   }
 
   private _draw = () => {
@@ -253,7 +254,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
       )
 
   private _mouseMove = (canvas: HTMLCanvasElement) =>
-    fromEvent(canvas, 'mousemove')
+    fromEvent<MouseEvent>(canvas, 'mousemove')
       .pipe(
         map(this._mouseToPoint),
         map(this._clampPoint),
@@ -268,7 +269,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
       )
 
   private _dblClick = (canvas: HTMLCanvasElement) =>
-    fromEvent(canvas, 'dblclick')
+    fromEvent<MouseEvent>(canvas, 'dblclick')
       .pipe(
         map(this._mouseToPoint),
         tap(point => {

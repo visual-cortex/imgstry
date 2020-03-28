@@ -5,7 +5,7 @@ import {
 
 export interface IPointResult {
   index: number;
-  point: IPoint;
+  point: IPoint | null;
 }
 
 export class SplinePointSet implements Iterable<Point> {
@@ -103,7 +103,7 @@ export class SplinePointSet implements Iterable<Point> {
   public forEach = (predicateFn: (value: Point, index: number) => void) =>
     this._points.forEach(predicateFn)
 
-  public remove(index: number): Point {
+  public remove(index: number): Point | undefined {
     if (
       index < 0 ||
       index > this.length ||

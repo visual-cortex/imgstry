@@ -9,7 +9,9 @@ import {
 } from '~core';
 import {
   drawImage,
+  emptyImageData,
   fillCanvas,
+  getContext2D,
   imageData,
 } from '~utils/canvas';
 import { loadImage } from '~utils/dom';
@@ -43,7 +45,7 @@ export class Imgstry extends ImgstryEditor {
   constructor(width: number, height: number) {
     super();
     this.canvas = new Canvas(width, height);
-    this.context = this.canvas.getContext('2d');
+    this.context = getContext2D(this.canvas);
     fillCanvas(this.canvas, '');
     this._original = this.clone(this.imageData);
   }
@@ -65,7 +67,7 @@ export class Imgstry extends ImgstryEditor {
   }
 
   public reset(): ImgstryProcessor {
-    this.imageData = this._original;
+    this.imageData = this._original || emptyImageData(this.canvas);
     return <ImgstryProcessor>this;
   }
 
