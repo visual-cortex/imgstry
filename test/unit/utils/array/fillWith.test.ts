@@ -7,7 +7,7 @@ const repeatWith = (predicate: (count: number) => void) =>
 describe('arrayUtil: fillWith', () => {
   repeatWith(count => {
     it(`should generate an array with ${count} entries`, () => {
-      // @ts-ignore
+      // @ts-expect-error
       expect(fillWith(count, void 0).length).to.equal(count);
     });
 
