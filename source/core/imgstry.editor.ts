@@ -4,6 +4,7 @@ import {
   OperationMethod,
   OperationOption,
   OperationValue,
+  RenderTarget,
 } from '~core/types';
 import { Kernel } from '~kernel';
 
@@ -184,10 +185,11 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
   * Apply the requested operations to the image using a worker thread.
   *
+  * @param {RenderTarget} target the processing target
   * @returns {Promise<T>} a promise that resolves in the current editor instance
   * @memberof ImgstryEditor
   */
-  public abstract render(): Promise<ImgstryEditor>;
+  public abstract render(target: RenderTarget): Promise<ImgstryEditor>;
 
   private _recordOperation = (name: OperationMethod, value: OperationValue) => {
     this._operations.push({

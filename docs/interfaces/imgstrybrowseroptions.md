@@ -18,4 +18,4 @@
 
 • **thread**: *ImgstryThreadOptions*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:24](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L24)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:25](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L25)*

@@ -104,3 +104,5 @@ export interface TraversalPixelInfo {
    */
   total: number;
 }
+
+export type RenderTarget = 'current' | 'original';

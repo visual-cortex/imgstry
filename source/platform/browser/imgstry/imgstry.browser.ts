@@ -1,6 +1,7 @@
 import {
   ImgstryEditor,
   ImgstryProcessor,
+  RenderTarget,
 } from '~core';
 import {
   ImgstryThread,
@@ -137,9 +138,11 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
     this.context.putImageData(image, 0, 0);
   }
 
-  public async render(): Promise<Imgstry> {
+  public async render(target: RenderTarget = 'current'): Promise<Imgstry> {
     const result = await this._thread.run({
-      imageData: this.imageData,
+      imageData: target === 'current' ?
+        this.imageData :
+        this.clone(this._original || emptyImageData(this.canvas)),
       operations: this._operations,
     });
 

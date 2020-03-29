@@ -6,6 +6,7 @@ import {
 import {
   ImgstryEditor,
   ImgstryProcessor,
+  RenderTarget,
 } from '~core';
 import {
   drawImage,
@@ -92,7 +93,7 @@ export class Imgstry extends ImgstryEditor {
     this.context.putImageData(image, 0, 0);
   }
 
-  public async render(): Promise<Imgstry> {
+  public async render(_target: RenderTarget = 'current'): Promise<Imgstry> {
     // FIXME: Implement Node Worker
     throw new Error('Not implemented');
   }

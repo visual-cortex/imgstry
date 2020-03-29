@@ -334,7 +334,7 @@ ___
 
 ▸ **assignDefault**(`source`: Partial‹[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)›): *[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:33](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L33)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L34)*
 
 **Parameters:**
 
@@ -693,10 +693,10 @@ ___
 
 ### ▪ **DEFAULT_OPTIONS**: *object*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:27](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L27)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L28)*
 
 ▪ **thread**: *object*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L28)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L29)*
 
 * **isDebugEnabled**: *false* = false
