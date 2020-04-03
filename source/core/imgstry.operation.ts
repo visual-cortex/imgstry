@@ -1,5 +1,6 @@
 import {
   Hex,
+  IRgb,
   Rgb,
 } from '~pixel';
 
@@ -20,12 +21,12 @@ namespace Operation {
     },
   };
 
-  const _generateLut = (delegate: (i: number) => number): Record<number, number> => {
-    const arr: number[] = [];
+  const _generateLut = <T = number>(delegate: (i: number) => T): Record<number, T> => {
+    const lut: T[] = [];
     for (let i = DEFAULT.rgb.min; i <= DEFAULT.rgb.max; i++) {
-      arr[i] = delegate(i);
+      lut[i] = delegate(i);
     }
-    return arr;
+    return lut;
   };
 
   export const lookup = (lut: Record<number, number>) => {
@@ -171,8 +172,15 @@ namespace Operation {
       [rRatio, gRatio, bRatio] = DEFAULT.blackAndWhite.ratio;
     }
 
+    const lut = _generateLut<IRgb>((i) => ({
+      r: i * rRatio,
+      g: i * gRatio,
+      b: i * bRatio,
+    }));
+
     return (pixel: Rgb) => {
-      let bwValue = rRatio * pixel.r + gRatio * pixel.g + bRatio * pixel.b;
+      pixel = pixel.clamp();
+      let bwValue = lut[pixel.r].r + lut[pixel.g].g + lut[pixel.b].b;
 
       pixel.r = bwValue;
       pixel.g = bwValue;
@@ -205,13 +213,9 @@ namespace Operation {
   export const brightness = (value: number) => {
     value = Math.floor(DEFAULT.rgb.max * (value / 100));
 
-    return (pixel: Rgb) => {
-      pixel.r += value;
-      pixel.g += value;
-      pixel.b += value;
+    const lut = _generateLut((i) => i += value);
 
-      return pixel;
-    };
+    return (pixel: Rgb) => lookup(lut)(pixel.clamp());
   };
 
   export const saturation = (value: number) => {

@@ -42,7 +42,7 @@ describe('namespace: Operation', () => {
     });
 
     it('should apply provided priority ratio', () => {
-      for (let i = 1e-2; i < 1; i += 1e-2) {
+      for (let i = 1e-1; i < 1; i += 1e-1) {
         const ratio: [number, number, number] = [i, (1 - i) / 2, (1 - i) / 2];
 
         const pixel = new Rgb({

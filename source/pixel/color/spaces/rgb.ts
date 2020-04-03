@@ -6,7 +6,7 @@ import { Cmyk } from '~pixel/color/spaces/cmyk';
 import { Hex } from '~pixel/color/spaces/hex';
 import { Hsv } from '~pixel/color/spaces/hsv';
 
-interface IRgb {
+export interface IRgb {
   r: number;
   g: number;
   b: number;

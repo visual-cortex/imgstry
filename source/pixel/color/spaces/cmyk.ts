@@ -6,7 +6,7 @@ import { Hex } from '~pixel/color/spaces/hex';
 import { Hsv } from '~pixel/color/spaces/hsv';
 import { Rgb } from '~pixel/color/spaces/rgb';
 
-interface ICmyk {
+export interface ICmyk {
   c: number;
   m: number;
   y: number;
