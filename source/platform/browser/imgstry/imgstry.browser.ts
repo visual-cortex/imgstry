@@ -15,6 +15,7 @@ import {
   fillCanvas,
   getContext2D,
   imageData,
+  setSize,
 } from '~utils/canvas';
 import {
   getCanvas,
@@ -97,6 +98,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
    * @returns {void}
    */
   public drawImage(image: HTMLImageElement) {
+    setSize(this.canvas, image.width as number, image.height as number);
     drawImage(this.canvas, image);
     this._original = this.clone(this.imageData);
   }

@@ -71,6 +71,7 @@
 * [getContext2D](globals.md#const-getcontext2d)
 * [imageData](globals.md#const-imagedata)
 * [loadImage](globals.md#const-loadimage)
+* [setSize](globals.md#const-setsize)
 * [splineTheme](globals.md#const-splinetheme)
 * [uuid](globals.md#const-uuid)
 
@@ -85,13 +86,13 @@
 
 • **Operation**:
 
-*Defined in [core/imgstry.operation.ts:12](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L12)*
+*Defined in [core/imgstry.operation.ts:13](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L13)*
 
 ### `Const` blackAndWhite
 
 ▸ **blackAndWhite**(`__namedParameters`: [number, number, number]): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:169](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L169)*
+*Defined in [core/imgstry.operation.ts:177](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L177)*
 
 **Parameters:**
 
@@ -105,7 +106,7 @@ Name | Type | Default |
 
 ▸ **brightness**(`value`: number): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:205](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L205)*
+*Defined in [core/imgstry.operation.ts:220](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L220)*
 
 **Parameters:**
 
@@ -119,7 +120,7 @@ Name | Type |
 
 ▸ **contrast**(`value`: number): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:185](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L185)*
+*Defined in [core/imgstry.operation.ts:200](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L200)*
 
 **Parameters:**
 
@@ -133,7 +134,7 @@ Name | Type |
 
 ▸ **fill**(`color`: string): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:161](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L161)*
+*Defined in [core/imgstry.operation.ts:169](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L169)*
 
 **Parameters:**
 
@@ -147,7 +148,7 @@ Name | Type |
 
 ▸ **gamma**(`value`: number): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:88](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L88)*
+*Defined in [core/imgstry.operation.ts:92](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L92)*
 
 **Parameters:**
 
@@ -161,7 +162,7 @@ Name | Type |
 
 ▸ **hue**(`value`: number): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:40](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L40)*
+*Defined in [core/imgstry.operation.ts:42](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L42)*
 
 **Parameters:**
 
@@ -175,7 +176,7 @@ Name | Type |
 
 ▸ **invert**(): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:135](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L135)*
+*Defined in [core/imgstry.operation.ts:141](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L141)*
 
 **Returns:** *(Anonymous function)*
 
@@ -183,7 +184,7 @@ Name | Type |
 
 ▸ **lookup**(`lut`: Record‹number, number›): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:31](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L31)*
+*Defined in [core/imgstry.operation.ts:32](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L32)*
 
 **Parameters:**
 
@@ -197,7 +198,7 @@ Name | Type |
 
 ▸ **noise**(`value`: number): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:102](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L102)*
+*Defined in [core/imgstry.operation.ts:106](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L106)*
 
 **Parameters:**
 
@@ -211,7 +212,7 @@ Name | Type |
 
 ▸ **saturation**(`value`: number): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:217](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L217)*
+*Defined in [core/imgstry.operation.ts:228](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L228)*
 
 **Parameters:**
 
@@ -225,7 +226,7 @@ Name | Type |
 
 ▸ **sepia**(`value`: number): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:74](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L74)*
+*Defined in [core/imgstry.operation.ts:76](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L76)*
 
 **Parameters:**
 
@@ -239,7 +240,7 @@ Name | Type |
 
 ▸ **tint**(`color`: string): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:149](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L149)*
+*Defined in [core/imgstry.operation.ts:156](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L156)*
 
 **Parameters:**
 
@@ -253,7 +254,7 @@ Name | Type |
 
 ▸ **vibrance**(`value`: number): *(Anonymous function)*
 
-*Defined in [core/imgstry.operation.ts:115](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L115)*
+*Defined in [core/imgstry.operation.ts:120](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L120)*
 
 **Parameters:**
 
@@ -265,7 +266,7 @@ Name | Type |
 
 ### ▪ **DEFAULT**: *object*
 
-*Defined in [core/imgstry.operation.ts:13](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L13)*
+*Defined in [core/imgstry.operation.ts:14](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.operation.ts#L14)*
 
 * **blackAndWhite**: *object*
 
@@ -334,7 +335,7 @@ ___
 
 ▸ **assignDefault**(`source`: Partial‹[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)›): *[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L34)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:35](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L35)*
 
 **Parameters:**
 
@@ -581,6 +582,24 @@ Name | Type |
 
 ___
 
+### `Const` setSize
+
+▸ **setSize**(`canvas`: HTMLCanvasElement, `width`: number, `height`: number): *void*
+
+*Defined in [utils/canvas/setSize.ts:9](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/setSize.ts#L9)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`canvas` | HTMLCanvasElement |
+`width` | number |
+`height` | number |
+
+**Returns:** *void*
+
+___
+
 ### `Const` splineTheme
 
 ▸ **splineTheme**(`theme`: Theme): *object*
@@ -693,10 +712,10 @@ ___
 
 ### ▪ **DEFAULT_OPTIONS**: *object*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L28)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L29)*
 
 ▪ **thread**: *object*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L29)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L30)*
 
 * **isDebugEnabled**: *false* = false
