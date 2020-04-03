@@ -223,4 +223,32 @@ describe('namespace: Operation', () => {
         });
       });
   });
+
+  context('operation chaining', () => {
+    const operationList: Array<keyof typeof Operation> = [
+      'brightness',
+      'contrast',
+      'gamma',
+      'hue',
+      'saturation',
+      'sepia',
+      'vibrance',
+    ];
+
+    it('should not result in NaN values', () => {
+      operationList.forEach((firstOp) => {
+        operationList.forEach(secondOp => {
+          const pixel = new Rgb({
+            r: 3,
+            g: 67,
+            b: 133,
+          });
+          const op1 = (Operation as any)[firstOp](25)(pixel);
+          const op2 = (Operation as any)[secondOp](20)(op1);
+
+          expect(op2.r).to.not.be.NaN;
+        });
+      });
+    });
+  });
 });
