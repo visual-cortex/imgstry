@@ -6,7 +6,7 @@ import { Cmyk } from '~pixel/color/spaces/cmyk';
 import { Hex } from '~pixel/color/spaces/hex';
 import { Rgb } from '~pixel/color/spaces/rgb';
 
-interface IHsv {
+export interface IHsv {
   h: number;
   s: number;
   v: number;

@@ -145,13 +145,13 @@ export abstract class ImgstryProcessor {
     const operations = options.filter(o => o.name !== 'convolve')
       .map(operation => ({
         value: operation.value,
-        method: (Operation as Record<OperationMethod, any>)[operation.name],
+        method: (Operation as Record<OperationMethod, any>)[operation.name](operation.value),
       }));
 
     if (operations.length) {
       this._traverse((pixel) => {
         return operations.reduce(
-          (rgb: Rgb, operation) => operation.method(operation.value)(rgb),
+          (rgb: Rgb, operation) => operation.method(rgb),
           pixel,
         );
       });

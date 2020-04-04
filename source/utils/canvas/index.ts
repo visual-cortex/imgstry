@@ -6,3 +6,4 @@ export * from '~utils/canvas/drawImage';
 export * from '~utils/canvas/imageData';
 export * from '~utils/canvas/getContext2D';
 export * from '~utils/canvas/emptyImageData';
+export * from '~utils/canvas/setSize';

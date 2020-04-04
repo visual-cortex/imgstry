@@ -42,7 +42,7 @@ describe('namespace: Operation', () => {
     });
 
     it('should apply provided priority ratio', () => {
-      for (let i = 1e-2; i < 1; i += 1e-2) {
+      for (let i = 1e-1; i < 1; i += 1e-1) {
         const ratio: [number, number, number] = [i, (1 - i) / 2, (1 - i) / 2];
 
         const pixel = new Rgb({
@@ -222,5 +222,33 @@ describe('namespace: Operation', () => {
           expect(result.b).to.equal(expected(pixel.b));
         });
       });
+  });
+
+  context('operation chaining', () => {
+    const operationList: Array<keyof typeof Operation> = [
+      'brightness',
+      'contrast',
+      'gamma',
+      'hue',
+      'saturation',
+      'sepia',
+      'vibrance',
+    ];
+
+    it('should not result in NaN values', () => {
+      operationList.forEach((firstOp) => {
+        operationList.forEach(secondOp => {
+          const pixel = new Rgb({
+            r: 3,
+            g: 67,
+            b: 133,
+          });
+          const op1 = (Operation as any)[firstOp](25)(pixel);
+          const op2 = (Operation as any)[secondOp](20)(op1);
+
+          expect(op2.r).to.not.be.NaN;
+        });
+      });
+    });
   });
 });
