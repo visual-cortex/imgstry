@@ -63,6 +63,7 @@
 * [clearCanvas](globals.md#const-clearcanvas)
 * [drawCircle](globals.md#const-drawcircle)
 * [drawGrid](globals.md#const-drawgrid)
+* [drawHistogram](globals.md#const-drawhistogram)
 * [drawImage](globals.md#const-drawimage)
 * [emptyImageData](globals.md#const-emptyimagedata)
 * [fillCanvas](globals.md#const-fillcanvas)
@@ -406,6 +407,24 @@ Name | Type |
 `color` | string |
 `gridSize` | number |
 `padding` | number |
+
+**Returns:** *void*
+
+___
+
+### `Const` drawHistogram
+
+▸ **drawHistogram**(`canvas`: HTMLCanvasElement, `channel`: number[], `color`: string): *void*
+
+Defined in utils/canvas/drawHistogram.ts:3
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`canvas` | HTMLCanvasElement |
+`channel` | number[] |
+`color` | string |
 
 **Returns:** *void*
 
