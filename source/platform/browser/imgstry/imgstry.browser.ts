@@ -1,4 +1,14 @@
 import {
+  Observable,
+  Subject,
+} from 'rxjs';
+import {
+  map,
+  shareReplay,
+  startWith,
+} from 'rxjs/operators';
+import {
+  HistogramData,
   ImgstryEditor,
   ImgstryProcessor,
   RenderTarget,
@@ -61,6 +71,13 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
 
   public readonly context: CanvasRenderingContext2D;
 
+  public draw$ = new Subject();
+  public histogram$: Observable<HistogramData> = this.draw$.pipe(
+    startWith(void 0),
+    map(() => this.histogram),
+    shareReplay(1),
+  );
+
   public get width() {
     return this.canvas.width;
   }
@@ -100,6 +117,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
   public drawImage(image: HTMLImageElement) {
     setSize(this.canvas, image.width as number, image.height as number);
     drawImage(this.canvas, image);
+    this.draw$.next();
     this._original = this.clone(this.imageData);
   }
 
@@ -117,6 +135,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
 
   public reset(): ImgstryProcessor {
     this.imageData = this._original ?? emptyImageData(this.canvas);
+    this.draw$.next();
     return <ImgstryProcessor>this;
   }
 
@@ -140,6 +159,12 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
     this.context.putImageData(image, 0, 0);
   }
 
+  public renderSync(target: RenderTarget = 'current'): Imgstry {
+    super.renderSync(target);
+    this.draw$.next();
+    return this;
+  }
+
   public async render(target: RenderTarget = 'current'): Promise<Imgstry> {
     const result = await this._thread.run({
       imageData: target === 'current' ?
@@ -150,6 +175,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
 
     if (!!result) {
       this.imageData = result.imageData;
+      this.draw$.next();
     }
 
     return this.clear();
@@ -165,5 +191,6 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
     this._original = null;
     this._thread.dispose();
     clearCanvas(this.canvas);
+    this.draw$.complete();
   }
 }

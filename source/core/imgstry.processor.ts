@@ -8,6 +8,8 @@ import {
 import { Kernel } from '~kernel';
 import { Rgb } from '~pixel';
 
+const HISTO_FILLER = Array(256).fill(0);
+
 /**
  * Core logic for the imgstry editor.
  * Defines all the processing logic.
@@ -102,14 +104,12 @@ export abstract class ImgstryProcessor {
    * @memberof ImgstryProcessor
    */
   public get histogram(): HistogramData {
-    const filler = Array(256).fill(0);
-
     const histogramResult: HistogramData = {
-      all: [...filler],
+      all: [...HISTO_FILLER],
       channel: {
-        red: [...filler],
-        green: [...filler],
-        blue: [...filler],
+        red: [...HISTO_FILLER],
+        green: [...HISTO_FILLER],
+        blue: [...HISTO_FILLER],
       },
     };
 
@@ -229,13 +229,13 @@ export abstract class ImgstryProcessor {
         g: pixelArray[i + 1],
         b: pixelArray[i + 2],
       }), {
-          position: {
-            x: Math.floor(i / 4) % this.width,
-            y: Math.floor(Math.floor(i / 4) / this.width),
-            offset: i,
-          },
-          total,
-        });
+        position: {
+          x: Math.floor(i / 4) % this.width,
+          y: Math.floor(Math.floor(i / 4) / this.width),
+          offset: i,
+        },
+        total,
+      });
 
       if (!isComputation) { continue; }
 

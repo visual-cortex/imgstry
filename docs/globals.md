@@ -51,6 +51,7 @@
 
 ### Variables
 
+* [HISTO_FILLER](globals.md#const-histo_filler)
 * [_selectorRegex](globals.md#const-_selectorregex)
 * [worker](globals.md#const-worker)
 
@@ -62,6 +63,7 @@
 * [clearCanvas](globals.md#const-clearcanvas)
 * [drawCircle](globals.md#const-drawcircle)
 * [drawGrid](globals.md#const-drawgrid)
+* [drawHistogram](globals.md#const-drawhistogram)
 * [drawImage](globals.md#const-drawimage)
 * [emptyImageData](globals.md#const-emptyimagedata)
 * [fillCanvas](globals.md#const-fillcanvas)
@@ -288,6 +290,14 @@ Name | Type |
 
 ## Variables
 
+### `Const` HISTO_FILLER
+
+• **HISTO_FILLER**: *any[]* = Array(256).fill(0)
+
+*Defined in [core/imgstry.processor.ts:11](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L11)*
+
+___
+
 ### `Const` _selectorRegex
 
 • **_selectorRegex**: *RegExp* = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/
@@ -335,7 +345,7 @@ ___
 
 ▸ **assignDefault**(`source`: Partial‹[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)›): *[ImgstryBrowserOptions](interfaces/imgstrybrowseroptions.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:35](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L35)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:45](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L45)*
 
 **Parameters:**
 
@@ -397,6 +407,24 @@ Name | Type |
 `color` | string |
 `gridSize` | number |
 `padding` | number |
+
+**Returns:** *void*
+
+___
+
+### `Const` drawHistogram
+
+▸ **drawHistogram**(`canvas`: HTMLCanvasElement, `channel`: number[], `color`: string): *void*
+
+Defined in utils/canvas/drawHistogram.ts:3
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`canvas` | HTMLCanvasElement |
+`channel` | number[] |
+`color` | string |
 
 **Returns:** *void*
 
@@ -712,10 +740,10 @@ ___
 
 ### ▪ **DEFAULT_OPTIONS**: *object*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L29)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:39](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L39)*
 
 ▪ **thread**: *object*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:30](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L30)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:40](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L40)*
 
 * **isDebugEnabled**: *false* = false
