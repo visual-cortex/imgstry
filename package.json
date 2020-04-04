@@ -1,6 +1,6 @@
 {
   "name": "imgstry",
-  "version": "1.0.0-alpha8",
+  "version": "1.0.0-alpha9",
   "description": "A JavaScript image editing module.",
   "main": "dist/imgstry.min.js",
   "directories": {
