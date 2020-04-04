@@ -36,6 +36,8 @@ Processor implementation for the web worker
 
 * [canvas](imgstry.md#canvas)
 * [context](imgstry.md#context)
+* [draw$](imgstry.md#draw)
+* [histogram$](imgstry.md#histogram)
 * [getCanvas](imgstry.md#static-getcanvas)
 
 ### Accessors
@@ -78,7 +80,7 @@ Processor implementation for the web worker
 
 \+ **new Imgstry**(`canvas`: HTMLCanvasElement, `_options?`: Partial‹[ImgstryBrowserOptions](../interfaces/imgstrybrowseroptions.md)›): *[Imgstry](imgstry.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:72](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L72)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:89](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L89)*
 
 Creates an instance of Imgstry.
 
@@ -97,7 +99,7 @@ Name | Type | Description |
 
 • **canvas**: *HTMLCanvasElement*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:82](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L82)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:99](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L99)*
 
 *Defined in [platform/node/imgstry/imgstry.node.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L29)*
 
@@ -109,9 +111,29 @@ ___
 
 • **context**: *CanvasRenderingContext2D*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:62](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L62)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:72](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L72)*
 
 *Defined in [platform/node/imgstry/imgstry.node.ts:28](https://github.com/visual-cortex/imgstry/blob/master/source/platform/node/imgstry/imgstry.node.ts#L28)*
+
+___
+
+###  draw$
+
+• **draw$**: *Subject‹unknown›* = new Subject()
+
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:74](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L74)*
+
+___
+
+###  histogram$
+
+• **histogram$**: *Observable‹HistogramData›* = this.draw$.pipe(
+    startWith(void 0),
+    map(() => this.histogram),
+    shareReplay(1),
+  )
+
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:75](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L75)*
 
 ___
 
@@ -119,7 +141,7 @@ ___
 
 ▪ **getCanvas**: *getCanvas* = getCanvas
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:59](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L59)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:69](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L69)*
 
 ## Accessors
 
@@ -141,7 +163,7 @@ ___
 
 *Overrides void*
 
-*Defined in [core/imgstry.processor.ts:104](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L104)*
+*Defined in [core/imgstry.processor.ts:106](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L106)*
 
 Returns the channel histogram of the image.
 
@@ -290,7 +312,7 @@ ___
 
 *Overrides void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:123](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L123)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:142](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L142)*
 
 **Parameters:**
 
@@ -360,7 +382,7 @@ ___
 
 *Overrides void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:131](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L131)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:150](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L150)*
 
 **Parameters:**
 
@@ -378,7 +400,7 @@ ___
 
 *Implementation of [IDisposable](../interfaces/idisposable.md)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:164](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L164)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:190](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L190)*
 
 Destroys the thread and clears the canvas of data.
 
@@ -392,7 +414,7 @@ ___
 
 ▸ **drawImage**(`image`: HTMLImageElement): *void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:100](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L100)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:117](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L117)*
 
 Draws an image on the canvas.
 
@@ -538,7 +560,7 @@ ___
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[render](imgstryeditor.md#abstract-render)*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:143](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L143)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:168](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L168)*
 
 **Parameters:**
 
@@ -552,21 +574,19 @@ ___
 
 ###  renderSync
 
-▸ **renderSync**(): *[ImgstryEditor](imgstryeditor.md)*
-
-*Inherited from [ImgstryEditor](imgstryeditor.md).[renderSync](imgstryeditor.md#rendersync)*
+▸ **renderSync**(`target`: RenderTarget): *[Imgstry](imgstry.md)*
 
 *Overrides [ImgstryEditor](imgstryeditor.md).[renderSync](imgstryeditor.md#rendersync)*
 
-*Defined in [core/imgstry.editor.ts:180](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L180)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:162](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L162)*
 
-Apply the requested operations to the image.
+**Parameters:**
 
-**`memberof`** ImgstryEditor
+Name | Type | Default |
+------ | ------ | ------ |
+`target` | RenderTarget | "current" |
 
-**Returns:** *[ImgstryEditor](imgstryeditor.md)*
-
-the current editor instance
+**Returns:** *[Imgstry](imgstry.md)*
 
 ___
 
@@ -576,7 +596,7 @@ ___
 
 *Overrides void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:118](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L118)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:136](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L136)*
 
 **Returns:** *ImgstryProcessor*
 
@@ -666,7 +686,7 @@ ___
 
 *Overrides void*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:114](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L114)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:132](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L132)*
 
 Returns the content of the current canvas as an image that you can use as a source for another canvas or an HTML element.
 
@@ -714,7 +734,7 @@ ___
 
 ▸ **loadImage**(`src`: string): *Promise‹HTMLImageElement›*
 
-*Defined in [platform/browser/imgstry/imgstry.browser.ts:60](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L60)*
+*Defined in [platform/browser/imgstry/imgstry.browser.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/platform/browser/imgstry/imgstry.browser.ts#L70)*
 
 **Parameters:**
 

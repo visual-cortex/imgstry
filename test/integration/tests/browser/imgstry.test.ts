@@ -1,4 +1,8 @@
-import { expect } from 'chai';
+import {
+  expect,
+  spy,
+} from 'chai';
+import { take } from 'rxjs/operators';
 import { COLOR_MAP } from 'test/color';
 import { ImgstryEditor } from '~core';
 import {
@@ -398,23 +402,17 @@ describe('class: Imgstry (browser)', () => {
               method,
             );
 
-            await wait(251);
-
             await render(
               processor
                 .contrast(10),
               method,
             );
 
-            await wait(251);
-
             await render(
               processor
                 .contrast(35),
               method,
             );
-
-            await wait(251);
 
             await render(
               processor
@@ -461,6 +459,67 @@ describe('class: Imgstry (browser)', () => {
       const dataUriRegex = /^(data:)([\w\/\+]+);(charset=[\w-]+|base64).*,(.*)/gi;
 
       expect(dataUri).to.match(dataUriRegex);
+    });
+  });
+
+  context('event: draw -> histogram', () => {
+    it('should emit after an operation is performed (async)', async () => {
+      const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+      const before = await processor.histogram$.pipe(take(1)).toPromise();
+
+      processor.drawImage(image);
+      processor.contrast(100);
+
+      await processor.contrast(25).render('current');
+
+      const after = await processor.histogram$.pipe(take(1)).toPromise();
+
+      expect(before).to.not.deep.equal(after);
+    });
+
+    it('should emit after an operation is performed (sync)', async () => {
+      const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+      const before = await processor.histogram$.pipe(take(1)).toPromise();
+
+      processor.drawImage(image);
+      processor.contrast(100);
+
+      processor.contrast(25).renderSync('current');
+
+      const after = await processor.histogram$.pipe(take(1)).toPromise();
+
+      expect(before).to.not.deep.equal(after);
+    });
+
+    it('should emit after resetting to the original (sync)', async () => {
+      const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+
+      processor.drawImage(image);
+      const before = await processor.histogram$.pipe(take(1)).toPromise();
+
+      processor.contrast(100);
+      processor.contrast(25).renderSync('current');
+
+      processor.reset();
+      const after = await processor.histogram$.pipe(take(1)).toPromise();
+
+      expect(before).to.deep.equal(after);
+    });
+
+    it('should emit after an image is drawn', async () => {
+      const image = await Imgstry.loadImage(IMAGE_SOURCE);
+
+      processor.drawImage(image);
+
+      const after = await processor.histogram$.pipe(take(1)).toPromise();
+
+      expect(after.all.reduce((acc, curr) => acc += curr, 0)).to.not.equal(0);
+      expect(after.channel.red.reduce((acc, curr) => acc += curr, 0)).to.not.equal(0);
+      expect(after.channel.green.reduce((acc, curr) => acc += curr, 0)).to.not.equal(0);
+      expect(after.channel.blue.reduce((acc, curr) => acc += curr, 0)).to.not.equal(0);
     });
   });
 });

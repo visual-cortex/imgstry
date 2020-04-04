@@ -174,11 +174,12 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
   /**
    * Apply the requested operations to the image.
    *
+   * @param {RenderTarget} target the processing target
    * @returns {T} the current editor instance
    * @memberof ImgstryEditor
    */
-  public renderSync(): ImgstryEditor {
-    this.batch(this._operations);
+  public renderSync(target: RenderTarget = 'current'): ImgstryEditor {
+    this.batch(this._operations, target === 'original');
     return this.clear();
   }
 

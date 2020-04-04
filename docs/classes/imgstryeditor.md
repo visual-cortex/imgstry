@@ -64,7 +64,7 @@ Defines the imgstry editor schema.
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:34](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L34)*
+*Defined in [core/imgstry.processor.ts:36](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L36)*
 
 Height of the image.
 
@@ -78,7 +78,7 @@ ___
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:27](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L27)*
+*Defined in [core/imgstry.processor.ts:29](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L29)*
 
 Width of the image.
 
@@ -92,7 +92,7 @@ Width of the image.
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:104](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L104)*
+*Defined in [core/imgstry.processor.ts:106](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L106)*
 
 Returns the channel histogram of the image.
 
@@ -110,7 +110,7 @@ ___
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:87](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L87)*
+*Defined in [core/imgstry.processor.ts:89](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L89)*
 
 Gets the image data.
 
@@ -124,7 +124,7 @@ Gets the image data.
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:95](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L95)*
+*Defined in [core/imgstry.processor.ts:97](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L97)*
 
 Sets the image data.
 
@@ -233,7 +233,7 @@ ___
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:70](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L70)*
+*Defined in [core/imgstry.processor.ts:72](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L72)*
 
 Clone image data
 
@@ -303,7 +303,7 @@ ___
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:79](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L79)*
+*Defined in [core/imgstry.processor.ts:81](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L81)*
 
 Create image data based on a source
 
@@ -431,7 +431,7 @@ ___
 
 ▸ **render**(`target`: RenderTarget): *Promise‹[ImgstryEditor](imgstryeditor.md)›*
 
-*Defined in [core/imgstry.editor.ts:192](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L192)*
+*Defined in [core/imgstry.editor.ts:193](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L193)*
 
 Apply the requested operations to the image using a worker thread.
 
@@ -451,13 +451,19 @@ ___
 
 ###  renderSync
 
-▸ **renderSync**(): *[ImgstryEditor](imgstryeditor.md)*
+▸ **renderSync**(`target`: RenderTarget): *[ImgstryEditor](imgstryeditor.md)*
 
-*Defined in [core/imgstry.editor.ts:180](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L180)*
+*Defined in [core/imgstry.editor.ts:181](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.editor.ts#L181)*
 
 Apply the requested operations to the image.
 
 **`memberof`** ImgstryEditor
+
+**Parameters:**
+
+Name | Type | Default | Description |
+------ | ------ | ------ | ------ |
+`target` | RenderTarget | "current" | the processing target |
 
 **Returns:** *[ImgstryEditor](imgstryeditor.md)*
 
@@ -471,7 +477,7 @@ ___
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:61](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L61)*
+*Defined in [core/imgstry.processor.ts:63](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L63)*
 
 Resets the image to the original state.
 
@@ -557,7 +563,7 @@ ___
 
 *Inherited from void*
 
-*Defined in [core/imgstry.processor.ts:51](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L51)*
+*Defined in [core/imgstry.processor.ts:53](https://github.com/visual-cortex/imgstry/blob/master/source/core/imgstry.processor.ts#L53)*
 
 Encodes the canvas data to a data URI.
 
