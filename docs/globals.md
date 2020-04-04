@@ -416,7 +416,7 @@ ___
 
 ▸ **drawHistogram**(`canvas`: HTMLCanvasElement, `channel`: number[], `color`: string): *void*
 
-Defined in utils/canvas/drawHistogram.ts:3
+*Defined in [utils/canvas/drawHistogram.ts:3](https://github.com/visual-cortex/imgstry/blob/master/source/utils/canvas/drawHistogram.ts#L3)*
 
 **Parameters:**
 
