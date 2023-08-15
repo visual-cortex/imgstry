@@ -1,84 +1,80 @@
-import {
-  expect,
-  spy,
-  use,
-} from 'chai';
-import * as spies from 'chai-spies';
-import { Logger } from '~utils/logger';
+import { describe, expect, it, beforeEach, vi } from 'vitest';
+import { Logger } from '~/utils/logger';
 
-use(spies);
+// use(spies);
 
 describe('util: logger', () => {
+    describe('debug', () => {
+        let logger: Logger;
 
-  afterEach(() => spy.restore(console));
+        beforeEach(() => {
+            logger = new Logger(true);
+        });
 
-  context('debug', () => {
-    let logger: Logger;
+        it('should call console.log', () => {
+            const logMsg = 'I am a simple log message.';
+            const logSpy = vi.spyOn(console, 'log');
 
-    beforeEach(() => logger = new Logger(true));
+            logger.log(logMsg);
 
-    it('should call console.log', () => {
-      const logMsg = 'I am a simple log message.';
-      const logSpy = spy.on(console, 'log');
+            expect(logSpy).to.have.been.toBeCalledWith(logMsg);
+            expect(logSpy).to.have.been.toHaveBeenCalled;
+        });
 
-      logger.log(logMsg);
+        it('should call console.info', () => {
+            const infoMsg = 'I am helpful info message.';
+            const logSpy = vi.spyOn(console, 'info');
 
-      expect(logSpy).to.have.been.called.with(logMsg);
-      expect(logSpy).to.have.been.called.once;
+            logger.info(infoMsg);
+
+            expect(logSpy).to.have.been.toBeCalledWith(infoMsg);
+            expect(logSpy).to.have.been.toHaveBeenCalled;
+        });
+
+        it('should call console.error', () => {
+            const errorMsg = 'I am dreadful error message.';
+            const logSpy = vi.spyOn(console, 'error');
+
+            logger.error(errorMsg);
+
+            expect(logSpy).to.have.been.toBeCalledWith(errorMsg);
+            expect(logSpy).to.have.been.toHaveBeenCalled;
+        });
     });
 
-    it('should call console.info', () => {
-      const infoMsg = 'I am helpful info message.';
-      const logSpy = spy.on(console, 'info');
+    describe('production', () => {
+        let logger: Logger;
 
-      logger.info(infoMsg);
+        beforeEach(() => {
+            logger = new Logger(false);
+        });
 
-      expect(logSpy).to.have.been.called.with(infoMsg);
-      expect(logSpy).to.have.been.called.once;
+        it('should NOT call console.log', () => {
+            const logMsg = 'I am a simple log message.';
+            const logSpy = vi.spyOn(console, 'log');
+
+            logger.log(logMsg);
+
+            expect(logSpy).to.not.have.been.toBeCalled();
+        });
+
+        it('should NOT call console.info', () => {
+            const infoMsg = 'I am helpful info message.';
+            const logSpy = vi.spyOn(console, 'info');
+
+            logger.info(infoMsg);
+
+            expect(logSpy).to.not.have.been.toBeCalled();
+        });
+
+        it('should call console.error', () => {
+            const errorMsg = 'I am dreadful error message.';
+            const logSpy = vi.spyOn(console, 'error');
+
+            logger.error(errorMsg);
+
+            expect(logSpy).to.have.been.toBeCalledWith(errorMsg);
+            expect(logSpy).to.have.been.toHaveBeenCalled;
+        });
     });
-
-    it('should call console.error', () => {
-      const errorMsg = 'I am dreadful error message.';
-      const logSpy = spy.on(console, 'error');
-
-      logger.error(errorMsg);
-
-      expect(logSpy).to.have.been.called.with(errorMsg);
-      expect(logSpy).to.have.been.called.once;
-    });
-  });
-
-  context('production', () => {
-    let logger: Logger;
-
-    beforeEach(() => logger = new Logger(false));
-
-    it('should NOT call console.log', () => {
-      const logMsg = 'I am a simple log message.';
-      const logSpy = spy.on(console, 'log');
-
-      logger.log(logMsg);
-
-      expect(logSpy).to.not.have.been.called();
-    });
-
-    it('should NOT call console.info', () => {
-      const infoMsg = 'I am helpful info message.';
-      const logSpy = spy.on(console, 'info');
-
-      logger.info(infoMsg);
-
-      expect(logSpy).to.not.have.been.called();
-    });
-
-    it('should call console.error', () => {
-      const errorMsg = 'I am dreadful error message.';
-      const logSpy = spy.on(console, 'error');
-
-      logger.error(errorMsg);
-
-      expect(logSpy).to.have.been.called.with(errorMsg);
-      expect(logSpy).to.have.been.called.once;
-    });
-  });
 });

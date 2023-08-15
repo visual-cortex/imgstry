@@ -1,7 +1,7 @@
-import { SplineProcessor } from '~core/spline';
+import { SplineProcessor } from '~/core/spline';
 
 export class ImgstrySpline extends SplineProcessor {
-  constructor() {
-    super(256);
-  }
+    public constructor() {
+        super(256);
+    }
 }

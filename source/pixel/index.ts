@@ -1,2 +1,2 @@
-export * from '~pixel/color';
-export * from '~pixel/pixel';
+export * from '~/pixel/color';
+export * from '~/pixel/pixel';

@@ -5,9 +5,9 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
-        "moduleResolution": "node",
-        "target": "es6",
+        "target": "ESNext",
         "sourceMap": true,
+        "moduleResolution": "Node",
         "removeComments": false,
         "preserveConstEnums": false,
         "strict": true,
@@ -17,7 +17,6 @@
         "noImplicitReturns": true,
         "isolatedModules": false,
         "baseUrl": "./",
-        "outDir": "./lib",
         "paths": {
             "~*": [
                 "source/*"
@@ -28,36 +27,16 @@
             "./declarations"
         ],
         "types": [
-            "chai",
-            "mocha",
             "node",
             "canvas"
         ],
         "lib": [
-            "es2016",
+            "ESNext",
             "dom"
         ]
     },
-    "typedocOptions": {
-        "out": "./docs",
-        "includes": "./source",
-        "exclude": [
-            "**/index.ts",
-            "**/*thread*"
-        ],
-        "theme": "markdown",
-        "mode": "file",
-        "mdSourceRepo": "visual-cortex/imgstry",
-        "mdEngine": "github",
-        "excludePrivate": true,
-        "excludeProtected": true,
-        "excludeNotExported": true,
-        "ignoreCompilerErrors": true,
-        "gitRevision": "master"
-    },
     "exclude": [
         "node_modules",
-        "./test",
         "./ui",
         "./lib"
     ]

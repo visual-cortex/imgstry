@@ -1,1 +1,1 @@
-export { Imgstry } from '~platform/browser/imgstry/imgstry.browser';
+export { Imgstry } from '~/platform/browser/imgstry/imgstry.browser';

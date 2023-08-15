@@ -46,3 +46,5 @@ screenshots/**/*
 reports/**/*
 dist/**/*
 lib/**/*
+
+.DS_Store

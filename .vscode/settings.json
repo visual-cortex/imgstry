@@ -7,8 +7,6 @@
         "**/.git": true,
         "**/.svn": true,
         "**/ui": true,
-        "coverage": true,
-        "dist": true,
         "node_modules": true,
         "src": true,
         "test/**/dist": true,
@@ -21,31 +19,6 @@
     "typescript.preferences.importModuleSpecifier": "non-relative",
     "javascript.preferences.quoteStyle": "single",
     "javascript.preferences.importModuleSpecifier": "relative",
-    "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "words",
-    "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 1,
-    "importSorter.importStringConfiguration.trailingComma": "multiLine",
-    "importSorter.importStringConfiguration.tabSize": 2,
-    "importSorter.generalConfiguration.sortOnBeforeSave": true,
-    "importSorter.sortConfiguration.customOrderingRules.rules": [
-        {
-            "type": "importMember",
-            "regex": "^$",
-            "orderLevel": 5,
-            "disableSort": true
-        },
-        {
-            "regex": "^[@]",
-            "orderLevel": 10
-        },
-        {
-            "regex": "^[^.@]",
-            "orderLevel": 15
-        },
-        {
-            "regex": "^[.]",
-            "orderLevel": 30
-        }
-    ],
     "editor.codeActionsOnSave": {
         "source.fixAll.tslint": true
     }

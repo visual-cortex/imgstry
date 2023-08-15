@@ -1,22 +1,23 @@
-import { getContext2D } from '~utils/canvas';
+import { getContext2D } from '~/utils/canvas';
 
 interface IGridOptions {
-  gridSize: number;
-  color: string;
-  padding: number;
+    gridSize: number
+    color: string
+    padding: number
 }
 
-export /**
+/**
  * draw a grid on a canvas
- *
- * @param {HTMLCanvasElement} canvas the target canvas
- * @param {IGridOptions} options { gridSize, color, padding }
- * @returns {void}
+ * @param canvas the target canvas
+ * @param options { gridSize, color, padding }
+ * @param options.gridSize the number of grid to draw
+ * @param options.color the color of the grid
+ * @param options.padding the padding of the grid
  */
-  const drawGrid = (
+export const drawGrid = (
     canvas: HTMLCanvasElement,
     { gridSize, color, padding }: IGridOptions,
-  ) => {
+) => {
     const context = getContext2D(canvas);
     context.beginPath();
 
@@ -28,17 +29,17 @@ export /**
     const deltaY = stepY / 2;
 
     for (let x = padding; x <= (canvas.width - padding) + deltaX; x += stepX) {
-      context.moveTo(x, padding);
-      context.lineTo(x, canvas.height - padding);
+        context.moveTo(x, padding);
+        context.lineTo(x, canvas.height - padding);
     }
 
     for (let y = padding; y <= (canvas.height - padding) + deltaY; y += stepY) {
-      context.moveTo(padding, y);
-      context.lineTo(canvas.width - padding, y);
+        context.moveTo(padding, y);
+        context.lineTo(canvas.width - padding, y);
     }
 
     context.strokeStyle = color;
     context.stroke();
 
     context.closePath();
-  };
+};

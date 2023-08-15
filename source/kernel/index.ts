@@ -1,2 +1,2 @@
-export * from '~kernel/kernel';
-export * from '~kernel/collection';
+export * from '~/kernel/kernel';
+export * from '~/kernel/collection';

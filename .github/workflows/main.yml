@@ -9,17 +9,16 @@ jobs:
     strategy:
       matrix:
         platform: [ ubuntu-latest, macos-latest, windows-latest ]
-        node: [ '12' ]
     name: build / node ${{ matrix.node }} / ${{ matrix.platform }}
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Configure node ${{ matrix.node }}
-        uses: actions/setup-node@master
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version-file: package.json
 
       - name: Restore dependencies
         run: npm ci
@@ -38,17 +37,16 @@ jobs:
     strategy:
       matrix:
         platform: [ ubuntu-latest, macos-latest, windows-latest ]
-        node: [ '12' ]
     name: test / node ${{ matrix.node }} / ${{ matrix.platform }}
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Configure node ${{ matrix.node }}
-        uses: actions/setup-node@master
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version-file: package.json
 
       - name: Restore dependencies
         run: npm ci
@@ -58,12 +56,12 @@ jobs:
         run: npm run test
 
       - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v2.5.6
+        uses: paambaati/codeclimate-action@v5.0.0
         if: matrix.platform == 'ubuntu-latest'
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.ccToken }}
         with:
           debug: true
           executable: ./cc-test-reporter
-          coverageCommand: npm run test
-          coverageLocations: ./coverage.lcov:lcov
+          coverageCommand: npm run coverage
+          coverageLocations: ./coverage/clover.xml:clover
