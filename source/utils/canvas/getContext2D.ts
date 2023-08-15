@@ -4,7 +4,7 @@
  * @returns the 2D context
  */
 export const getContext2D = (canvas: HTMLCanvasElement): CanvasRenderingContext2D => {
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
     if (ctx) {
         return ctx!;
