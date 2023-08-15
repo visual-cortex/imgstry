@@ -1,51 +1,47 @@
-import { ImgstryProcessor } from '~core';
-import { IWorkerData } from '~platform/browser/worker/types';
+import { ImgstryProcessor } from '~/core';
+import { IWorkerData } from '~/platform/browser/worker/types';
 
 /**
  * Processor implementation for the web worker
- *
- * @export
- * @class Imgstry
- * @extends {ImgstryProcessor}
  */
 export class Imgstry extends ImgstryProcessor {
-  public width: number;
-  public height: number;
+    public width: number;
+    public height: number;
 
-  private _imageData: ImageData;
+    private _imageData: ImageData;
 
-  constructor({ buffer, width, height }: IWorkerData) {
-    super();
-    this._imageData = new ImageData(new Uint8ClampedArray(buffer), width, height);
-    this.width = this.imageData.width;
-    this.height = this.imageData.height;
-  }
+    public constructor({ buffer, width, height }: IWorkerData) {
+        super();
+        this._imageData = new ImageData(new Uint8ClampedArray(buffer), width, height);
+        this.width = this.imageData.width;
+        this.height = this.imageData.height;
+    }
 
-  public toDataUrl(_: string): string {
-    return '';
-  }
+    public get imageData(): ImageData {
+        return this._imageData;
+    }
 
-  public reset(): ImgstryProcessor {
-    return this;
-  }
+    public set imageData(image: ImageData) {
+        this._imageData = image;
+    }
 
-  public clone(data: ImageData): ImageData {
-    return new ImageData(
-      new Uint8ClampedArray(data.data.length),
-      data.width,
-      data.height,
-    );
-  }
+    public toDataUrl(_: string): string {
+        return '';
+    }
 
-  public createImageData(data: ImageData): ImageData {
-    return this.clone(data);
-  }
+    public reset(): ImgstryProcessor {
+        return this;
+    }
 
-  public get imageData(): ImageData {
-    return this._imageData;
-  }
+    public clone(data: ImageData): ImageData {
+        return new ImageData(
+            new Uint8ClampedArray(data.data.length),
+            data.width,
+            data.height,
+        );
+    }
 
-  public set imageData(image: ImageData) {
-    this._imageData = image;
-  }
+    public createImageData(data: ImageData): ImageData {
+        return this.clone(data);
+    }
 }

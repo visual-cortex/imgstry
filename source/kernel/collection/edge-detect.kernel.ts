@@ -1,9 +1,10 @@
-export /**
+/**
  * Returns a basic edge detection kernel.
- * @returns {Array<number[]>} asd
+ * @returns asd
  */
-  const EdgeDetection = () => [
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const EdgeDetection = () => [
     [-1, -1, -1],
     [-1, 8, -1],
     [-1, -1, -1],
-  ];
+];

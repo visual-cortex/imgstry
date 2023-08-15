@@ -1,1 +1,1 @@
-export * from '~core/spline/interpolation/cubic';
+export * from '~/core/spline/interpolation/cubic';

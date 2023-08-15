@@ -1,22 +1,21 @@
 interface ImageConstructor {
-  new(): HTMLImageElement;
+    new(): HTMLImageElement
 }
 
-export /**
-   * Promise based image loader
-   *
-   * @param {ImageConstructor} ImageCtor the constructor reference
-   * @param {string} src the image source url
-   * @returns {Promise<HTMLImageElement>} a promise that resolves in the associated image element
-   */
-  const loadImage =
+/**
+ * Promise based image loader
+ * @param ImageCtor the constructor reference
+ * @param src the image source url
+ * @returns a promise that resolves in the associated image element
+ */
+export const loadImage =
     (ImageCtor: ImageConstructor, src: string): Promise<HTMLImageElement> =>
-      new Promise((res, rej) => {
-        const image: HTMLImageElement = new ImageCtor();
-        image.crossOrigin = 'Anonymous';
+        new Promise((res, rej) => {
+            const image: HTMLImageElement = new ImageCtor();
+            image.crossOrigin = 'Anonymous';
 
-        image.onload = () => res(image);
-        image.onerror = (err) => rej(err);
+            image.onload = () => res(image);
+            image.onerror = (err) => rej(err);
 
-        image.src = src;
-      });
+            image.src = src;
+        });

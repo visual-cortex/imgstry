@@ -1,13 +1,11 @@
-import { getContext2D } from '~utils/canvas';
+import { getContext2D } from '~/utils/canvas';
 
-export /**
+/**
  * draws an image on a canvas
- *
- * @param {HTMLCanvasElement} canvas the target canvas
- * @param {CanvasImageSource} image the source image
- * @returns {void}
+ * @param canvas the target canvas
+ * @param image the source image
  */
-  const drawImage = (canvas: HTMLCanvasElement, image: CanvasImageSource) => {
+export const drawImage = (canvas: HTMLCanvasElement, image: CanvasImageSource): void => {
     const context = getContext2D(canvas);
     context.drawImage(image, 0, 0);
-  };
+};

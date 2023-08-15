@@ -30,8 +30,9 @@
           height="500">
 
   </canvas>
-  <script src='imgstry.spline.min.js'></script>
-  <script>
+  <script type="module">
+    import { ImgstrySpline, Theme } from './source';
+
     const canvas = ImgstrySpline.getCanvas('#canvas');
     const curve = new ImgstrySpline(canvas, {
       theme: Theme.Dark,

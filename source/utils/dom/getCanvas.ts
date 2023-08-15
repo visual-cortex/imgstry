@@ -1,34 +1,33 @@
-const _selectorRegex: RegExp = /#[a-zA-Z]+[a-zA-Z0-9\-\_]+/;
+const SELECTOR_REGEX = /#[a-zA-Z]+[a-zA-Z0-9\-_]+/;
 
 /**
  * Retrieves the canvas elemented for a specified 'id'.
- *
- * @param {string | HTMLCanvasElement} selector canvas id selector or the canvas element
- * @return {HTMLCanvasElement} the canvas element
+ * @param selector canvas id selector or the canvas element
+ * @returns the canvas element
  */
 export const getCanvas = (selector: string | HTMLCanvasElement): HTMLCanvasElement => {
-  if (selector instanceof HTMLCanvasElement) {
-    return selector;
-  }
+    if (selector instanceof HTMLCanvasElement) {
+        return selector;
+    }
 
-  if (!selector) {
-    throw new Error('A canvas selector must be provided.');
-  }
+    if (!selector) {
+        throw new Error('A canvas selector must be provided.');
+    }
 
-  if (!_selectorRegex.test(selector)) {
-    throw new Error(`'${selector}' is not a valid id.`);
-  }
+    if (!SELECTOR_REGEX.test(selector)) {
+        throw new Error(`'${selector}' is not a valid id.`);
+    }
 
-  const [hashBang] = selector;
-  if (hashBang === '#') {
-    selector = selector.substring(1);
-  }
+    const [hashBang] = selector;
+    if (hashBang === '#') {
+        selector = selector.substring(1);
+    }
 
-  let canvas = document.getElementById(selector);
+    const canvas = document.getElementById(selector);
 
-  if (!(canvas instanceof HTMLCanvasElement)) {
-    throw new Error(`'${selector}' does not identify a canvas element.`);
-  }
+    if (!(canvas instanceof HTMLCanvasElement)) {
+        throw new Error(`'${selector}' does not identify a canvas element.`);
+    }
 
-  return <HTMLCanvasElement>canvas;
+    return <HTMLCanvasElement>canvas;
 };

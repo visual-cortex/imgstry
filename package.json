@@ -2,52 +2,15 @@
   "name": "imgstry",
   "version": "1.0.0-alpha10",
   "description": "A JavaScript image editing module.",
-  "main": "dist/imgstry.min.js",
-  "directories": {
-    "example": "example"
-  },
+  "main": "dist/imgstry.umd.js",
+  "module": "dist/imgstry.mjs",
   "scripts": {
-    "start": "concurrently \"tsc -w\" \"webpack-dev-server --port 8088\"",
-    "prebuild": "npm run clean",
-    "build": "npm run lint && concurrently \"npm run build:bundle\" \"npm run build:lib\" \"npm run build:readme\"",
-    "prebuild:debug": "npm run clean",
-    "build:debug": "webpack -p --progress --env.target debug",
-    "build:path": "tscpaths -p tsconfig.json -s ./source -o ./lib",
-    "build:test": "webpack -p --config ./test/integration/webpack.mocha.js",
-    "build:lib": "tsc --declaration true && npm run build:path && npm run build:types",
-    "build:types": "node ./.webpack/build/types.js",
-    "build:bundle": "webpack -p --progress --env.target prod",
-    "build:readme": "typedoc ./source",
-    "clean": "npm run clean:lib && npm run clean:dist && npm run clean:docs",
-    "clean:test": "npm run clean:nyc && npm run clean:reports",
-    "clean:lib": "rimraf ./lib",
-    "clean:dist": "rimraf ./dist",
-    "clean:docs": "rimraf ./docs",
-    "clean:nyc": "rimraf .nyc_output",
-    "clean:reports": "rimraf ./reports",
-    "pretest": "npm run clean:test",
-    "test": "npm run lint && npm run test:unit && npm run test:integration && npm run test:report",
-    "posttest": "nyc report --reporter=text-lcov > ./coverage.lcov",
-    "test:integration": "npm run build:test && ts-node --project ./tsconfig.json ./test/integration",
-    "test:unit": "nyc mocha --config test/unit/.mocharc.js test/unit/**/*.test.ts",
-    "test:report": "nyc report --reporter=html",
-    "lint": "tslint -p tsconfig.json"
-  },
-  "nyc": {
-    "include": [
-      "source/**/*.ts"
-    ],
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "exclude": [
-      "**/*.d.ts",
-      "**/index.ts"
-    ],
-    "report-dir": "./reports/coverage",
-    "cache": true,
-    "all": true
+    "start": "vite",
+    "build": "vite build",
+    "test": "vitest",
+    "coverage": "vitest --run --coverage",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
   },
   "repository": {
     "type": "git",
@@ -63,53 +26,34 @@
     "effects"
   ],
   "author": "V",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/visual-cortex/imgstry/issues"
   },
   "homepage": "https://github.com/visual-cortex/imgstry#readme",
-  "devDependencies": {
-    "@types/browser-sync": "2.26.1",
-    "@types/chai": "4.2.11",
-    "@types/chai-spies": "1.0.1",
-    "@types/jsdom": "16.2.0",
-    "@types/mocha": "7.0.2",
-    "@types/node": "13.9.5",
-    "browser-sync": "2.26.7",
-    "chai": "4.2.0",
-    "chai-spies": "1.0.0",
-    "concurrently": "5.1.0",
-    "dts-bundle": "0.7.3",
-    "fork-ts-checker-webpack-plugin": "^4.1.2",
-    "istanbul-instrumenter-loader": "3.0.1",
-    "jsdom": "16.2.1",
-    "mocha": "10.2.0",
-    "mocha-headless-chrome": "2.0.3",
-    "mocha-loader": "5.0.0",
-    "mochawesome": "5.0.0",
-    "nyc": "15.0.0",
-    "rimraf": "3.0.2",
-    "source-map-support": "0.5.16",
-    "terser-webpack-plugin": "2.3.5",
-    "ts-loader": "^6.2.2",
-    "ts-node": "8.8.1",
-    "tsconfig-paths": "3.9.0",
-    "tsconfig-paths-webpack-plugin": "3.2.0",
-    "tscpaths": "0.0.9",
-    "tslint": "6.1.0",
-    "tslint-consistent-codestyle": "1.16.0",
-    "tslint-eslint-rules": "5.4.0",
-    "typedoc": "0.17.3",
-    "typedoc-plugin-markdown": "2.2.17",
-    "typescript": "^3.9.0-dev.20200328",
-    "webpack": "4.42.1",
-    "webpack-cli": "3.3.11",
-    "webpack-dev-server": "3.10.3",
-    "webpack-merge": "4.2.2",
-    "worker-loader": "2.0.0"
-  },
   "dependencies": {
-    "canvas": "2.6.1",
-    "rxjs": "6.5.4"
+    "canvas": "2.11.2",
+    "rxjs": "7.8.1"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.1",
+    "@types/node": "^20.5.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "@vitest/coverage-v8": "^0.34.1",
+    "eslint": "^8.47.0",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-jsdoc": "^46.4.6",
+    "eslint-plugin-sonarjs": "^0.20.0",
+    "jsdom": "^22.1.0",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.1"
+  },
+  "engines": {
+    "node": ">=18.17.1",
+    "npm": ">=9.6.0"
   }
 }

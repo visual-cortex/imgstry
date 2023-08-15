@@ -8,7 +8,7 @@ module.exports = {
     ],
     require: [
         'ts-node/register',
-        'source-map-support/register',
+        '~-map-support/register',
         'tsconfig-paths/register',
     ],
     recursive: true,

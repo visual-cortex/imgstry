@@ -1,1 +1,1 @@
-export * from '~types/disposable';
+export * from '~/types/disposable';
