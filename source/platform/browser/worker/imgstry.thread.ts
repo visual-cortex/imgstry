@@ -10,7 +10,7 @@ import {
     observeOn,
     takeUntil,
 } from 'rxjs/operators';
-import ImgstryWorker from './imgstry.worker?worker&inline';
+import ImgstryWorker from './imgstry.worker?worker';
 import {
     IImgstryThread,
     IThreadData,
