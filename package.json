@@ -75,7 +75,7 @@
     "@types/jsdom": "16.2.0",
     "@types/mocha": "7.0.2",
     "@types/node": "13.9.5",
-    "browser-sync": "2.26.7",
+    "browser-sync": "2.29.3",
     "chai": "4.2.0",
     "chai-spies": "1.0.0",
     "concurrently": "5.1.0",
