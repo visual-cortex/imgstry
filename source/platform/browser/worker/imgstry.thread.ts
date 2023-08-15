@@ -53,12 +53,20 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
         this._logger = new Logger(!!_options.isDebugEnabled);
         this._worker = new ImgstryWorker();
 
-        const delegate = (event: string, delegate: Function) => {
-            fromEvent<MessageEvent | ErrorEvent>(this._worker, event)
+        type EventMap = {
+            message: MessageEvent
+            error: ErrorEvent
+        };
+
+        const delegate = <
+            TEvent extends keyof EventMap,
+            TMessage = EventMap[TEvent]
+        >(event: TEvent, cb: (message: TMessage) => void) => {
+            fromEvent<TMessage>(this._worker, event)
                 .pipe(
                     takeUntil(this._disposed$),
                 )
-                .subscribe(delegate);
+                .subscribe(cb);
         };
 
         delegate('message', this._handleMessage);
