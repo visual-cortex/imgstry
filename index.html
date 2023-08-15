@@ -2,61 +2,128 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Imgstry Spline Curve Widget</title>
-
-  <style>
-    html,
-    body {
-      padding: 0;
-      margin: 0;
-      background: #1e272e;
-    }
-
-    body {
-      width: 100%;
-      height: 50%;
-      margin-top: 5%;
-      text-align: center;
-    }
-  </style>
+  <link rel="stylesheet" href="index.css" />
 </head>
 
 <body>
-  <canvas id="canvas"
-          width="500"
-          height="500">
+  <section id="menu">
+    <button data-target="imgstry">Editor</button>
+    <button data-target="curve">Spline</button>
+  </section>
+
+  <section id="imgstry">
+    <div>
+      <canvas id="editor" width="500" height="500">
+    </div>
+    <button id="run">Run</button>
+  </section>
+
+  <section id="curve">
+    <div>
+      <canvas id="spline" width="500" height="500">
+    </div>
+  </section>
 
   </canvas>
   <script type="module">
-    import { ImgstrySpline, Theme } from './source';
+    import { Imgstry, ImgstrySpline, Theme, GaussianBlur } from './source';
 
-    const canvas = ImgstrySpline.getCanvas('#canvas');
-    const curve = new ImgstrySpline(canvas, {
-      theme: Theme.Dark,
-      anchorSize: 18,
-      gridSize: 5
-    });
-    [
-      {
-        x: .11,
-        y: .35
-      },
-      {
-        x: .33,
-        y: .56
-      },
-      {
-        x: .65,
-        y: .8
-      },
-      {
-        x: .93,
-        y: .6
+    async function editor() {
+      const URL = 'https://www.wescreenplay.com/wp-content/uploads/2017/11/rick-and-morty-portal.jpg';
+      const editorCanvas = Imgstry.getCanvas('#editor');
+      const processor = new Imgstry(editorCanvas, {
+        thread: {
+          isDebugEnabled: true,
+        }
+      });
+      const image = await Imgstry.loadImage(URL);
+      processor.drawImage(image);
+
+      async function listener() {
+        const canvas = await processor
+          .brightness(10)
+          .tint('#16a085')
+          .contrast(20)
+          .render();
       }
-    ].forEach(p => curve.add(p));
+
+      const button = document.getElementById('run');
+      button.addEventListener('click', listener);
+
+      return () => {
+        processor.dispose();
+        button.removeEventListener('click', listener);
+      }
+    };
+
+    async function spline() {
+      const splineCanvas = Imgstry.getCanvas('#spline');
+
+      const curve = new ImgstrySpline(splineCanvas, {
+        theme: Theme.Dark,
+        anchorSize: 18,
+        gridSize: 5
+      });
+      [
+        {
+          x: .11,
+          y: .35
+        },
+        {
+          x: .33,
+          y: .56
+        },
+        {
+          x: .65,
+          y: .8
+        },
+        {
+          x: .93,
+          y: .6
+        }
+      ].forEach(p => curve.add(p));
+
+      return () => {
+        curve.dispose();
+      }
+    }
+
+    let teardown = undefined;
+
+    async function switchTo(id) {
+      const sections = document.querySelectorAll('section');
+
+      sections.forEach(section => {
+        if (section.id === 'menu') {
+          return;
+        }
+
+        section.style.display = 'none';
+      });
+
+      const section = document.getElementById(id);
+      section.style.display = 'block';
+
+      teardown && teardown();
+
+      if (id === 'imgstry') {
+        teardown = await editor();
+      }
+
+      if (id === 'curve') {
+        teardown = await spline();
+      }
+    }
+
+    const menu = document.getElementById('menu');
+    menu.addEventListener('click', event => {
+      const target = event.target;
+      const id = target.getAttribute('data-target');
+      switchTo(id);
+    });
   </script>
 
   <body>

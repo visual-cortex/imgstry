@@ -1,0 +1,54 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: #1e272e;
+}
+
+body {
+  width: 100%;
+  height: 50%;
+  margin: 10px 0;
+  text-align: center;
+}
+
+section:not(#menu) {
+  display: none;
+}
+
+canvas {
+  margin: 20px;
+}
+
+@property --start {
+  syntax: '<color>';
+  inherits: false;
+}
+
+@property --end {
+  syntax: '<color>';
+  inherits: false;
+}
+
+button {
+  --start: #e052a0;
+  --end: #f15c41;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 16px;
+  padding: 12px 24px;
+  border: 0;
+  color: #000021;
+  background: linear-gradient(to right, var(--start), var(--end));
+  line-height: 1.15;
+  font-size: 16px;
+  transition: --start .5s, --end .5s, all .25s ease;
+}
+
+button:hover {
+  --start: #3ec7e0;
+  --end: #526bf4;
+  border-radius: 32px;
+}
