@@ -59,7 +59,7 @@ jobs:
         uses: paambaati/codeclimate-action@v5.0.0
         if: matrix.platform == 'ubuntu-latest'
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.ccToken }}
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           debug: true
           executable: ./cc-test-reporter
