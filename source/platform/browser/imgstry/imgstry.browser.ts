@@ -116,6 +116,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
     public drawImage(image: HTMLImageElement) {
         setSize(this.canvas, image.width as number, image.height as number);
         drawImage(this.canvas, image);
+        this._invalidateCache();
         this.draw$.next(void 0);
         this._original = this.clone(this.imageData);
     }
@@ -132,6 +133,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
 
     public reset(): ImgstryProcessor {
         this.imageData = this._original ?? emptyImageData(this.canvas);
+        this._invalidateCache();
         this.draw$.next(void 0);
         return <ImgstryProcessor>this;
     }
@@ -164,6 +166,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
 
         if (result) {
             this.imageData = result.imageData;
+            this._invalidateCache();
             this.draw$.next(void 0);
         }
 

@@ -37,13 +37,12 @@ export class Rgb implements IRgb, IColor {
     }
 
     public toHsv(): Hsv {
-        const clamp = this.clamp();
-        clamp.r /= 255;
-        clamp.g /= 255;
-        clamp.b /= 255;
+        const r = Math.round(Math.min(255, Math.max(0, this.r))) / 255;
+        const g = Math.round(Math.min(255, Math.max(0, this.g))) / 255;
+        const b = Math.round(Math.min(255, Math.max(0, this.b))) / 255;
 
-        const max = Math.max(clamp.r, clamp.g, clamp.b);
-        const min = Math.min(clamp.r, clamp.g, clamp.b);
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
 
         const delta = max - min;
 
@@ -53,7 +52,7 @@ export class Rgb implements IRgb, IColor {
             v: max,
         });
 
-        result.h = this._determineHue(min, max, delta, clamp);
+        result.h = this._determineHue(min, max, delta, r, g, b);
         result.h = Math.round(Math.min(result.h * 60, 360));
         result.h += result.h < 0 ? 360 : 0;
 
@@ -98,24 +97,38 @@ export class Rgb implements IRgb, IColor {
         return new Rgb(this._clamp(this));
     }
 
-    private _clamp = ({ r, g, b }: IRgb) => ({
-        r: Math.round(Math.min(255, Math.max(0, r))),
-        g: Math.round(Math.min(255, Math.max(0, g))),
-        b: Math.round(Math.min(255, Math.max(0, b))),
-    });
+    /**
+     * Clamps the channels of this instance without allocating a new object.
+     * Used by per-pixel hot paths.
+     * @returns the current instance with clamped channel values
+     */
+    public clampInPlace(): Rgb {
+        this.r = Math.round(Math.min(255, Math.max(0, this.r)));
+        this.g = Math.round(Math.min(255, Math.max(0, this.g)));
+        this.b = Math.round(Math.min(255, Math.max(0, this.b)));
+        return this;
+    }
 
-    private _determineHue = (min: number, max: number, delta: number, pixel: Rgb) => {
+    private _clamp({ r, g, b }: IRgb) {
+        return {
+            r: Math.round(Math.min(255, Math.max(0, r))),
+            g: Math.round(Math.min(255, Math.max(0, g))),
+            b: Math.round(Math.min(255, Math.max(0, b))),
+        };
+    }
+
+    private _determineHue(min: number, max: number, delta: number, r: number, g: number, b: number) {
         switch (max) {
             case min:
                 return 0;
-            case pixel.r:
-                return (pixel.g - pixel.b) / delta;
-            case pixel.g:
-                return 2 + (pixel.b - pixel.r) / delta;
-            case pixel.b:
-                return 4 + (pixel.r - pixel.g) / delta;
+            case r:
+                return (g - b) / delta;
+            case g:
+                return 2 + (b - r) / delta;
+            case b:
+                return 4 + (r - g) / delta;
             default:
                 return 0;
         }
-    };
+    }
 }

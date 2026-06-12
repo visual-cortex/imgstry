@@ -61,6 +61,7 @@ export class Imgstry extends ImgstryEditor {
      */
     public drawImage(image: Image) {
         drawImage(this.canvas, image);
+        this._invalidateCache();
         this._original = this.clone(this.imageData);
     }
 
@@ -70,6 +71,7 @@ export class Imgstry extends ImgstryEditor {
 
     public reset(): ImgstryProcessor {
         this.imageData = this._original || emptyImageData(this.canvas);
+        this._invalidateCache();
         return <ImgstryProcessor>this;
     }
 

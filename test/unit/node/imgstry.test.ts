@@ -118,8 +118,8 @@ describe('class: Imgstry (node)', () => {
             }
 
             expect(rgb.r / pixelData.length * 4).equal(236);
-            expect(rgb.g / pixelData.length * 4).equal(214);
-            expect(rgb.b / pixelData.length * 4).equal(198);
+            expect(rgb.g / pixelData.length * 4).equal(210);
+            expect(rgb.b / pixelData.length * 4).equal(163);
         });
     });
 

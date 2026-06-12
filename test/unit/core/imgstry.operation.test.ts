@@ -159,39 +159,39 @@ describe('namespace: Operation', () => {
     describe('gamma', () => {
         [0, 10, 13.333, 15, 16.666, 17, 23, 43, 83, 100].forEach(value => {
             it(`should correctly apply positive value: ${value}`, () => {
-                const pixel = new Rgb({
+                const source = {
                     r: 3,
                     g: 67,
                     b: 133,
-                });
+                };
 
-                const result = Operation.gamma(value)(pixel);
+                const result = Operation.gamma(value)(new Rgb(source));
 
                 const expected = (pixelValue: number) =>
                     Math.pow(pixelValue / 255, 1 - (value / 100)) * 255;
 
-                expect(result.r).to.equal(expected(pixel.r));
-                expect(result.g).to.equal(expected(pixel.g));
-                expect(result.b).to.equal(expected(pixel.b));
+                expect(result.r).to.equal(expected(source.r));
+                expect(result.g).to.equal(expected(source.g));
+                expect(result.b).to.equal(expected(source.b));
             });
         });
 
         [10, 13.333, 15, 16.666, 17, 23, 43, 83, 100].map(value => -value).forEach(value => {
             it(`should correctly apply negative value: ${value}`, () => {
-                const pixel = new Rgb({
+                const source = {
                     r: 3,
                     g: 67,
                     b: 133,
-                });
+                };
 
-                const result = Operation.gamma(value)(pixel);
+                const result = Operation.gamma(value)(new Rgb(source));
 
                 const expected = (pixelValue: number) =>
                     Math.pow(pixelValue / 255, value / -10) * 255;
 
-                expect(result.r).to.equal(expected(pixel.r));
-                expect(result.g).to.equal(expected(pixel.g));
-                expect(result.b).to.equal(expected(pixel.b));
+                expect(result.r).to.equal(expected(source.r));
+                expect(result.g).to.equal(expected(source.g));
+                expect(result.b).to.equal(expected(source.b));
             });
         });
     });
@@ -204,22 +204,22 @@ describe('namespace: Operation', () => {
         ]
             .forEach(value => {
                 it(`should correctly apply value: ${value}`, () => {
-                    const pixel = new Rgb({
+                    const source = {
                         r: 3,
                         g: 67,
                         b: 133,
-                    });
+                    };
 
-                    const result = Operation.saturation(value)(pixel);
+                    const result = Operation.saturation(value)(new Rgb(source));
 
-                    const max = Math.max(pixel.r, pixel.g, pixel.b);
+                    const max = Math.max(source.r, source.g, source.b);
 
                     const expected = (pixelValue: number) =>
                         pixelValue + (value * -.01 * (max - pixelValue));
 
-                    expect(result.r).to.equal(expected(pixel.r));
-                    expect(result.g).to.equal(expected(pixel.g));
-                    expect(result.b).to.equal(expected(pixel.b));
+                    expect(result.r).to.equal(expected(source.r));
+                    expect(result.g).to.equal(expected(source.g));
+                    expect(result.b).to.equal(expected(source.b));
                 });
             });
     });

@@ -8,7 +8,7 @@ import {
 import { Kernel } from '~/kernel';
 import { Rgb } from '~/pixel';
 
-const HISTO_FILLER = Array(256).fill(0);
+const CHANNEL_BINS = 256;
 
 /**
  * Core logic for the imgstry editor.
@@ -20,6 +20,7 @@ export abstract class ImgstryProcessor {
      * Original copy of the processed image.
      */
     protected _original: ImageData | null = null;
+    private _histogramCache: HistogramData | null = null;
     /**
      * Width of the image.
      */
@@ -31,27 +32,48 @@ export abstract class ImgstryProcessor {
 
     /**
      * Returns the channel histogram of the image.
+     * The result is cached until the image is mutated through the processor.
      */
     public get histogram(): HistogramData {
-        const histogramResult: HistogramData = {
-            all: [...HISTO_FILLER],
+        if (this._histogramCache) {
+            return this._histogramCache;
+        }
+
+        const data = this.imageData.data;
+        const total = data.length / 4;
+        const all = new Array(CHANNEL_BINS).fill(0);
+        const red = new Array(CHANNEL_BINS).fill(0);
+        const green = new Array(CHANNEL_BINS).fill(0);
+        const blue = new Array(CHANNEL_BINS).fill(0);
+
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+
+            all[Math.floor((r + g + b) / 3)]++;
+            red[r]++;
+            green[g]++;
+            blue[b]++;
+        }
+
+        for (let i = 0; i < CHANNEL_BINS; i++) {
+            all[i] /= total;
+            red[i] /= total;
+            green[i] /= total;
+            blue[i] /= total;
+        }
+
+        this._histogramCache = {
+            all,
             channel: {
-                red: [...HISTO_FILLER],
-                green: [...HISTO_FILLER],
-                blue: [...HISTO_FILLER],
+                red,
+                green,
+                blue,
             },
         };
 
-        this._traverse((pixel, info) => {
-            const total = info?.total ?? Operation.DEFAULT.rgb.max;
-            const mean = Math.floor((pixel.r + pixel.g + pixel.b) / 3);
-            histogramResult.all[mean] += 1 / total;
-            histogramResult.channel.red[pixel.r] += 1 / total;
-            histogramResult.channel.green[pixel.g] += 1 / total;
-            histogramResult.channel.blue[pixel.b] += 1 / total;
-        });
-
-        return histogramResult;
+        return this._histogramCache;
     }
 
     /**
@@ -78,18 +100,18 @@ export abstract class ImgstryProcessor {
         options = options.sort((a: OperationOption, b: OperationOption) => a.priority - b.priority);
 
         const convolutions = options.filter(o => o.name === 'convolve');
-        const operations = options.filter(o => o.name !== 'convolve')
-            .map(operation => ({
-                value: operation.value,
-                method: (Operation as Record<OperationMethod, any>)[operation.name](operation.value),
-            }));
+        const methods = options.filter(o => o.name !== 'convolve')
+            .map(operation =>
+                (Operation as Record<OperationMethod, any>)[operation.name](operation.value) as (pixel: Rgb) => Rgb,
+            );
 
-        if (operations.length) {
+        if (methods.length) {
             this._traverse((pixel) => {
-                return operations.reduce(
-                    (rgb: Rgb, operation) => operation.method(rgb),
-                    pixel,
-                );
+                let result = pixel;
+                for (let i = 0; i < methods.length; i++) {
+                    result = methods[i](result);
+                }
+                return result;
             });
         }
 
@@ -100,97 +122,105 @@ export abstract class ImgstryProcessor {
         return this;
     }
 
-    private _convolve(kernel: Kernel | number[][], factor = 1): ImgstryProcessor {
-        const normalized = new Kernel((kernel as any)._kernel || kernel);
-
-        const data = this.imageData.data;
-        const result = this.createImageData(this.imageData);
-        const limit = {
-            lower: 0,
-            upper: this.width * this.height * 4,
-        };
-
-        const half = Math.floor(normalized.height / 2);
-
-        this._matrixTraverse((y, x) => {
-            const offset = (y * this.width + x) * 4;
-            let pixel = new Rgb();
-            normalized.forEach((value, idx) => {
-                let index =
-                    ((y + (idx.y - half)) * this.width +
-                        (x + (idx.x - half))) * 4;
-
-                if (index < limit.lower) {
-                    index = limit.lower;
-                }
-
-                if (index > limit.upper) {
-                    index = limit.upper;
-                }
-
-                pixel.r += data[index + 0] * value;
-                pixel.g += data[index + 1] * value;
-                pixel.b += data[index + 2] * value;
-                result.data[index + 3] = data[index + 3];
-            });
-
-            pixel = pixel.clamp();
-
-            result.data[offset + 0] = factor * pixel.r;
-            result.data[offset + 1] = factor * pixel.g;
-            result.data[offset + 2] = factor * pixel.b;
-        });
-
-        this.imageData = result;
-        return this;
+    /**
+     * Discards the cached histogram, called whenever image data is mutated.
+     */
+    protected _invalidateCache(): void {
+        this._histogramCache = null;
     }
 
-    private _matrixTraverse = (delegate: (y: number, x: number) => void) => {
-        for (let y = 0; y < this.height; y++) {
-            for (let x = 0; x < this.width; x++) {
-                delegate(y, x);
+    private _convolve(kernel: Kernel | number[][], factor = 1): ImgstryProcessor {
+        const normalized = kernel instanceof Kernel ? kernel : new Kernel(kernel);
+
+        const image = this.imageData;
+        const data = image.data;
+        const result = this.createImageData(image);
+        const output = result.data;
+
+        const width = this.width;
+        const height = this.height;
+        const kernelWidth = normalized.width;
+        const kernelHeight = normalized.height;
+        const halfX = Math.floor(kernelWidth / 2);
+        const halfY = Math.floor(kernelHeight / 2);
+        const weights = normalized.flatten();
+        const maxIndex = data.length - 4;
+
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                const offset = (y * width + x) * 4;
+                let r = 0;
+                let g = 0;
+                let b = 0;
+
+                for (let ky = 0; ky < kernelHeight; ky++) {
+                    const sampleY = y + ky - halfY;
+                    for (let kx = 0; kx < kernelWidth; kx++) {
+                        const weight = weights[ky * kernelWidth + kx];
+                        const sample = (sampleY * width + (x + kx - halfX)) * 4;
+                        const index = Math.min(maxIndex, Math.max(0, sample));
+
+                        r += data[index] * weight;
+                        g += data[index + 1] * weight;
+                        b += data[index + 2] * weight;
+                    }
+                }
+
+                output[offset] = factor * Math.round(Math.min(255, Math.max(0, r)));
+                output[offset + 1] = factor * Math.round(Math.min(255, Math.max(0, g)));
+                output[offset + 2] = factor * Math.round(Math.min(255, Math.max(0, b)));
+                output[offset + 3] = data[offset + 3];
             }
         }
-    };
+
+        this.imageData = result;
+        this._invalidateCache();
+        return this;
+    }
 
     private _traverse = (delegate: (pixel: Rgb, information?: TraversalPixelInfo) => Rgb | void): ImgstryProcessor => {
         let isComputation = true;
         const image = this.imageData;
         const pixelArray = image.data;
-        const total = pixelArray.length / 4;
+        const width = this.width;
+        const length = pixelArray.length;
+        const pixel = new Rgb();
+        const info: TraversalPixelInfo = {
+            position: {
+                x: 0,
+                y: 0,
+                offset: 0,
+            },
+            total: length / 4,
+        };
 
-        for (let i = 0; i < pixelArray.length; i += 4) {
-            let pixel: Rgb | void = delegate(new Rgb({
-                r: pixelArray[i],
-                g: pixelArray[i + 1],
-                b: pixelArray[i + 2],
-            }), {
-                position: {
-                    x: Math.floor(i / 4) % this.width,
-                    y: Math.floor(Math.floor(i / 4) / this.width),
-                    offset: i,
-                },
-                total,
-            });
+        for (let i = 0, x = 0, y = 0; i < length; i += 4) {
+            pixel.r = pixelArray[i];
+            pixel.g = pixelArray[i + 1];
+            pixel.b = pixelArray[i + 2];
+            info.position.x = x;
+            info.position.y = y;
+            info.position.offset = i;
 
-            if (!isComputation) {
-                continue;
-            }
+            const result = delegate(pixel, info);
 
-            if (!pixel) {
+            if (!result) {
                 isComputation = false;
-                continue;
+            } else if (isComputation) {
+                pixelArray[i] = Math.round(Math.min(255, Math.max(0, result.r)));
+                pixelArray[i + 1] = Math.round(Math.min(255, Math.max(0, result.g)));
+                pixelArray[i + 2] = Math.round(Math.min(255, Math.max(0, result.b)));
             }
 
-            pixel = pixel.clamp();
-
-            pixelArray[i] = pixel.r;
-            pixelArray[i + 1] = pixel.g;
-            pixelArray[i + 2] = pixel.b;
+            if (++x === width) {
+                x = 0;
+                y++;
+            }
         }
 
         if (isComputation) {
             this.imageData = image;
+            this._invalidateCache();
         }
 
         return this;

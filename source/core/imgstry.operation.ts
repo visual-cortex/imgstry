@@ -7,6 +7,7 @@ import {
 export
 /**
  * A collection of atomic operations used by the processor.
+ * Operations mutate the received pixel in place for performance reasons.
  * @ignore
  */
 namespace Operation {
@@ -30,7 +31,7 @@ namespace Operation {
 
     export const lookup = (lut: Record<number, number>) => {
         return (pixel: Rgb) => {
-            pixel = pixel.clamp();
+            pixel.clampInPlace();
             pixel.r = lut[pixel.r];
             pixel.g = lut[pixel.g];
             pixel.b = lut[pixel.b];
@@ -40,37 +41,11 @@ namespace Operation {
 
     export const hue = (value: number) => {
         return (pixel: Rgb) => {
-            const hsv = pixel.clamp().toHsv();
+            const hsv = pixel.clampInPlace().toHsv();
             hsv.h += value;
             return hsv.toRgb();
         };
     };
-
-
-    const sepiaRChannel = (pixel: Rgb, value: number) =>
-        (pixel.r *
-            (1 - .607 * value)) +
-        (pixel.g *
-            (.769 * value)) +
-        (pixel.b *
-            (.189 * value));
-
-    const sepiaGChannel = (pixel: Rgb, value: number) =>
-        (pixel.r *
-            (.349 * value)) +
-        (pixel.g *
-            (1 - .314 * value)) +
-        (pixel.b *
-            (.168 * value)
-        );
-
-    const sepiaBChannel = (pixel: Rgb, value: number) =>
-        (pixel.r *
-            (.272 * value)) +
-        (pixel.g *
-            (.534 * value)) +
-        (pixel.b * (
-            1 - .869 * value));
 
     export const sepia = (value: number) => {
         if (!value) {
@@ -78,11 +53,13 @@ namespace Operation {
         }
         value /= 100;
         return (pixel: Rgb) => {
-            pixel = pixel.clamp();
+            pixel.clampInPlace();
 
-            pixel.r = sepiaRChannel(pixel, value);
-            pixel.g = sepiaGChannel(pixel, value);
-            pixel.b = sepiaBChannel(pixel, value);
+            const { r, g, b } = pixel;
+
+            pixel.r = (r * (1 - .607 * value)) + (g * (.769 * value)) + (b * (.189 * value));
+            pixel.g = (r * (.349 * value)) + (g * (1 - .314 * value)) + (b * (.168 * value));
+            pixel.b = (r * (.272 * value)) + (g * (.534 * value)) + (b * (1 - .869 * value));
 
             return pixel;
         };
@@ -99,12 +76,12 @@ namespace Operation {
             return Math.pow(i / DEFAULT.rgb.max, value) * DEFAULT.rgb.max;
         });
 
-        return (pixel: Rgb) => lookup(lut)(pixel);
+        return lookup(lut);
     };
 
     export const noise = (value: number) => {
         return (pixel: Rgb) => {
-            pixel = pixel.clamp();
+            pixel.clampInPlace();
             let random = Math.random() * value * (DEFAULT.rgb.max / 100);
             random = (Math.random() > .5 ? -random : random);
 
@@ -120,7 +97,7 @@ namespace Operation {
         value *= -1;
 
         return (pixel: Rgb) => {
-            pixel = pixel.clamp();
+            pixel.clampInPlace();
 
             const average = (pixel.r + pixel.g + pixel.b) / 3;
             const max = Math.max(pixel.r, pixel.g, pixel.b);
@@ -136,7 +113,7 @@ namespace Operation {
 
     export const invert = () => {
         return (pixel: Rgb) => {
-            pixel = pixel.clamp();
+            pixel.clampInPlace();
             pixel.r ^= DEFAULT.rgb.max;
             pixel.g ^= DEFAULT.rgb.max;
             pixel.b ^= DEFAULT.rgb.max;
@@ -153,7 +130,7 @@ namespace Operation {
         const rgb = new Hex(color).toRgb();
 
         return (pixel: Rgb) => {
-            pixel = pixel.clamp();
+            pixel.clampInPlace();
             pixel.r = pixel.r + tintOffset(pixel.r, rgb.r);
             pixel.g = pixel.g + tintOffset(pixel.g, rgb.g);
             pixel.b = pixel.b + tintOffset(pixel.b, rgb.b);
@@ -182,7 +159,7 @@ namespace Operation {
         }));
 
         return (pixel: Rgb) => {
-            pixel = pixel.clamp();
+            pixel.clampInPlace();
             const bwValue = lut[pixel.r].r + lut[pixel.g].g + lut[pixel.b].b;
 
             pixel.r = bwValue;
@@ -210,7 +187,7 @@ namespace Operation {
             return i;
         });
 
-        return (pixel: Rgb) => lookup(lut)(pixel);
+        return lookup(lut);
     };
 
     export const brightness = (value: number) => {
@@ -218,7 +195,7 @@ namespace Operation {
 
         const lut = lutGenerator((i) => i += value);
 
-        return (pixel: Rgb) => lookup(lut)(pixel);
+        return lookup(lut);
     };
 
     export const saturation = (value: number) => {
@@ -229,7 +206,7 @@ namespace Operation {
         });
 
         return (pixel: Rgb) => {
-            pixel = pixel.clamp();
+            pixel.clampInPlace();
 
             const max = Math.max(pixel.r, pixel.g, pixel.b);
 
