@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@types/jsdom": "^28.0.3",
-    "@types/node": "^20.5.0",
+    "@types/node": "^22.19.21",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
     "@vitest/coverage-v8": "^0.34.1",
@@ -47,7 +47,7 @@
     "eslint-plugin-jsdoc": "^46.4.6",
     "eslint-plugin-sonarjs": "^0.20.0",
     "jsdom": "^29.1.1",
-    "typescript": "^5.1.6",
+    "typescript": "^5.9.3",
     "vite": "^4.4.9",
     "vitest": "^0.34.1"
   },

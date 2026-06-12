@@ -1,13 +1,14 @@
 {
     "compilerOptions": {
         "declaration": false,
+        "skipLibCheck": true,
         "downlevelIteration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
         "target": "ESNext",
         "sourceMap": true,
-        "moduleResolution": "Node",
+        "moduleResolution": "Bundler",
         "removeComments": false,
         "preserveConstEnums": false,
         "strict": true,

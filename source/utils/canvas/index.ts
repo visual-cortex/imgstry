@@ -8,3 +8,4 @@ export * from '~/utils/canvas/getContext2D';
 export * from '~/utils/canvas/emptyImageData';
 export * from '~/utils/canvas/setSize';
 export * from '~/utils/canvas/drawHistogram';
+export * from '~/utils/canvas/types';

@@ -19,6 +19,8 @@ import {
 } from '~/platform/browser/worker';
 import { IDisposable } from '~/types';
 import {
+    Canvas2D,
+    Context2D,
     clearCanvas,
     drawImage,
     emptyImageData,
@@ -70,17 +72,18 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
         shareReplay(1),
     );
 
-    public readonly context: CanvasRenderingContext2D;
+    public readonly context: Context2D;
 
-    private _thread: ImgstryThread;
+    private _thread?: ImgstryThread;
+    private _threadOptions: ImgstryThreadOptions;
 
     /**
      * Creates an instance of Imgstry.
-     * @param canvas (specifies the canvas base for imgstry)
+     * @param canvas (specifies the canvas base for imgstry, accepts both HTMLCanvasElement and OffscreenCanvas)
      * @param _options (specifies the canvas base for imgstry)
      */
     public constructor(
-        public readonly canvas: HTMLCanvasElement,
+        public readonly canvas: Canvas2D,
         _options?: Partial<ImgstryBrowserOptions>,
     ) {
         super();
@@ -88,7 +91,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
         this.context = getContext2D(canvas);
         fillCanvas(this.canvas, '');
         this._original = this.clone(this.imageData);
-        this._thread = new ImgstryThread(options.thread);
+        this._threadOptions = options.thread;
     }
 
     public get width() {
@@ -113,7 +116,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
      * Draws an image on the canvas.
      * @param image The source image that will be drawn on the canvas.
      */
-    public drawImage(image: HTMLImageElement) {
+    public drawImage(image: HTMLImageElement | ImageBitmap) {
         setSize(this.canvas, image.width as number, image.height as number);
         drawImage(this.canvas, image);
         this._invalidateCache();
@@ -128,7 +131,35 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
      * @returns The image encoded as a data url.
      */
     public toDataUrl(type = 'image/png'): string {
-        return this.canvas.toDataURL(type);
+        if ('toDataURL' in this.canvas) {
+            return this.canvas.toDataURL(type);
+        }
+
+        throw new Error('toDataUrl is not supported for OffscreenCanvas, use toBlob instead.');
+    }
+
+    /**
+     * Returns the content of the current canvas as a Blob.
+     * Works for both HTMLCanvasElement and OffscreenCanvas surfaces.
+     * @param [type] The standard MIME type for the image format to return.
+     * If you do not specify this parameter, the default value is a PNG format image.
+     * @returns The image encoded as a Blob.
+     */
+    public async toBlob(type = 'image/png'): Promise<Blob> {
+        const canvas = this.canvas;
+
+        if ('convertToBlob' in canvas) {
+            return canvas.convertToBlob({ type });
+        }
+
+        return new Promise<Blob>((resolve, reject) => {
+            canvas.toBlob(
+                (blob) => blob ?
+                    resolve(blob) :
+                    reject(new Error('Canvas serialization failed.')),
+                type,
+            );
+        });
     }
 
     public reset(): ImgstryProcessor {
@@ -157,7 +188,7 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
     }
 
     public async render(target: RenderTarget = 'current'): Promise<Imgstry> {
-        const result = await this._thread.run({
+        const result = await this._spawnThread().run({
             imageData: target === 'current' ?
                 this.imageData :
                 this.clone(this._original || emptyImageData(this.canvas)),
@@ -178,8 +209,18 @@ export class Imgstry extends ImgstryEditor implements IDisposable {
      */
     public dispose() {
         this._original = null;
-        this._thread.dispose();
+        this._thread?.dispose();
+        this._thread = undefined;
         clearCanvas(this.canvas);
         this.draw$.complete();
+    }
+
+    /**
+     * Lazily spawns the worker thread on first async render,
+     * keeping synchronous usage (including inside workers) worker-free.
+     * @returns the worker thread communication layer
+     */
+    private _spawnThread(): ImgstryThread {
+        return this._thread ??= new ImgstryThread(this._threadOptions);
     }
 }

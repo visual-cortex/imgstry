@@ -60,7 +60,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
     ) {
         super(_canvas.width + 1);
 
-        this._context = getContext2D(_canvas);
+        this._context = getContext2D(_canvas) as CanvasRenderingContext2D;
         this._padding = this._anchorSize * 2;
 
         this._fauxWidth = this._width - this._padding * 2;

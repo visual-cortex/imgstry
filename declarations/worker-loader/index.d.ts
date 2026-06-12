@@ -1,7 +1,7 @@
-declare module '*worker&inline' {
-    class WebpackWorker extends Worker {
+declare module '*?worker' {
+    class ViteWorker extends Worker {
         public constructor();
     }
 
-    export default WebpackWorker;
+    export default ViteWorker;
 }

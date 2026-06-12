@@ -32,7 +32,7 @@ export class Imgstry extends ImgstryEditor {
     public constructor(width: number, height: number) {
         super();
         this.canvas = new Canvas(width, height);
-        this.context = getContext2D(this.canvas);
+        this.context = getContext2D(this.canvas) as CanvasRenderingContext2D;
         fillCanvas(this.canvas, '');
         this._original = this.clone(this.imageData);
     }
