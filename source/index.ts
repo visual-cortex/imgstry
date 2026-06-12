@@ -1,3 +1,4 @@
+export * from '~/core';
 export * from '~/platform/browser';
 export * from '~/kernel';
 export * from '~/pixel';
