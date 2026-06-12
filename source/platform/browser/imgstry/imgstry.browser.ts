@@ -9,7 +9,7 @@ import {
 } from 'rxjs/operators';
 import {
     HistogramData,
-    ImgstryEditor,
+    ImgstryLayeredEditor,
     ImgstryProcessor,
     RenderTarget,
 } from '~/core';
@@ -62,7 +62,7 @@ const assignDefault = (source: Partial<ImgstryBrowserOptions> = {}): ImgstryBrow
 /**
  * (Exposes image processing methods for html canvas)
  */
-export class Imgstry extends ImgstryEditor implements IDisposable {
+export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
     public static getCanvas = getCanvas;
 
     public draw$ = new Subject();

@@ -4,7 +4,7 @@ import {
     Image,
 } from 'canvas';
 import {
-    ImgstryEditor,
+    ImgstryLayeredEditor,
     ImgstryProcessor,
     RenderTarget,
 } from '~/core';
@@ -20,7 +20,7 @@ import { loadImage } from '~/utils/dom';
 /**
  * (Exposes image processing methods for html canvas)
  */
-export class Imgstry extends ImgstryEditor {
+export class Imgstry extends ImgstryLayeredEditor {
     public readonly context: CanvasRenderingContext2D;
     public readonly canvas: HTMLCanvasElement;
 

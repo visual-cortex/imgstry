@@ -210,6 +210,10 @@ export abstract class ImgstryProcessor {
                 pixelArray[i] = Math.round(Math.min(255, Math.max(0, result.r)));
                 pixelArray[i + 1] = Math.round(Math.min(255, Math.max(0, result.g)));
                 pixelArray[i + 2] = Math.round(Math.min(255, Math.max(0, result.b)));
+
+                if (result.alpha !== undefined) {
+                    pixelArray[i + 3] = result.alpha;
+                }
             }
 
             if (++x === width) {

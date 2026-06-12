@@ -25,6 +25,11 @@ export class Rgb implements IRgb, IColor {
     public r: number;
     public g: number;
     public b: number;
+    /**
+     * Optional alpha override in the [0, 255] interval; when set,
+     * the processor writes it back to the alpha channel.
+     */
+    public alpha?: number;
 
     public constructor({ r, g, b }: IRgb = DEFAULT) {
         this.r = r;

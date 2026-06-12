@@ -141,6 +141,7 @@ namespace Operation {
 
     export const fill = (color: string) => {
         const rgb = new Hex(color).toRgb();
+        rgb.alpha = DEFAULT.rgb.max;
 
         return () => {
             return rgb;
