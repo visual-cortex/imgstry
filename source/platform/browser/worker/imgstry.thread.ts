@@ -40,7 +40,7 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
     public process$ = new Subject<IThreadResult>();
 
     private _disposed$ = new Subject();
-    private _worker: ImgstryWorker;
+    private _worker: Worker;
     private _logger: Logger;
 
     /**
