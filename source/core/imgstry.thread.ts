@@ -24,7 +24,7 @@ export interface IImgstryThread {
      * @param options
      * @param options.operations The operations to be executed.
      * @param options.imageData The image data to be processed.
-     * @returns {Promise<IThreadResult>}
+     * @returns
      */
     run({
         imageData,

@@ -2,6 +2,7 @@
     "compilerOptions": {
         "declaration": false,
         "skipLibCheck": true,
+        "ignoreDeprecations": "6.0",
         "downlevelIteration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,

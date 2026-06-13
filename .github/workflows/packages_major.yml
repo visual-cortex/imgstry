@@ -1,0 +1,189 @@
+name: The Major Reckoning aka Bump Major Versions
+
+on:
+  workflow_dispatch:
+  schedule:
+    # First Sunday of the month at 19:00 UTC (cron fires every Sunday;
+    # the script gates on day-of-month to keep this monthly).
+    - cron: '0 19 * * 0'
+
+permissions:
+  contents: read
+
+jobs:
+  monthly-gate:
+    name: Monthly Cadence Gate
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.gate.outputs.should_run }}
+    steps:
+      - name: Decide Whether to Run
+        id: gate
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          DAY=$(date -u +%d)
+          if [ "$DAY" -le 7 ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  bump-major:
+    needs: monthly-gate
+    if: needs.monthly-gate.outputs.should_run == 'true'
+    name: Try Major Bumps One-At-A-Time
+    runs-on: ubuntu-latest
+    concurrency:
+      group: packages-major
+      cancel-in-progress: true
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Restore baseline dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Enumerate Major-Only Candidates
+        id: enumerate
+        run: |
+          set -euo pipefail
+          npx --yes npm-check-updates@latest --target latest --jsonUpgraded > /tmp/all.json
+          npx --yes npm-check-updates@latest --target minor  --jsonUpgraded > /tmp/minor.json
+          # Majors = all-upgrades minus minor-upgrades (by key).
+          jq -n \
+            --slurpfile all /tmp/all.json \
+            --slurpfile minor /tmp/minor.json \
+            '($all[0] // {}) as $a | ($minor[0] // {}) as $m
+             | $a | to_entries
+             | map(select($m[.key] == null))
+             | from_entries' > /tmp/majors.json
+          echo "::group::major candidates"
+          cat /tmp/majors.json
+          echo "::endgroup::"
+          COUNT=$(jq 'length' /tmp/majors.json)
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Short-Circuit When Nothing To Do
+        if: steps.enumerate.outputs.count == '0'
+        run: echo "No major upgrades available. Done."
+
+      - name: Bisect Candidate Set
+        if: steps.enumerate.outputs.count != '0'
+        run: ./.github/scripts/ncu-bisect.sh /tmp/majors.json
+
+      - name: Detect Adopted vs Reverted
+        if: steps.enumerate.outputs.count != '0'
+        id: detect
+        run: |
+          set -euo pipefail
+          if [ -s /tmp/passing.txt ]; then
+            echo "has_passing=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_passing=false" >> "$GITHUB_OUTPUT"
+          fi
+          if [ -s /tmp/failing.txt ]; then
+            echo "has_failing=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_failing=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build PR Body
+        if: steps.detect.outputs.has_passing == 'true'
+        id: pr_body
+        run: |
+          {
+            echo "Automated major bump pass. Each candidate was tried independently with reinstall + lint + typecheck + tests + build. Failures were reverted automatically; only green majors reach this PR."
+            echo ""
+            echo "## Adopted majors"
+            echo ""
+            while IFS='=' read -r NAME VERSION; do
+              [ -z "$NAME" ] && continue
+              echo "- \`$NAME\` → \`$VERSION\`"
+            done < /tmp/passing.txt
+            if [ -s /tmp/failing.txt ]; then
+              echo ""
+              echo "## Skipped (tracked in companion issue)"
+              echo ""
+              while IFS='=' read -r NAME VERSION; do
+                [ -z "$NAME" ] && continue
+                echo "- \`$NAME\` → \`$VERSION\`"
+              done < /tmp/failing.txt
+            fi
+          } > /tmp/pr-body.md
+          {
+            echo 'body<<PRBODY_EOF'
+            cat /tmp/pr-body.md
+            echo 'PRBODY_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Forge the Pull Request
+        if: steps.detect.outputs.has_passing == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/deps-major
+          delete-branch: true
+          base: master
+          commit-message: 'chore(deps): bump major versions'
+          title: 'chore(deps): bump major versions'
+          body: ${{ steps.pr_body.outputs.body }}
+          labels: |
+            dependencies
+            automated
+            major-bump
+
+      - name: Open Issue for Reverted Majors
+        if: steps.detect.outputs.has_failing == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          {
+            echo "Automated major-bump run could not promote the following packages. Each was attempted in isolation against a clean baseline and reverted on failure."
+            echo ""
+            echo "## Reverted majors"
+            echo ""
+            while IFS='=' read -r NAME VERSION; do
+              [ -z "$NAME" ] && continue
+              echo "### \`$NAME\` → \`$VERSION\`"
+              echo ""
+              echo "<details><summary>Last 80 log lines</summary>"
+              echo ""
+              echo '```'
+              tail -n 80 "/tmp/bisect-logs/rejected-${NAME//\//__}.log" 2>/dev/null || echo "(log missing)"
+              echo '```'
+              echo "</details>"
+              echo ""
+            done < /tmp/failing.txt
+            echo ""
+            echo "_Triage path:_ bump locally, investigate the failure, either land a fix or pin the package with a reason."
+            echo ""
+            echo "Opened by \`packages_major.yml\` run \`${{ github.run_id }}\`."
+          } > /tmp/issue-body.md
+
+          DATE=$(date -u +%Y-%m-%d)
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "chore(deps): major bumps that need manual triage ($DATE)" \
+            --body-file /tmp/issue-body.md \
+            --label dependencies \
+            --label automated \
+            --label major-bump

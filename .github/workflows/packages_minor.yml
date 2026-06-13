@@ -1,0 +1,115 @@
+name: The Minor Rejuvenation aka Bump Minor Versions
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every Sunday at 18:00 UTC (Sunday evening, before the work week).
+    - cron: '0 18 * * 0'
+
+permissions:
+  contents: read
+
+jobs:
+  bump-minor:
+    name: Refresh Minor & Patch Pins
+    runs-on: ubuntu-latest
+    concurrency:
+      group: packages-minor
+      cancel-in-progress: true
+    permissions:
+      contents: write
+      pull-requests: write
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Restore baseline dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Enumerate Minor Candidates
+        id: enumerate
+        run: |
+          set -euo pipefail
+          npx --yes npm-check-updates@latest \
+            --target minor \
+            --jsonUpgraded > /tmp/minors.json
+          echo "::group::minor candidates"
+          cat /tmp/minors.json
+          echo "::endgroup::"
+          COUNT=$(jq 'length' /tmp/minors.json)
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Short-Circuit When Nothing To Do
+        if: steps.enumerate.outputs.count == '0'
+        run: echo "No minor upgrades available. Done."
+
+      - name: Bisect Candidate Set
+        if: steps.enumerate.outputs.count != '0'
+        run: ./.github/scripts/ncu-bisect.sh /tmp/minors.json
+
+      - name: Detect Adopted vs Reverted
+        if: steps.enumerate.outputs.count != '0'
+        id: detect
+        run: |
+          set -euo pipefail
+          if [ -s /tmp/passing.txt ]; then
+            echo "has_passing=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_passing=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build PR Body
+        if: steps.detect.outputs.has_passing == 'true'
+        id: pr_body
+        run: |
+          {
+            echo "Automated minor + patch bump. Each candidate was tried independently with reinstall + lint + typecheck + tests + build. Failures were reverted automatically; only green bumps reach this PR."
+            echo ""
+            echo "## Adopted"
+            echo ""
+            while IFS='=' read -r NAME VERSION; do
+              [ -z "$NAME" ] && continue
+              echo "- \`$NAME\` → \`$VERSION\`"
+            done < /tmp/passing.txt
+            if [ -s /tmp/failing.txt ]; then
+              echo ""
+              echo "## Reverted"
+              echo ""
+              while IFS='=' read -r NAME VERSION; do
+                [ -z "$NAME" ] && continue
+                echo "- \`$NAME\` → \`$VERSION\`"
+              done < /tmp/failing.txt
+              echo ""
+              echo "_Reverted candidates stay on their current pin; investigate or pin them out before the next run._"
+            fi
+          } > /tmp/pr-body.md
+          {
+            echo 'body<<PRBODY_EOF'
+            cat /tmp/pr-body.md
+            echo 'PRBODY_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Forge the Pull Request
+        if: steps.detect.outputs.has_passing == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/deps-minor
+          delete-branch: true
+          base: master
+          commit-message: 'chore(deps): bump minor & patch versions'
+          title: 'chore(deps): bump minor & patch versions'
+          body: ${{ steps.pr_body.outputs.body }}
+          labels: |
+            dependencies
+            automated

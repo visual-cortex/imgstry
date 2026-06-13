@@ -60,7 +60,7 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
 
         const delegate = <
             TEvent extends keyof EventMap,
-            TMessage = EventMap[TEvent]
+            TMessage = EventMap[TEvent],
         >(event: TEvent, cb: (message: TMessage) => void) => {
             fromEvent<TMessage>(this._worker, event)
                 .pipe(
