@@ -1,4 +1,9 @@
 import { Operation } from '~/core';
+import type {
+    ChannelMixerMatrix,
+    SplitToneOptions,
+} from '~/core/pipeline/pixel';
+import type { VignetteOptions } from '~/core/pipeline/spatial';
 import { Kernel } from '~/kernel';
 
 /**
@@ -25,15 +30,46 @@ export type PipelineOperationName =
 export type OperationMethod = keyof typeof Operation | 'convolve' | PipelineOperationName;
 
 /**
- * Defines possible operation values.
+ * Convolution kernel inputs accepted by the pipeline.
+ */
+export type KernelLike = Kernel | number[][];
+
+/**
+ * Tone-curve mapping (per channel or shared).
+ */
+export interface CurveMapping {
+    r?: number[]
+    g?: number[]
+    b?: number[]
+    rgb?: number[]
+}
+
+/**
+ * Image-levels remap options.
+ */
+export interface LevelsOptions {
+    inLow?: number
+    inHigh?: number
+    gamma?: number
+    outLow?: number
+    outHigh?: number
+}
+
+/**
+ * The complete set of value shapes an operation can carry. Each shape is
+ * typed against the op-name it belongs to elsewhere; this union exists for
+ * the storage layer (history, serialisation) which is op-agnostic.
  */
 export type OperationValue =
     | number
     | string
     | [number, number, number]
-    | Kernel
-    | number[][]
-    | Record<string, unknown>
+    | KernelLike
+    | CurveMapping
+    | LevelsOptions
+    | VignetteOptions
+    | ChannelMixerMatrix
+    | SplitToneOptions
     | null;
 
 /**

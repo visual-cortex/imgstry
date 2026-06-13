@@ -216,7 +216,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
         outLow?: number
         outHigh?: number
     }): ImgstryEditor {
-        return this._recordOperation('levels', options as unknown as OperationValue);
+        return this._recordOperation('levels', options);
     }
 
     /**
@@ -229,7 +229,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
      * @returns the current editor instance
      */
     public curve(mapping: { r?: number[]; g?: number[]; b?: number[]; rgb?: number[] }): ImgstryEditor {
-        return this._recordOperation('curve', mapping as unknown as OperationValue);
+        return this._recordOperation('curve', mapping);
     }
 
     /**
@@ -247,7 +247,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
      * @returns the current editor instance
      */
     public vignette(options: VignetteOptions): ImgstryEditor {
-        return this._recordOperation('vignette', options as unknown as OperationValue);
+        return this._recordOperation('vignette', options);
     }
 
     /**
@@ -256,7 +256,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
      * @returns the current editor instance
      */
     public channelMixer(matrix: ChannelMixerMatrix): ImgstryEditor {
-        return this._recordOperation('channelMixer', matrix as unknown as OperationValue);
+        return this._recordOperation('channelMixer', matrix);
     }
 
     /**
@@ -265,7 +265,7 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
      * @returns the current editor instance
      */
     public splitTone(options: SplitToneOptions): ImgstryEditor {
-        return this._recordOperation('splitTone', options as unknown as OperationValue);
+        return this._recordOperation('splitTone', options);
     }
 
     /**

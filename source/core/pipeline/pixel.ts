@@ -35,9 +35,9 @@ export const applySaturation = (data: Uint8ClampedArray, value: number): void =>
         const b = data[i + 2];
         const max = r > g ? (r > b ? r : b) : (g > b ? g : b);
 
-        data[i] = r + factor * (max - r);
-        data[i + 1] = g + factor * (max - g);
-        data[i + 2] = b + factor * (max - b);
+        data[i]     = clampU8(r + factor * (max - r));
+        data[i + 1] = clampU8(g + factor * (max - g));
+        data[i + 2] = clampU8(b + factor * (max - b));
     }
 };
 
@@ -52,9 +52,9 @@ export const applyVibrance = (data: Uint8ClampedArray, value: number): void => {
         const max = r > g ? (r > b ? r : b) : (g > b ? g : b);
         const amount = (Math.abs(max - avg) * 2 / 255 * intensity) / 100;
 
-        data[i] = r + (max - r) * amount;
-        data[i + 1] = g + (max - g) * amount;
-        data[i + 2] = b + (max - b) * amount;
+        data[i]     = clampU8(r + (max - r) * amount);
+        data[i + 1] = clampU8(g + (max - g) * amount);
+        data[i + 2] = clampU8(b + (max - b) * amount);
     }
 };
 
@@ -75,9 +75,9 @@ export const applySepia = (data: Uint8ClampedArray, value: number): void => {
         const g = data[i + 1];
         const b = data[i + 2];
 
-        data[i] = r * rr + g * rg + b * rb;
-        data[i + 1] = r * gr + g * gg + b * gb;
-        data[i + 2] = r * br + g * bg + b * bb;
+        data[i]     = clampU8(r * rr + g * rg + b * rb);
+        data[i + 1] = clampU8(r * gr + g * gg + b * gb);
+        data[i + 2] = clampU8(r * br + g * bg + b * bb);
     }
 };
 
@@ -224,9 +224,9 @@ export const applyChannelMixer = (data: Uint8ClampedArray, matrix: ChannelMixerM
         const g = data[i + 1];
         const b = data[i + 2];
 
-        data[i] = r * rR.r + g * rR.g + b * rR.b + cR;
-        data[i + 1] = r * gR.r + g * gR.g + b * gR.b + cG;
-        data[i + 2] = r * bR.r + g * bR.g + b * bR.b + cB;
+        data[i]     = clampU8(r * rR.r + g * rR.g + b * rR.b + cR);
+        data[i + 1] = clampU8(r * gR.r + g * gR.g + b * gR.b + cG);
+        data[i + 2] = clampU8(r * bR.r + g * bR.g + b * bR.b + cB);
     }
 };
 

@@ -102,9 +102,9 @@ export const applyVignette = (
             const factor = 1 + amount * weight;
             const offset = (y * width + x) * 4;
 
-            data[offset] = data[offset] * factor;
-            data[offset + 1] = data[offset + 1] * factor;
-            data[offset + 2] = data[offset + 2] * factor;
+            data[offset]     = clampU8(data[offset] * factor);
+            data[offset + 1] = clampU8(data[offset + 1] * factor);
+            data[offset + 2] = clampU8(data[offset + 2] * factor);
         }
     }
 };
@@ -190,8 +190,8 @@ export const applyClarity = (
         const diff = luma[p] - blur[p];
         const boost = diff * strength;
 
-        data[i] = data[i] + boost;
-        data[i + 1] = data[i + 1] + boost;
-        data[i + 2] = data[i + 2] + boost;
+        data[i]     = clampU8(data[i]     + boost);
+        data[i + 1] = clampU8(data[i + 1] + boost);
+        data[i + 2] = clampU8(data[i + 2] + boost);
     }
 };
