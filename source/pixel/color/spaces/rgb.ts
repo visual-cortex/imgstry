@@ -69,33 +69,30 @@ export class Rgb implements IRgb, IColor {
     }
 
     public toCmyk(): Cmyk {
-        const clamp = this.clamp();
+        const r = (this.r < 0 ? 0 : this.r > 255 ? 255 : this.r) / 255;
+        const g = (this.g < 0 ? 0 : this.g > 255 ? 255 : this.g) / 255;
+        const b = (this.b < 0 ? 0 : this.b > 255 ? 255 : this.b) / 255;
 
-        clamp.r /= 255;
-        clamp.g /= 255;
-        clamp.b /= 255;
-
-        const min = Math.min(1 - clamp.r, 1 - clamp.g, 1 - clamp.b);
+        const min = Math.min(1 - r, 1 - g, 1 - b);
+        const inv = 1 - min;
 
         return new Cmyk({
             k: min,
-            c: (1 - clamp.r - min) / (1 - min) || 0,
-            m: (1 - clamp.g - min) / (1 - min) || 0,
-            y: (1 - clamp.b - min) / (1 - min) || 0,
+            c: inv === 0 ? 0 : (1 - r - min) / inv,
+            m: inv === 0 ? 0 : (1 - g - min) / inv,
+            y: inv === 0 ? 0 : (1 - b - min) / inv,
         });
     }
 
     public toHex(): Hex {
-        const { r, g, b } = this._clamp(this);
+        const r = this._clampChannel(this.r);
+        const g = this._clampChannel(this.g);
+        const b = this._clampChannel(this.b);
 
-        const numeric = (
-            (1 << 24) +
-            (Math.round(r) << 16) +
-            (Math.round(g) << 8) +
-            Math.round(b)
-        );
+        const hex = (r << 16) | (g << 8) | b;
+        const padded = hex.toString(16).toUpperCase().padStart(6, '0');
 
-        return new Hex(`#${numeric.toString(16).toUpperCase().slice(1)}`);
+        return new Hex(`#${padded}`);
     }
 
     public clamp(): Rgb {
@@ -116,10 +113,22 @@ export class Rgb implements IRgb, IColor {
 
     private _clamp({ r, g, b }: IRgb) {
         return {
-            r: Math.round(Math.min(255, Math.max(0, r))),
-            g: Math.round(Math.min(255, Math.max(0, g))),
-            b: Math.round(Math.min(255, Math.max(0, b))),
+            r: this._clampChannel(r),
+            g: this._clampChannel(g),
+            b: this._clampChannel(b),
         };
+    }
+
+    private _clampChannel(value: number): number {
+        if (value <= 0) {
+            return 0;
+        }
+
+        if (value >= 255) {
+            return 255;
+        }
+
+        return (value + .5) | 0;
     }
 
     private _determineHue(min: number, max: number, delta: number, r: number, g: number, b: number) {

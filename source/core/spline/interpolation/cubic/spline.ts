@@ -3,21 +3,30 @@ import {
     Point,
 } from '~/core/point';
 import { CubicInterpolationSet } from '~/core/spline';
-import { findLastIndex } from '~/utils/array';
 
 export class CubicSpline {
     private _coefficients: CubicInterpolationSet;
+    private _xs: Float64Array;
     private _first: IPoint;
     private _last: IPoint;
 
-    public constructor(private _points: IPoint[]) {
-        if (_points == null) {
+    public constructor(points: IPoint[]) {
+        if (points == null) {
             throw new Error('The cubic spline instance requires both x and y series.');
         }
 
-        this._coefficients = new CubicInterpolationSet(_points.map(p => new Point(p)));
-        this._first = this._points[0];
-        this._last = this._points[this._points.length - 1];
+        const length = points.length;
+        const mapped: Point[] = new Array(length);
+        this._xs = new Float64Array(length);
+
+        for (let i = 0; i < length; i++) {
+            mapped[i] = new Point(points[i]);
+            this._xs[i] = points[i].x;
+        }
+
+        this._coefficients = new CubicInterpolationSet(mapped);
+        this._first = points[0];
+        this._last = points[length - 1];
     }
 
     public interpolate(x: number) {
@@ -28,15 +37,29 @@ export class CubicSpline {
             return this._last.y;
         }
 
-        const idx = findLastIndex(this._points, point => point.x <= x);
-        const deltaX = x - this._points[idx].x;
+        const xs = this._xs;
+        let lo = 0;
+        let hi = xs.length - 1;
 
-        const { a, b, c, d } = this._coefficients.at(idx);
+        while (lo < hi) {
+            const mid = (lo + hi + 1) >>> 1;
 
-        // Quartic equation: a + (b * x) + (c * x^2) + (d * x^3)
-        return a +
-            b * deltaX +
-            c * Math.pow(deltaX, 2) +
-            d * Math.pow(deltaX, 3);
+            if (xs[mid] <= x) {
+                lo = mid;
+            } else {
+                hi = mid - 1;
+            }
+        }
+
+        const idx = lo;
+        const deltaX = x - xs[idx];
+
+        const a = this._coefficients.a[idx];
+        const b = this._coefficients.b[idx];
+        const c = this._coefficients.c[idx];
+        const d = this._coefficients.d[idx];
+
+        // Cubic equation: a + (b * x) + (c * x^2) + (d * x^3)
+        return a + deltaX * (b + deltaX * (c + deltaX * d));
     }
 }

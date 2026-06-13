@@ -6,6 +6,45 @@ import { Cmyk } from '~/pixel/color/spaces/cmyk';
 import { Hsv } from '~/pixel/color/spaces/hsv';
 import { Rgb } from '~/pixel/color/spaces/rgb';
 
+const CODE_ZERO = 48;
+const CODE_NINE = 57;
+const CODE_A = 65;
+const CODE_F_UPPER = 70;
+const CODE_A_LOWER = 97;
+const CODE_F_LOWER = 102;
+
+const decodeHex = (code: number): number => {
+    if (code >= CODE_ZERO && code <= CODE_NINE) {
+        return code - CODE_ZERO;
+    }
+
+    if (code >= CODE_A && code <= CODE_F_UPPER) {
+        return code - CODE_A + 10;
+    }
+
+    if (code >= CODE_A_LOWER && code <= CODE_F_LOWER) {
+        return code - CODE_A_LOWER + 10;
+    }
+
+    return 0;
+};
+
+const clampHexCode = (code: number): number => {
+    if (code <= CODE_ZERO) {
+        return CODE_ZERO;
+    }
+
+    if (code > CODE_NINE && code < CODE_A) {
+        return CODE_ZERO;
+    }
+
+    if (code > CODE_F_UPPER) {
+        return CODE_F_UPPER;
+    }
+
+    return code;
+};
+
 /**
  * HEX colorspace.
  */
@@ -21,15 +60,14 @@ export class Hex implements IColor {
     }
 
     public toRgb(): Rgb {
-        const hex: string = this.value.charAt(0) === '#' ?
-            this.value.substring(1, 7) :
-            this.value;
+        const value = this.value;
+        const offset = value.charCodeAt(0) === 35 ? 1 : 0;
 
-        return new Rgb({
-            r: parseInt(hex.substring(0, 2), 16),
-            g: parseInt(hex.substring(2, 4), 16),
-            b: parseInt(hex.substring(4, 6), 16),
-        });
+        const r = (decodeHex(value.charCodeAt(offset)) << 4) | decodeHex(value.charCodeAt(offset + 1));
+        const g = (decodeHex(value.charCodeAt(offset + 2)) << 4) | decodeHex(value.charCodeAt(offset + 3));
+        const b = (decodeHex(value.charCodeAt(offset + 4)) << 4) | decodeHex(value.charCodeAt(offset + 5));
+
+        return new Rgb({ r, g, b });
     }
 
     public toHsv(): Hsv {
@@ -45,46 +83,16 @@ export class Hex implements IColor {
     }
 
     public clamp(): Hex {
-        const clampedValue = '#000000'.split('');
+        const value = this.value;
+        const length = value.length;
+        const buffer = new Array<string>(length);
 
-        for (let i = 1; i < this.value.length; i++) {
-            clampedValue[i] = this.value[i];
-            clampedValue[i] = this._clampUnderflow(clampedValue[i]);
-            clampedValue[i] = this._clampMidRange(clampedValue[i]);
-            clampedValue[i] = this._clampOverflow(clampedValue[i]);
+        buffer[0] = '#';
+
+        for (let i = 1; i < length; i++) {
+            buffer[i] = String.fromCharCode(clampHexCode(value.charCodeAt(i)));
         }
 
-        return new Hex(clampedValue.join(''));
+        return new Hex(buffer.join(''));
     }
-
-    private _clampMidRange = (hexValue: string) => {
-        const charCode = hexValue.charCodeAt(0);
-
-        if (
-            charCode > '9'.charCodeAt(0) &&
-            charCode < 'A'.charCodeAt(0)
-        ) {
-            return '0';
-        }
-
-        return hexValue;
-    };
-
-    private _clampUnderflow = (hexValue: string) => {
-        const charCode = hexValue.charCodeAt(0);
-
-        if (charCode < '0'.charCodeAt(0)) {
-            return '0';
-        }
-
-        return hexValue;
-    };
-
-    private _clampOverflow = (hexValue: string) => {
-        if (hexValue.charCodeAt(0) > 'F'.charCodeAt(0)) {
-            return 'F';
-        }
-
-        return hexValue;
-    };
 }

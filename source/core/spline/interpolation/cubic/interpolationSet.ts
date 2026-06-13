@@ -1,17 +1,22 @@
 import { Point } from '~/core/point';
-import { fillWith } from '~/utils/array';
 
 export class CubicInterpolationSet {
-    public a: number[];
-    public b: number[];
-    public c: number[];
-    public d: number[];
+    public a: Float64Array;
+    public b: Float64Array;
+    public c: Float64Array;
+    public d: Float64Array;
 
     public constructor(private _points: Point[]) {
-        this.a = _points.map(point => point.y);
-        this.b = fillWith(_points.length, 0);
-        this.c = fillWith(_points.length, 0);
-        this.d = fillWith(_points.length, 0);
+        const length = _points.length;
+
+        this.a = new Float64Array(length);
+        this.b = new Float64Array(length);
+        this.c = new Float64Array(length);
+        this.d = new Float64Array(length);
+
+        for (let i = 0; i < length; i++) {
+            this.a[i] = _points[i].y;
+        }
 
         this._interpolate();
     }
@@ -25,42 +30,37 @@ export class CubicInterpolationSet {
         };
     }
 
-    private _interpolate = () => {
-        const degree = this._points.length - 1;
+    private _interpolate() {
+        const points = this._points;
+        const degree = points.length - 1;
 
-        const h: number[] = fillWith(degree, 0);
-        const u: number[] = fillWith(degree, 0);
-        const z: number[] = fillWith(degree, 0);
-
-        const diffX = this._diffAxis('x');
-        const diffY = this._diffAxis('y');
+        const h = new Float64Array(degree);
+        const u = new Float64Array(degree);
+        const z = new Float64Array(degree);
 
         for (let i = 0; i < degree; i++) {
-            h[i] = diffX(i + 1, i);
+            h[i] = points[i + 1].x - points[i].x;
 
             if (i <= 0) {
                 continue;
             }
 
-            const y = 3 / h[i] * diffY(i + 1, i) -
-        3 / h[i - 1] * diffY(i, i - 1);
+            const dyCurrent = points[i + 1].y - points[i].y;
+            const dyPrev = points[i].y - points[i - 1].y;
 
-            const l = 2 * diffX(i + 1, i - 1) -
-        h[i - 1] * u[i - 1];
+            const y = 3 / h[i] * dyCurrent - 3 / h[i - 1] * dyPrev;
+            const l = 2 * (points[i + 1].x - points[i - 1].x) - h[i - 1] * u[i - 1];
 
             u[i] = h[i] / l;
             z[i] = (y - h[i - 1] * z[i - 1]) / l;
         }
 
-        const { c, b, d } = this;
+        const { b, c, d } = this;
 
         for (let i = degree - 1; i >= 0; i--) {
             c[i] = z[i] - u[i] * c[i + 1];
-            b[i] = diffY(i + 1, i) / h[i] - h[i] * (c[i + 1] + 2 * c[i]) / 3;
+            b[i] = (points[i + 1].y - points[i].y) / h[i] - h[i] * (c[i + 1] + 2 * c[i]) / 3;
             d[i] = (c[i + 1] - c[i]) / (3 * h[i]);
         }
-    };
-
-    private _diffAxis = (axis: 'x' | 'y') =>
-        (idx1: number, idx2: number) => this._points[idx1][axis] - this._points[idx2][axis];
+    }
 }

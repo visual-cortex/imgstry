@@ -37,38 +37,42 @@ export class Hsv implements IColor {
     }
 
     public toRgb(): Rgb {
-        const clamp = this.clamp();
-        const c = clamp.v * clamp.s;
-        const x = c * (1 - Math.abs(((clamp.h / 60) % 2) - 1));
-        const m = clamp.v - c;
+        const h = (this.h < 0 ? (360 + this.h) : this.h) % 361;
+        const s = this.s < 0 ? 0 : this.s > 1 ? 1 : this.s;
+        const v = this.v < 0 ? 0 : this.v > 1 ? 1 : this.v;
 
-        const result = new Rgb({ r: m, g: m, b: m });
+        const c = v * s;
+        const hPrime = h / 60;
+        const sector = hPrime | 0;
+        const x = c * (1 - Math.abs((hPrime % 2) - 1));
+        const m = v - c;
 
-        if (clamp.h >= 0 && clamp.h < 60) {
-            result.r += c;
-            result.g += x;
-        } else if (clamp.h >= 60 && clamp.h < 120) {
-            result.r += x;
-            result.g += c;
-        } else if (clamp.h >= 120 && clamp.h < 180) {
-            result.g += c;
-            result.b += x;
-        } else if (clamp.h >= 180 && clamp.h < 240) {
-            result.g += x;
-            result.b += c;
-        } else if (clamp.h >= 240 && clamp.h < 300) {
-            result.r += x;
-            result.b += c;
-        } else if (clamp.h >= 300 && clamp.h < 360) {
-            result.r += c;
-            result.b += x;
+        let r = m;
+        let g = m;
+        let b = m;
+
+        switch (sector) {
+            case 0:
+                r += c; g += x; break;
+            case 1:
+                r += x; g += c; break;
+            case 2:
+                g += c; b += x; break;
+            case 3:
+                g += x; b += c; break;
+            case 4:
+                r += x; b += c; break;
+            case 5:
+                r += c; b += x; break;
+            default:
+                break;
         }
 
-        result.r = Math.round(result.r * 255);
-        result.g = Math.round(result.g * 255);
-        result.b = Math.round(result.b * 255);
-
-        return result;
+        return new Rgb({
+            r: (r * 255 + .5) | 0,
+            g: (g * 255 + .5) | 0,
+            b: (b * 255 + .5) | 0,
+        });
     }
 
     public toHsv(): Hsv {
@@ -86,8 +90,8 @@ export class Hsv implements IColor {
     public clamp(): Hsv {
         return new Hsv({
             h: (this.h < 0 ? (360 + this.h) : this.h) % 361,
-            s: Math.min(1, Math.max(0, this.s)),
-            v: Math.min(1, Math.max(0, this.v)),
+            s: this.s < 0 ? 0 : this.s > 1 ? 1 : this.s,
+            v: this.v < 0 ? 0 : this.v > 1 ? 1 : this.v,
         });
     }
 }

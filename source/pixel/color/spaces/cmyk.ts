@@ -41,10 +41,15 @@ export class Cmyk implements IColor {
     }
 
     public toRgb(): Rgb {
+        const kInv = 1 - this.k;
+        const cMix = this.c * kInv + this.k;
+        const mMix = this.m * kInv + this.k;
+        const yMix = this.y * kInv + this.k;
+
         return new Rgb({
-            r: 255 * (1 - Math.min(1, this._applyKChannel(this.c))),
-            g: 255 * (1 - Math.min(1, this._applyKChannel(this.m))),
-            b: 255 * (1 - Math.min(1, this._applyKChannel(this.y))),
+            r: 255 * (1 - (cMix > 1 ? 1 : cMix)),
+            g: 255 * (1 - (mMix > 1 ? 1 : mMix)),
+            b: 255 * (1 - (yMix > 1 ? 1 : yMix)),
         });
     }
 
@@ -62,12 +67,10 @@ export class Cmyk implements IColor {
 
     public clamp(): Cmyk {
         return new Cmyk({
-            c: Math.min(1, Math.max(this.c, 0)),
-            m: Math.min(1, Math.max(this.m, 0)),
-            y: Math.min(1, Math.max(this.y, 0)),
-            k: Math.min(1, Math.max(this.k, 0)),
+            c: this.c < 0 ? 0 : this.c > 1 ? 1 : this.c,
+            m: this.m < 0 ? 0 : this.m > 1 ? 1 : this.m,
+            y: this.y < 0 ? 0 : this.y > 1 ? 1 : this.y,
+            k: this.k < 0 ? 0 : this.k > 1 ? 1 : this.k,
         });
     }
-
-    private _applyKChannel = (value: number) => value * (1 - this.k) + this.k;
 }

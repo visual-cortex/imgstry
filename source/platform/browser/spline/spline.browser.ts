@@ -267,7 +267,7 @@ export class ImgstrySpline extends SplineProcessor implements IDisposable {
         fromEvent<MouseEvent>(canvas, 'mousemove')
             .pipe(
                 map(this._mouseToPoint),
-                map(this._clampPoint),
+                map((point) => this._clampPoint(point)),
                 share(),
             );
 

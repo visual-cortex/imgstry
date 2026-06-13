@@ -12,5 +12,9 @@ export class Point implements IPoint {
         this.y = y;
     }
 
-    public distanceTo = (point: IPoint) => Math.pow(point.x - this.x, 2) + Math.pow(point.y - this.y, 2);
+    public distanceTo(point: IPoint): number {
+        const dx = point.x - this.x;
+        const dy = point.y - this.y;
+        return dx * dx + dy * dy;
+    }
 }

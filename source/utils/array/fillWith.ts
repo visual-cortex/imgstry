@@ -1,4 +1,3 @@
-
 type FillPredicate = number | ((idx: number) => number);
 
 /**
@@ -8,9 +7,13 @@ type FillPredicate = number | ((idx: number) => number);
  * @returns the array with the requested value
  */
 export function fillWith(count: number, predicateOrValue: FillPredicate) {
-    if (typeof predicateOrValue === 'function') {
-        return Array(count).fill(void 0).map((_, idx) => predicateOrValue(idx));
+    if (typeof predicateOrValue !== 'function') {
+        return new Array<number>(count).fill(predicateOrValue);
     }
 
-    return Array(count).fill(predicateOrValue);
+    const result = new Array<number>(count);
+    for (let i = 0; i < count; i++) {
+        result[i] = predicateOrValue(i);
+    }
+    return result;
 }
