@@ -35,7 +35,7 @@ jobs:
         run: sudo apt-get install -y jq
 
       - name: Restore baseline dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       - name: Enumerate Minor Candidates
         id: enumerate

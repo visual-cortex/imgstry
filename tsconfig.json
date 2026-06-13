@@ -1,45 +1,35 @@
 {
     "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "lib": ["ESNext", "DOM"],
+        "moduleResolution": "Bundler",
         "declaration": false,
         "skipLibCheck": true,
-        "ignoreDeprecations": "6.0",
-        "downlevelIteration": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "noImplicitAny": true,
-        "target": "ESNext",
         "sourceMap": true,
-        "moduleResolution": "Bundler",
-        "removeComments": false,
-        "preserveConstEnums": false,
+        "noImplicitAny": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
         "noImplicitReturns": true,
+        "removeComments": false,
+        "preserveConstEnums": false,
         "isolatedModules": false,
-        "baseUrl": "./",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "paths": {
-            "~*": [
-                "source/*"
-            ]
+            "~/*": ["./source/*"],
+            "test/*": ["./test/*"]
         },
         "typeRoots": [
             "./node_modules/@types",
             "./declarations"
         ],
-        "types": [
-            "node",
-            "canvas"
-        ],
-        "lib": [
-            "ESNext",
-            "dom"
-        ]
+        "types": ["node", "canvas"]
     },
     "exclude": [
         "node_modules",
-        "./ui",
-        "./lib"
+        "dist"
     ]
 }

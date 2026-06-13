@@ -26,7 +26,7 @@ describe('util: setSize (browser)', () => {
         canvas = getCanvas(anchor);
     });
 
-    const sides = Array(10).fill(null).map((_, idx) => ++idx * 100);
+    const sides = Array(10).fill(null).map((_, idx) => (idx + 1) * 100);
 
     sides.forEach(width => {
         sides.forEach(height => {

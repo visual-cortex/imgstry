@@ -73,7 +73,7 @@ const TEST_CASES: IDrawGridTesCase[] = [
 ];
 
 describe('canvasUtil: drawGrid', () => {
-    // eslint-disable-next-line sonarjs/cognitive-complexity
+
     TEST_CASES.forEach(testCase => {
         it(`should draw a grid of ${testCase.gridSize} on a ${testCase.width}x${testCase.height} canvas with ${testCase.padding} padding`,
             () => {

@@ -1,15 +1,15 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 export default defineConfig({
     resolve: {
         alias: [
-            { find: '~', replacement: resolve(__dirname, 'source') },
+            { find: '~', replacement: resolve(import.meta.dirname, 'source') },
         ],
     },
     build: {
         lib: {
-            entry: resolve(__dirname, 'source/index.ts'),
+            entry: resolve(import.meta.dirname, 'source/index.ts'),
             name: 'imgstry',
             fileName: 'imgstry',
         },

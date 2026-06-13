@@ -194,7 +194,7 @@ namespace Operation {
     export const brightness = (value: number) => {
         value = Math.floor(DEFAULT.rgb.max * (value / 100));
 
-        const lut = lutGenerator((i) => i += value);
+        const lut = lutGenerator((i) => i + value);
 
         return lookup(lut);
     };

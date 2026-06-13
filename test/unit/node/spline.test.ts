@@ -1,4 +1,4 @@
-/* eslint-disable sonarjs/no-duplicate-string */
+
 import { describe, expect, it, beforeEach } from 'vitest';
 import { ImgstrySpline } from '~/platform/node';
 

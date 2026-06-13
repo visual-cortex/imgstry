@@ -10,6 +10,7 @@ import {
     observeOn,
     takeUntil,
 } from 'rxjs/operators';
+// eslint-disable-next-line import-x/default
 import ImgstryWorker from './imgstry.worker?worker';
 import {
     IImgstryThread,

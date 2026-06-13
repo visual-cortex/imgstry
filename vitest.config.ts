@@ -1,25 +1,19 @@
-// vitest 4 moved poolOptions out from under `test`; the type bundle still
-// surfaces the old shape, so the `forks` block requires the relaxed
-// `defineConfig` accessor exported by vitest itself.
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 import { defineConfig } from 'vitest/config';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 export default defineConfig({
     resolve: {
         alias: [
-            { find: '~', replacement: resolve(__dirname, 'source') },
-            { find: /^test\//, replacement: `${resolve(__dirname, 'test')}/` },
+            { find: '~', replacement: resolve(import.meta.dirname, 'source') },
+            { find: /^test\//, replacement: `${resolve(import.meta.dirname, 'test')}/` },
         ],
-    },
-    // canvas runs on the main thread; use the single-threaded forks pool
-    forks: {
-        singleFork: true,
     },
     test: {
         include: ['**/test/**/*.test.ts'],
         restoreMocks: true,
         clearMocks: true,
+        // canvas runs on the main thread; pin to a single forked worker.
         pool: 'forks',
+        fileParallelism: false,
     },
-} as Parameters<typeof defineConfig>[0]);
+});

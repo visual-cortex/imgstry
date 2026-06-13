@@ -116,7 +116,7 @@ verify() {
     local log_file="$LOG_DIR/probe-$(printf '%03d' "$PROBE_COUNT")-${label}.log"
 
     log "  ⤷ install + lint + check $([ "$VERIFY_MODE" = "full" ] && echo "+ tests") (mode=$VERIFY_MODE, log: $log_file)"
-    if ! (cd "$ROOT" && npm install --legacy-peer-deps --no-audit --no-fund --silent) > "$log_file" 2>&1; then
+    if ! (cd "$ROOT" && npm install --no-audit --no-fund --silent) > "$log_file" 2>&1; then
         log "  ✗ install failed"
         dump_probe_log "$log_file"
         return 1

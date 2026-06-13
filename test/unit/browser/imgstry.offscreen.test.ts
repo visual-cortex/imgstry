@@ -2,7 +2,7 @@ import { describe, beforeAll, expect, it } from 'vitest';
 import { Canvas } from 'canvas';
 import { Imgstry } from '~/platform/browser';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+
 const nodeCanvas = require('canvas');
 
 /**
