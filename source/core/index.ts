@@ -3,4 +3,7 @@ export * from '~/core/imgstry.editor';
 export * from '~/core/imgstry.operation';
 export * from '~/core/imgstry.thread';
 export * from '~/core/layer';
+export * from '~/core/pipeline';
+export * from '~/core/point';
+export * from '~/core/spline';
 export * from '~/core/types';
