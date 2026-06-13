@@ -151,7 +151,7 @@ export const runPipeline = (host: PipelineHost, options: OperationOption[]): voi
     const runStage = (stage: Stage): void => {
         switch (stage.kind) {
             case 'lut':
-                applyChannelLut(image.data, stage.lut);
+                applyChannelLut(image.data, stage.lut, host.width);
                 break;
             case 'pixel':
                 stage.run(image.data);

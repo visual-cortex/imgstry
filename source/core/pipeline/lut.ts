@@ -1,17 +1,21 @@
 /**
  * Per-channel 256-entry lookup tables.
+ *
+ * Tables hold the *float* target value for each u8 input so that
+ * sequential composition does not re-quantize at every step. The
+ * Uint8ClampedArray quantization happens once in {@link applyChannelLut}.
  */
 export interface ChannelLut {
-    r: Uint8Array
-    g: Uint8Array
-    b: Uint8Array
+    r: Float32Array
+    g: Float32Array
+    b: Float32Array
 }
 
-const clampU8 = (value: number): number =>
-    value <= 0 ? 0 : value >= 255 ? 255 : (value + .5) | 0;
+const clampF = (value: number): number =>
+    value <= 0 ? 0 : value >= 255 ? 255 : value;
 
-const identity = (): Uint8Array => {
-    const lut = new Uint8Array(256);
+const identity = (): Float32Array => {
+    const lut = new Float32Array(256);
     for (let i = 0; i < 256; i++) {
         lut[i] = i;
     }
@@ -19,9 +23,9 @@ const identity = (): Uint8Array => {
 };
 
 const sharedLut = (transform: (i: number) => number): ChannelLut => {
-    const lut = new Uint8Array(256);
+    const lut = new Float32Array(256);
     for (let i = 0; i < 256; i++) {
-        lut[i] = clampU8(transform(i));
+        lut[i] = clampF(transform(i));
     }
     return { r: lut, g: lut, b: lut };
 };
@@ -31,30 +35,36 @@ const channelLut = (
     transformG: (i: number) => number,
     transformB: (i: number) => number,
 ): ChannelLut => {
-    const r = new Uint8Array(256);
-    const g = new Uint8Array(256);
-    const b = new Uint8Array(256);
+    const r = new Float32Array(256);
+    const g = new Float32Array(256);
+    const b = new Float32Array(256);
 
     for (let i = 0; i < 256; i++) {
-        r[i] = clampU8(transformR(i));
-        g[i] = clampU8(transformG(i));
-        b[i] = clampU8(transformB(i));
+        r[i] = clampF(transformR(i));
+        g[i] = clampF(transformG(i));
+        b[i] = clampF(transformB(i));
     }
 
     return { r, g, b };
 };
 
 /**
- * Compose two channel LUTs so that the resulting LUT[i] = next[prev[i]].
+ * Compose two channel LUTs so that the resulting LUT[i] = next[prev[i]],
+ * using linear interpolation on the float target so the second lookup
+ * does not have to round its input down to a u8 boundary.
  * @param prev previously accumulated lookup
  * @param next next lookup to compose on top
  * @returns composed lookup
  */
 export const composeLut = (prev: ChannelLut, next: ChannelLut): ChannelLut => {
-    const composeChannel = (a: Uint8Array, b: Uint8Array): Uint8Array => {
-        const result = new Uint8Array(256);
+    const composeChannel = (a: Float32Array, b: Float32Array): Float32Array => {
+        const result = new Float32Array(256);
         for (let i = 0; i < 256; i++) {
-            result[i] = b[a[i]];
+            const x = a[i] <= 0 ? 0 : a[i] >= 255 ? 255 : a[i];
+            const lo = x | 0;
+            const hi = lo < 255 ? lo + 1 : 255;
+            const t = x - lo;
+            result[i] = b[lo] + (b[hi] - b[lo]) * t;
         }
         return result;
     };
@@ -67,7 +77,7 @@ export const composeLut = (prev: ChannelLut, next: ChannelLut): ChannelLut => {
 };
 
 export const brightnessLut = (value: number): ChannelLut => {
-    const delta = Math.floor(255 * (value / 100));
+    const delta = 255 * (value / 100);
     return sharedLut((i) => i + delta);
 };
 
@@ -192,13 +202,13 @@ export const toneRegionLut = (
  * @returns the channel lookup
  */
 export const curveLut = (mapping: { r?: number[]; g?: number[]; b?: number[]; rgb?: number[] }): ChannelLut => {
-    const fromMapping = (source?: number[]): Uint8Array => {
+    const fromMapping = (source?: number[]): Float32Array => {
         if (!source) {
             return identity();
         }
-        const lut = new Uint8Array(256);
+        const lut = new Float32Array(256);
         for (let i = 0; i < 256; i++) {
-            lut[i] = clampU8(source[i] ?? i);
+            lut[i] = clampF(source[i] ?? i);
         }
         return lut;
     };
@@ -215,17 +225,47 @@ export const curveLut = (mapping: { r?: number[]; g?: number[]; b?: number[]; rg
     };
 };
 
+// 4x4 Bayer threshold matrix in [-.5, +.5], pre-scaled so a slope-of-2 LUT
+// dithers across the full ±1 output range. Bayer is deterministic, has no
+// low-frequency drift and is dramatically cheaper than Math.random per pixel.
+const BAYER_SIZE = 4;
+const BAYER = (() => {
+    const raw = [
+        0, 8, 2, 10,
+        12, 4, 14, 6,
+        3, 11, 1, 9,
+        15, 7, 13, 5,
+    ];
+    return new Float32Array(raw.map((v) => (v + .5) / 16 - .5));
+})();
+
 /**
- * Apply a per-channel LUT to RGBA data in place.
+ * Apply a per-channel LUT to RGBA data in place. Float LUT outputs are
+ * dithered against a 4x4 ordered Bayer matrix before the Uint8ClampedArray
+ * quantizes them, so heavy curve stacks do not produce comb artifacts in
+ * the resulting histogram.
  * @param data the rgba buffer
  * @param lut the channel lookup
+ * @param width image width in pixels, needed to address the Bayer matrix
  */
-export const applyChannelLut = (data: Uint8ClampedArray, lut: ChannelLut): void => {
+export const applyChannelLut = (
+    data: Uint8ClampedArray,
+    lut: ChannelLut,
+    width = 1,
+): void => {
     const { r, g, b } = lut;
     const length = data.length;
+    let x = 0;
+    let y = 0;
     for (let i = 0; i < length; i += 4) {
-        data[i] = r[data[i]];
-        data[i + 1] = g[data[i + 1]];
-        data[i + 2] = b[data[i + 2]];
+        const bayer = BAYER[(y & (BAYER_SIZE - 1)) * BAYER_SIZE + (x & (BAYER_SIZE - 1))];
+        data[i]     = r[data[i]]     + bayer;
+        data[i + 1] = g[data[i + 1]] + bayer;
+        data[i + 2] = b[data[i + 2]] + bayer;
+
+        if (++x === width) {
+            x = 0;
+            y++;
+        }
     }
 };
