@@ -1,12 +1,8 @@
-import { Operation } from '~/core/imgstry.operation';
+import { runPipeline } from '~/core/pipeline/runner';
 import {
     HistogramData,
-    OperationMethod,
     OperationOption,
-    TraversalPixelInfo,
 } from '~/core/types';
-import { Kernel } from '~/kernel';
-import { Rgb } from '~/pixel';
 
 const CHANNEL_BINS = 256;
 
@@ -96,28 +92,12 @@ export abstract class ImgstryProcessor {
             this.reset();
         }
 
-        // order filter options in correct application order
-        options = options.sort((a: OperationOption, b: OperationOption) => a.priority - b.priority);
-
-        const convolutions = options.filter(o => o.name === 'convolve');
-        const methods = options.filter(o => o.name !== 'convolve')
-            .map(operation =>
-                (Operation as Record<OperationMethod, any>)[operation.name](operation.value) as (pixel: Rgb) => Rgb,
-            );
-
-        if (methods.length) {
-            this._traverse((pixel) => {
-                let result = pixel;
-                for (let i = 0; i < methods.length; i++) {
-                    result = methods[i](result);
-                }
-                return result;
-            });
+        if (!options.length) {
+            return this;
         }
 
-        convolutions.forEach(convolution =>
-            this._convolve(convolution.value as Kernel | number[][]),
-        );
+        runPipeline(this, options);
+        this._invalidateCache();
 
         return this;
     }
@@ -128,107 +108,6 @@ export abstract class ImgstryProcessor {
     protected _invalidateCache(): void {
         this._histogramCache = null;
     }
-
-    private _convolve(kernel: Kernel | number[][], factor = 1): ImgstryProcessor {
-        const normalized = kernel instanceof Kernel ? kernel : new Kernel(kernel);
-
-        const image = this.imageData;
-        const data = image.data;
-        const result = this.createImageData(image);
-        const output = result.data;
-
-        const width = this.width;
-        const height = this.height;
-        const kernelWidth = normalized.width;
-        const kernelHeight = normalized.height;
-        const halfX = Math.floor(kernelWidth / 2);
-        const halfY = Math.floor(kernelHeight / 2);
-        const weights = normalized.flatten();
-        const maxIndex = data.length - 4;
-
-        for (let y = 0; y < height; y++) {
-            for (let x = 0; x < width; x++) {
-                const offset = (y * width + x) * 4;
-                let r = 0;
-                let g = 0;
-                let b = 0;
-
-                for (let ky = 0; ky < kernelHeight; ky++) {
-                    const sampleY = y + ky - halfY;
-                    for (let kx = 0; kx < kernelWidth; kx++) {
-                        const weight = weights[ky * kernelWidth + kx];
-                        const sample = (sampleY * width + (x + kx - halfX)) * 4;
-                        const index = Math.min(maxIndex, Math.max(0, sample));
-
-                        r += data[index] * weight;
-                        g += data[index + 1] * weight;
-                        b += data[index + 2] * weight;
-                    }
-                }
-
-                output[offset] = factor * Math.round(Math.min(255, Math.max(0, r)));
-                output[offset + 1] = factor * Math.round(Math.min(255, Math.max(0, g)));
-                output[offset + 2] = factor * Math.round(Math.min(255, Math.max(0, b)));
-                output[offset + 3] = data[offset + 3];
-            }
-        }
-
-        this.imageData = result;
-        this._invalidateCache();
-        return this;
-    }
-
-    private _traverse = (delegate: (pixel: Rgb, information?: TraversalPixelInfo) => Rgb | void): ImgstryProcessor => {
-        let isComputation = true;
-        const image = this.imageData;
-        const pixelArray = image.data;
-        const width = this.width;
-        const length = pixelArray.length;
-        const pixel = new Rgb();
-        const info: TraversalPixelInfo = {
-            position: {
-                x: 0,
-                y: 0,
-                offset: 0,
-            },
-            total: length / 4,
-        };
-
-        for (let i = 0, x = 0, y = 0; i < length; i += 4) {
-            pixel.r = pixelArray[i];
-            pixel.g = pixelArray[i + 1];
-            pixel.b = pixelArray[i + 2];
-            info.position.x = x;
-            info.position.y = y;
-            info.position.offset = i;
-
-            const result = delegate(pixel, info);
-
-            if (!result) {
-                isComputation = false;
-            } else if (isComputation) {
-                pixelArray[i] = Math.round(Math.min(255, Math.max(0, result.r)));
-                pixelArray[i + 1] = Math.round(Math.min(255, Math.max(0, result.g)));
-                pixelArray[i + 2] = Math.round(Math.min(255, Math.max(0, result.b)));
-
-                if (result.alpha !== undefined) {
-                    pixelArray[i + 3] = result.alpha;
-                }
-            }
-
-            if (++x === width) {
-                x = 0;
-                y++;
-            }
-        }
-
-        if (isComputation) {
-            this.imageData = image;
-            this._invalidateCache();
-        }
-
-        return this;
-    };
 
     /**
      * Encodes the canvas data to a data URI.

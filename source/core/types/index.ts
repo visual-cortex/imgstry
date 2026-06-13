@@ -2,14 +2,39 @@ import { Operation } from '~/core';
 import { Kernel } from '~/kernel';
 
 /**
+ * Names of operations available through the pipeline runner.
+ */
+export type PipelineOperationName =
+    | 'exposure'
+    | 'temperature'
+    | 'tintShift'
+    | 'shadows'
+    | 'highlights'
+    | 'whites'
+    | 'blacks'
+    | 'levels'
+    | 'curve'
+    | 'clarity'
+    | 'vignette'
+    | 'channelMixer'
+    | 'splitTone';
+
+/**
  * Holds a collection of operation method names.
  */
-export type OperationMethod = keyof typeof Operation | 'convolve';
+export type OperationMethod = keyof typeof Operation | 'convolve' | PipelineOperationName;
 
 /**
  * Defines possible operation values.
  */
-export type OperationValue = number | string | [number, number, number] | Kernel | number[][] | null;
+export type OperationValue =
+    | number
+    | string
+    | [number, number, number]
+    | Kernel
+    | number[][]
+    | Record<string, unknown>
+    | null;
 
 /**
  * Imgstry filter option defintion

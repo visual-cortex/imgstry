@@ -1,6 +1,11 @@
 import { Operation } from '~/core/imgstry.operation';
 import { ImgstryProcessor } from '~/core/imgstry.processor';
 import {
+    ChannelMixerMatrix,
+    SplitToneOptions,
+    VignetteOptions,
+} from '~/core/pipeline';
+import {
     OperationMethod,
     OperationOption,
     OperationValue,
@@ -129,6 +134,138 @@ export abstract class ImgstryEditor extends ImgstryProcessor {
      */
     public convolve(kernel: Kernel | number[][]): ImgstryEditor {
         return this._recordOperation('convolve', kernel);
+    }
+
+    /**
+     * Apply an exposure shift in stops (value 1 doubles, -1 halves).
+     * @param stops exposure stops, [-5, 5]
+     * @returns the current editor instance
+     */
+    public exposure(stops: number): ImgstryEditor {
+        return this._recordOperation('exposure', stops);
+    }
+
+    /**
+     * Shift the temperature toward cool (negative) or warm (positive).
+     * @param value temperature shift, [-100, 100]
+     * @returns the current editor instance
+     */
+    public temperature(value: number): ImgstryEditor {
+        return this._recordOperation('temperature', value);
+    }
+
+    /**
+     * Shift the green/magenta tint axis.
+     * @param value tint shift, [-100, 100]
+     * @returns the current editor instance
+     */
+    public tintShift(value: number): ImgstryEditor {
+        return this._recordOperation('tintShift', value);
+    }
+
+    /**
+     * Lift the shadow region of the tone range.
+     * @param value adjustment, [-100, 100]
+     * @returns the current editor instance
+     */
+    public shadows(value: number): ImgstryEditor {
+        return this._recordOperation('shadows', value);
+    }
+
+    /**
+     * Lift the highlight region of the tone range.
+     * @param value adjustment, [-100, 100]
+     * @returns the current editor instance
+     */
+    public highlights(value: number): ImgstryEditor {
+        return this._recordOperation('highlights', value);
+    }
+
+    /**
+     * Lift the extreme white region of the tone range.
+     * @param value adjustment, [-100, 100]
+     * @returns the current editor instance
+     */
+    public whites(value: number): ImgstryEditor {
+        return this._recordOperation('whites', value);
+    }
+
+    /**
+     * Lift the extreme black region of the tone range.
+     * @param value adjustment, [-100, 100]
+     * @returns the current editor instance
+     */
+    public blacks(value: number): ImgstryEditor {
+        return this._recordOperation('blacks', value);
+    }
+
+    /**
+     * Apply a levels remap (input range -> output range with gamma).
+     * @param options levels parameters
+     * @param options.inLow source range floor
+     * @param options.inHigh source range ceiling
+     * @param options.gamma midtone exponent
+     * @param options.outLow destination range floor
+     * @param options.outHigh destination range ceiling
+     * @returns the current editor instance
+     */
+    public levels(options: {
+        inLow?: number
+        inHigh?: number
+        gamma?: number
+        outLow?: number
+        outHigh?: number
+    }): ImgstryEditor {
+        return this._recordOperation('levels', options as unknown as OperationValue);
+    }
+
+    /**
+     * Apply a precomputed tone curve as a per-channel mapping.
+     * @param mapping per-channel or shared 256-entry mapping
+     * @param mapping.r red channel mapping
+     * @param mapping.g green channel mapping
+     * @param mapping.b blue channel mapping
+     * @param mapping.rgb shared mapping for all channels
+     * @returns the current editor instance
+     */
+    public curve(mapping: { r?: number[]; g?: number[]; b?: number[]; rgb?: number[] }): ImgstryEditor {
+        return this._recordOperation('curve', mapping as unknown as OperationValue);
+    }
+
+    /**
+     * Apply a luminance-based local contrast boost.
+     * @param value clarity amount, [-100, 100]
+     * @returns the current editor instance
+     */
+    public clarity(value: number): ImgstryEditor {
+        return this._recordOperation('clarity', value);
+    }
+
+    /**
+     * Apply a radial vignette.
+     * @param options vignette parameters
+     * @returns the current editor instance
+     */
+    public vignette(options: VignetteOptions): ImgstryEditor {
+        return this._recordOperation('vignette', options as unknown as OperationValue);
+    }
+
+    /**
+     * Apply a 3x3 channel mixer matrix.
+     * @param matrix the mixer matrix
+     * @returns the current editor instance
+     */
+    public channelMixer(matrix: ChannelMixerMatrix): ImgstryEditor {
+        return this._recordOperation('channelMixer', matrix as unknown as OperationValue);
+    }
+
+    /**
+     * Tone the shadow and highlight regions with two different hues.
+     * @param options split tone parameters
+     * @returns the current editor instance
+     */
+    public splitTone(options: SplitToneOptions): ImgstryEditor {
+        return this._recordOperation('splitTone', options as unknown as OperationValue);
     }
 
     /**

@@ -32,7 +32,9 @@ const bench = (name: string, iterations: number, run: () => void) => {
     }
 
     const ms = median(timings);
-    console.log(`${name.padEnd(38)} ${(ms * 1e6 / iterations).toFixed(1).padStart(8)}ns/op   ${ms.toFixed(2).padStart(8)}ms total (${iterations.toLocaleString()} iter)`);
+    const nsPerOp = (ms * 1e6 / iterations).toFixed(1).padStart(8);
+    const total = ms.toFixed(2).padStart(8);
+    console.log(`${name.padEnd(38)} ${nsPerOp}ns/op   ${total}ms total (${iterations.toLocaleString()} iter)`);
 };
 
 console.log(`color/spline bench, ${RUNS} runs\n`);
