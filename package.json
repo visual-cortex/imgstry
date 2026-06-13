@@ -4,9 +4,27 @@
   "description": "A JavaScript image editing module.",
   "main": "dist/imgstry.umd.js",
   "module": "dist/imgstry.mjs",
+  "types": "dist/types/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/imgstry.mjs",
+      "require": "./dist/imgstry.umd.js",
+      "default": "./dist/imgstry.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "declarations",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run build:types",
+    "build:types": "tsc -p tsconfig.types.json",
     "check": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest --run",

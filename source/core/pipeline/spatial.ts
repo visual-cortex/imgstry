@@ -112,6 +112,25 @@ export const applyVignette = (
 const luminance = (r: number, g: number, b: number): number =>
     r * .2126 + g * .7152 + b * .0722;
 
+// Reusable Float32 scratchpads. Each clarity call needs three buffers of
+// (width * height) floats; with a 24MP image that's ~280MB of allocations
+// per call before GC, which murders interactive use. Growing on demand and
+// reusing across calls keeps steady-state allocation flat.
+interface ScratchBuffers {
+    luma: Float32Array
+    horizontal: Float32Array
+    blur: Float32Array
+}
+
+const scratch: ScratchBuffers = {
+    luma:       new Float32Array(0),
+    horizontal: new Float32Array(0),
+    blur:       new Float32Array(0),
+};
+
+const ensureFloat32 = (current: Float32Array, length: number): Float32Array =>
+    current.length >= length ? current : new Float32Array(length);
+
 export const applyClarity = (
     data: Uint8ClampedArray,
     width: number,
@@ -121,15 +140,18 @@ export const applyClarity = (
 ): void => {
     const strength = amount / 100;
     const length = data.length;
-    const blur = new Float32Array(length / 4);
+    const pixels = length / 4;
+
+    scratch.luma       = ensureFloat32(scratch.luma, pixels);
+    scratch.horizontal = ensureFloat32(scratch.horizontal, pixels);
+    scratch.blur       = ensureFloat32(scratch.blur, pixels);
+    const { luma, horizontal, blur } = scratch;
 
     // box-blur the luminance channel (separable, two passes)
-    const luma = new Float32Array(length / 4);
     for (let i = 0, p = 0; i < length; i += 4, p++) {
         luma[p] = luminance(data[i], data[i + 1], data[i + 2]);
     }
 
-    const horizontal = new Float32Array(length / 4);
     const window = radius * 2 + 1;
 
     for (let y = 0; y < height; y++) {

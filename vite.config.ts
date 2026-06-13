@@ -13,5 +13,7 @@ export default defineConfig({
             name: 'imgstry',
             fileName: 'imgstry',
         },
+        sourcemap: true,
+        target: 'es2020',
     },
 });

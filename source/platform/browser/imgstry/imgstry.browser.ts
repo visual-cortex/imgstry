@@ -40,20 +40,17 @@ export interface ImgstryBrowserOptions {
 
 const DEFAULT_OPTIONS: ImgstryBrowserOptions = {
     thread: {
+        isEnabled: true,
         isDebugEnabled: false,
     },
 };
 
 const assignDefault = (source: Partial<ImgstryBrowserOptions> = {}): ImgstryBrowserOptions => {
-    source = source || {} as ImgstryBrowserOptions;
-    source.thread = source.thread || {} as ImgstryThreadOptions;
-
+    const incoming = source.thread ?? {};
     return {
         thread: {
-            isEnabled: source.thread.isEnabled ||
-                DEFAULT_OPTIONS.thread.isEnabled,
-            isDebugEnabled: source.thread.isDebugEnabled ||
-                DEFAULT_OPTIONS.thread.isDebugEnabled,
+            isEnabled: incoming.isEnabled ?? DEFAULT_OPTIONS.thread.isEnabled,
+            isDebugEnabled: incoming.isDebugEnabled ?? DEFAULT_OPTIONS.thread.isDebugEnabled,
         },
     };
 };
@@ -108,6 +105,7 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
 
     public set imageData(image: ImageData) {
         this.context.putImageData(image, 0, 0);
+        this._invalidateCache();
     }
 
     public static loadImage = (src: string) => loadImage(Image, src);
@@ -188,6 +186,13 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
     }
 
     public async render(target: RenderTarget = 'current'): Promise<Imgstry> {
+        // Honour the explicit opt-out so callers can keep work on the main
+        // thread for tight integration with animation frames (e.g. live
+        // slider drags) without paying the worker round trip.
+        if (this._threadOptions.isEnabled === false) {
+            return this.renderSync(target);
+        }
+
         const result = await this._spawnThread().run({
             imageData: target === 'current' ?
                 this.imageData :
@@ -197,7 +202,6 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
 
         if (result) {
             this.imageData = result.imageData;
-            this._invalidateCache();
             this.draw$.next(void 0);
         }
 

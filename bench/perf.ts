@@ -80,3 +80,32 @@ bench('edge detection', fresh, (i) => {
 bench('full pipeline', fresh, (i) => {
     i.brightness(10).contrast(10).saturation(15).vibrance(5).hue(20).convolve(GaussianBlur()).renderSync();
 });
+
+bench('vignette', fresh, (i) => {
+    i.vignette({ amount: 50 }).renderSync();
+});
+
+bench('clarity x3 (pool probe)', fresh, (i) => {
+    i.clarity(40).renderSync();
+    i.clarity(40).renderSync();
+    i.clarity(40).renderSync();
+});
+
+bench('gaussian blur 9x9', fresh, (i) => {
+    i.convolve(GaussianBlur(9, 4)).renderSync();
+});
+
+bench('histogram (cold)', fresh, (i) => {
+    // pristine state → engine falls back to original buffer; no LUTs, so the
+    // histogram cache is invalidated then read once.
+    void i.histogram;
+});
+
+bench('layer flatten', () => {
+    const instance = seedImage(new Imgstry(WIDTH, HEIGHT));
+    instance.createLayer({ opacity: 0.6, blendMode: 'screen' }).fill('#FFAA66').renderSync();
+    instance.createLayer({ opacity: 0.4, blendMode: 'multiply' }).fill('#3366FF').renderSync();
+    return instance;
+}, (i) => {
+    i.flatten();
+});

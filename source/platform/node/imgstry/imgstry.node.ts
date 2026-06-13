@@ -51,6 +51,7 @@ export class Imgstry extends ImgstryLayeredEditor {
 
     public set imageData(image: ImageData) {
         this.context.putImageData(image, 0, 0);
+        this._invalidateCache();
     }
 
     public static loadImage = (src: string) => loadImage(Image, src);

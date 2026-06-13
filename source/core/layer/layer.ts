@@ -74,6 +74,7 @@ export class Layer extends ImgstryEditor {
 
     public set imageData(image: ImageData) {
         this._imageData = image;
+        this._invalidateCache();
     }
 
     public toDataUrl(_type?: string): string {
