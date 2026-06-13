@@ -1,0 +1,33 @@
+name: notify imgstry-ui
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Dispatch pages rebuild
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fire repository_dispatch on imgstry-ui
+        env:
+          # Personal access token (fine-grained) with `Actions: read & write`
+          # on visual-cortex/imgstry-ui. Stored in this repo's secrets.
+          GH_TOKEN: ${{ secrets.UI_DISPATCH_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::warning::UI_DISPATCH_TOKEN is not set; skipping cross-repo dispatch."
+            exit 0
+          fi
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            repos/visual-cortex/imgstry-ui/dispatches \
+            -f event_type=imgstry-engine-updated \
+            -f 'client_payload[sha]=${{ github.sha }}' \
+            -f 'client_payload[ref]=${{ github.ref }}'
