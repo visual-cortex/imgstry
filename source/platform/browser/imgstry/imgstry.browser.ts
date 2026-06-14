@@ -329,7 +329,7 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
         }
 
         if (this.isFloatMode()) {
-            return this._renderFloatThreaded();
+            return this._renderFloatThreaded(target);
         }
 
         const result = await this._spawnThread().run({
@@ -354,6 +354,9 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
         this._original = null;
         this._thread?.dispose();
         this._thread = undefined;
+        this.clearFloatSource();
+        this._rawDecode = null;
+        this._rawExposure = 0;
         clearCanvas(this.canvas);
         this.draw$.complete();
     }
@@ -381,7 +384,7 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
         return this._thread ??= new ImgstryThread(this._threadOptions);
     }
 
-    private async _renderFloatThreaded(): Promise<Imgstry> {
+    private async _renderFloatThreaded(target: RenderTarget): Promise<Imgstry> {
         if (!this._floatSource) {
             return this.renderSync('current');
         }
@@ -389,8 +392,13 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
             // Nothing to do; the canvas already mirrors the float source.
             return this.clear();
         }
+        // target='original' restarts from the float baseline; 'current'
+        // continues from the last working buffer.
+        const baseline = target === 'original' || !this._floatBuffer ?
+            this._floatSource :
+            this._floatBuffer;
         const result = await this._spawnThread().runFloat({
-            buffer: this._floatSource,
+            buffer: baseline,
             width: this._floatWidth,
             height: this._floatHeight,
             operations: this._operations,
