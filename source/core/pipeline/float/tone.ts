@@ -194,13 +194,17 @@ const sampleCurve = (mapping: number[] | undefined, value: number): number => {
     if (value >= 1) {
         return (mapping[255] ?? 255) / 255;
     }
+    // Linearly interpolate the 256-entry u8-domain mapping in float
+    // space; the | 0 truncate-back-to-u8 from the prior implementation
+    // dropped the precision win, so we keep the interpolated value as a
+    // float and only divide once at the end.
     const x = value * 255;
     const lo = x | 0;
     const hi = lo < 255 ? lo + 1 : 255;
     const t = x - lo;
     const a = mapping[lo] ?? lo;
     const b = mapping[hi] ?? hi;
-    return ((a + (b - a) * t) | 0) / 255;
+    return (a + (b - a) * t) / 255;
 };
 
 /**

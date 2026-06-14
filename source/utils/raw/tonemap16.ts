@@ -9,6 +9,8 @@
 // the channel needing least gain. Callers commonly pass 1 / AsShotNeutral
 // per channel, with the green channel scaled to its native max.
 
+import { srgbEncode } from '~/utils/color';
+
 export interface TonemapOptions {
     /** Sensor black-level (0..maxRaw). */
     blackLevel: number
@@ -19,19 +21,6 @@ export interface TonemapOptions {
     /** Exposure compensation in stops (additive, applied after WB). */
     exposure: number
 }
-
-const srgbEncode = (linear: number): number => {
-    if (linear <= 0) {
-        return 0;
-    }
-    if (linear >= 1) {
-        return 1;
-    }
-    if (linear <= 0.0031308) {
-        return 12.92 * linear;
-    }
-    return 1.055 * Math.pow(linear, 1 / 2.4) - 0.055;
-};
 
 /**
  * Converts a linear 16-bit RGB buffer to 8-bit RGBA in sRGB.

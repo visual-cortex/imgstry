@@ -24,6 +24,8 @@ export interface LoadedRaw {
     blackLevel?: number
     /** Sensor white level (raw counts). */
     whiteLevel?: number
+    /** Optional camera-to-sRGB 3x3 matrix (row-major). */
+    cameraToSrgb?: readonly number[] | null
 }
 
 const toBuffer = async (source: RawSource): Promise<ArrayBuffer> => {
@@ -101,6 +103,7 @@ export const loadRawFull = async (
             whiteBalance: sensor.whiteBalance,
             blackLevel: sensor.blackLevel,
             whiteLevel: sensor.whiteLevel,
+            cameraToSrgb: sensor.cameraToSrgb,
         };
     }
 

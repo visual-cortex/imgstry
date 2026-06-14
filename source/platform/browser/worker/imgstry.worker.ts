@@ -11,10 +11,11 @@ worker.onmessage = (message) => {
     if (data.kind === 'float') {
         const floatBuffer = processor.getFloatBuffer();
         if (floatBuffer) {
-            const transfer = floatBuffer.buffer.slice(
-                floatBuffer.byteOffset,
-                floatBuffer.byteOffset + floatBuffer.byteLength,
-            );
+            // Transfer the underlying ArrayBuffer outright - the worker
+            // constructed the Float32Array straight over the buffer
+            // handed in, so no slice / clone is needed before postMessage
+            // re-transfers it back to the main thread.
+            const transfer = floatBuffer.buffer as ArrayBuffer;
             worker.postMessage({
                 kind: 'float',
                 buffer: transfer,

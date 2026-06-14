@@ -3,27 +3,7 @@
 // in [0, 1] (overshoot allowed); the canvas-write step is responsible
 // for the final clamp + quantise.
 
-import { Hex } from '~/pixel/color/spaces/hex';
-
-const HEX_CACHE = new Map<string, { r: number; g: number; b: number }>();
-const HEX_CACHE_LIMIT = 64;
-
-const parseHex = (color: string): { r: number; g: number; b: number } => {
-    const cached = HEX_CACHE.get(color);
-    if (cached) {
-        return cached;
-    }
-    const parsed = new Hex(color).toRgb();
-    const entry = { r: parsed.r / 255, g: parsed.g / 255, b: parsed.b / 255 };
-    if (HEX_CACHE.size >= HEX_CACHE_LIMIT) {
-        const first = HEX_CACHE.keys().next().value;
-        if (first !== undefined) {
-            HEX_CACHE.delete(first);
-        }
-    }
-    HEX_CACHE.set(color, entry);
-    return entry;
-};
+import { parseHexFloat as parseHex } from '~/utils/color';
 
 /**
  * Saturation in float-space, matching u8 semantics on [-100, 100].
@@ -249,6 +229,12 @@ export interface SplitToneOptions {
  * @param data RGBA float buffer
  * @param options split-tone parameters
  */
+// Mirrors the u8 op's 128 offset (mid-gray sentinel). In the 0..1 domain
+// that's 128/255, not the rounded 0.5 used previously - the rounded
+// value drifts ~0.2% per weighted pixel and breaks parity with the u8
+// pipeline's split-tone result.
+const SPLIT_TONE_MIDGRAY = 128 / 255;
+
 export const applySplitTone = (data: Float32Array, options: SplitToneOptions): void => {
     const shadow = parseHex(options.shadows);
     const high = parseHex(options.highlights);
@@ -260,7 +246,7 @@ export const applySplitTone = (data: Float32Array, options: SplitToneOptions): v
         const luma = r * .3 + g * .59 + b * .11;
         const shadowWeight = Math.max(0, .5 - luma - balance) * 2 * amount;
         const highlightWeight = Math.max(0, luma - .5 + balance) * 2 * amount;
-        const offset = (shadowWeight + highlightWeight) * .5;
+        const offset = SPLIT_TONE_MIDGRAY * (shadowWeight + highlightWeight);
 
         data[i]     = r + shadow.r * shadowWeight + high.r * highlightWeight - offset;
         data[i + 1] = g + shadow.g * shadowWeight + high.g * highlightWeight - offset;

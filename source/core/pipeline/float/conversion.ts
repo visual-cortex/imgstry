@@ -4,6 +4,8 @@
 // undershoot during intermediate computations; the final canvas write
 // is the only place we clamp + quantise back to 8 bits.
 
+import { srgbEncodeUnclamped } from '~/utils/color';
+
 /**
  * Builds a Float32 RGBA buffer from a Uint8ClampedArray. Each channel
  * is divided by 255 so values land in [0, 1].
@@ -54,12 +56,18 @@ export const floatToU8 = (
  * balance multipliers, and exposure compensation in stops. Output is in
  * sRGB-encoded space with values >1 preserved so subsequent ops still
  * see the headroom.
+ *
+ * An optional `cameraToSrgb` 3x3 matrix runs in linear space between
+ * the white-balance multiply and the sRGB gamma encode; pass the
+ * matrix returned by `cameraToSrgbFromDng()` to get camera-correct
+ * colours instead of the camera-native channels.
  * @param rgb16 interleaved RGB linear samples (length = width*height*3)
  * @param options sensor pipeline parameters
  * @param options.blackLevel black level (raw counts)
  * @param options.whiteLevel white level (raw counts)
  * @param options.whiteBalance per-channel multipliers (R, G, B)
  * @param options.exposure exposure compensation in stops
+ * @param options.cameraToSrgb optional 3x3 camera-to-sRGB matrix
  * @returns a Float32 RGBA buffer (length = width*height*4)
  */
 export const rgb16ToFloat = (
@@ -69,12 +77,13 @@ export const rgb16ToFloat = (
         whiteLevel: number
         whiteBalance: readonly [number, number, number]
         exposure: number
+        cameraToSrgb?: readonly number[] | null
     },
 ): Float32Array => {
     const pixels = rgb16.length / 3;
     const out = new Float32Array(pixels * 4);
 
-    const { blackLevel, whiteLevel, whiteBalance, exposure } = options;
+    const { blackLevel, whiteLevel, whiteBalance, exposure, cameraToSrgb } = options;
     const span = whiteLevel - blackLevel;
     if (span <= 0) {
         throw new Error('rgb16ToFloat: whiteLevel must exceed blackLevel');
@@ -85,28 +94,26 @@ export const rgb16ToFloat = (
     const gainG = whiteBalance[1] * stops;
     const gainB = whiteBalance[2] * stops;
     const inv = 1 / span;
+    const m = cameraToSrgb && cameraToSrgb.length >= 9 ? cameraToSrgb : null;
 
     for (let i = 0, o = 0; i < rgb16.length; i += 3, o += 4) {
         const lr = (rgb16[i] - blackLevel) * inv * gainR;
         const lg = (rgb16[i + 1] - blackLevel) * inv * gainG;
         const lb = (rgb16[i + 2] - blackLevel) * inv * gainB;
 
+        let sr = lr, sg = lg, sb = lb;
+        if (m) {
+            sr = m[0] * lr + m[1] * lg + m[2] * lb;
+            sg = m[3] * lr + m[4] * lg + m[5] * lb;
+            sb = m[6] * lr + m[7] * lg + m[8] * lb;
+        }
+
         // sRGB encode, preserving overshoot for headroom downstream.
-        out[o]     = srgbEncodeAllowOvershoot(lr);
-        out[o + 1] = srgbEncodeAllowOvershoot(lg);
-        out[o + 2] = srgbEncodeAllowOvershoot(lb);
+        out[o]     = srgbEncodeUnclamped(sr);
+        out[o + 1] = srgbEncodeUnclamped(sg);
+        out[o + 2] = srgbEncodeUnclamped(sb);
         out[o + 3] = 1;
     }
 
     return out;
-};
-
-const srgbEncodeAllowOvershoot = (linear: number): number => {
-    if (linear <= 0) {
-        return linear;
-    }
-    if (linear <= 0.0031308) {
-        return 12.92 * linear;
-    }
-    return 1.055 * Math.pow(linear, 1 / 2.4) - 0.055;
 };

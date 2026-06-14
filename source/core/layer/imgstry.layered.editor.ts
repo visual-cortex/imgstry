@@ -1,9 +1,10 @@
 import { ImgstryEditor } from '~/core/imgstry.editor';
-import { blendInto } from '~/core/layer/blend';
+import { blendFloatInto, blendInto } from '~/core/layer/blend';
 import {
     Layer,
     LayerOptions,
 } from '~/core/layer/layer';
+import { u8ToFloat } from '~/core/pipeline/float/conversion';
 
 /**
  * Editor with multi-layer support: layers are stacked over the base
@@ -75,19 +76,39 @@ export abstract class ImgstryLayeredEditor extends ImgstryEditor {
             return this;
         }
 
-        const result = this.imageData;
+        if (this.isFloatMode() && this._floatBuffer) {
+            this._flattenFloat(this._floatBuffer);
+        } else {
+            this._flattenU8();
+        }
+        this._invalidateCache();
 
+        return this;
+    }
+
+    private _flattenU8(): void {
+        const result = this.imageData;
         for (const layer of this._layers) {
             if (!layer.visible || layer.opacity <= 0) {
                 continue;
             }
-
             blendInto(result, layer.imageData, layer.blendMode, layer.opacity);
         }
-
         this.imageData = result;
-        this._invalidateCache();
+    }
 
-        return this;
+    private _flattenFloat(working: Float32Array): void {
+        for (const layer of this._layers) {
+            if (!layer.visible || layer.opacity <= 0) {
+                continue;
+            }
+            // Layer payload is still u8 today; lift it into float space
+            // for the composite so the host's float buffer (with
+            // overshoot) stays intact.
+            const layerFloat = u8ToFloat(layer.imageData.data);
+            blendFloatInto(working, layerFloat, layer.blendMode, layer.opacity);
+        }
+        this._floatBuffer = working;
+        this._writeFloatToCanvas(working, this._floatWidth, this._floatHeight);
     }
 }

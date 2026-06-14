@@ -77,6 +77,16 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
 
     private _thread?: ImgstryThread;
     private _threadOptions: ImgstryThreadOptions;
+    private _rawDecode: {
+        rgb16: Uint16Array
+        width: number
+        height: number
+        blackLevel: number
+        whiteLevel: number
+        whiteBalance: [number, number, number]
+        cameraToSrgb: readonly number[] | null
+    } | null = null;
+    private _rawExposure = 0;
 
     /**
      * Creates an instance of Imgstry.
@@ -107,7 +117,25 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
         return imageData(this.canvas);
     }
 
+    /**
+     * Returns the RAW source mode currently in play: 'sensor' when a RAW
+     * decode is installed via `setRawSource`, otherwise null.
+     * @returns the mode marker
+     */
+    public get rawMode(): 'sensor' | null {
+        return this._rawDecode ? 'sensor' : null;
+    }
+
     public set imageData(image: ImageData) {
+        // External u8 write invalidates any float source: the new pixel
+        // data is the new baseline, so the engine drops the RAW decode
+        // + working float buffer to keep the two representations in
+        // sync.
+        if (this._floatSource) {
+            this.clearFloatSource();
+            this._rawDecode = null;
+            this._rawExposure = 0;
+        }
         this.context.putImageData(image, 0, 0);
         this._invalidateCache();
     }
@@ -146,6 +174,8 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
         // Drawing a standard image clears any float source - the new image
         // becomes the canvas-native u8 baseline.
         this.clearFloatSource();
+        this._rawDecode = null;
+        this._rawExposure = 0;
         setSize(this.canvas, image.width as number, image.height as number);
         drawImage(this.canvas, image);
         this._invalidateCache();
@@ -217,6 +247,7 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
      * @param options.whiteLevel white level (raw counts)
      * @param options.whiteBalance per-channel multipliers (R, G, B)
      * @param options.exposure exposure compensation in stops
+     * @param options.cameraToSrgb optional camera-to-sRGB 3x3 matrix
      */
     public setRawSource(
         rgb16: Uint16Array,
@@ -227,12 +258,48 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
             whiteLevel: number
             whiteBalance: readonly [number, number, number]
             exposure: number
+            cameraToSrgb?: readonly number[] | null
         },
     ): void {
         setSize(this.canvas, width, height);
+        this._rawDecode = {
+            rgb16,
+            width,
+            height,
+            blackLevel: options.blackLevel,
+            whiteLevel: options.whiteLevel,
+            whiteBalance: [options.whiteBalance[0], options.whiteBalance[1], options.whiteBalance[2]],
+            cameraToSrgb: options.cameraToSrgb ?? null,
+        };
+        this._rawExposure = options.exposure;
         const buffer = rgb16ToFloat(rgb16, options);
         this.setFloatSource(buffer, width, height);
         this.draw$.next(void 0);
+    }
+
+    /**
+     * Re-bakes the active RAW source with a new exposure (stops). No-op
+     * when the requested exposure matches the last applied value or when
+     * no RAW source is installed.
+     * @param stops the new exposure compensation in stops
+     * @returns true when a rebake actually fired
+     */
+    public rebakeExposure(stops: number): boolean {
+        if (!this._rawDecode || stops === this._rawExposure) {
+            return false;
+        }
+        const decode = this._rawDecode;
+        this._rawExposure = stops;
+        const buffer = rgb16ToFloat(decode.rgb16, {
+            blackLevel: decode.blackLevel,
+            whiteLevel: decode.whiteLevel,
+            whiteBalance: decode.whiteBalance,
+            exposure: stops,
+            cameraToSrgb: decode.cameraToSrgb ?? undefined,
+        });
+        this.setFloatSource(buffer, decode.width, decode.height);
+        this.draw$.next(void 0);
+        return true;
     }
 
     public clone(source: ImageData): ImageData {
@@ -317,6 +384,10 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
     private async _renderFloatThreaded(): Promise<Imgstry> {
         if (!this._floatSource) {
             return this.renderSync('current');
+        }
+        if (this._operations.length === 0) {
+            // Nothing to do; the canvas already mirrors the float source.
+            return this.clear();
         }
         const result = await this._spawnThread().runFloat({
             buffer: this._floatSource,

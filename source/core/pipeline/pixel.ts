@@ -1,30 +1,8 @@
 /* eslint-disable sonarjs/cognitive-complexity */
-import { Hex } from '~/pixel/color/spaces/hex';
+import { parseHexU8 as parseHex } from '~/utils/color';
 
 const clampU8 = (value: number): number =>
     value <= 0 ? 0 : value >= 255 ? 255 : value;
-
-// Memoize hex parsing; tint/fill/splitTone get called many times with the
-// same color while a user drags a slider.
-const HEX_CACHE = new Map<string, { r: number; g: number; b: number }>();
-const HEX_CACHE_LIMIT = 64;
-
-const parseHex = (color: string): { r: number; g: number; b: number } => {
-    const cached = HEX_CACHE.get(color);
-    if (cached) {
-        return cached;
-    }
-    const parsed = new Hex(color).toRgb();
-    const entry = { r: parsed.r, g: parsed.g, b: parsed.b };
-    if (HEX_CACHE.size >= HEX_CACHE_LIMIT) {
-        const first = HEX_CACHE.keys().next().value;
-        if (first !== undefined) {
-            HEX_CACHE.delete(first);
-        }
-    }
-    HEX_CACHE.set(color, entry);
-    return entry;
-};
 
 export const applySaturation = (data: Uint8ClampedArray, value: number): void => {
     const factor = -value * .01;

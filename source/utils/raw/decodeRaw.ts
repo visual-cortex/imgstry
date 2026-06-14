@@ -1,6 +1,7 @@
 
+import { cameraToSrgbFromDng } from './colorMatrix';
+import { cfaPatternFromBytes, demosaicBayerBilinear, type BayerPattern } from './demosaicBayer';
 import { decodeLjpeg } from './decodeLjpeg';
-import { demosaicRggbBilinear } from './demosaicRggb';
 import { parseTiff, readAll, readFirst, type TiffIfd } from './parseTiff';
 import { tonemap16to8 } from './tonemap16';
 
@@ -19,6 +20,7 @@ const TAG_CFA_PATTERN = 0x828E;
 const TAG_CFA_PATTERN_DNG = 0xC616;
 const TAG_BLACK_LEVEL = 0xC61A;
 const TAG_WHITE_LEVEL = 0xC61D;
+const TAG_COLOR_MATRIX_1 = 0xC621;
 const TAG_AS_SHOT_NEUTRAL = 0xC628;
 
 const PHOTOMETRIC_CFA = 32803;
@@ -36,6 +38,11 @@ export interface RawDecodeResult {
     whiteBalance: [number, number, number]
     blackLevel: number
     whiteLevel: number
+    /**
+     * Camera-native RGB to linear sRGB 3x3 matrix (row-major), or null
+     * when DNG ColorMatrix1 wasn't present or invertible.
+     */
+    cameraToSrgb: readonly number[] | null
     /** Default 8-bit RGBA tonemap at exposure 0. */
     rgba: Uint8ClampedArray
 }
@@ -59,21 +66,18 @@ const isSensorIfd = (ifd: TiffIfd): boolean => {
     return false;
 };
 
-const checkRggbPattern = (ifd: TiffIfd): boolean => {
+const readCfaPattern = (ifd: TiffIfd): BayerPattern | null => {
     // DNG: TAG_CFA_PATTERN_DNG holds the actual pattern (4 bytes for 2x2).
-    // TIFF-EP: TAG_CFA_PATTERN + TAG_CFA_PATTERN_DIM hold it.
+    // TIFF-EP: TAG_CFA_PATTERN holds it too.
     const dng = readAll(ifd, TAG_CFA_PATTERN_DNG);
     const ep = readAll(ifd, TAG_CFA_PATTERN);
-
     const pattern = dng.length >= 4 ? dng : ep;
     if (pattern.length < 4) {
         // Assume RGGB when the pattern is missing - that's the most
-        // common layout and any other order will land on the next pass.
-        return true;
+        // common layout in the wild.
+        return 'RGGB';
     }
-
-    // CFA pattern values: 0 = R, 1 = G, 2 = B
-    return pattern[0] === 0 && pattern[1] === 1 && pattern[2] === 1 && pattern[3] === 2;
+    return cfaPatternFromBytes(pattern);
 };
 
 const readBlackLevel = (ifd: TiffIfd): number => {
@@ -237,7 +241,8 @@ export const decodeRaw = (
         if (!isSensorIfd(ifd)) {
             continue;
         }
-        if (!checkRggbPattern(ifd)) {
+        const cfa = readCfaPattern(ifd);
+        if (!cfa) {
             continue;
         }
 
@@ -251,16 +256,17 @@ export const decodeRaw = (
 
         try {
             const plane = decodeBayerPlane(bytes, ifd, width, height, bitsPerSample, tiff.littleEndian);
-            const rgb16 = demosaicRggbBilinear(plane, width, height);
+            const rgb16 = demosaicBayerBilinear(plane, width, height, cfa);
             const blackLevel = readBlackLevel(ifd);
             const whiteLevel = readWhiteLevel(ifd, bitsPerSample);
             const whiteBalance = readWhiteBalance(ifd);
+            const cameraToSrgb = cameraToSrgbFromDng(readAll(ifd, TAG_COLOR_MATRIX_1));
 
             const rgba = tonemap16to8(rgb16, width, height, {
                 blackLevel, whiteLevel, whiteBalance, exposure: 0,
             });
 
-            return { width, height, rgb16, whiteBalance, blackLevel, whiteLevel, rgba };
+            return { width, height, rgb16, whiteBalance, blackLevel, whiteLevel, cameraToSrgb, rgba };
         } catch {
             // Try the next candidate IFD on any decode failure.
             continue;

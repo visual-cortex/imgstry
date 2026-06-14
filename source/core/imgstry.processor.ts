@@ -7,6 +7,26 @@ import {
 
 const CHANNEL_BINS = 256;
 
+const clampBin = (value: number, last: number): number =>
+    value <= 0 ? 0 : value >= 1 ? last : (value * last + .5) | 0;
+
+const normaliseHistogram = (
+    all: number[],
+    red: number[],
+    green: number[],
+    blue: number[],
+    total: number,
+): HistogramData => {
+    const inv = total > 0 ? 1 / total : 0;
+    for (let i = 0; i < CHANNEL_BINS; i++) {
+        all[i] *= inv;
+        red[i] *= inv;
+        green[i] *= inv;
+        blue[i] *= inv;
+    }
+    return { all, channel: { red, green, blue } };
+};
+
 /**
  * Core logic for the imgstry editor.
  * Defines all the processing logic.
@@ -48,39 +68,9 @@ export abstract class ImgstryProcessor {
             return this._histogramCache;
         }
 
-        const data = this.imageData.data;
-        const total = data.length / 4;
-        const all = new Array(CHANNEL_BINS).fill(0);
-        const red = new Array(CHANNEL_BINS).fill(0);
-        const green = new Array(CHANNEL_BINS).fill(0);
-        const blue = new Array(CHANNEL_BINS).fill(0);
-
-        for (let i = 0; i < data.length; i += 4) {
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-
-            all[Math.floor((r + g + b) / 3)]++;
-            red[r]++;
-            green[g]++;
-            blue[b]++;
-        }
-
-        for (let i = 0; i < CHANNEL_BINS; i++) {
-            all[i] /= total;
-            red[i] /= total;
-            green[i] /= total;
-            blue[i] /= total;
-        }
-
-        this._histogramCache = {
-            all,
-            channel: {
-                red,
-                green,
-                blue,
-            },
-        };
+        this._histogramCache = this._floatBuffer ?
+            this._computeFloatHistogram(this._floatBuffer) :
+            this._computeU8Histogram(this.imageData.data);
 
         return this._histogramCache;
     }
@@ -182,12 +172,23 @@ export abstract class ImgstryProcessor {
         this._histogramCache = null;
     }
 
-    private _runFloatBatch(options: OperationOption[]): void {
+    /**
+     * Hook for subclasses that don't need to preserve a separate source
+     * (e.g. the worker processor that owns the transferred buffer
+     * outright). Default behaviour clones so repeated `batch()` calls
+     * always start from the installed baseline.
+     * @returns the buffer to use as the starting point for the next batch
+     */
+    protected _cloneFloatBaseline(): Float32Array {
+        // Non-null asserted by the caller.
+        return new Float32Array(this._floatSource as Float32Array);
+    }
+
+    protected _runFloatBatch(options: OperationOption[]): void {
         if (!this._floatSource) {
             return;
         }
-        const initial = new Float32Array(this._floatSource);
-        const slot: { current: Float32Array } = { current: initial };
+        const slot: { current: Float32Array } = { current: this._cloneFloatBaseline() };
         const width = this._floatWidth;
         const height = this._floatHeight;
         const host: FloatPipelineHost = {
@@ -203,6 +204,50 @@ export abstract class ImgstryProcessor {
         runFloatPipeline(host, options);
         this._floatBuffer = slot.current;
         this._writeFloatToCanvas(slot.current, width, height);
+    }
+
+    private _computeU8Histogram(data: Uint8ClampedArray): HistogramData {
+        const total = data.length / 4;
+        const all   = new Array<number>(CHANNEL_BINS).fill(0);
+        const red   = new Array<number>(CHANNEL_BINS).fill(0);
+        const green = new Array<number>(CHANNEL_BINS).fill(0);
+        const blue  = new Array<number>(CHANNEL_BINS).fill(0);
+
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            all[Math.floor((r + g + b) / 3)]++;
+            red[r]++;
+            green[g]++;
+            blue[b]++;
+        }
+
+        return normaliseHistogram(all, red, green, blue, total);
+    }
+
+    private _computeFloatHistogram(data: Float32Array): HistogramData {
+        const total = data.length / 4;
+        const all   = new Array<number>(CHANNEL_BINS).fill(0);
+        const red   = new Array<number>(CHANNEL_BINS).fill(0);
+        const green = new Array<number>(CHANNEL_BINS).fill(0);
+        const blue  = new Array<number>(CHANNEL_BINS).fill(0);
+
+        // Float values outside [0, 1] are bucketed at the nearest edge so
+        // overshoot from RAW headroom or post-op clipping still shows up
+        // as "blown highlights" or "crushed blacks" on the histogram.
+        const last = CHANNEL_BINS - 1;
+        for (let i = 0; i < data.length; i += 4) {
+            const r = clampBin(data[i], last);
+            const g = clampBin(data[i + 1], last);
+            const b = clampBin(data[i + 2], last);
+            all[((r + g + b) / 3) | 0]++;
+            red[r]++;
+            green[g]++;
+            blue[b]++;
+        }
+
+        return normaliseHistogram(all, red, green, blue, total);
     }
 
     /**
