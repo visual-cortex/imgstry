@@ -15,6 +15,10 @@ export interface VignetteOptions {
  * @param height image height
  * @param options vignette parameters
  */
+// Match the u8 op's roundness guard so the negative boundary doesn't
+// produce a 1/0 ellipse aspect.
+const ROUNDNESS_CLAMP = 99.999;
+
 export const applyVignette = (
     data: Float32Array,
     width: number,
@@ -23,7 +27,7 @@ export const applyVignette = (
 ): void => {
     const amount = options.amount / 100;
     const midpoint = options.midpoint ?? 50;
-    const roundness = options.roundness ?? 0;
+    const roundness = Math.max(-ROUNDNESS_CLAMP, Math.min(ROUNDNESS_CLAMP, options.roundness ?? 0));
     const feather = (options.feather ?? 50) / 100;
 
     const cx = width / 2;
@@ -41,7 +45,9 @@ export const applyVignette = (
             const dx = x - cx;
             const distance = Math.sqrt(dx * dx + dyScaled * dyScaled);
             let weight = 0;
-            if (distance > outer) {
+            if (transition === 0) {
+                weight = distance >= inner ? 1 : 0;
+            } else if (distance > outer) {
                 weight = 1;
             } else if (distance > inner) {
                 const t = (distance - inner) / transition;

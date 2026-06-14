@@ -64,6 +64,12 @@ export interface VignetteOptions {
     feather?: number
 }
 
+// roundness reaches -100 in the published API, but the historical
+// formula `1 / (1 + roundness / 100)` divides by zero there. Cap the
+// magnitude just inside ±100 so the ellipse degeneration stays
+// well-defined.
+const ROUNDNESS_CLAMP = 99.999;
+
 export const applyVignette = (
     data: Uint8ClampedArray,
     width: number,
@@ -72,7 +78,7 @@ export const applyVignette = (
 ): void => {
     const amount = options.amount / 100;
     const midpoint = options.midpoint ?? 50;
-    const roundness = options.roundness ?? 0;
+    const roundness = Math.max(-ROUNDNESS_CLAMP, Math.min(ROUNDNESS_CLAMP, options.roundness ?? 0));
     const feather = (options.feather ?? 50) / 100;
 
     const cx = width / 2;
@@ -95,7 +101,11 @@ export const applyVignette = (
             const distance = Math.sqrt(dx * dx + dyScaled * dyScaled);
 
             let weight = 0;
-            if (distance > outerRadius) {
+            if (transition === 0) {
+                // Sharp cutoff (feather = 0). Inside the radius: weight 0;
+                // outside: weight 1.
+                weight = distance >= innerRadius ? 1 : 0;
+            } else if (distance > outerRadius) {
                 weight = 1;
             } else if (distance > innerRadius) {
                 const t = (distance - innerRadius) / transition;

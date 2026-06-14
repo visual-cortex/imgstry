@@ -109,6 +109,10 @@ export const applyFill = (data: Float32Array, color: string): void => {
     const { r, g, b } = parseHex(color);
     for (let i = 0; i < data.length; i += 4) {
         data[i] = r; data[i + 1] = g; data[i + 2] = b;
+        // Force opaque so the float path matches the u8 op which writes
+        // alpha = 255. Without this, partially-transparent pixels would
+        // keep their alpha through a fill, which is surprising.
+        data[i + 3] = 1;
     }
 };
 

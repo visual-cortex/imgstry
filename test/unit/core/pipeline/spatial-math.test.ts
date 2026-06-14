@@ -96,5 +96,25 @@ describe('pipeline math: spatial ops (u8)', () => {
             const corner = data[(7 * 8 + 7) * 4];
             expect(corner).toBeLessThan(center);
         });
+
+        it('roundness = -100 should not blow up (no division by zero)', () => {
+            const data = new Uint8ClampedArray(8 * 8 * 4).fill(200);
+            for (let i = 3; i < data.length; i += 4) data[i] = 255;
+            applyVignette(data, 8, 8, { amount: -50, midpoint: 30, feather: 50, roundness: -100 });
+            for (let i = 0; i < data.length; i++) {
+                expect(Number.isFinite(data[i])).toBe(true);
+                expect(Number.isNaN(data[i])).toBe(false);
+            }
+        });
+
+        it('feather = 0 should produce a sharp cutoff (no NaN at the radius)', () => {
+            const data = new Uint8ClampedArray(8 * 8 * 4).fill(200);
+            for (let i = 3; i < data.length; i += 4) data[i] = 255;
+            applyVignette(data, 8, 8, { amount: -50, midpoint: 50, feather: 0 });
+            for (let i = 0; i < data.length; i++) {
+                expect(Number.isFinite(data[i])).toBe(true);
+                expect(Number.isNaN(data[i])).toBe(false);
+            }
+        });
     });
 });
