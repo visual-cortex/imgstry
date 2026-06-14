@@ -32,6 +32,8 @@ import {
 import {
     getCanvas,
     loadImage,
+    loadRaw,
+    type RawSource,
 } from '~/utils/dom';
 
 export interface ImgstryBrowserOptions {
@@ -109,6 +111,16 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
     }
 
     public static loadImage = (src: string) => loadImage(Image, src);
+
+    /**
+     * Loads a camera RAW file (CR2, NEF, ARW, DNG, ORF, RW2, PEF, RAF, ...)
+     * by lifting its embedded JPEG preview. Accepts an ArrayBuffer, a typed
+     * array view, or a Blob / File. Throws when no preview JPEG is found
+     * (true for CR3 and other HEIF-wrapped sensor data).
+     * @param source the RAW file's bytes, view, or Blob/File
+     * @returns a promise resolving to the loaded preview image
+     */
+    public static loadRaw = (source: RawSource) => loadRaw(Image, source);
 
     /**
      * Draws an image on the canvas.
