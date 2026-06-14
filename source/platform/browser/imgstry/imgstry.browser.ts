@@ -87,6 +87,11 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
         cameraToSrgb: readonly number[] | null
     } | null = null;
     private _rawExposure = 0;
+    /**
+     * Reusable u8 scratch for the float-to-canvas write so interactive
+     * float renders don't allocate a fresh 4*w*h byte buffer each tick.
+     */
+    private _canvasScratch: Uint8ClampedArray<ArrayBuffer> | null = null;
 
     /**
      * Creates an instance of Imgstry.
@@ -369,9 +374,11 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
         if (this.canvas.width !== width || this.canvas.height !== height) {
             setSize(this.canvas, width, height);
         }
-        const target = new Uint8ClampedArray(buffer.length);
-        floatToU8(buffer, target);
-        const frame = new ImageData(target, width, height);
+        if (!this._canvasScratch || this._canvasScratch.length !== buffer.length) {
+            this._canvasScratch = new Uint8ClampedArray(new ArrayBuffer(buffer.length));
+        }
+        floatToU8(buffer, this._canvasScratch);
+        const frame = new ImageData(this._canvasScratch, width, height);
         this.context.putImageData(frame, 0, 0);
     }
 
