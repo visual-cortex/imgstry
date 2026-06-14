@@ -13,6 +13,8 @@ import {
 // eslint-disable-next-line import-x/default
 import ImgstryWorker from './imgstry.worker?worker';
 import {
+    IFloatThreadData,
+    IFloatThreadResult,
     IImgstryThread,
     IThreadData,
     IThreadResult,
@@ -39,6 +41,7 @@ export interface ImgstryThreadOptions {
  */
 export class ImgstryThread implements IImgstryThread, IDisposable {
     public process$ = new Subject<IThreadResult>();
+    public floatProcess$ = new Subject<IFloatThreadResult>();
 
     private _disposed$ = new Subject();
     private _worker: Worker;
@@ -88,6 +91,7 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
         const identifier = uuid();
 
         const data: IWorkerData = {
+            kind: 'u8',
             buffer: imageData.data.buffer,
             width: imageData.width,
             height: imageData.height,
@@ -107,6 +111,48 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
     }
 
     /**
+     * Queues a Float32 buffer + operations to run on the worker.
+     * @param payload the float buffer + dimensions + ops
+     * @param payload.buffer the Float32 RGBA buffer
+     * @param payload.width image width
+     * @param payload.height image height
+     * @param payload.operations the operations to execute
+     * @returns a promise resolving to the processed float buffer
+     */
+    public runFloat({
+        buffer,
+        width,
+        height,
+        operations,
+    }: IFloatThreadData): Promise<IFloatThreadResult | undefined> {
+        const identifier = uuid();
+        // Copy so the transferable ownership rule doesn't strip the
+        // caller's buffer; the engine wants to keep its source alive.
+        const copy = new Float32Array(buffer.length);
+        copy.set(buffer);
+        const transfer = copy.buffer;
+
+        const data: IWorkerData = {
+            kind: 'float',
+            buffer: transfer,
+            width,
+            height,
+            operations: operations,
+            guid: identifier,
+        };
+
+        this._worker.postMessage(data, [transfer]);
+
+        return this.floatProcess$
+            .pipe(
+                filter(response => response.guid === identifier),
+                first(),
+                observeOn(animationFrameScheduler),
+            )
+            .toPromise();
+    }
+
+    /**
      * Terminates the current worker thread and completes active streams.
      */
     public dispose(): void {
@@ -114,6 +160,7 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
         this._disposed$.next(void 0);
         this._disposed$.complete();
         this.process$.complete();
+        this.floatProcess$.complete();
     }
 
     private _handleMessage = (message: MessageEvent) => {
@@ -121,10 +168,19 @@ export class ImgstryThread implements IImgstryThread, IDisposable {
             'Worker received:',
             message.data,
         );
-        const { buffer, width, height, guid } = (message.data as IWorkerResult);
+        const result = message.data as IWorkerResult;
+        if (result.kind === 'float') {
+            this.floatProcess$.next({
+                buffer: new Float32Array(result.buffer),
+                width: result.width,
+                height: result.height,
+                guid: result.guid,
+            });
+            return;
+        }
         this.process$.next({
-            imageData: new ImageData(new Uint8ClampedArray(buffer), width, height),
-            guid,
+            imageData: new ImageData(new Uint8ClampedArray(result.buffer), result.width, result.height),
+            guid: result.guid,
         });
     };
 

@@ -1,3 +1,4 @@
+import { runFloatPipeline, type FloatPipelineHost } from '~/core/pipeline/float/runner';
 import { runPipeline } from '~/core/pipeline/runner';
 import {
     HistogramData,
@@ -16,6 +17,18 @@ export abstract class ImgstryProcessor {
      * Original copy of the processed image.
      */
     protected _original: ImageData | null = null;
+    /**
+     * Read-only baseline for the Float32 pipeline. Set via
+     * `setFloatSource` and copied into `_floatBuffer` on every render.
+     */
+    protected _floatSource: Float32Array | null = null;
+    /**
+     * Working Float32 buffer; replaces `imageData.data` as the canonical
+     * pixel store while a float source is active.
+     */
+    protected _floatBuffer: Float32Array | null = null;
+    protected _floatWidth = 0;
+    protected _floatHeight = 0;
     private _histogramCache: HistogramData | null = null;
     /**
      * Width of the image.
@@ -96,10 +109,70 @@ export abstract class ImgstryProcessor {
             return this;
         }
 
-        runPipeline(this, options);
+        if (this.isFloatMode()) {
+            this._runFloatBatch(options);
+        } else {
+            runPipeline(this, options);
+        }
         this._invalidateCache();
 
         return this;
+    }
+
+    /**
+     * Reports whether the processor is currently running through the
+     * Float32 pipeline (true after `setFloatSource`).
+     * @returns true when a float source is active
+     */
+    public isFloatMode(): boolean {
+        return this._floatSource !== null;
+    }
+
+    /**
+     * Installs a Float32 RGBA buffer as the baseline for subsequent
+     * renders. The buffer is treated as read-only; each pipeline run
+     * starts from a fresh copy. The host writes the working buffer onto
+     * its canvas through `_writeFloatToCanvas`.
+     * @param buffer the baseline RGBA float buffer (length = w*h*4)
+     * @param width image width
+     * @param height image height
+     */
+    public setFloatSource(buffer: Float32Array, width: number, height: number): void {
+        if (buffer.length !== width * height * 4) {
+            throw new Error('setFloatSource: buffer length must equal width*height*4');
+        }
+        this._floatSource = buffer;
+        this._floatBuffer = new Float32Array(buffer);
+        this._floatWidth = width;
+        this._floatHeight = height;
+        this._writeFloatToCanvas(this._floatBuffer, width, height);
+        this._invalidateCache();
+    }
+
+    /**
+     * Drops the active float source so subsequent renders return to the
+     * canvas-native 8-bit pipeline.
+     */
+    public clearFloatSource(): void {
+        this._floatSource = null;
+        this._floatBuffer = null;
+        this._floatWidth = 0;
+        this._floatHeight = 0;
+        this._invalidateCache();
+    }
+
+    /**
+     * Platform-specific hook: write a Float32 RGBA buffer onto the
+     * canvas. Browser implementation clamps + quantises; Node uses
+     * the same.
+     * @param buffer the float buffer to write
+     * @param width image width
+     * @param height image height
+     */
+    protected _writeFloatToCanvas(buffer: Float32Array, width: number, height: number): void {
+        // Default no-op: platforms without a canvas leave the buffer in
+        // place. Browser / Node override this.
+        void buffer; void width; void height;
     }
 
     /**
@@ -107,6 +180,29 @@ export abstract class ImgstryProcessor {
      */
     protected _invalidateCache(): void {
         this._histogramCache = null;
+    }
+
+    private _runFloatBatch(options: OperationOption[]): void {
+        if (!this._floatSource) {
+            return;
+        }
+        const initial = new Float32Array(this._floatSource);
+        const slot: { current: Float32Array } = { current: initial };
+        const width = this._floatWidth;
+        const height = this._floatHeight;
+        const host: FloatPipelineHost = {
+            width,
+            height,
+            get floatBuffer() {
+                return slot.current;
+            },
+            setFloatBuffer(next: Float32Array) {
+                slot.current = next;
+            },
+        };
+        runFloatPipeline(host, options);
+        this._floatBuffer = slot.current;
+        this._writeFloatToCanvas(slot.current, width, height);
     }
 
     /**

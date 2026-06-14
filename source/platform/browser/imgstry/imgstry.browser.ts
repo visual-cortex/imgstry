@@ -13,6 +13,7 @@ import {
     ImgstryProcessor,
     RenderTarget,
 } from '~/core';
+import { floatToU8, rgb16ToFloat } from '~/core/pipeline/float/conversion';
 import {
     ImgstryThread,
     ImgstryThreadOptions,
@@ -142,6 +143,9 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
      * @param image The source image that will be drawn on the canvas.
      */
     public drawImage(image: HTMLImageElement | ImageBitmap) {
+        // Drawing a standard image clears any float source - the new image
+        // becomes the canvas-native u8 baseline.
+        this.clearFloatSource();
         setSize(this.canvas, image.width as number, image.height as number);
         drawImage(this.canvas, image);
         this._invalidateCache();
@@ -188,10 +192,47 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
     }
 
     public reset(): ImgstryProcessor {
-        this.imageData = this._original ?? emptyImageData(this.canvas);
+        if (this._floatSource) {
+            this._floatBuffer = new Float32Array(this._floatSource);
+            this._writeFloatToCanvas(this._floatBuffer, this._floatWidth, this._floatHeight);
+        } else {
+            this.imageData = this._original ?? emptyImageData(this.canvas);
+        }
         this._invalidateCache();
         this.draw$.next(void 0);
         return <ImgstryProcessor>this;
+    }
+
+    /**
+     * Convenience: ingest 16-bit linear sensor data through the Float32
+     * pipeline. Black/white levels and white balance are applied while
+     * encoding to sRGB-with-overshoot; exposure is baked at decode time
+     * so subsequent slider drags can recall this method to recover the
+     * sensor's full headroom.
+     * @param rgb16 interleaved linear RGB samples
+     * @param width image width
+     * @param height image height
+     * @param options sensor pipeline parameters
+     * @param options.blackLevel black level (raw counts)
+     * @param options.whiteLevel white level (raw counts)
+     * @param options.whiteBalance per-channel multipliers (R, G, B)
+     * @param options.exposure exposure compensation in stops
+     */
+    public setRawSource(
+        rgb16: Uint16Array,
+        width: number,
+        height: number,
+        options: {
+            blackLevel: number
+            whiteLevel: number
+            whiteBalance: readonly [number, number, number]
+            exposure: number
+        },
+    ): void {
+        setSize(this.canvas, width, height);
+        const buffer = rgb16ToFloat(rgb16, options);
+        this.setFloatSource(buffer, width, height);
+        this.draw$.next(void 0);
     }
 
     public clone(source: ImageData): ImageData {
@@ -220,6 +261,10 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
             return this.renderSync(target);
         }
 
+        if (this.isFloatMode()) {
+            return this._renderFloatThreaded();
+        }
+
         const result = await this._spawnThread().run({
             imageData: target === 'current' ?
                 this.imageData :
@@ -246,6 +291,20 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
         this.draw$.complete();
     }
 
+    protected override _writeFloatToCanvas(
+        buffer: Float32Array,
+        width: number,
+        height: number,
+    ): void {
+        if (this.canvas.width !== width || this.canvas.height !== height) {
+            setSize(this.canvas, width, height);
+        }
+        const target = new Uint8ClampedArray(buffer.length);
+        floatToU8(buffer, target);
+        const frame = new ImageData(target, width, height);
+        this.context.putImageData(frame, 0, 0);
+    }
+
     /**
      * Lazily spawns the worker thread on first async render,
      * keeping synchronous usage (including inside workers) worker-free.
@@ -253,5 +312,23 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
      */
     private _spawnThread(): ImgstryThread {
         return this._thread ??= new ImgstryThread(this._threadOptions);
+    }
+
+    private async _renderFloatThreaded(): Promise<Imgstry> {
+        if (!this._floatSource) {
+            return this.renderSync('current');
+        }
+        const result = await this._spawnThread().runFloat({
+            buffer: this._floatSource,
+            width: this._floatWidth,
+            height: this._floatHeight,
+            operations: this._operations,
+        });
+        if (result) {
+            this._floatBuffer = result.buffer;
+            this._writeFloatToCanvas(result.buffer, this._floatWidth, this._floatHeight);
+            this.draw$.next(void 0);
+        }
+        return this.clear();
     }
 }
