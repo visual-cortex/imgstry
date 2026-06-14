@@ -33,6 +33,7 @@ import {
     getCanvas,
     loadImage,
     loadRaw,
+    loadRawFull,
     type RawSource,
 } from '~/utils/dom';
 
@@ -121,6 +122,20 @@ export class Imgstry extends ImgstryLayeredEditor implements IDisposable {
      * @returns a promise resolving to the loaded preview image
      */
     public static loadRaw = (source: RawSource) => loadRaw(Image, source);
+
+    /**
+     * Full RAW decode path: parses TIFF / DNG, decompresses LJPEG sensor
+     * strips, demosaics the Bayer plane and tonemaps from 16-bit linear
+     * to 8-bit sRGB. Falls back to the embedded JPEG preview when no
+     * decodable sensor IFD is found.
+     *
+     * The returned object exposes the linear `rgb16` plus white-balance
+     * metadata so UI layers can rebake the 8-bit buffer with a different
+     * exposure without re-decoding the file.
+     * @param source the RAW file's bytes, view, or Blob/File
+     * @returns the loaded raw with metadata
+     */
+    public static loadRawFull = (source: RawSource) => loadRawFull(Image, source);
 
     /**
      * Draws an image on the canvas.
