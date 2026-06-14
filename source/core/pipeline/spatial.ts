@@ -44,9 +44,12 @@ export const applyConvolve = (
                 }
             }
 
-            output[offset] = factor * clampU8(r);
-            output[offset + 1] = factor * clampU8(g);
-            output[offset + 2] = factor * clampU8(b);
+            // Convolution math: factor is the per-output gain, applied to
+            // the raw weighted sum (NOT to a pre-clamped value). The u8
+            // store still clamps at write time.
+            output[offset]     = clampU8(factor * r);
+            output[offset + 1] = clampU8(factor * g);
+            output[offset + 2] = clampU8(factor * b);
             output[offset + 3] = data[offset + 3];
         }
     }
@@ -109,8 +112,9 @@ export const applyVignette = (
     }
 };
 
-const luminance = (r: number, g: number, b: number): number =>
-    r * .2126 + g * .7152 + b * .0722;
+// Centralised Rec. 709 luma; the u8 op uses the same coefficients as
+// the float pipeline so the two paths report identical luminance.
+import { luma709 as luminance } from '~/utils/color';
 
 // Reusable Float32 scratchpads. Each clarity call needs three buffers of
 // (width * height) floats; with a 24MP image that's ~280MB of allocations

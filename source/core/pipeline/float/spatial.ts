@@ -56,8 +56,7 @@ export const applyVignette = (
     }
 };
 
-const luminance = (r: number, g: number, b: number): number =>
-    r * .2126 + g * .7152 + b * .0722;
+import { luma709 as luminance } from '~/utils/color';
 
 interface ScratchBuffers {
     luma: Float32Array

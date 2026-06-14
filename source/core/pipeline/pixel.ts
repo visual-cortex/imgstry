@@ -1,24 +1,42 @@
 /* eslint-disable sonarjs/cognitive-complexity */
-import { parseHexU8 as parseHex } from '~/utils/color';
+import { luma709, parseHexU8 as parseHex } from '~/utils/color';
 
 const clampU8 = (value: number): number =>
     value <= 0 ? 0 : value >= 255 ? 255 : value;
 
+/**
+ * Saturation as a luma-preserving push along the (luma -> channel) axis.
+ * value > 0 pushes channels away from luma (more saturated); value < 0
+ * pulls channels toward luma (desaturated, ending on the luma gray at
+ * value = -100). Matches Photoshop/Lightroom: a fully-desaturated red
+ * lands on its luma gray, not on white.
+ * @param data the rgba buffer
+ * @param value saturation intensity, [-100, 100]
+ */
 export const applySaturation = (data: Uint8ClampedArray, value: number): void => {
+    // factor in [-1, 1]: positive pulls toward luma, negative pushes away.
     const factor = -value * .01;
 
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        const max = r > g ? (r > b ? r : b) : (g > b ? g : b);
+        const y = luma709(r, g, b);
 
-        data[i]     = clampU8(r + factor * (max - r));
-        data[i + 1] = clampU8(g + factor * (max - g));
-        data[i + 2] = clampU8(b + factor * (max - b));
+        data[i]     = clampU8(r + factor * (y - r));
+        data[i + 1] = clampU8(g + factor * (y - g));
+        data[i + 2] = clampU8(b + factor * (y - b));
     }
 };
 
+/**
+ * Vibrance: stronger saturation push for less-saturated pixels, gentle
+ * for already-saturated ones. Like {@link applySaturation} but the
+ * push magnitude scales with chroma (distance from luma). Also
+ * luma-preserving.
+ * @param data the rgba buffer
+ * @param value vibrance intensity, [-100, 100]
+ */
 export const applyVibrance = (data: Uint8ClampedArray, value: number): void => {
     const intensity = -value;
 
@@ -26,13 +44,17 @@ export const applyVibrance = (data: Uint8ClampedArray, value: number): void => {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        const avg = (r + g + b) / 3;
+        const y = luma709(r, g, b);
         const max = r > g ? (r > b ? r : b) : (g > b ? g : b);
-        const amount = (Math.abs(max - avg) * 2 / 255 * intensity) / 100;
+        const min = r < g ? (r < b ? r : b) : (g < b ? g : b);
+        // Chroma proxy: distance between extremes, normalised to 0..1.
+        const chroma = (max - min) / 255;
+        // Scale push by (1 - chroma) so saturated pixels move less.
+        const amount = (1 - chroma) * intensity / 100;
 
-        data[i]     = clampU8(r + (max - r) * amount);
-        data[i + 1] = clampU8(g + (max - g) * amount);
-        data[i + 2] = clampU8(b + (max - b) * amount);
+        data[i]     = clampU8(r + amount * (y - r));
+        data[i + 1] = clampU8(g + amount * (y - g));
+        data[i + 2] = clampU8(b + amount * (y - b));
     }
 };
 

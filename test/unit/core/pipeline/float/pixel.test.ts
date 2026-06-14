@@ -14,22 +14,24 @@ const pixel = (r: number, g: number, b: number): Float32Array =>
     new Float32Array([r, g, b, 1]);
 
 describe('float pipeline: pixel ops', () => {
-    it('saturation 100 should push non-max channels further from max', () => {
+    it('saturation 100 should push channels away from luma', () => {
         const d = pixel(.5, .25, .1);
         applySaturation(d, 100);
-        // factor = -1: max channel stays put, others move away from max
-        expect(d[0]).toBeCloseTo(.5);
-        expect(d[1]).toBeCloseTo(0);
-        expect(d[2]).toBeCloseTo(-.3);
+        // factor = -1, luma709 ~ 0.292: new = v - (luma - v) = 2v - luma
+        // r: 2*.5 - .292 = .708; g: 2*.25 - .292 = .208; b: 2*.1 - .292 = -.092
+        expect(d[0]).toBeCloseTo(.708, 3);
+        expect(d[1]).toBeCloseTo(.208, 3);
+        expect(d[2]).toBeCloseTo(-.092, 3);
     });
 
-    it('saturation -100 should produce a flat colour', () => {
+    it('saturation -100 should collapse to the luma gray', () => {
         const d = pixel(.5, .25, .1);
         applySaturation(d, -100);
-        // factor = +1; new = v + (max - v) = max
-        expect(d[0]).toBeCloseTo(.5);
-        expect(d[1]).toBeCloseTo(.5);
-        expect(d[2]).toBeCloseTo(.5);
+        // factor = +1; new = v + (luma - v) = luma
+        const luma = .5 * .2126 + .25 * .7152 + .1 * .0722;
+        expect(d[0]).toBeCloseTo(luma, 3);
+        expect(d[1]).toBeCloseTo(luma, 3);
+        expect(d[2]).toBeCloseTo(luma, 3);
     });
 
     it('vibrance 0 should be identity', () => {

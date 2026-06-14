@@ -3,26 +3,30 @@
 // in [0, 1] (overshoot allowed); the canvas-write step is responsible
 // for the final clamp + quantise.
 
-import { parseHexFloat as parseHex } from '~/utils/color';
+import { luma709, parseHexFloat as parseHex } from '~/utils/color';
 
 /**
- * Saturation in float-space, matching u8 semantics on [-100, 100].
+ * Saturation as a luma-preserving push along the (luma -> channel)
+ * axis. value > 0 pushes channels away from luma, value < 0 pulls them
+ * toward luma. A fully-desaturated red lands on its luma gray rather
+ * than on white.
  * @param data RGBA float buffer
- * @param value saturation intensity
+ * @param value saturation intensity, [-100, 100]
  */
 export const applySaturation = (data: Float32Array, value: number): void => {
     const factor = -value * .01;
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i]; const g = data[i + 1]; const b = data[i + 2];
-        const max = r > g ? (r > b ? r : b) : (g > b ? g : b);
-        data[i]     = r + factor * (max - r);
-        data[i + 1] = g + factor * (max - g);
-        data[i + 2] = b + factor * (max - b);
+        const y = luma709(r, g, b);
+        data[i]     = r + factor * (y - r);
+        data[i + 1] = g + factor * (y - g);
+        data[i + 2] = b + factor * (y - b);
     }
 };
 
 /**
- * Vibrance: saturates muted pixels more than already-saturated ones.
+ * Vibrance: stronger saturation push for less-saturated pixels, gentle
+ * for already-saturated ones. Also luma-preserving.
  * @param data RGBA float buffer
  * @param value vibrance intensity, [-100, 100]
  */
@@ -30,12 +34,14 @@ export const applyVibrance = (data: Float32Array, value: number): void => {
     const intensity = -value;
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i]; const g = data[i + 1]; const b = data[i + 2];
-        const avg = (r + g + b) / 3;
+        const y = luma709(r, g, b);
         const max = r > g ? (r > b ? r : b) : (g > b ? g : b);
-        const amount = (Math.abs(max - avg) * 2 * intensity) / 100;
-        data[i]     = r + (max - r) * amount;
-        data[i + 1] = g + (max - g) * amount;
-        data[i + 2] = b + (max - b) * amount;
+        const min = r < g ? (r < b ? r : b) : (g < b ? g : b);
+        const chroma = max - min;
+        const amount = (1 - Math.min(1, Math.max(0, chroma))) * intensity / 100;
+        data[i]     = r + amount * (y - r);
+        data[i + 1] = g + amount * (y - g);
+        data[i + 2] = b + amount * (y - b);
     }
 };
 
